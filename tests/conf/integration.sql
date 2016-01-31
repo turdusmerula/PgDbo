@@ -1,0 +1,6 @@
+DROP DATABASE IF EXISTS dbotest;
+DROP USER IF EXISTS dbotest;
+
+CREATE USER dbotest WITH PASSWORD 'dbotest';
+CREATE DATABASE dbotest;
+GRANT ALL PRIVILEGES ON DATABASE dbotest to dbotest;
