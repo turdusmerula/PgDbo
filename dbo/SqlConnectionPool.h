@@ -9,7 +9,8 @@
 
 #include <vector>
 
-  namespace dbo {
+namespace dbo
+{
 
 class SqlConnection;
 
@@ -24,36 +25,36 @@ class SqlConnection;
  *
  * \ingroup dbo
  */
-class  SqlConnectionPool
+class SqlConnectionPool
 {
 public:
-  /*! \brief Destructor.
-   */
-  virtual ~SqlConnectionPool();
+	/*! \brief Destructor.
+	 */
+	virtual ~SqlConnectionPool();
 
-  /*! \brief Uses a connection from the pool.
-   *
-   * This returns a connection from the pool that can be used. If the
-   * pool has no more connection available, the pool may decide to
-   * grow or block until a connection is returned.
-   *
-   * This method is called by a Session when a new transaction is
-   * started.
-   */
-  virtual SqlConnection *getConnection() = 0;
+	/*! \brief Uses a connection from the pool.
+	 *
+	 * This returns a connection from the pool that can be used. If the
+	 * pool has no more connection available, the pool may decide to
+	 * grow or block until a connection is returned.
+	 *
+	 * This method is called by a Session when a new transaction is
+	 * started.
+	 */
+	virtual SqlConnection *getConnection() = 0;
 
-  /*! \brief Returns a connection to the pool.
-   *
-   * This returns a connection to the pool. This method is called by a
-   * Session after a transaction has been finished.
-   */
-  virtual void returnConnection(SqlConnection *) = 0;  
-  
-  /*! \brief Prepares all connections in the pool for dropping the tables.
-   */
-  virtual void prepareForDropTables() const = 0;
+	/*! \brief Returns a connection to the pool.
+	 *
+	 * This returns a connection to the pool. This method is called by a
+	 * Session after a transaction has been finished.
+	 */
+	virtual void returnConnection(SqlConnection *) = 0;
+
+	/*! \brief Prepares all connections in the pool for dropping the tables.
+	 */
+	virtual void prepareForDropTables() const = 0;
 };
 
-  }
+}
 
 #endif // DBO_SQL_CONNECTION_POOL_H_

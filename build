@@ -21,7 +21,7 @@ function usage()
     echo "    --tests=pattern    list of tests to be run, see google test documentation" 
     echo "    --release          build with release informations (by default build is made with debug informations)" 
     echo "    --clang:           build with clang instead of gcc" 
-    echo "    --profiler=name    build using a profiling tool from list (ftrace, LeakSanitizer, AddressSanitizer)" 
+    echo "    --profiler=name    build using a profiling tool from list (ftrace, LeakSanitizer, AddressSanitizer, valgrind, callgrind)" 
     echo "    --ddd:             run tests through ddd debugger"
     echo "    --verbose:         enable verbose mode" 
     echo
@@ -140,7 +140,10 @@ do
     then
         if [[ "_$value_arg" != "_" ]]
         then
-            profiler="$value_arg"
+            opt_profiler="$value_arg"
+        else
+            usage
+            exit 1
         fi
     elif [[ "_$arg" == "_--verbose" ]]
     then
@@ -194,7 +197,7 @@ function tgt_build()
     echo "## Build target"
 
     # configure build
-    if [ ! -d Build ]
+    if [ ! -f Build/CMakeLists.txt ]
     then
         mkdir -p Build || clean_exit
         eval "cmake -BBuild -H. $cmake_opts" || clean_exit
@@ -231,25 +234,12 @@ function tgt_test()
 {
     echo "## Tests"
 
-    testname=$(basename $1)
-    command=$1
-    type=$2
-    
-    run=0
-    if [[ "_$opt_tests" == "_" ]]
-    then
-        run=1
-    elif [[ $opt_tests =~ $testname ]]
-    then
-        run=1
-    fi
-    
-    if [ $run -eq 1 ]
-    then    
-        echo "Run $type test $testname"    
+	if [ "_${opt_profiler}" != "_" ]
+	then
+		opt="--profiler=${opt_profiler}"
+	fi
 
-		$command
-    fi
+	tests/scripts/run-tests.sh $opt || clean_exit
 }
 
 
@@ -275,7 +265,7 @@ function tgt_eclipse()
 {
     echo "## Create Eclipse project"
 
-    cmake . -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_ARG1=-std=c++11
+    cmake . -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_ARG1="-std=c++14"	
     
 	sed -i "s#</projectDescription>##g" .project
 	echo "<filteredResources>" >> .project
@@ -310,28 +300,38 @@ test -f build-config && source build-config
 set +a
 
 # configure profiling
-if [[ "_$profiler" != "_" ]]
+if [[ "_$opt_profiler" != "_" ]]
 then 
-# TODO? MemorySanitizer, ThreadSanitizer, DataFlowSanitizer, cpuprofiler, gcov, valgrind, callgrind
-	if [[ "_$profiler" == "_LeakSanitizer" ]]
+# TODO? MemorySanitizer, ThreadSanitizer, DataFlowSanitizer, cpuprofiler, gcov
+	opt_release=0
+	
+	if [[ "_$opt_profiler" == "_LeakSanitizer" ]]
 	then
 		echo "LeakSanitizer enabled"
 		opt_clang=1
 	   	cmake_opts="$cmake_opts -DTOOLCHAIN_PROFILER=LeakSanitizer"
-	elif [[ "_$profiler" == "_AddressSanitizer" ]]
+	elif [[ "_$opt_profiler" == "_AddressSanitizer" ]]
 	then
 		echo "Address enabled"
     	cmake_opts="$cmake_opts -DTOOLCHAIN_PROFILER=AddressSanitizer"
-	elif [[ "_$profiler" == "_tcmalloc" ]]
+	elif [[ "_$opt_profiler" == "_tcmalloc" ]]
 	then
 		echo "tcmalloc enabled"
     	cmake_opts="$cmake_opts -DTOOLCHAIN_PROFILER=tcmalloc"
-	elif [[ "_$profiler" == "_ftrace" ]]
+	elif [[ "_$opt_profiler" == "_valgrind" ]]
+	then
+		echo "valgrind enabled"
+    	cmake_opts="$cmake_opts -DTOOLCHAIN_PROFILER=valgrind"
+	elif [[ "_$opt_profiler" == "_callgrind" ]]
+	then
+		echo "callgrind enabled"
+    	cmake_opts="$cmake_opts -DTOOLCHAIN_PROFILER=callgrind"
+	elif [[ "_$opt_profiler" == "_ftrace" ]]
 	then
 		echo "ftrace enabled"
     	cmake_opts="$cmake_opts -DTOOLCHAIN_PROFILER=ftrace"
 	else
-		echo "$profiler is not a valid profiler option"  
+		echo "$opt_profiler is not a valid profiler option"  
 	fi
 fi
 
@@ -352,10 +352,10 @@ else
 fi 
 
 # configure ccache
-if [[ "_$(which ccache)" != "_" ]]
+if [ ! $tgt_eclipse ] && [[ "_$(which ccache)" != "_" ]]
 then
 	echo "ccache enabled"
-	CCACHE=ccache
+	CCACHE="ccache "
 fi
 
 # set compiler
@@ -363,24 +363,27 @@ if [ $opt_clang -eq 1 ]
 then
 	echo "Build using clang"
 	
-	if [ -f ${xpl_path}/Build/CMakeCache.txt ] && [ "_$(grep CMAKE_CXX_COMPILER_ARG1 ${xpl_path}/Build/CMakeCache.txt | grep clang++)" == "_" ]
+	if [ -f ${xpl_path}/Build/CMakeCache.txt ] && [ "_$(grep CMAKE_CXX_COMPILER ${xpl_path}/Build/CMakeCache.txt | grep clang++)" == "_" ]
 	then
 		echo "Previous build was not made with clang, depclean before changing compiler"
 		exit 1 
 	fi
-    export CC="$CCACHE $(ls -r1 /usr/bin/clang-* | grep "clang-[0-9]" | head -n1)"
-    export CXX="$CCACHE $(ls -r1 /usr/bin/clang++-* | grep "clang++-[0-9]" | head -n1)"
+    export CC="$CCACHE$(ls -r1 /usr/bin/clang-* | grep "clang-[0-9]" | head -n1)"
+    export CXX="$CCACHE$(ls -r1 /usr/bin/clang++-* | grep "clang++-[0-9]" | head -n1)"
 else
 	echo "Build using gcc"
 
-	if [ -f ${xpl_path}/Build/CMakeCache.txt ] && [ "_$(grep CMAKE_CXX_COMPILER_ARG1 ${xpl_path}/Build/CMakeCache.txt | grep g++)" == "_" ]
+	if [ -f ${xpl_path}/Build/CMakeCache.txt ] && [ "_$(grep CMAKE_CXX_COMPILER ${xpl_path}/Build/CMakeCache.txt | grep g++)" == "_" ]
 	then
 		echo "Previous build was not made with clang, depclean before changing compiler"
 		exit 1 
 	fi
-    export CC="$CCACHE $(ls -r1 /usr/bin/gcc-* | grep "gcc-[0-9]" | head -n1)"
-    export CXX="$CCACHE $(ls -r1 /usr/bin/g++-* | grep "g++-[0-9]" | head -n1)"
+    export CC="$CCACHE$(ls -r1 /usr/bin/gcc-* | grep "gcc-[0-9]" | head -n1)"
+    export CXX="$CCACHE$(ls -r1 /usr/bin/g++-* | grep "g++-[0-9]" | head -n1)"
 fi
+
+echo $CC
+echo $CXX
 
 if [ $opt_ddd -eq 1 ]
 then

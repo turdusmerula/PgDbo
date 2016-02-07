@@ -15,8 +15,8 @@ namespace dbo
 {
 
 Transaction::Transaction(Session& session)
-		: committed_(false),
-				session_(session)
+		: 	committed_(false),
+			session_(session)
 {
 	if(!session_.transaction_)
 		session_.transaction_ = new Impl(session_);

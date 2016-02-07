@@ -13,7 +13,8 @@
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <dbo/SqlConnection.h>
 
-namespace dbo {
+namespace dbo
+{
 
 /*! \brief Abstract base class for a prepared SQL statement.
  *
@@ -28,178 +29,174 @@ namespace dbo {
  *
  * \ingroup dbo
  */
-class  SqlStatement
+class SqlStatement
 {
 public:
-  /*! \brief Destructor.
-   */
-  virtual ~SqlStatement();
+	/*! \brief Destructor.
+	 */
+	virtual ~SqlStatement();
 
-  /*! \brief Uses the statement.
-   *
-   * Marks the statement as in-use. If the statement is already in
-   * use, return false. In that case, we will later provision that a
-   * statement can be cloned and that a list of equivalent statement
-   * is kept in the statement cache of a connectin.
-   */
-  bool use();
+	/*! \brief Uses the statement.
+	 *
+	 * Marks the statement as in-use. If the statement is already in
+	 * use, return false. In that case, we will later provision that a
+	 * statement can be cloned and that a list of equivalent statement
+	 * is kept in the statement cache of a connectin.
+	 */
+	bool use();
 
-  /*! \brief Finish statement use.
-   *
-   * Marks the statement as no longer used and resets the statement.
-   *
-   * \sa use()
-   */
-  void done();
+	/*! \brief Finish statement use.
+	 *
+	 * Marks the statement as no longer used and resets the statement.
+	 *
+	 * \sa use()
+	 */
+	void done();
 
-  /*! \brief Resets the statement.
-   */
-  virtual void reset() = 0;
+	/*! \brief Resets the statement.
+	 */
+	virtual void reset() = 0;
 
-  /*! \brief Binds a value to a column.
-   */
-  virtual void bind(int column, const std::string& value) = 0;
+	/*! \brief Binds a value to a column.
+	 */
+	virtual void bind(int column, const std::string& value) = 0;
 
-  /*! \brief Binds a value to a column.
-   */
-  virtual void bind(int column, short value) = 0;
+	/*! \brief Binds a value to a column.
+	 */
+	virtual void bind(int column, short value) = 0;
 
-  /*! \brief Binds a value to a column.
-   */
-  virtual void bind(int column, int value) = 0;
+	/*! \brief Binds a value to a column.
+	 */
+	virtual void bind(int column, int value) = 0;
 
-  /*! \brief Binds a value to a column.
-   */
-  virtual void bind(int column, long long value) = 0;
+	/*! \brief Binds a value to a column.
+	 */
+	virtual void bind(int column, long long value) = 0;
 
-  /*! \brief Binds a value to a column.
-   */
-  virtual void bind(int column, float value) = 0;
+	/*! \brief Binds a value to a column.
+	 */
+	virtual void bind(int column, float value) = 0;
 
-  /*! \brief Binds a value to a column.
-   */
-  virtual void bind(int column, double value) = 0;
+	/*! \brief Binds a value to a column.
+	 */
+	virtual void bind(int column, double value) = 0;
 
-  /*! \brief Binds a value to a column.
-   */
-  virtual void bind(int column, const boost::posix_time::ptime& value,
-		    SqlDateTimeType type) = 0;
+	/*! \brief Binds a value to a column.
+	 */
+	virtual void bind(int column, const boost::posix_time::ptime& value, SqlDateTimeType type) = 0;
 
-  /*! \brief Binds a value to a column.
-   */
-  virtual void bind(int column, const boost::posix_time::time_duration& value)
-    = 0;
+	/*! \brief Binds a value to a column.
+	 */
+	virtual void bind(int column, const boost::posix_time::time_duration& value)
+	= 0;
 
-  /*! \brief Binds a value to a column.
-   */
-  virtual void bind(int column, const std::vector<unsigned char>& value) = 0;
+	/*! \brief Binds a value to a column.
+	 */
+	virtual void bind(int column, const std::vector<unsigned char>& value) = 0;
 
-  /*! \brief Binds \c null to a column.
-   */
-  virtual void bindNull(int column) = 0;
+	/*! \brief Binds \c null to a column.
+	 */
+	virtual void bindNull(int column) = 0;
 
-  /*! \brief Executes the statement.
-   */
-  virtual void execute() = 0;
+	/*! \brief Executes the statement.
+	 */
+	virtual void execute() = 0;
 
-  /*! \brief Returns the id if the statement was an SQL <tt>insert</tt>.
-   */
-  virtual long long insertedId() = 0;
+	/*! \brief Returns the id if the statement was an SQL <tt>insert</tt>.
+	 */
+	virtual long long insertedId() = 0;
 
-  /*! \brief Returns the affected number of rows.
-   *
-   * This is only useful for an SQL <tt>update</tt> or <tt>delete</tt>
-   * statement.
-   */
-  virtual int affectedRowCount() = 0;
+	/*! \brief Returns the affected number of rows.
+	 *
+	 * This is only useful for an SQL <tt>update</tt> or <tt>delete</tt>
+	 * statement.
+	 */
+	virtual int affectedRowCount() = 0;
 
-  /*! \brief Fetches the next result row.
-   *
-   * Returns \c true if there was one more row to be fetched.
-   */
-  virtual bool nextRow() = 0;
+	/*! \brief Fetches the next result row.
+	 *
+	 * Returns \c true if there was one more row to be fetched.
+	 */
+	virtual bool nextRow() = 0;
 
-  /*! \brief Fetches a result value.
-   *
-   * Returns \c true when the value was not \c null.
-   * The size is the expected size of sql string type and can be used to
-   * dimension buffers but the return string may be bigger.
-   */
-  virtual bool getResult(int column, std::string *value, int size) = 0;
+	/*! \brief Fetches a result value.
+	 *
+	 * Returns \c true when the value was not \c null.
+	 * The size is the expected size of sql string type and can be used to
+	 * dimension buffers but the return string may be bigger.
+	 */
+	virtual bool getResult(int column, std::string *value, int size) = 0;
 
-  /*! \brief Fetches a result value.
-   *
-   * Returns \c true when the value was not \c null.
-   */
-  virtual bool getResult(int column, short *value) = 0;
+	/*! \brief Fetches a result value.
+	 *
+	 * Returns \c true when the value was not \c null.
+	 */
+	virtual bool getResult(int column, short *value) = 0;
 
-  /*! \brief Fetches a result value.
-   *
-   * Returns \c true when the value was not \c null.
-   */
-  virtual bool getResult(int column, int *value) = 0;
+	/*! \brief Fetches a result value.
+	 *
+	 * Returns \c true when the value was not \c null.
+	 */
+	virtual bool getResult(int column, int *value) = 0;
 
-  /*! \brief Fetches a result value.
-   *
-   * Returns \c true when the value was not \c null.
-   */
-  virtual bool getResult(int column, long long *value) = 0;
+	/*! \brief Fetches a result value.
+	 *
+	 * Returns \c true when the value was not \c null.
+	 */
+	virtual bool getResult(int column, long long *value) = 0;
 
-  /*! \brief Fetches a result value.
-   *
-   * Returns \c true when the value was not \c null.
-   */
-  virtual bool getResult(int column, float *value) = 0;
+	/*! \brief Fetches a result value.
+	 *
+	 * Returns \c true when the value was not \c null.
+	 */
+	virtual bool getResult(int column, float *value) = 0;
 
-  /*! \brief Fetches a result value.
-   *
-   * Returns \c true when the value was not \c null.
-   */
-  virtual bool getResult(int column, double *value) = 0;
+	/*! \brief Fetches a result value.
+	 *
+	 * Returns \c true when the value was not \c null.
+	 */
+	virtual bool getResult(int column, double *value) = 0;
 
-  /*! \brief Fetches a result value.
-   *
-   * Returns \c true when the value was not \c null.
-   */
-  virtual bool getResult(int column, boost::posix_time::ptime *value,
-			 SqlDateTimeType type) = 0;
+	/*! \brief Fetches a result value.
+	 *
+	 * Returns \c true when the value was not \c null.
+	 */
+	virtual bool getResult(int column, boost::posix_time::ptime *value, SqlDateTimeType type) = 0;
 
-  /*! \brief Fetches a result value.
-   *
-   * Returns \c true when the value was not \c null.
-   */
-  virtual bool getResult(int column, boost::posix_time::time_duration *value)
-    = 0;
+	/*! \brief Fetches a result value.
+	 *
+	 * Returns \c true when the value was not \c null.
+	 */
+	virtual bool getResult(int column, boost::posix_time::time_duration *value)=0;
 
-  /*! \brief Fetches a result value.
-   *
-   * Returns \c true when the value was not \c null.
-   */
-  virtual bool getResult(int column, std::vector<unsigned char> *value,
-			 int size) = 0;
+	/*! \brief Fetches a result value.
+	 *
+	 * Returns \c true when the value was not \c null.
+	 */
+	virtual bool getResult(int column, std::vector<unsigned char> *value, int size) = 0;
 
-  /*! \brief Returns the prepared SQL string.
-   */
-  virtual std::string sql() const = 0;
+	/*! \brief Returns the prepared SQL string.
+	 */
+	virtual std::string sql() const = 0;
 
 protected:
-  SqlStatement();
+	SqlStatement();
 
 private:
-  SqlStatement(const SqlStatement&); // non-copyable
+	SqlStatement(const SqlStatement&); // non-copyable
 
-  bool inuse_;
+	bool inuse_;
 };
 
-class  ScopedStatementUse
+class ScopedStatementUse
 {
 public:
-  ScopedStatementUse(SqlStatement *statement = 0);
-  void operator()(SqlStatement *statement);
-  ~ScopedStatementUse();
+	ScopedStatementUse(SqlStatement *statement = 0);
+	void operator()(SqlStatement *statement);
+	~ScopedStatementUse();
 
 private:
-  SqlStatement *s_;
+	SqlStatement *s_;
 };
 
 }

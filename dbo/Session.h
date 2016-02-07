@@ -130,6 +130,13 @@ public:
 	 */
 	~Session();
 
+
+	/*! \brief Instanciate a new session.
+	 *
+	 * A session must be stored in a shared pointer
+	 */
+	static std::shared_ptr<Session> create() ;
+
 	/*! \brief Sets a dedicated connection.
 	 *
 	 * The connection will be used exclusively by this session.

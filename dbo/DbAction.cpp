@@ -10,227 +10,306 @@
 #include <dbo/SqlConnection.h>
 #include <dbo/SqlStatement.h>
 
-  namespace dbo {
-    namespace Impl {
+namespace dbo
+{
+namespace Impl
+{
 
-    std::string createJoinName(RelationType type,
-                               const char *c1, const char *c2) {
-      if (type == ManyToOne) {
-        return c1;
-      } else {
-        std::string t1 = c1;
-        std::string t2 = c2;
-        if (t2 < t1)
-          std::swap(t1, t2);
+std::string createJoinName(RelationType type, const char *c1, const char *c2)
+{
+	if(type==ManyToOne)
+	{
+		return c1;
+	}
+	else
+	{
+		std::string t1 = c1;
+		std::string t2 = c2;
+		if(t2<t1)
+			std::swap(t1, t2);
 
-        return t1 + "_" + t2;
-      }
-    }
+		return t1+"_"+t2;
+	}
+}
 }
 
 InitSchema::InitSchema(Session& session, Impl::MappingInfo& mapping)
-  : session_(session),
-    mapping_(mapping),
-    idField_(false)
-{ }
+		: session_(session),
+				mapping_(mapping),
+				idField_(false)
+{
+}
 
 void InitSchema::actMapping(Impl::MappingInfo *mapping)
 {
-  if (!mapping->initialized_)
-    mapping->init(session_);
+	if(!mapping->initialized_)
+		mapping->init(session_);
 }
 
-bool InitSchema::getsValue() const { return false; }
-bool InitSchema::setsValue() const { return false; }
-bool InitSchema::isSchema() const { return true; }
-
-DropSchema::DropSchema(Session& session, 
-		       Impl::MappingInfo& mapping,
-		       std::set<std::string>& tablesDropped)
-  : session_(session),
-    mapping_(mapping),
-    tablesDropped_(tablesDropped)
+bool InitSchema::getsValue() const
 {
-  tablesDropped_.insert(mapping.tableName);
+	return false;
+}
+bool InitSchema::setsValue() const
+{
+	return false;
+}
+bool InitSchema::isSchema() const
+{
+	return true;
+}
+
+DropSchema::DropSchema(Session& session, Impl::MappingInfo& mapping, std::set<std::string>& tablesDropped)
+		: session_(session),
+				mapping_(mapping),
+				tablesDropped_(tablesDropped)
+{
+	tablesDropped_.insert(mapping.tableName);
 }
 
 void DropSchema::actMapping(Impl::MappingInfo *mapping)
-{ }
+{
+}
 
 void DropSchema::drop(const std::string& table)
 {
-  tablesDropped_.insert(table);
+	tablesDropped_.insert(table);
 
-  if (table == mapping_.tableName && mapping_.surrogateIdFieldName) {
-      std::vector<std::string> sql = session_.connection(false)
-	->autoincrementDropSequenceSql(Impl::quoteSchemaDot(table),
-				       mapping_.surrogateIdFieldName);
-      
-      for (unsigned i = 0; i < sql.size(); i++)
-	session_.connection(true)->executeSql(sql[i]);
-  }
+	if(table==mapping_.tableName&&mapping_.surrogateIdFieldName)
+	{
+		std::vector<std::string>sql = session_.connection(false)->autoincrementDropSequenceSql(Impl::quoteSchemaDot(table), mapping_.surrogateIdFieldName);
 
-  session_.connection(true)
-    ->executeSql("drop table \"" + Impl::quoteSchemaDot(table) + "\"");
+		for(unsigned i = 0 ; i<sql.size() ; i++)
+			session_.connection(true)->executeSql(sql[i]);
+	}
+
+	session_.connection(true)->executeSql("drop table \""+Impl::quoteSchemaDot(table)+"\"");
 }
 
-bool DropSchema::getsValue() const { return false; }
-bool DropSchema::setsValue() const { return false; }
-bool DropSchema::isSchema() const { return true; }
+bool DropSchema::getsValue() const
+{
+	return false;
+}
+bool DropSchema::setsValue() const
+{
+	return false;
+}
+bool DropSchema::isSchema() const
+{
+	return true;
+}
 
 DboAction::DboAction(Session *session)
-  : session_(session),
-    dbo_(0),
-    mapping_(0),
-    setStatementIdx_(0),
-    setIdx_(0)
-{ }
+		: session_(session),
+				dbo_(0),
+				mapping_(0),
+				setStatementIdx_(0),
+				setIdx_(0)
+{
+}
 
 DboAction::DboAction(MetaDboBase& dbo, Impl::MappingInfo& mapping)
-  : session_(0),
-    dbo_(&dbo),
-    mapping_(&mapping),
-    setStatementIdx_(0),
-    setIdx_(0)
-{ }
+		: session_(0),
+				dbo_(&dbo),
+				mapping_(&mapping),
+				setStatementIdx_(0),
+				setIdx_(0)
+{
+}
 
 void DboAction::actMapping(Impl::MappingInfo *mapping)
-{ }
+{
+}
 
-bool DboAction::getsValue() const { return false; }
-bool DboAction::setsValue() const { return false; }
-bool DboAction::isSchema() const { return false; }
+bool DboAction::getsValue() const
+{
+	return false;
+}
+bool DboAction::setsValue() const
+{
+	return false;
+}
+bool DboAction::isSchema() const
+{
+	return false;
+}
 
-LoadBaseAction::LoadBaseAction(MetaDboBase& dbo, Impl::MappingInfo& mapping,
-			       SqlStatement *statement, int& column)
-  : DboAction(dbo, mapping),
-    statement_(statement),
-    column_(column)
-{ }
+LoadBaseAction::LoadBaseAction(MetaDboBase& dbo, Impl::MappingInfo& mapping, SqlStatement *statement, int& column)
+		: DboAction(dbo, mapping),
+				statement_(statement),
+				column_(column)
+{
+}
 
 void LoadBaseAction::start()
 {
-  if (mapping().versionFieldName) {
-    int version;
-    statement_->getResult(column_++, &version);
-    dbo().setVersion(version);
-  }
+	if(mapping().versionFieldName)
+	{
+		int version;
+		statement_->getResult(column_++, &version);
+		dbo().setVersion(version);
+	}
 }
 
-bool LoadBaseAction::setsValue() const { return true; }
-
-SaveBaseAction::SaveBaseAction(Session *session, SqlStatement *statement,
-			       int column)
-  : DboAction(session),
-    statement_(statement),
-    column_(column),
-    bindNull_(false)
+bool LoadBaseAction::setsValue() const
 {
-  pass_ = Self;
+	return true;
 }
 
-SaveBaseAction::SaveBaseAction(MetaDboBase& dbo, Impl::MappingInfo& mapping,
-			       SqlStatement *statement, int column)
-  : DboAction(dbo, mapping),
-    statement_(statement),
-    column_(column),
-    bindNull_(false)
+SaveBaseAction::SaveBaseAction(Session *session, SqlStatement *statement, int column)
+		: DboAction(session),
+				statement_(statement),
+				column_(column),
+				bindNull_(false)
 {
-  pass_ = Self;
+	pass_ = Self;
+}
+
+SaveBaseAction::SaveBaseAction(MetaDboBase& dbo, Impl::MappingInfo& mapping, SqlStatement *statement, int column)
+		: DboAction(dbo, mapping),
+				statement_(statement),
+				column_(column),
+				bindNull_(false)
+{
+	pass_ = Self;
 }
 
 void SaveBaseAction::startDependencyPass()
 {
-  pass_ = Dependencies;
+	pass_ = Dependencies;
 }
 
 void SaveBaseAction::startSelfPass()
 {
-  pass_ = Self;
-  needSetsPass_ = false;
+	pass_ = Self;
+	needSetsPass_ = false;
 
-  statement_->reset();
-  column_ = 0;
+	statement_->reset();
+	column_ = 0;
 
-  if (mapping().versionFieldName)
-    statement_->bind(column_++, dbo().version() + 1);
+	if(mapping().versionFieldName)
+		statement_->bind(column_++, dbo().version()+1);
 }
 
 void SaveBaseAction::exec()
 {
-  statement_->execute();
+	statement_->execute();
 
-  if (isInsert_ && mapping().surrogateIdFieldName)
-    dbo().setAutogeneratedId(statement_->insertedId());
+	if(isInsert_&&mapping().surrogateIdFieldName)
+		dbo().setAutogeneratedId(statement_->insertedId());
 
-  dbo().setTransactionState(MetaDboBase::SavedInTransaction);
+	dbo().setTransactionState(MetaDboBase::SavedInTransaction);
 }
 
 void SaveBaseAction::startSetsPass()
 {
-  pass_ = Sets;
+	pass_ = Sets;
 }
 
-bool SaveBaseAction::getsValue() const { return true; }
+bool SaveBaseAction::getsValue() const
+{
+	return true;
+}
 
-TransactionDoneAction::TransactionDoneAction(MetaDboBase& dbo,
-					     Session& session,
-					     Impl::MappingInfo& mapping,
-					     bool success)
-  : DboAction(dbo, mapping),
-    session_(session),
-    success_(success)
-{ }
+TransactionDoneAction::TransactionDoneAction(MetaDboBase& dbo, Session& session, Impl::MappingInfo& mapping, bool success)
+		: DboAction(dbo, mapping),
+				session_(session),
+				success_(success)
+{
+}
 
-bool TransactionDoneAction::getsValue() const { return true; }
+bool TransactionDoneAction::getsValue() const
+{
+	return true;
+}
 
-SessionAddAction::SessionAddAction(MetaDboBase& dbo,
-				   Impl::MappingInfo& mapping)
-  : DboAction(dbo, mapping)
-{ }
+SessionAddAction::SessionAddAction(MetaDboBase& dbo, Impl::MappingInfo& mapping)
+		: DboAction(dbo, mapping)
+{
+}
 
-bool SessionAddAction::getsValue() const { return true; }
-bool SessionAddAction::setsValue() const { return false; }
-bool SessionAddAction::isSchema() const { return false; }
+bool SessionAddAction::getsValue() const
+{
+	return true;
+}
+bool SessionAddAction::setsValue() const
+{
+	return false;
+}
+bool SessionAddAction::isSchema() const
+{
+	return false;
+}
 
-SetReciproceAction::SetReciproceAction(Session *session,
-				       const std::string& joinName,
-				       MetaDboBase *value)
-  : session_(session),
-    joinName_(joinName),
-    value_(value)
-{ }
+SetReciproceAction::SetReciproceAction(Session *session, const std::string& joinName, MetaDboBase *value)
+		: session_(session),
+				joinName_(joinName),
+				value_(value)
+{
+}
 
 void SetReciproceAction::actMapping(Impl::MappingInfo *mapping)
-{ }
+{
+}
 
-bool SetReciproceAction::getsValue() const { return false; }
-bool SetReciproceAction::setsValue() const { return true; }
-bool SetReciproceAction::isSchema() const { return false; }
+bool SetReciproceAction::getsValue() const
+{
+	return false;
+}
+bool SetReciproceAction::setsValue() const
+{
+	return true;
+}
+bool SetReciproceAction::isSchema() const
+{
+	return false;
+}
 
 ToAnysAction::ToAnysAction(std::vector<boost::any>& result)
-  : session_(0),
-    result_(result)
-{ }
+		: session_(0),
+				result_(result)
+{
+}
 
 void ToAnysAction::actMapping(Impl::MappingInfo *mapping)
-{ }
+{
+}
 
-bool ToAnysAction::getsValue() const { return true; }
-bool ToAnysAction::setsValue() const { return false; }
-bool ToAnysAction::isSchema() const { return false; }
+bool ToAnysAction::getsValue() const
+{
+	return true;
+}
+bool ToAnysAction::setsValue() const
+{
+	return false;
+}
+bool ToAnysAction::isSchema() const
+{
+	return false;
+}
 
 FromAnyAction::FromAnyAction(int& index, const boost::any& value)
-  : session_(0),
-    index_(index),
-    value_(value)
-{ }
+		: session_(0),
+				index_(index),
+				value_(value)
+{
+}
 
 void FromAnyAction::actMapping(Impl::MappingInfo *mapping)
-{ }
+{
+}
 
-bool FromAnyAction::getsValue() const { return false; }
-bool FromAnyAction::setsValue() const { return true; }
-bool FromAnyAction::isSchema() const { return false; }
+bool FromAnyAction::getsValue() const
+{
+	return false;
+}
+bool FromAnyAction::setsValue() const
+{
+	return true;
+}
+bool FromAnyAction::isSchema() const
+{
+	return false;
+}
 
-  }
+}

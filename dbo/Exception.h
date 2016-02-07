@@ -10,34 +10,38 @@
 #include <string>
 #include <stdexcept>
 
-  namespace dbo {
+namespace dbo
+{
 
 /*! \class Exception Dbo/Exception Dbo/Exception
  *  \brief %Exception base class for %%Dbo.
  *
  * \ingroup dbo
  */
-class  Exception : public std::runtime_error
+class Exception : public std::runtime_error
 {
 public:
-  /*! \brief Constructor.
-   */
-  Exception(const std::string& error, const std::string& code = std::string());
+	/*! \brief Constructor.
+	 */
+	Exception(const std::string& error, const std::string& code = std::string());
 
-  virtual ~Exception() throw();
+	virtual ~Exception() throw();
 
-  /*! \brief A (backend-specific) error code.
-   *
-   * For native SQL errors, a native backend code may be available
-   * (see the backend documentation for details). This is typically
-   * the (semi-standardized) SQLSTATE code value.
-   *
-   * When not available, an empty string is returned.
-   */
-  std::string code() const { return code_; }
+	/*! \brief A (backend-specific) error code.
+	 *
+	 * For native SQL errors, a native backend code may be available
+	 * (see the backend documentation for details). This is typically
+	 * the (semi-standardized) SQLSTATE code value.
+	 *
+	 * When not available, an empty string is returned.
+	 */
+	std::string code() const
+	{
+		return code_;
+	}
 
 private:
-  std::string code_;
+	std::string code_;
 };
 
 /*! \class StaleObjectException Dbo/Exception Dbo/Exception
@@ -59,12 +63,12 @@ private:
  *
  * \ingroup dbo
  */
-class  StaleObjectException : public Exception
+class StaleObjectException : public Exception
 {
 public:
-  /*! \brief Constructor.
-   */
-  StaleObjectException(const std::string& id, int version);
+	/*! \brief Constructor.
+	 */
+	StaleObjectException(const std::string& id, int version);
 };
 
 /*! \class ObjectNotFoundException Dbo/Exception Dbo/Exception
@@ -75,12 +79,12 @@ public:
  *
  * \ingroup dbo
  */
-class  ObjectNotFoundException : public Exception
+class ObjectNotFoundException : public Exception
 {
 public:
-  /*! \brief Constructor.
-   */
-  ObjectNotFoundException(const std::string& id);
+	/*! \brief Constructor.
+	 */
+	ObjectNotFoundException(const std::string& id);
 };
 
 /*! \class NoUniqueResultException Dbo/Exception Dbo/Exception
@@ -91,14 +95,14 @@ public:
  *
  * \ingroup dbo
  */
-class  NoUniqueResultException : public Exception
+class NoUniqueResultException : public Exception
 {
 public:
-  /*! \brief Constructor.
-   */
-  NoUniqueResultException();
+	/*! \brief Constructor.
+	 */
+	NoUniqueResultException();
 };
 
-  }
+}
 
 #endif // DBO_EXCEPTION_H_

@@ -20,36 +20,35 @@
 
 #include <gdal/ogrsf_frmts.h>
 
-namespace dbo {
+namespace dbo
+{
 
-class  OGRException : public std::exception
+class OGRException : public std::exception
 {
 public:
-  /*! \brief Constructor.
-   */
+	/*! \brief Constructor.
+	 */
 	OGRException(const std::string& msg, OGRErr code);
 
-    virtual const char* what() const _GLIBCXX_USE_NOEXCEPT;
+	virtual const char* what() const
+	_GLIBCXX_USE_NOEXCEPT;
 
 private:
-	std::string msg_ ;
-	OGRErr code_ ;
+	std::string msg_;
+	OGRErr code_;
 
-	std::string message_ ;
+	std::string message_;
 };
 
 template<>
-struct  sql_value_traits<OGRPoint, void>
+struct sql_value_traits<OGRPoint, void>
 {
-  static const bool specialized = true;
+	static const bool specialized = true;
 
-  static std::string type(SqlConnection *conn, int size);
-  static void bind(const OGRPoint& v, SqlStatement *statement, int column,
-		   int size);
-  static bool read(OGRPoint& v, SqlStatement *statement, int column,
-		   int size);
+	static std::string type(SqlConnection *conn, int size);
+	static void bind(const OGRPoint& v, SqlStatement *statement, int column, int size);
+	static bool read(OGRPoint& v, SqlStatement *statement, int column, int size);
 };
-
 
 }
 

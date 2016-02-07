@@ -6,9 +6,11 @@
 
 #include <dbo/SqlConnectionPool.h>
 
-  namespace dbo {
+namespace dbo
+{
 
 SqlConnectionPool::~SqlConnectionPool()
-{ }
+{
+}
 
-  }
+}

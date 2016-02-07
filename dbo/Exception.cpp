@@ -8,25 +8,31 @@
 
 #include <boost/lexical_cast.hpp>
 
-  namespace dbo {
+namespace dbo
+{
 
 Exception::Exception(const std::string& error, const std::string& code)
-  : std::runtime_error(error),
-    code_(code)
-{ }
+		: std::runtime_error(error),
+				code_(code)
+{
+}
 
-Exception::~Exception() throw() { }
+Exception::~Exception() throw()
+{
+}
 
 StaleObjectException::StaleObjectException(const std::string& id, int version)
-  : Exception("Stale object, id = " + id + ", version = "
-	      + boost::lexical_cast<std::string>(version))
-{ }
+		: Exception("Stale object, id = "+id+", version = "+boost::lexical_cast<std::string>(version))
+{
+}
 
 ObjectNotFoundException::ObjectNotFoundException(const std::string& id)
-  : Exception("Object not found, id = " + id)
-{ }
+		: Exception("Object not found, id = "+id)
+{
+}
 
 NoUniqueResultException::NoUniqueResultException()
-  : Exception("Query: resultValue(): more than one result")
-{ }
-  }
+		: Exception("Query: resultValue(): more than one result")
+{
+}
+}

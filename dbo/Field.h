@@ -11,16 +11,18 @@
 
 #include <dbo/ptr.h>
 
-  namespace dbo {
-    template <class C> class collection;
+namespace dbo
+{
+template<class C> class collection;
 
-    namespace Impl {
+namespace Impl
+{
 const int FKNotNull = 0x01;
 const int FKOnUpdateCascade = 0x02;
 const int FKOnUpdateSetNull = 0x04;
 const int FKOnDeleteCascade = 0x08;
 const int FKOnDeleteSetNull = 0x10;
-    }
+}
 
 /*! \brief Type that indicates one or more foreign key constraints.
  *
@@ -37,24 +39,30 @@ const int FKOnDeleteSetNull = 0x10;
  *
  * \ingroup dbo
  */
-class ForeignKeyConstraint {
+class ForeignKeyConstraint
+{
 public:
-  explicit ForeignKeyConstraint(int value) : value_(value) { }
+	explicit ForeignKeyConstraint(int value)
+			: value_(value)
+	{
+	}
 
-  int value() const { return value_; }
+	int value() const
+	{
+		return value_;
+	}
 
 private:
-  int value_;
+	int value_;
 };
 
 /*! \brief Combines two constraints.
  *
  * \ingroup dbo
  */
-inline ForeignKeyConstraint operator|
-  (ForeignKeyConstraint lhs, ForeignKeyConstraint rhs)
+inline ForeignKeyConstraint operator|(ForeignKeyConstraint lhs, ForeignKeyConstraint rhs)
 {
-  return ForeignKeyConstraint(lhs.value() | rhs.value());
+	return ForeignKeyConstraint(lhs.value()|rhs.value());
 }
 
 /*! \brief A constraint that prevents a \c null ptr.
@@ -137,97 +145,135 @@ const ForeignKeyConstraint OnDeleteSetNull(Impl::FKOnDeleteSetNull);
 class Session;
 class SqlStatement;
 
-template <typename V>
+template<typename V>
 class FieldRef
 {
 public:
-  FieldRef(V& value, const std::string& name, int size);
+	FieldRef(V& value, const std::string& name, int size);
 
-  const std::string& name() const;
-  int size() const;
+	const std::string& name() const;
+	int size() const;
 
-  std::string sqlType(Session& session) const;
-  const std::type_info *type() const;
-  const V& value() const { return value_; }
-  void setValue(const V& value) const { value_ = value; }
+	std::string sqlType(Session& session) const;
+	const std::type_info *type() const;
+	const V& value() const
+	{
+		return value_;
+	}
+	void setValue(const V& value) const
+	{
+		value_ = value;
+	}
 
-  void bindValue(SqlStatement *statement, int column) const;
-  void setValue(Session& session, SqlStatement *statement, int column) const;
+	void bindValue(SqlStatement *statement, int column) const;
+	void setValue(Session& session, SqlStatement *statement, int column) const;
 
 private:
-  V& value_;
-  std::string name_;
-  int size_;
+	V& value_;
+	std::string name_;
+	int size_;
 };
 
 /*! \brief Type of an SQL relation.
  *
  * \ingroup dbo
  */
-enum RelationType {
-  ManyToOne,  //!< Many-to-One relationship
-  ManyToMany  //!< Many-to-Many relationship
+enum RelationType
+{
+	ManyToOne,  //!< Many-to-One relationship
+	ManyToMany  //!< Many-to-Many relationship
 };
 
-template <class C>
+template<class C>
 class CollectionRef
 {
 public:
-  CollectionRef(collection< ptr<C> >& value, RelationType type,
-		const std::string& joinName, const std::string& joinId,
-		int fkConstraints);
+	CollectionRef(collection<ptr<C> >& value, RelationType type, const std::string& joinName, const std::string& joinId, int fkConstraints);
 
-  collection< ptr<C> >& value() const { return value_; }
-  const std::string& joinName() const { return joinName_; }
-  const std::string& joinId() const { return joinId_; }
-  RelationType type() const { return type_; }
-  int fkConstraints() const { return fkConstraints_; }
+	collection<ptr<C> >& value() const
+	{
+		return value_;
+	}
+	const std::string& joinName() const
+	{
+		return joinName_;
+	}
+	const std::string& joinId() const
+	{
+		return joinId_;
+	}
+	RelationType type() const
+	{
+		return type_;
+	}
+	int fkConstraints() const
+	{
+		return fkConstraints_;
+	}
 
 private:
-  collection< ptr<C> >& value_;
-  std::string joinName_, joinId_;
-  RelationType type_;
-  int fkConstraints_;
+	collection<ptr<C> >& value_;
+	std::string joinName_, joinId_;
+	RelationType type_;
+	int fkConstraints_;
 };
 
-template <class C>
+template<class C>
 class PtrRef
 {
 public:
-  PtrRef(ptr<C>& value, const std::string& name, int size, int fkConstraints);
+	PtrRef(ptr<C>& value, const std::string& name, int size, int fkConstraints);
 
-  const std::string& name() const { return name_; }
-  int fkConstraints() const { return fkConstraints_; }
-  ptr<C>& value() const { return value_; }
-  typename dbo_traits<C>::IdType id() const { return value_.id(); }
+	const std::string& name() const
+	{
+		return name_;
+	}
+	int fkConstraints() const
+	{
+		return fkConstraints_;
+	}
+	ptr<C>& value() const
+	{
+		return value_;
+	}
+	typename dbo_traits<C>::IdType id() const
+	{
+		return value_.id();
+	}
 
-  const std::type_info *type() const;
+	const std::type_info *type() const;
 
-  /*
-   * If session = 0, the visited foreign key fields will not be named
-   * correctly (ok when e.g. reading/writing data)
-   */
-  template <typename A> void visit(A& action, Session *session) const;
+	/*
+	 * If session = 0, the visited foreign key fields will not be named
+	 * correctly (ok when e.g. reading/writing data)
+	 */
+	template<typename A> void visit(A& action, Session *session) const;
 
 private:
-  ptr<C>& value_;
-  std::string name_;
-  int size_;
-  int fkConstraints_;
+	ptr<C>& value_;
+	std::string name_;
+	int size_;
+	int fkConstraints_;
 };
 
-template <class C>
+template<class C>
 class WeakPtrRef
 {
 public:
-  WeakPtrRef(weak_ptr<C>& value, const std::string& joinName);
+	WeakPtrRef(weak_ptr<C>& value, const std::string& joinName);
 
-  const std::string& joinName() const { return joinName_; }
-  weak_ptr<C>& value() const { return value_; }
+	const std::string& joinName() const
+	{
+		return joinName_;
+	}
+	weak_ptr<C>& value() const
+	{
+		return value_;
+	}
 
 private:
-  weak_ptr<C>& value_;
-  std::string joinName_;
+	weak_ptr<C>& value_;
+	std::string joinName_;
 };
 
 /*! \brief Maps a natural primary key (id) field.
@@ -248,9 +294,8 @@ private:
  *
  * \ingroup dbo
  */
-template <class Action, typename V>
-void id(Action& action, V& value, const std::string& name = "id",
-	int size = -1);
+template<class Action, typename V>
+void id(Action& action, V& value, const std::string& name = "id", int size = -1);
 
 /*! \brief Maps a natural primary key (id) field that is a foreign key.
  *
@@ -261,9 +306,8 @@ void id(Action& action, V& value, const std::string& name = "id",
  *
  * \ingroup dbo
  */
-template <class Action, class C>
-void id(Action& action, ptr<C>& value, const std::string& name,
-	ForeignKeyConstraint constraints, int size = -1);
+template<class Action, class C>
+void id(Action& action, ptr<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size = -1);
 
 /*! \brief Maps a database object field.
  *
@@ -302,16 +346,15 @@ void id(Action& action, ptr<C>& value, const std::string& name,
  *
  * \ingroup dbo
  */
-template <class Action, typename V>
+template<class Action, typename V>
 void field(Action& action, V& value, const std::string& name, int size = -1);
 
 /*
  * This is synonym for belongsTo(), and used by id(). We should overload
  * this method also to allow foreign key constraints.
  */
-template <class Action, class C>
-void field(Action& action, ptr<C>& value, const std::string& name,
-	   int size = -1);
+template<class Action, class C>
+void field(Action& action, ptr<C>& value, const std::string& name, int size = -1);
 
 /*! \brief Maps the "One"-side (foreign key) of a ManyToOne or OneToOne relation.
  *
@@ -327,9 +370,8 @@ void field(Action& action, ptr<C>& value, const std::string& name,
  *
  * \ingroup dbo
  */
-template <class Action, class C>
-void belongsTo(Action& action, ptr<C>& value,
-	       const std::string& name = std::string(), int size = -1);
+template<class Action, class C>
+void belongsTo(Action& action, ptr<C>& value, const std::string& name = std::string(), int size = -1);
 
 /*! \brief Maps the "One"-side (foreign key) of a ManyToOne or OneToOne relation.
  *
@@ -340,9 +382,8 @@ void belongsTo(Action& action, ptr<C>& value,
  *
  * \ingroup dbo
  */
-template <class Action, class C>
-void belongsTo(Action& action, ptr<C>& value, const std::string& name,
-	       ForeignKeyConstraint constraints, int size = -1);
+template<class Action, class C>
+void belongsTo(Action& action, ptr<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size = -1);
 
 /*! \brief Maps the "One"-side (foreign key) of a ManyToOne or OneToOne relation.
  *
@@ -353,9 +394,8 @@ void belongsTo(Action& action, ptr<C>& value, const std::string& name,
  *
  * \ingroup dbo
  */
-template <class Action, class C>
-void belongsTo(Action& action, ptr<C>& value,
-	       ForeignKeyConstraint constraints, int size = -1);
+template<class Action, class C>
+void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, int size = -1);
 
 /*! \brief Maps the "One"-side of a OneToOne relation.
  *
@@ -381,9 +421,8 @@ void belongsTo(Action& action, ptr<C>& value,
  *
  * \ingroup dbo
  */
-template <class Action, class C>
-void hasOne(Action& action, weak_ptr<C>& value,
-	    const std::string& name = std::string());
+template<class Action, class C>
+void hasOne(Action& action, weak_ptr<C>& value, const std::string& name = std::string());
 
 /*! \brief Maps the "Many"-side of a ManyToOne or ManyToMany relation.
  *
@@ -415,9 +454,8 @@ void hasOne(Action& action, weak_ptr<C>& value,
  *
  * \ingroup dbo
  */
-template <class Action, class C>
-void hasMany(Action& action, collection< ptr<C> >& value,
-	     RelationType type, const std::string& name = std::string());
+template<class Action, class C>
+void hasMany(Action& action, collection<ptr<C> >& value, RelationType type, const std::string& name = std::string());
 
 /*! \brief Maps the "Many"-side of a ManyToMany relation.
  *
@@ -440,12 +478,9 @@ void hasMany(Action& action, collection< ptr<C> >& value,
  *
  * \ingroup dbo
  */
-template <class Action, class C>
-void hasMany(Action& action, collection< ptr<C> >& value,
-	     RelationType type, const std::string& name,
-	     const std::string& joinId,
-             ForeignKeyConstraint constraints = (NotNull | OnDeleteCascade));
+template<class Action, class C>
+void hasMany(Action& action, collection<ptr<C> >& value, RelationType type, const std::string& name, const std::string& joinId, ForeignKeyConstraint constraints = (NotNull|OnDeleteCascade));
 
-  }
+}
 
 #endif // DBO_FIELD

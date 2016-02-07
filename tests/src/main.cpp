@@ -5,32 +5,21 @@
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 
-#include <dbo/Session.h>
+#include <dbo/Dbo.h>
 #include <dbo/FixedSqlConnectionPool.h>
 #include <dbo/backend/Postgres.h>
 
 #include "TestSession.hpp"
 
-
-void usage(int argc, char** argv)
-{
-	std::cerr << "Usage: " << argv[0] << " -c <configuration file> " << std::endl ;
-	::testing::InitGoogleTest(&argc, argv) ;
-	exit(1) ;
-}
-
-void false_positive_memory_leak()
-{
-	// this is used to ensure that memory sanatizer works by providing at least one leak
-	new char[1234] ;
-}
+dbo::backend::Postgres* db=nullptr ;
+std::unique_ptr<dbo::FixedSqlConnectionPool> pool ;
 
 int main(int argc, char* argv[])
 {
 	std::string host="localhost" ;
 	std::string user="dbotest" ;
 	std::string password="dbotest" ;
-	std::string port="localhost" ;
+	std::string port="5432" ;
 	std::string dbname="dbotest" ;
 
 	// decode command line
@@ -78,9 +67,9 @@ int main(int argc, char* argv[])
 	std::string connection="host="+host+" user="+user+" password="+password+" port="+port+" dbname="+dbname ;
 
 	// prepare database for tests
-	dbo::backend::Postgres* db=new dbo::backend::Postgres(connection) ;
-	dbo::FixedSqlConnectionPool pool(db, 40) ;
+	db = new dbo::backend::Postgres(connection) ;
 	db->setProperty("show-queries", "true") ;
+	pool = std::unique_ptr<dbo::FixedSqlConnectionPool>(new dbo::FixedSqlConnectionPool(db, 40)) ;
 
 	::testing::InitGoogleTest(&argc, argv) ;
 	return RUN_ALL_TESTS() ;

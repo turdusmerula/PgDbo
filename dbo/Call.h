@@ -9,7 +9,8 @@
 
 #include <string>
 
-  namespace dbo {
+namespace dbo
+{
 
 class Session;
 class SqlStatement;
@@ -25,43 +26,43 @@ class SqlStatement;
 class Call
 {
 public:
-  /*! \brief Destructor.
-   *
-   * This executes the call if it wasn't run() yet, and the call has not
-   * been copied.
-   */
-  ~Call() noexcept(false);
+	/*! \brief Destructor.
+	 *
+	 * This executes the call if it wasn't run() yet, and the call has not
+	 * been copied.
+	 */
+	~Call() noexcept(false);
 
-  /*! \brief Copy constructor.
-   *
-   * This transfer the call "token" to the copy.
-   */
-  Call(const Call& other);
+	/*! \brief Copy constructor.
+	 *
+	 * This transfer the call "token" to the copy.
+	 */
+	Call(const Call& other);
 
-  /*! \brief Binds a value to the next positional marker.
-   *
-   * This binds the \p value to the next positional marker.
-   */
-  template<typename T> Call& bind(const T& value);
+	/*! \brief Binds a value to the next positional marker.
+	 *
+	 * This binds the \p value to the next positional marker.
+	 */
+	template<typename T> Call& bind(const T& value);
 
-  /*! \brief Runs the database call.
-   *
-   * This may throw an exception if there was a problem with the SQL
-   * command.
-   */
-  void run();
+	/*! \brief Runs the database call.
+	 *
+	 * This may throw an exception if there was a problem with the SQL
+	 * command.
+	 */
+	void run();
 
 private:
-  bool copied_, run_;
-  SqlStatement *statement_;
-  int column_;
+	bool copied_, run_;
+	SqlStatement *statement_;
+	int column_;
 
-  Call(Session& session, const std::string& sql);
+	Call(Session& session, const std::string& sql);
 
-  friend class Session;
-  template <class C> friend class collection;
+	friend class Session;
+	template<class C> friend class collection;
 };
 
-  }
+}
 
 #endif // DBO_CALL

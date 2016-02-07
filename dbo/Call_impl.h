@@ -7,16 +7,16 @@
 #ifndef DBO_CALL_IMPL_H_
 #define DBO_CALL_IMPL_H_
 
-  namespace dbo {
+namespace dbo
+{
 
 template<typename T> Call& Call::bind(const T& value)
 {
-  sql_value_traits<T>::bind(value, statement_, column_++, -1);
+	sql_value_traits<T>::bind(value, statement_, column_++, -1);
 
-  return *this;
+	return *this;
 }
 
-  }
-
+}
 
 #endif // DBO_CALL_IMPL_H_

@@ -172,10 +172,8 @@ public:
 	void incRef();
 	void decRef();
 
-private:
-	//Session *session_;
-
 protected:
+	Session *session_;
 	int version_;
 	int state_;
 	int refCount_;

@@ -156,6 +156,11 @@ Session::~Session()
 	current_.reset() ;
 }
 
+std::shared_ptr<Session> Session::create()
+{
+	return std::make_shared<Session>() ;
+}
+
 void Session::setConnection(SqlConnection& connection)
 {
 	connection_ = &connection;
