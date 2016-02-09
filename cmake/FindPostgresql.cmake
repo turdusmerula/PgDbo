@@ -5,10 +5,7 @@
 # Taking into account:
 # - POSTGRES_PREFIX
 
-SET(Postgres_LIBRARIES pq libpq)
-FOREACH(l ${Postgres_LIBRARIES})
-  LIST(APPEND POSTGRES_DEBUG_LIBRARY "${l}d")
-ENDFOREACH()
+SET(Postgres_LIBRARIES pq pqxx)
 
 FIND_LIBRARY(POSTGRES_LIB
   NAMES
@@ -22,25 +19,6 @@ FIND_LIBRARY(POSTGRES_LIB
     /usr/local/lib
     /opt/local/lib
 )
-
-FIND_LIBRARY(POSTGRES_DEBUG_LIB
-  NAMES
-    ${POSTGRES_DEBUG_LIBRARY}
-  PATHS
-    ${POSTGRES_PREFIX}/lib
-    ${POSTGRES_PREFIX}
-    /usr/lib
-    /usr/lib/x86_64-linux-gnu
-    /usr/lib64
-    /usr/local/lib
-    /opt/local/lib
-)
-
-IF (POSTGRES_DEBUG_LIB)
-  SET(Postgres_LIBRARIES optimized ${POSTGRES_LIB} debug ${POSTGRES_DEBUG_LIB})
-ELSE (POSTGRES_DEBUG_LIB)
-  SET(Postgres_LIBRARIES ${POSTGRES_LIB})
-ENDIF (POSTGRES_DEBUG_LIB)
 
 FIND_PATH(POSTGRES_INCLUDE libpq-fe.h
     ${POSTGRES_PREFIX}/include

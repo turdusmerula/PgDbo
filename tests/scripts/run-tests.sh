@@ -50,6 +50,8 @@ then
 	sudo -iu postgres psql bournioutests -f ${conf_path}/postgis.sql
 fi
 
+echo "args: $filtargs" 
+
 # run tests
 echo " --> run tests"
 if [ $ddd ]

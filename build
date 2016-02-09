@@ -238,6 +238,11 @@ function tgt_test()
 	then
 		opt="--profiler=${opt_profiler}"
 	fi
+	
+	if [ ${opt_ddd} -ne 0 ]
+	then
+		opt="--ddd"
+	fi
 
 	tests/scripts/run-tests.sh $opt || clean_exit
 }

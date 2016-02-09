@@ -5,14 +5,16 @@
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 
-#include <dbo/Dbo.h>
-#include <dbo/FixedSqlConnectionPool.h>
-#include <dbo/backend/Postgres.h>
+//#include <dbo/Dbo.h>
+//#include <dbo/FixedSqlConnectionPool.h>
+//#include <dbo/backend/Postgres.h>
 
-#include "TestSession.hpp"
+//#include "TestSession.hpp"
+#include "TestLibpq.hpp"
+#include "TestDbo2.hpp"
 
-dbo::backend::Postgres* db=nullptr ;
-std::unique_ptr<dbo::FixedSqlConnectionPool> pool ;
+//dbo::backend::Postgres* db=nullptr ;
+//std::unique_ptr<dbo::FixedSqlConnectionPool> pool ;
 
 int main(int argc, char* argv[])
 {
@@ -28,11 +30,11 @@ int main(int argc, char* argv[])
 		// parse command line
 	    desc.add_options()
 	      ("help", "Print help messages")
-	      ("host,h", boost::program_options::value<std::string>()->required(), "database host name (default localhost)")
-	      ("user,u", boost::program_options::value<std::string>()->required(), "database user name (default dbotest)")
-	      ("password,w", boost::program_options::value<std::string>()->required(), "database password (default dbotest)")
-	      ("port,p", boost::program_options::value<std::string>()->required(), "database port (default 5432)")
-	      ("dbname,d", boost::program_options::value<std::string>()->required(), "database name (default dbotest)")
+	      ("host,h", boost::program_options::value<std::string>(), "database host name (default localhost)")
+	      ("user,u", boost::program_options::value<std::string>(), "database user name (default dbotest)")
+	      ("password,w", boost::program_options::value<std::string>(), "database password (default dbotest)")
+	      ("port,p", boost::program_options::value<std::string>(), "database port (default 5432)")
+	      ("dbname,d", boost::program_options::value<std::string>(), "database name (default dbotest)")
 		  ;
 
 	    boost::program_options::variables_map vm ;
@@ -64,12 +66,12 @@ int main(int argc, char* argv[])
 		return 1 ;
 	}
 
-	std::string connection="host="+host+" user="+user+" password="+password+" port="+port+" dbname="+dbname ;
+//	std::string connection="host="+host+" user="+user+" password="+password+" port="+port+" dbname="+dbname ;
 
 	// prepare database for tests
-	db = new dbo::backend::Postgres(connection) ;
-	db->setProperty("show-queries", "true") ;
-	pool = std::unique_ptr<dbo::FixedSqlConnectionPool>(new dbo::FixedSqlConnectionPool(db, 40)) ;
+//	db = new dbo::backend::Postgres(connection) ;
+//	db->setProperty("show-queries", "true") ;
+//	pool = std::unique_ptr<dbo::FixedSqlConnectionPool>(new dbo::FixedSqlConnectionPool(db, 40)) ;
 
 	::testing::InitGoogleTest(&argc, argv) ;
 	return RUN_ALL_TESTS() ;

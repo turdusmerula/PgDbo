@@ -60,6 +60,7 @@ message("Compile options ${CMAKE_CXX_FLAGS}")
 
 #Build
 add_subdirectory(dbo)
+add_subdirectory(dbo2)
 add_subdirectory(tests)
 
 # test

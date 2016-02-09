@@ -31,10 +31,11 @@ target_link_libraries(${PROJECT_NAME}
 	pthread
  
     dbo-lib
+    dbo2-lib
 
     ${Boost_LIBRARIES} 
  
-    ${POSTGRES_LIBRARY}
+    ${Postgres_LIBRARIES} 
     
     gdal
     )
