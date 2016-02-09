@@ -37,14 +37,45 @@ public:
 
 class Simple {
 public:
-	std::string name ;
-	int value ;
+	std::string string_value ;
+	long long  longlong_value ;
+	int int_value ;
+	long long_value ;
+	short short_value ;
+	bool bool_value ;
+	float float_value ;
+	double double_value ;
+	size_t size_t_value ;
+	boost::posix_time::ptime ptime_value ;
+	boost::posix_time::time_duration time_duration_value ;
+	std::vector<unsigned char> vector_value ;
+
+	boost::optional<int> optional_value ;
+
+	enum TypeEnum {
+		Enum0 = 0,
+		Enum1 = 1,
+		Enum2 = 2
+	};
+	TypeEnum enum_value ;
 
 	template<class Action>
 	void persist(Action& a)
 	{
-		dbo2::field(a, name, "name") ;
-		dbo2::field(a, value, "value") ;
+		dbo2::field(a, string_value, "string_value") ;
+		dbo2::field(a, longlong_value, "longlong_value") ;
+		dbo2::field(a, int_value, "int_value") ;
+		dbo2::field(a, long_value, "long_value") ;
+		dbo2::field(a, short_value, "short_value") ;
+		dbo2::field(a, bool_value, "bool_value") ;
+		dbo2::field(a, float_value, "float_value") ;
+		dbo2::field(a, double_value, "double_value") ;
+		dbo2::field(a, size_t_value, "size_t_value") ;
+		dbo2::field(a, ptime_value, "ptime_value") ;
+		dbo2::field(a, time_duration_value, "time_duration_value") ;
+		dbo2::field(a, vector_value, "vector_value") ;
+		dbo2::field(a, optional_value, "optional_value") ;
+		dbo2::field(a, enum_value, "enum_value") ;
 	}
 } ;
 

@@ -3,6 +3,7 @@
 using namespace dbo2::action ;
 
 InitSchema::InitSchema(mapping::MappingInfo& mapping)
-	: 	mapping_(mapping)
+	: 	mapping_(mapping),
+		idField_(false)
 {
 }

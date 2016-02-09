@@ -72,48 +72,36 @@ void database::createTable(MappingInfoPtr mapping, std::set<std::string>& tables
 	bool firstField = true ;
 
 	// Auto-generated id
-	if(mapping->surrogateIdFieldName!="")
+	if(mapping->surrogateIdFieldName!=boost::none)
 	{
-		sql << "  \"" << mapping->surrogateIdFieldName << "\" " << Types::autoincrementType() << " primary key " ;
+		sql << "  \"" << mapping->surrogateIdFieldName.get() << "\" " << Types::autoincrementType() << " primary key " ;
 		firstField = false ;
-	}
-
-	// Optimistic locking version field
-	if(mapping->versionFieldName!="")
-	{
-		if(!firstField)
-			sql << ",\n" ;
-
-		sql << "  \"" << mapping->versionFieldName << "\" " << traits::sql_value_traits<int>::type(0) ;
-
-		firstField = false;
 	}
 
 	std::string primaryKey ;
 	for(auto& field : mapping->fields)
 	{
-		if(!field.isVersionField())
+		if(!firstField)
+			sql << ",\n" ;
+
+		std::cout << field.debug() << std::endl ;
+
+		std::string sqlType=field.sqlType() ;
+		if(field.isForeignKey() && !(field.fkConstraints() & mapping::FKNotNull))
 		{
-			if(!firstField)
-				sql << ",\n" ;
+			if(sqlType.length()>9 && sqlType.substr(sqlType.length()-9)==" not null")
+				sqlType = sqlType.substr(0, sqlType.length()-9) ;
+		}
 
-			std::string sqlType = field.sqlType() ;
-			if(field.isForeignKey() && !(field.fkConstraints() & mapping::FKNotNull))
-			{
-				if(sqlType.length()>9 && sqlType.substr(sqlType.length()-9)==" not null")
-					sqlType = sqlType.substr(0, sqlType.length()-9) ;
-			}
+		sql << "  \"" << field.name() << "\" " << sqlType ;
 
-			sql << "  \"" << field.name() << "\" " << sqlType ;
+		firstField = false ;
 
-			firstField = false ;
-
-			if(field.isNaturalIdField())
-			{
-				if(!primaryKey.empty())
-					primaryKey += ", " ;
-				primaryKey += "\""+field.name()+"\"" ;
-			}
+		if(field.isNaturalIdField())
+		{
+			if(!primaryKey.empty())
+				primaryKey += ", " ;
+			primaryKey += "\""+field.name()+"\"" ;
 		}
 	}
 
@@ -277,8 +265,6 @@ void database::createJoinTable(const std::string& joinName, MappingInfoPtr mappi
 	std::shared_ptr<mapping::MappingInfo> joinTableMapping=std::make_shared<mapping::MappingInfo>() ;
 
 	joinTableMapping->tableName = joinName ;
-	joinTableMapping->versionFieldName = "" ;
-	joinTableMapping->surrogateIdFieldName = "" ;
 
 	addJoinTableFields(joinTableMapping, mapping1, joinId1, "key1", fkConstraints1) ;
 	addJoinTableFields(joinTableMapping, mapping2, joinId2, "key2", fkConstraints2) ;
@@ -322,16 +308,16 @@ std::vector<mapping::JoinId> database::getJoinIds(MappingInfoPtr mapping, const 
 {
 	std::vector<mapping::JoinId> result ;
 
-	if(mapping->surrogateIdFieldName!="")
+	if(mapping->surrogateIdFieldName!=boost::none)
 	{
 		std::string idName ;
 
 		if(joinId.empty())
-			idName = std::string(mapping->tableName)+"_"+mapping->surrogateIdFieldName ;
+			idName = std::string(mapping->tableName)+"_"+mapping->surrogateIdFieldName.get() ;
 		else
 			idName = joinId;
 
-		result.push_back(mapping::JoinId(idName, mapping->surrogateIdFieldName, traits::sql_value_traits<long long>::type(0))) ;
+		result.push_back(mapping::JoinId(idName, mapping->surrogateIdFieldName.get(), traits::sql_value_traits<long long>::type(0))) ;
 	}
 	else
 	{
@@ -373,12 +359,6 @@ void database::prepareUpdateStatements(MappingInfoPtr mapping, bool& firstField)
 
 	firstField = true ;
 
-	if(mapping->versionFieldName=="")
-	{
-		sql << "\"" << mapping->versionFieldName << "\" = ?" ;
-		firstField = false ;
-	}
-
 	for(auto& field : mapping->fields)
 	{
 		if(!firstField)
@@ -392,7 +372,7 @@ void database::prepareUpdateStatements(MappingInfoPtr mapping, bool& firstField)
 
 	std::string idCondition ;
 
-	if(mapping->surrogateIdFieldName!="")
+	if(mapping->surrogateIdFieldName==boost::none)
 	{
 		firstField = true ;
 
@@ -412,14 +392,11 @@ void database::prepareUpdateStatements(MappingInfoPtr mapping, bool& firstField)
 			throw Exception("Table "+std::string(mapping->tableName)+" is missing a natural id defined with dbo::id()") ;
 	}
 	else
-		idCondition += std::string()+"\""+mapping->surrogateIdFieldName+"\" = ?" ;
+		idCondition += std::string()+"\""+mapping->surrogateIdFieldName.get()+"\" = ?" ;
 
 	mapping->idCondition = idCondition ;
 
 	sql << idCondition ;
-
-	if(mapping->versionFieldName!="")
-		sql << " and \"" << mapping->versionFieldName << "\" = ?" ;
 
 	mapping->statements.push_back(sql.str()) ; // SqlUpdate
 }
@@ -433,14 +410,6 @@ void database::prepareDeleteStatements(MappingInfoPtr mapping, bool& firstField)
 	sql << "delete from \"" << table << "\" where " << mapping->idCondition ;
 
 	mapping->statements.push_back(sql.str()) ; // SqlDelete
-
-	/*
-	 * SqlDeleteVersioned
-	 */
-	if(mapping->versionFieldName!="")
-		sql << " and \"" << mapping->versionFieldName << "\" = ?" ;
-
-	mapping->statements.push_back(sql.str()) ; // SqlDeleteVersioned
 }
 
 void database::prepareSelectedByIdStatements(MappingInfoPtr mapping, bool& firstField)
@@ -452,12 +421,6 @@ void database::prepareSelectedByIdStatements(MappingInfoPtr mapping, bool& first
 	sql << "select ";
 
 	firstField = true ;
-	if(mapping->versionFieldName!="")
-	{
-		sql << "\"" << mapping->versionFieldName << "\"" ;
-		firstField = false ;
-	}
-
 	for(auto& field : mapping->fields)
 	{
 		if(!firstField)
@@ -485,17 +448,9 @@ void database::prepareCollectionsStatements(MappingInfoPtr mapping, bool& firstF
 		sql << "select " ;
 
 		firstField = true ;
-		if(otherMapping->surrogateIdFieldName!="")
+		if(otherMapping->surrogateIdFieldName!=boost::none)
 		{
 			sql << "\"" << otherMapping->surrogateIdFieldName << "\"" ;
-			firstField = false ;
-		}
-
-		if(otherMapping->versionFieldName!="")
-		{
-			if(!firstField)
-				sql << ", " ;
-			sql << "\"" << otherMapping->versionFieldName << "\"" ;
 			firstField = false ;
 		}
 
@@ -673,13 +628,6 @@ void database::prepareStatements(MappingInfoPtr mapping)
 	sql << "insert into \"" << table << "\" (" ;
 
 	bool firstField=true ;
-
-	if(mapping->versionFieldName!="")
-	{
-		sql << "\"" << mapping->versionFieldName << "\"" ;
-		firstField = false ;
-	}
-
 	for(auto& field : mapping->fields)
 	{
 		if(!firstField)
@@ -691,12 +639,6 @@ void database::prepareStatements(MappingInfoPtr mapping)
 	sql << ") values (" ;
 
 	firstField = true ;
-	if(mapping->versionFieldName!="")
-	{
-		sql << "?" ;
-		firstField = false ;
-	}
-
 	for(auto& field : mapping->fields)
 	{
 		if(!firstField)
@@ -707,8 +649,8 @@ void database::prepareStatements(MappingInfoPtr mapping)
 
 	sql << ")" ;
 
-	if(mapping->surrogateIdFieldName!="")
-		sql << Types::autoincrementInsertSuffix(mapping->surrogateIdFieldName) ;
+	if(mapping->surrogateIdFieldName!=boost::none)
+		sql << Types::autoincrementInsertSuffix(mapping->surrogateIdFieldName.get()) ;
 
 	mapping->statements.push_back(sql.str()) ; // SqlInsert
 

@@ -21,8 +21,8 @@ void MappingInfo::init()
 
 std::string MappingInfo::primaryKeys() const
 {
-	if(surrogateIdFieldName!="")
-		return std::string("\"")+surrogateIdFieldName+"\"" ;
+	if(surrogateIdFieldName!=boost::none)
+		return std::string("\"")+surrogateIdFieldName.get()+"\"" ;
 	else
 	{
 		std::stringstream result ;

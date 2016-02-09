@@ -157,7 +157,7 @@ struct sql_value_traits<boost::optional<T>, void>
 {
 	static const bool specialized=true ;
 
-	static const std::string& type(int size)
+	static std::string type(int size)
 	{
 		std::string nested = sql_value_traits<T>::type(size) ;
 		if(nested.length()>9 && nested.substr(nested.length()-9)==" not null")

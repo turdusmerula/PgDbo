@@ -6,6 +6,8 @@
 
 #include <vector>
 
+#include <boost/optional.hpp>
+
 namespace dbo2 {
 namespace mapping {
 
@@ -18,8 +20,7 @@ public:
 	bool initialized_ ;
 
 	std::string tableName ;
-	std::string versionFieldName ;
-	std::string surrogateIdFieldName ;
+	boost::optional<std::string> surrogateIdFieldName ;
 
 	std::string idCondition ;
 
