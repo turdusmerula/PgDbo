@@ -61,7 +61,8 @@ message("Compile options ${CMAKE_CXX_FLAGS}")
 #Build
 add_subdirectory(dbo)
 add_subdirectory(dbo2)
-add_subdirectory(tests)
+add_subdirectory(dbo-tests)
+add_subdirectory(dbo2-tests)
 
 # test
 include( CTest )

@@ -1,5 +1,3 @@
-#include <dbo2/traits/StdSqlTraits.h>
-
 #include <typeinfo>
 
 namespace dbo2 {

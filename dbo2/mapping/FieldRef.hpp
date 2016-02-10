@@ -37,6 +37,4 @@ private:
 
 }}
 
-#include <dbo2/mapping/FieldRef.cxx>
-
 #endif

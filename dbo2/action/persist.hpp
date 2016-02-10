@@ -12,6 +12,4 @@ struct persist
 
 }}
 
-#include <dbo2/action/persist.cxx>
-
 #endif

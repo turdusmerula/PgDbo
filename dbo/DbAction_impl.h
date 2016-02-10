@@ -210,11 +210,11 @@ void DboAction::actWeakPtr(const WeakPtrRef<C>& field)
 {
 	Impl::SetInfo *setInfo = &mapping_->sets[setIdx_++];
 
-	if(Session::current())
+	if(dbo_->session())
 	{
 		int statementIdx = Session::FirstSqlSelectSet+setStatementIdx_;
 
-		const std::string& sql = Session::current()->getStatementSql(mapping_->tableName, statementIdx);
+		const std::string& sql = dbo_->session()->getStatementSql(mapping_->tableName, statementIdx);
 
 		field.value().setRelationData(dbo_, &sql, setInfo);
 	}
@@ -229,11 +229,11 @@ void DboAction::actCollection(const CollectionRef<C>& field)
 {
 	Impl::SetInfo *setInfo = &mapping_->sets[setIdx_++];
 
-	if(Session::current())
+	if(dbo_->session())
 	{
 		int statementIdx = Session::FirstSqlSelectSet+setStatementIdx_;
 
-		const std::string& sql = Session::current()->getStatementSql(mapping_->tableName, statementIdx);
+		const std::string& sql = dbo_->session()->getStatementSql(mapping_->tableName, statementIdx);
 
 		field.value().setRelationData(dbo_, &sql, setInfo);
 	}
@@ -253,13 +253,13 @@ void DboAction::actCollection(const CollectionRef<C>& field)
 template<typename V>
 void LoadBaseAction::act(const FieldRef<V>& field)
 {
-	field.setValue(*Session::current(), statement_, column_++);
+	field.setValue(*session(), statement_, column_++);
 }
 
 template<class C>
 void LoadBaseAction::actPtr(const PtrRef<C>& field)
 {
-	field.visit(*this, Session::current());
+	field.visit(*this, session());
 }
 
 template<class C>
@@ -275,10 +275,11 @@ void LoadDbAction<C>::visit(C& obj)
 	ScopedStatementUse use(statement_);
 
 	bool continueStatement = statement_!=0;
+	Session *session = dbo_.session();
 
 	if(!continueStatement)
 	{
-		use(statement_ = Session::current()->template getStatement<C>(Session::SqlSelectById));
+		use(statement_ = session->template getStatement<C>(Session::SqlSelectById));
 		statement_->reset();
 
 		int column = 0;
@@ -341,7 +342,7 @@ void SaveBaseAction::actPtr(const PtrRef<C>& field)
 		break;
 	case Self:
 		bindNull_ = !field.value();
-		field.visit(*this, Session::current());
+		field.visit(*this, session());
 		bindNull_ = false;
 
 		break;
@@ -395,7 +396,7 @@ void SaveBaseAction::actCollection(const CollectionRef<C>& field)
 
 				SqlStatement *statement;
 
-				statement = Session::current()->getStatement(mapping().tableName, statementIdx);
+				statement = session()->getStatement(mapping().tableName, statementIdx);
 				{
 					ScopedStatementUse use(statement);
 
@@ -422,7 +423,7 @@ void SaveBaseAction::actCollection(const CollectionRef<C>& field)
 				// Sql delete
 				++statementIdx;
 
-				statement = Session::current()->getStatement(mapping().tableName, statementIdx);
+				statement = session()->getStatement(mapping().tableName, statementIdx);
 
 				{
 					ScopedStatementUse use(statement);
@@ -482,7 +483,7 @@ void SaveDbAction<C>::visit(C& obj)
 		{
 			isInsert_ = dbo_.deletedInTransaction()||(dbo_.isNew()&&!dbo_.savedInTransaction());
 
-			use(statement_ = isInsert_?Session::current()->template getStatement<C>(Session::SqlInsert):Session::current()->template getStatement<C>(Session::SqlUpdate));
+			use(statement_ = isInsert_?dbo_.session()->template getStatement<C>(Session::SqlInsert):dbo_.session()->template getStatement<C>(Session::SqlUpdate));
 		}
 		else
 			isInsert_ = false;

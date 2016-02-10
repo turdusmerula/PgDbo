@@ -5,16 +5,10 @@
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 
-//#include <dbo/Dbo.h>
-//#include <dbo/FixedSqlConnectionPool.h>
-//#include <dbo/backend/Postgres.h>
-
-//#include "TestSession.hpp"
-#include "TestLibpq.hpp"
-#include "TestDbo2.hpp"
-
-//dbo::backend::Postgres* db=nullptr ;
-//std::unique_ptr<dbo::FixedSqlConnectionPool> pool ;
+#include <dbo2-tests/src/TestSimpleTable.hpp>
+#include <dbo2-tests/src/TestCustomIdTable.hpp>
+#include <dbo2-tests/src/TestCompositeIdTable.hpp>
+#include <dbo2-tests/src/TestHasManyTable.hpp>
 
 int main(int argc, char* argv[])
 {
@@ -66,12 +60,6 @@ int main(int argc, char* argv[])
 		return 1 ;
 	}
 
-//	std::string connection="host="+host+" user="+user+" password="+password+" port="+port+" dbname="+dbname ;
-
-	// prepare database for tests
-//	db = new dbo::backend::Postgres(connection) ;
-//	db->setProperty("show-queries", "true") ;
-//	pool = std::unique_ptr<dbo::FixedSqlConnectionPool>(new dbo::FixedSqlConnectionPool(db, 40)) ;
 
 	::testing::InitGoogleTest(&argc, argv) ;
 	return RUN_ALL_TESTS() ;

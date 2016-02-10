@@ -98,9 +98,9 @@ struct dbo_default_traits
 	 *
 	 * The default surrogate id database field name is <tt>"id"</tt>.
 	 */
-	static std::string surrogateIdField()
+	static boost::optional<std::string> surrogateIdField()
 	{
-		return "id" ;
+		return std::string("id") ;
 	}
 } ;
 

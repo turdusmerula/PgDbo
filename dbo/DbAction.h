@@ -116,6 +116,11 @@ public:
 	bool setsValue() const;
 	bool isSchema() const;
 
+	Session *session()
+	{
+		return dbo_?dbo_->session():session_;
+	}
+
 protected:
 	MetaDboBase& dbo()
 	{

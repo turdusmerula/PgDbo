@@ -22,8 +22,6 @@
 namespace dbo
 {
 
-thread_local std::shared_ptr<Session> Session::current_ ;
-
 namespace Impl
 {
 
@@ -152,13 +150,6 @@ Session::~Session()
 
 	for(ClassRegistry::iterator i = classRegistry_.begin() ; i!=classRegistry_.end() ; ++i)
 		delete i->second;
-
-	current_.reset() ;
-}
-
-std::shared_ptr<Session> Session::create()
-{
-	return std::make_shared<Session>() ;
 }
 
 void Session::setConnection(SqlConnection& connection)
@@ -1194,14 +1185,6 @@ void Session::load(MetaDboBase *dbo)
 {
 	Impl::MappingInfo *mapping = dbo->getMapping();
 	mapping->load(*this, dbo);
-}
-
-dbo::Session& Session::session()
-{
-	if(current_==nullptr)
-		throw Exception("No session opened for the thread") ;
-
-	return *current_ ;
 }
 
 }

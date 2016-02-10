@@ -1,7 +1,7 @@
 #!/bin/bash
 
 xpl_path=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
-root_path=$(echo ${xpl_path} | sed "s#\(.*\)/tests/.*#\1#g")
+root_path=$(echo ${xpl_path} | sed "s#\(.*\)/dbo-tests/.*#\1#g")
 cd $xpl_path
 
 conf_path=${xpl_path}/../conf

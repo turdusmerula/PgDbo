@@ -1,7 +1,5 @@
 #include <boost/type_traits/remove_const.hpp>
 
-#include <dbo2/action/InitSchema.hpp>
-
 namespace dbo2 {
 namespace mapping {
 
@@ -21,7 +19,7 @@ Mapping<C>::~Mapping()
 }
 
 template<class C>
-void Mapping<C>::init()
+void Mapping<C>::init(database& conn)
 {
 	typedef typename boost::remove_const<C>::type MutC ;
 
@@ -29,7 +27,7 @@ void Mapping<C>::init()
 	{
 		initialized_ = true ;
 
-		action::InitSchema action(*this) ;
+		action::InitSchema action(conn, *this) ;
 		MutC dummy ;
 		action.visit(dummy) ;
 	}

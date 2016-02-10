@@ -172,8 +172,8 @@ void field(A& action, ptr<C>& value, const std::string& name, int size)
 template<class A, class C>
 void belongsToImpl(A& action, ptr<C>& value, const std::string& name, int fkConstraints, int size)
 {
-	if(name.empty() && Session::current())
-		action.actPtr(PtrRef<C>(value, Session::current()->template tableName<C>(), size, fkConstraints));
+	if(name.empty() && action.session())
+		action.actPtr(PtrRef<C>(value, action.session()->template tableName<C>(), size, fkConstraints));
 	else
 		action.actPtr(PtrRef<C>(value, name, size, fkConstraints));
 }

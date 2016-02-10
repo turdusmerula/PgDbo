@@ -51,8 +51,8 @@ void MetaDboBase::setDirty()
 	if(!isDirty())
 	{
 		state_ |= NeedsSave;
-		if(Session::current())
-			Session::current()->needsFlush(this);
+		if(session_)
+			session_->needsFlush(this);
 	}
 }
 
@@ -67,11 +67,13 @@ void MetaDboBase::remove()
 	else if(isPersisted())
 	{
 		state_ |= NeedsDelete;
-		Session::current()->needsFlush(this);
+		session_->needsFlush(this);
 	}
-	else if(Session::current())
+	else if(session_)
 	{ // was added to a Session but not yet flushed
-		Session::current()->discardChanges(this);
+		Session *session = session_;
+		setSession(0);
+		session->discardChanges(this);
 		state_ &= ~NeedsSave;
 	}
 	else

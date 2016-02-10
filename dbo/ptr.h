@@ -95,12 +95,13 @@ public:
 	};
 
 	MetaDboBase(int version, int state, Session *session)
-			: 		version_(version),
+			: session_(session),
+					version_(version),
 					state_(state),
 					refCount_(0)
 	{
 	}
-
+ 
 	virtual ~MetaDboBase();
 
 	void transactionDone(bool success);
@@ -116,10 +117,22 @@ public:
 	{
 		version_ = version;
 	}
-	virtual int version() const =0;
+	int version() const
+	{
+		return version_;
+	}
 	bool isTransient() const
 	{
 		return isNew()||isDeleted();
+	}
+
+	void setSession(Session *session)
+	{
+		session_ = session;
+	}
+	Session *session()
+	{
+		return session_;
 	}
 
 	/*
@@ -392,8 +405,6 @@ public:
 	{
 		return id_;
 	}
-
-	int version() const;
 
 private:
 	C *obj_;
@@ -845,6 +856,12 @@ public:
 	 * transaction ends.
 	 */
 	bool isDirty() const;
+
+	/*! \brief Returns the session with which this pointer is associated.
+	 *
+	 * This may return 0 if the pointer is null or not added to a session.
+	 */
+	Session *session() const;
 
 protected:
 	MetaDbo<MutC> *obj() const

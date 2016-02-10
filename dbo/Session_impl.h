@@ -135,6 +135,7 @@ MetaDbo<C> *Session::loadWithNaturalId(SqlStatement *statement, int& column)
 
 	if(dbo->id()==dbo_traits<MutC>::invalidId())
 	{
+		dbo->setSession(0);
 		delete dbob;
 		return 0;
 	}
@@ -148,6 +149,7 @@ MetaDbo<C> *Session::loadWithNaturalId(SqlStatement *statement, int& column)
 	}
 	else
 	{
+		dbo->setSession(0);
 		delete dbob;
 		return i->second;
 	}
@@ -219,8 +221,9 @@ ptr<C> Session::add(ptr<C>& obj)
 	initSchema();
 
 	MetaDbo<MutC> *dbo = obj.obj();
-	if(dbo && Session::current())
+	if(dbo&&!dbo->session())
 	{
+		dbo->setSession(this);
 		if(flushMode()==Auto)
 			needsFlush(dbo);
 		else

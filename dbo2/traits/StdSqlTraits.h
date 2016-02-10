@@ -8,12 +8,13 @@
 
 #include <string>
 #include <vector>
-#include <dbo2/traits/sql_value_traits.hpp>
 
 #include <boost/optional.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_enum.hpp>
+
+#include <dbo2/traits/sql_value_traits.hpp>
 
 namespace dbo2 {
 namespace traits {

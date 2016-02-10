@@ -130,13 +130,6 @@ public:
 	 */
 	~Session();
 
-
-	/*! \brief Instanciate a new session.
-	 *
-	 * A session must be stored in a shared pointer
-	 */
-	static std::shared_ptr<Session> create() ;
-
 	/*! \brief Sets a dedicated connection.
 	 *
 	 * The connection will be used exclusively by this session.
@@ -488,20 +481,7 @@ public:
 		return transaction_!=nullptr;
 	}
 
-	/**
-	 * Shortcut to current session object for the thread
-	 * throws if session undefined
-	 */
-	static dbo::Session& session() ;
-
-	static Session* current() { return current_.get() ; }
-	static void current(std::shared_ptr<Session> value) { current_ = value ; }
-
 protected:
-	/**
-	 * current session for the thread, one per thread
-	 */
-	static thread_local std::shared_ptr<Session> current_ ;
 
 	void initSchema() const;
 

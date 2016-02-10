@@ -4,6 +4,8 @@
  * See the LICENSE file for terms of use.
  */
 
+
+#include <dbo2/traits/sql_value_traits.hpp>
 #include <dbo2/traits/StdSqlTraits.h>
 #include <dbo2/traits/SqlPostgresTypes.hpp>
 

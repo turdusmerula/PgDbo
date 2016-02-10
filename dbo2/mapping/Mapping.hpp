@@ -4,6 +4,8 @@
 #include <dbo2/mapping/MappingInfo.h>
 
 namespace dbo2 {
+class database ;
+
 namespace mapping {
 
 template<class C>
@@ -13,11 +15,9 @@ public:
 	Mapping() ;
 	virtual ~Mapping() ;
 
-	virtual void init() ;
+	virtual void init(database& conn) ;
 } ;
 
 }}
-
-#include <dbo2/mapping/Mapping.cxx>
 
 #endif

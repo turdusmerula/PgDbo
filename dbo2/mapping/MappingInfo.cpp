@@ -14,7 +14,7 @@ MappingInfo::~MappingInfo()
 {
 }
 
-void MappingInfo::init()
+void MappingInfo::init(database& conn)
 {
 	throw Exception("Not to be done.");
 }

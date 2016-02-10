@@ -533,8 +533,8 @@ void collection<C>::insert(C c)
 		if(relation.dbo)
 		{
 			relation.dbo->setDirty();
-			if(Session::current())
-				Session::current()->add(c);
+			if(relation.dbo->session())
+				relation.dbo->session()->add(c);
 		}
 	}
 	else if(session_->flushMode()==Manual)
@@ -682,7 +682,7 @@ void collection<C>::resetActivity()
 template<class C>
 void collection<C>::setRelationData(MetaDboBase *dbo, const std::string *sql, Impl::SetInfo *setInfo)
 {
-	session_ = Session::current() ;
+	session_ = dbo->session();
 
 	data_.relation.sql = sql;
 	data_.relation.dbo = dbo;

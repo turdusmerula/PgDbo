@@ -6,15 +6,21 @@
 #include <memory>
 #include <set>
 
-#include <dbo2/Exception.h>
-
 #include <dbo2/mapping/JoinId.h>
-#include <dbo2/mapping/MappingInfo.h>
-#include <dbo2/mapping/Mapping.hpp>
 
 #include <dbo2/traits/SqlPostgresTypes.hpp>
 
 namespace dbo2 {
+namespace action {
+class InitSchema ;
+}
+
+namespace mapping {
+class MappingInfo ;
+template <class T> class Mapping ;
+class FieldInfo ;
+template<class C> class KeyRef ;
+}
 
 class database
 {
@@ -31,7 +37,7 @@ public:
 	 * database supports this, eg. <tt>"myschema.users"</tt>.
 	 */
 	template<class C>
-	void mapClass(const char* name) ;
+	void mapClass(std::string name) ;
 
 	/*! \brief Creates the database schema.
 	 *
@@ -93,12 +99,14 @@ protected:
 	void prepareCollectionsStatements(MappingInfoPtr mapping, bool& firstField) ;
 	void prepareStatements(MappingInfoPtr mapping) ;
 
+	template<class C> std::shared_ptr<mapping::Mapping<C>> getMapping() ;
 	MappingInfoPtr getMapping(const std::string& tableName) const ;
+
+	friend class action::InitSchema ;
+	template<class C> friend class mapping::KeyRef ;
 
 } ;
 
 }
-
-#include <dbo2/database.cxx>
 
 #endif

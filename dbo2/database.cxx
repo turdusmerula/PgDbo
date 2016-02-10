@@ -1,5 +1,8 @@
+
+namespace dbo2 {
+
 template<class C>
-void dbo2::database::mapClass(const char* tableName)
+void database::mapClass(std::string tableName)
 {
 	if(schemaInitialized_)
 		throw Exception("Cannot map tables after schema was initialized.") ;
@@ -12,4 +15,22 @@ void dbo2::database::mapClass(const char* tableName)
 
 	classRegistry_[&typeid(C)] = mapping ;
 	tableRegistry_[tableName] = mapping ;
+}
+
+template<class C>
+std::shared_ptr<mapping::Mapping<C>> database::getMapping()
+{
+//	if(!schemaInitialized_)
+//		initSchema() ;
+
+	ClassRegistry::const_iterator ireg=classRegistry_.find(&typeid(C)) ;
+	if(ireg!=classRegistry_.end())
+	{
+		std::shared_ptr<mapping::Mapping<C>> mapping=std::dynamic_pointer_cast<mapping::Mapping<C>>(ireg->second) ;
+		return mapping ;
+	}
+	else
+		throw Exception(std::string("Class ")+typeid(C).name()+" was not mapped.") ;
+}
+
 }

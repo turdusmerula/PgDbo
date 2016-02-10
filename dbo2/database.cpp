@@ -1,7 +1,12 @@
 #include <dbo2/database.h>
 
 #include <dbo2/mapping/Field.h>
+#include <dbo2/mapping/FieldInfo.h>
+#include <dbo2/mapping/SetInfo.h>
+#include <dbo2/mapping/MappingInfo.h>
+#include <dbo2/mapping/Mapping.hpp>
 
+#include <dbo2/traits/sql_value_traits.hpp>
 #include <dbo2/traits/StdSqlTraits.h>
 
 using namespace dbo2 ;
@@ -684,7 +689,7 @@ void database::initSchema()
 	schemaInitialized_ = true ;
 
 	for(auto& registry : classRegistry_)
-		registry.second->init() ;
+		registry.second->init(*this) ;
 
 	for(auto& registry : classRegistry_)
 		resolveJoinIds(registry.second) ;

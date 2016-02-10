@@ -9,6 +9,8 @@
 #include <boost/optional.hpp>
 
 namespace dbo2 {
+class database ;
+
 namespace mapping {
 
 class MappingInfo
@@ -22,6 +24,9 @@ public:
 	std::string tableName ;
 	boost::optional<std::string> surrogateIdFieldName ;
 
+	std::string naturalIdFieldName ; // for non-auto generated id
+	int naturalIdFieldSize ;         // for non-auto generated id
+
 	std::string idCondition ;
 
 	std::vector<FieldInfo> fields ;
@@ -29,7 +34,7 @@ public:
 
 	std::vector<std::string> statements ;
 
-	virtual void init() ;
+	virtual void init(database& conn) ;
 	std::string primaryKeys() const ;
 } ;
 

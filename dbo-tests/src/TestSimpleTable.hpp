@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <dbo2/dbo.hpp>
+extern dbo::backend::Postgres* db ;
 
 // The fixture for testing class Database.
-class TestDbo2 : public ::testing::Test
+class TestSimpleTable : public ::testing::Test
 {
 public:
 	static void SetUpTestCase()
@@ -35,7 +35,8 @@ public:
 	// Objects declared here can be used by all tests in the test case for Foo.
 } ;
 
-class Simple {
+class SimpleTable
+{
 public:
 	std::string string_value ;
 	long long  longlong_value ;
@@ -62,28 +63,29 @@ public:
 	template<class Action>
 	void persist(Action& a)
 	{
-		dbo2::field(a, string_value, "string_value") ;
-		dbo2::field(a, longlong_value, "longlong_value") ;
-		dbo2::field(a, int_value, "int_value") ;
-		dbo2::field(a, long_value, "long_value") ;
-		dbo2::field(a, short_value, "short_value") ;
-		dbo2::field(a, bool_value, "bool_value") ;
-		dbo2::field(a, float_value, "float_value") ;
-		dbo2::field(a, double_value, "double_value") ;
-		dbo2::field(a, size_t_value, "size_t_value") ;
-		dbo2::field(a, ptime_value, "ptime_value") ;
-		dbo2::field(a, time_duration_value, "time_duration_value") ;
-		dbo2::field(a, vector_value, "vector_value") ;
-		dbo2::field(a, optional_value, "optional_value") ;
-		dbo2::field(a, enum_value, "enum_value") ;
+		dbo::field(a, string_value, "string_value", 100) ;
+		dbo::field(a, longlong_value, "longlong_value") ;
+		dbo::field(a, int_value, "int_value") ;
+		dbo::field(a, long_value, "long_value") ;
+		dbo::field(a, short_value, "short_value") ;
+		dbo::field(a, bool_value, "bool_value") ;
+		dbo::field(a, float_value, "float_value") ;
+		dbo::field(a, double_value, "double_value") ;
+		dbo::field(a, size_t_value, "size_t_value") ;
+		dbo::field(a, ptime_value, "ptime_value") ;
+		dbo::field(a, time_duration_value, "time_duration_value") ;
+		dbo::field(a, vector_value, "vector_value") ;
+		dbo::field(a, optional_value, "optional_value") ;
+		dbo::field(a, enum_value, "enum_value") ;
 	}
 } ;
 
 
-TEST_F(TestDbo2, Test1) {
-	dbo2::database db ;
+TEST_F(TestSimpleTable, TestSql) {
+	dbo::Session session ;
+	session.setConnection(*db) ;
 
-	db.mapClass<Simple>("simple") ;
+	session.mapClass<SimpleTable>("simple") ;
 
-	std::cout << db.tableCreationSql() << std::endl ;
+	std::cout << session.tableCreationSql() << std::endl ;
 }
