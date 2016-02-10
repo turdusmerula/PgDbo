@@ -39,6 +39,13 @@ public:
 	template<class C>
 	void mapClass(std::string name) ;
 
+	/*! \brief Returns the mapped table name for a class.
+	 *
+	 * \sa mapClass(), tableNameQuoted()
+	 */
+	template<class C>
+	const std::string& tableName() const ;
+
 	/*! \brief Creates the database schema.
 	 *
 	 * This will create the database schema of the mapped tables. Schema

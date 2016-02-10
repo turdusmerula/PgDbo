@@ -37,6 +37,64 @@ public:
 
 class User ;
 
+// ----------------------------------------------------------------------------
+struct dKey
+{
+	std::string name ;
+	int age ;
+
+	bool operator< (const dKey &other) const
+	{
+		return true ;
+	}
+
+	bool operator== (const dKey &other) const
+	{
+		return true ;
+	}
+} ;
+std::ostream &operator<< (std::ostream &o, const dKey &c)
+{
+	return o << "(" << c.name << ", " << c.age << ")" ;
+}
+
+// explains how to store a Key in database
+namespace dbo {
+template <class Action>
+void field(Action& action, dKey& key, const std::string& name, int size=-1)
+{
+	dbo::field(action, key.name, name + "_name") ;
+	dbo::field(action, key.age, name + "_age") ;
+}
+}
+
+class dCompositeIdTable
+{
+public:
+	dKey composite_id ;
+
+	template<class Action>
+	void persist(Action& a)
+	{
+		dbo::id(a, composite_id) ;
+	}
+}
+;
+namespace dbo {
+template<>
+struct dbo_traits<dCompositeIdTable> : public dbo_default_traits
+{
+	// define custom id type
+	typedef dKey IdType ;
+
+	static IdType invalidId() { return dKey() ; }
+
+	// deactivate default id
+	static const char* surrogateIdField() { return 0 ; }
+};
+}
+// ----------------------------------------------------------------------------
+
 class Session
 {
 public:
@@ -57,14 +115,14 @@ class User
 public:
 	std::string name ;
 	dbo::collection<dbo::ptr<Session>> sessions ;
-	dbo::collection<dbo::ptr<CompositeIdTable>> compositeids ;
+//	dbo::collection<dbo::ptr<CompositeIdTable>> compositeids ;
 
 	template<class Action>
 	void persist(Action& a)
 	{
 		dbo::field(a, name, "name") ;
 	    dbo::hasMany(a, sessions, dbo::ManyToOne, "user") ;
-	    dbo::hasMany(a, compositeids, dbo::ManyToOne, "user") ;
+//	    dbo::hasMany(a, compositeids, dbo::ManyToOne, "user") ;
 	}
 };
 
@@ -74,7 +132,7 @@ TEST_F(TestHasManyTable, TestSql) {
 
 	session.mapClass<Session>("session") ;
 	session.mapClass<User>("user") ;
-	session.mapClass<CompositeIdTable>("compositeid") ;
+	session.mapClass<dCompositeIdTable>("compositeid") ;
 
 	std::cout << session.tableCreationSql() << std::endl ;
 }

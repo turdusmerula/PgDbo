@@ -35,7 +35,8 @@ public:
 	// Objects declared here can be used by all tests in the test case for Foo.
 } ;
 
-class CustomIdTable
+// ----------------------------------------------------------------------------
+class bCustomIdTable
 {
 public:
 	std::string natural_id ;
@@ -51,7 +52,7 @@ public:
 namespace dbo2 {
 namespace traits {
 template<>
-struct dbo_traits<CustomIdTable> : public dbo_default_traits
+struct dbo_traits<bCustomIdTable> : public dbo_default_traits
 {
 	// define custom id type
 	typedef std::string IdType ;
@@ -62,11 +63,12 @@ struct dbo_traits<CustomIdTable> : public dbo_default_traits
 	static boost::optional<std::string> surrogateIdField() { return boost::none ; }
 };
 }}
+// ----------------------------------------------------------------------------
 
 TEST_F(TestCustomIdTable, TestSql) {
 	dbo2::database db ;
 
-	db.mapClass<CustomIdTable>("customid") ;
+	db.mapClass<bCustomIdTable>("customid") ;
 
 	std::cout << db.tableCreationSql() << std::endl ;
 }

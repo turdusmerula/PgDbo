@@ -18,6 +18,18 @@ void database::mapClass(std::string tableName)
 }
 
 template<class C>
+const std::string& database::tableName() const
+{
+	typedef typename boost::remove_const<C>::type MutC ;
+
+	ClassRegistry::const_iterator ireg=classRegistry_.find(&typeid(MutC)) ;
+	if(ireg!=classRegistry_.end())
+		return std::dynamic_pointer_cast<mapping::Mapping<MutC>>(ireg->second)->tableName ;
+	else
+		throw Exception(std::string("Class ")+typeid(MutC).name()+" was not mapped.") ;
+}
+
+template<class C>
 std::shared_ptr<mapping::Mapping<C>> database::getMapping()
 {
 //	if(!schemaInitialized_)

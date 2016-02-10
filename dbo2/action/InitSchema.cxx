@@ -48,18 +48,17 @@ void InitSchema::actKey(const mapping::KeyRef<C>& field)
 {
 	std::shared_ptr<mapping::Mapping<C>> mapping=conn_.getMapping<C>() ;
 
-	bool setName=foreignKeyName_.empty() ;
-
-	if(setName)
+	if(foreignKeyName_.empty())
 	{
 		foreignKeyName_ = field.name() ;
 		foreignKeyTable_ = mapping->tableName ;
 		fkConstraints_ = field.fkConstraints() ;
+		std::cout << "++ " << foreignKeyName_ << " - " << foreignKeyTable_ << " - " << fkConstraints_ << std::endl ;
 	}
 
 	field.visit(*this, conn_);
 
-//	if(setName)
+//	if(foreignKeyName_.empty())
 //	{
 //		foreignKeyName_.clear();
 //		foreignKeyTable_.clear();

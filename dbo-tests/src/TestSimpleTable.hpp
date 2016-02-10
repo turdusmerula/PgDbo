@@ -35,7 +35,7 @@ public:
 	// Objects declared here can be used by all tests in the test case for Foo.
 } ;
 
-class SimpleTable
+class aSimpleTable
 {
 public:
 	std::string string_value ;
@@ -85,7 +85,7 @@ TEST_F(TestSimpleTable, TestSql) {
 	dbo::Session session ;
 	session.setConnection(*db) ;
 
-	session.mapClass<SimpleTable>("simple") ;
+	session.mapClass<aSimpleTable>("simple") ;
 
 	std::cout << session.tableCreationSql() << std::endl ;
 }

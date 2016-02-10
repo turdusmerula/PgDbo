@@ -30,7 +30,8 @@ public:
 	// Objects declared here can be used by all tests in the test case for Foo.
 } ;
 
-struct Key
+// ----------------------------------------------------------------------------
+struct cKey
 {
 	std::string name ;
 	int age ;
@@ -38,16 +39,16 @@ struct Key
 
 // explains how to store a Key in database
 template <class Action>
-void field(Action& action, Key& key, const std::string& name, int size=-1)
+void field(Action& action, cKey& key, const std::string& name, int size=-1)
 {
 	dbo2::field(action, key.name, name + "_name") ;
 	dbo2::field(action, key.age, name + "_age") ;
 }
 
-class CompositeIdTable
+class cCompositeIdTable
 {
 public:
-	Key composite_id ;
+	cKey composite_id ;
 
 	template<class Action>
 	void persist(Action& a)
@@ -59,23 +60,24 @@ public:
 namespace dbo2 {
 namespace traits {
 template<>
-struct dbo_traits<CompositeIdTable> : public dbo_default_traits
+struct dbo_traits<cCompositeIdTable> : public dbo_default_traits
 {
 	// define custom id type
-	typedef Key IdType ;
+	typedef cKey IdType ;
 
-	static IdType invalidId() { return Key() ; }
+	static IdType invalidId() { return cKey() ; }
 
 	// deactivate default id
 	static boost::optional<std::string> surrogateIdField() { return boost::none ; }
 };
 
 }}
+// ----------------------------------------------------------------------------
 
 TEST_F(TestCompositeIdTable, TestSql) {
 	dbo2::database db ;
 
-	db.mapClass<CompositeIdTable>("compositeid") ;
+	db.mapClass<cCompositeIdTable>("compositeid") ;
 
 	std::cout << db.tableCreationSql() << std::endl ;
 }

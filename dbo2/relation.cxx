@@ -17,9 +17,9 @@ void field(Action& action, V& value, const std::string& name, int size)
 template<class A, class C>
 void belongsToImpl(A& action, key<C>& value, const std::string& name, int fkConstraints, int size)
 {
-//	if(name.empty())
-//		action.actPtr(PtrRef<C>(value, Session::current()->template tableName<C>(), size, fkConstraints));
-//	else
+	if(name.empty())
+		action.actKey(mapping::KeyRef<C>(value, action.conn().template tableName<C>(), size, fkConstraints));
+	else
 		action.actKey(mapping::KeyRef<C>(value, name, size, fkConstraints));
 }
 

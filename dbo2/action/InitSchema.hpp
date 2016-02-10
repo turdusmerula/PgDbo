@@ -28,6 +28,11 @@ public:
 	template<class C> void actKey(const mapping::KeyRef<C>& field) ;
 	void actMapping(std::shared_ptr<mapping::MappingInfo> mapping) ;
 
+	database& conn()
+	{
+		return conn_ ;
+	}
+
 private:
 	database& conn_ ;
 	mapping::MappingInfo& mapping_ ;
