@@ -61,15 +61,15 @@ void Statement::bind(const std::vector<unsigned char>& value)
 	if(prepared_==false)
 		oids_.push_back(OIDBytea) ;
 
-	svalues_.push_back("") ;
+	std::string p ;
+	p.resize(value.size()) ;
+	if(value.size()>0)
+		memcpy(const_cast<char *>(p.data()), value.data(), value.size()) ;
+
+	svalues_.push_back(p) ;
 	values_.push_back(svalues_.back().c_str()) ;
 	lengths_.push_back(value.size()) ;
 	formats_.push_back(1) ;
-
-	std::string p=values_.back() ;
-	p.resize(value.size()) ;
-	if(value.size()>0)
-		memcpy(const_cast<char *>(p.data()), &(*value.begin()), value.size()) ;
 
 	std::cout << "bind binary" << std::endl ;
 }

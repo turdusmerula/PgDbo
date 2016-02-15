@@ -16,6 +16,8 @@
 
 #include <dbo2/traits/sql_value_traits.hpp>
 
+#include <dbo2/stmt/Statement.h>
+
 namespace dbo2 {
 namespace stmt {
 class Statement ;
@@ -38,7 +40,7 @@ struct sql_value_traits<long long, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(long long v, SqlStatement *statement, int column, int size);
+	static void bind(long long v, stmt::Statement& statement, int size) ;
 //	static bool read(long long& v, SqlStatement *statement, int column, int size);
 } ;
 
@@ -48,7 +50,7 @@ struct sql_value_traits<int, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(int v, SqlStatement *statement, int column, int size);
+	static void bind(int v, stmt::Statement& statement, int size) ;
 //	static bool read(int& v, SqlStatement *statement, int column, int size);
 } ;
 
@@ -58,7 +60,7 @@ struct sql_value_traits<long, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(long v, SqlStatement *statement, int column, int size);
+	static void bind(long v, stmt::Statement& statement, int size) ;
 //	static bool read(long& v, SqlStatement *statement, int column, int size);
 } ;
 
@@ -68,7 +70,7 @@ struct sql_value_traits<short, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(short v, SqlStatement *statement, int column, int size);
+	static void bind(short v, stmt::Statement& statement, int size) ;
 //	static bool read(short& v, SqlStatement *statement, int column, int size);
 } ;
 
@@ -78,7 +80,7 @@ struct sql_value_traits<bool, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(bool v, SqlStatement *statement, int column, int size);
+	static void bind(bool v, stmt::Statement& statement, int size) ;
 //	static bool read(bool& v, SqlStatement *statement, int column, int size);
 } ;
 
@@ -88,7 +90,7 @@ struct sql_value_traits<float, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(float v, SqlStatement *statement, int column, int size);
+	static void bind(float v, stmt::Statement& statement, int size) ;
 //	static bool read(float& v, SqlStatement *statement, int column, int size);
 } ;
 
@@ -98,7 +100,7 @@ struct sql_value_traits<double, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(double v, SqlStatement *statement, int column, int size);
+	static void bind(double v, stmt::Statement& statement, int size) ;
 //	static bool read(double& v, SqlStatement *statement, int column, int size);
 } ;
 
@@ -108,9 +110,19 @@ struct sql_value_traits<size_t, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(size_t v, SqlStatement *statement, int column, int size);
+	static void bind(size_t v, stmt::Statement& statement, int size) ;
 //	static bool read(size_t& v, SqlStatement *statement, int column, int size);
 };
+
+template<>
+struct sql_value_traits<boost::gregorian::date, void>
+{
+	static const bool specialized=true ;
+
+	static std::string type(int size) ;
+	static void bind(const boost::gregorian::date& v, stmt::Statement& statement, int size) ;
+//	static bool read(boost::gregorian::date& v, SqlStatement *statement, int column, int size);
+} ;
 
 template<>
 struct sql_value_traits<boost::posix_time::ptime, void>
@@ -118,7 +130,7 @@ struct sql_value_traits<boost::posix_time::ptime, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(const boost::posix_time::ptime& v, SqlStatement *statement, int column, int size);
+	static void bind(const boost::posix_time::ptime& v, stmt::Statement& statement, int size) ;
 //	static bool read(boost::posix_time::ptime& v, SqlStatement *statement, int column, int size);
 } ;
 
@@ -128,17 +140,17 @@ struct sql_value_traits<boost::posix_time::time_duration, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(const boost::posix_time::time_duration& v, SqlStatement *statement, int column, int size);
+	static void bind(const boost::posix_time::time_duration& v, stmt::Statement& statement, int size) ;
 //	static bool read(boost::posix_time::time_duration& v, SqlStatement *statement, int column, int size);
 } ;
 
 template<typename Enum>
 struct sql_value_traits<Enum, typename boost::enable_if<boost::is_enum<Enum>>::type> : public sql_value_traits<int>
 {
-//	static void bind(Enum v, SqlStatement *statement, int column, int size)
-//	{
-//		sql_value_traits<int>::bind(static_cast<int>(v), statement, column, size);
-//	}
+	static void bind(Enum v, stmt::Statement& statement, int size)
+	{
+		sql_value_traits<int>::bind(static_cast<int>(v), statement, size);
+	}
 //
 //	static bool read(Enum& v, SqlStatement *statement, int column, int size)
 //	{
@@ -152,7 +164,7 @@ struct sql_value_traits<std::vector<unsigned char>, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(const std::vector<unsigned char>& v, SqlStatement *statement, int column, int size);
+	static void bind(const std::vector<unsigned char>& v, stmt::Statement& statement, int size);
 //	static bool read(std::vector<unsigned char>& v, SqlStatement *statement, int column, int size);
 };
 
@@ -170,14 +182,14 @@ struct sql_value_traits<boost::optional<T>, void>
 			return nested ;
 	}
 
-//	static void bind(const boost::optional<T>& v, SqlStatement *statement, int column, int size)
-//	{
-//		if(v)
-//			sql_value_traits<T>::bind(v.get(), statement, column, size);
-//		else
-//			statement->bindNull(column);
-//	}
-//
+	static void bind(const boost::optional<T>& v, stmt::Statement& statement, int size)
+	{
+		if(v)
+			sql_value_traits<T>::bind(v.get(), statement, size) ;
+		else
+			statement.bind() ;
+	}
+
 //	static bool read(boost::optional<T>& v, SqlStatement *statement, int column, int size)
 //	{
 //		T result;

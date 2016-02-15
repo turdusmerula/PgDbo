@@ -12,18 +12,50 @@ extern dbo2::connection db ;
 class fSimpleTable
 {
 public:
-	std::string value1 ;
-	std::string value2 ;
-	std::string value3 ;
+	std::string string_value ;
+	long long  longlong_value ;
+	int int_value ;
+	long long_value ;
+	short short_value ;
+	bool bool_value ;
+	float float_value ;
+	double double_value ;
+	size_t size_t_value ;
+	boost::gregorian::date date_value ;		//date only
+	boost::posix_time::ptime ptime_value ;	// date time
+	boost::posix_time::time_duration time_duration_value ;	// time only
+	std::vector<unsigned char> vector_value ;
+
+	boost::optional<int> optional_value ;
+
+	enum TypeEnum {
+		Enum0 = 0,
+		Enum1 = 1,
+		Enum2 = 2
+	} ;
+	TypeEnum enum_value ;
 
 	template<class Action>
 	void persist(Action& a)
 	{
-		dbo2::field(a, value1, "value1") ;
-		dbo2::field(a, value2, "value2") ;
-		dbo2::field(a, value3, "value3") ;
+		dbo2::field(a, string_value, "string_value", 100) ;
+		dbo2::field(a, longlong_value, "longlong_value") ;
+		dbo2::field(a, int_value, "int_value") ;
+		dbo2::field(a, long_value, "long_value") ;
+		dbo2::field(a, short_value, "short_value") ;
+		dbo2::field(a, bool_value, "bool_value") ;
+		dbo2::field(a, float_value, "float_value") ;
+		dbo2::field(a, double_value, "double_value") ;
+		dbo2::field(a, size_t_value, "size_t_value") ;
+		dbo2::field(a, date_value, "date_value") ;
+		dbo2::field(a, ptime_value, "ptime_value") ;
+		dbo2::field(a, time_duration_value, "time_duration_value") ;
+		dbo2::field(a, vector_value, "vector_value") ;
+		dbo2::field(a, optional_value, "optional_value") ;
+		dbo2::field(a, enum_value, "enum_value") ;
 	}
 } ;
+
 
 // The fixture for testing class Database.
 class TestRequest : public ::testing::Test
@@ -34,6 +66,7 @@ public:
 		db.mapClass<fSimpleTable>("fsimple") ;
 		std::cout << db.tableCreationSql() << std::endl ;
 		db.createTables() ;
+		db.debug() ;
 	}
 
 	static void TearDownTestCase()
@@ -68,9 +101,23 @@ TEST_F(TestRequest, TestPtr) {
 
 	q = p ;
 	ASSERT_TRUE((bool)q) ;
+}
 
-	db.debug() ;
-
-	p->value1 = "toto" ;
+TEST_F(TestRequest, TestInsert) {
+	dbo2::ptr<fSimpleTable> p=dbo2::make_ptr<fSimpleTable>() ;
+	p->string_value = "toto" ;
+	p->longlong_value = 10 ;
+	p->int_value = 20 ;
+	p->long_value = 30 ;
+	p->bool_value = true ;
+	p->float_value = 40.5 ;
+	p->double_value = 50.6e15 ;
+	p->size_t_value = 60 ;
+	p->date_value = boost::gregorian::day_clock::local_day() ;
+	p->ptime_value = boost::posix_time::second_clock::local_time() ;
+	p->time_duration_value = boost::posix_time::second_clock::local_time().time_of_day() ;
+	p->vector_value = std::vector<unsigned char>({0, 1, 2, 3, 4, 'a', 'b', 'c'}) ;
+	// p->optional_value left null
+	p->enum_value = fSimpleTable::Enum2 ;
 	db.insert(p) ;
 }
