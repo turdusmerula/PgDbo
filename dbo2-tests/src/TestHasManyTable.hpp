@@ -68,7 +68,7 @@ public:
 
 
 TEST_F(TestHasManyTable, TestSql) {
-	dbo2::database db ;
+	dbo2::connection db ;
 
 	db.mapClass<Session>("session") ;
 	db.mapClass<User>("user") ;

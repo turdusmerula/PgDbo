@@ -2,8 +2,8 @@ namespace dbo2 {
 namespace mapping {
 
 template<class C>
-KeyRef<C>::KeyRef(key<C>& key, const std::string& name, int size, int fkConstraints)
-	: 	key_(key),
+PtrRef<C>::PtrRef(ptr<C>& value, const std::string& name, int size, int fkConstraints)
+	: 	value_(value),
 		name_(name),
 		size_(size),
 		fkConstraints_(fkConstraints)
@@ -11,14 +11,14 @@ KeyRef<C>::KeyRef(key<C>& key, const std::string& name, int size, int fkConstrai
 }
 
 template<class C>
-const std::type_info* KeyRef<C>::type() const
+const std::type_info* PtrRef<C>::type() const
 {
 	return &typeid(typename traits::dbo_traits<C>::IdType) ;
 }
 
 template<class C>
 template<class A>
-void KeyRef<C>::visit(A& action, database& conn) const
+void PtrRef<C>::visit(A& action, connection& conn) const
 {
 	typename traits::dbo_traits<C>::IdType id ;
 

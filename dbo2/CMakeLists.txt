@@ -20,6 +20,7 @@ FILE(GLOB sources
     *.cpp
     action/*.cpp
     mapping/*.cpp
+    stmt/*.cpp
     traits/*.cpp
     )
     

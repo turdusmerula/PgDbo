@@ -1,6 +1,8 @@
 #ifndef _DBO_TRAITS_DBO_DEFAULT_TRAITS_HPP_
 #define _DBO_TRAITS_DBO_DEFAULT_TRAITS_HPP_
 
+#include <boost/optional.hpp>
+
 /*! \class dbo_default_traits Dbo/Dbo Dbo/Dbo
  *  \brief Default traits for a class mapped with %%Dbo.
  *

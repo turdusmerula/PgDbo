@@ -6,7 +6,7 @@
 
 using namespace dbo2::action ;
 
-InitSchema::InitSchema(database& conn, mapping::MappingInfo& mapping)
+InitSchema::InitSchema(connection& conn, mapping::MappingInfo& mapping)
 	: 	conn_(conn),
 		mapping_(mapping),
 		idField_(false)

@@ -66,7 +66,7 @@ struct dbo_traits<bCustomIdTable> : public dbo_default_traits
 // ----------------------------------------------------------------------------
 
 TEST_F(TestCustomIdTable, TestSql) {
-	dbo2::database db ;
+	dbo2::connection db ;
 
 	db.mapClass<bCustomIdTable>("customid") ;
 

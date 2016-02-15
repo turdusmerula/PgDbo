@@ -6,6 +6,8 @@
 
 #include <dbo/SqlTraits.h>
 
+#include <sstream>
+
 namespace dbo
 {
 
@@ -48,6 +50,28 @@ std::string FieldInfo::sql() const
 		result += name();
 
 	return result;
+}
+
+std::string FieldInfo::debug() const
+{
+	std::stringstream ss ;
+
+	ss << "name:" << name_ ;
+	ss << " - sqlType:" << sqlType_ ;
+	ss << " - qualifier:" << qualifier_ ;
+	ss << " - foreignKeyName:" << foreignKeyName_ ;
+	ss << " - foreignKeyTable:" << foreignKeyTable_ ;
+	ss << " - type:" << type_->name() ;
+	ss << " - flags:" <<
+		((flags_ & SurrogateId)?"SurrogateId ":"") <<
+		((flags_ & NaturalId)?"NaturalId ":"") <<
+		((flags_ & Mutable)?"Mutable ":"") <<
+		((flags_ & NeedsQuotes)?"NeedsQuotes ":"") <<
+		((flags_ & ForeignKey)?"ForeignKey ":"") <<
+		((flags_ & FirstDboField)?"FirstDboField ":"") ;
+	ss << " - fkConstraints:" << fkConstraints_ ;
+
+	return ss.str() ;
 }
 
 }

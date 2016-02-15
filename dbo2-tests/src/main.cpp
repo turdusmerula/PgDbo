@@ -10,6 +10,10 @@
 #include <dbo2-tests/src/TestCompositeIdTable.hpp>
 #include <dbo2-tests/src/TestBelongsToTable.hpp>
 //#include <dbo2-tests/src/TestHasManyTable.hpp>
+#include <dbo2-tests/src/TestRequest.hpp>
+
+std::string connection ;
+dbo2::connection db ;
 
 int main(int argc, char* argv[])
 {
@@ -61,6 +65,9 @@ int main(int argc, char* argv[])
 		return 1 ;
 	}
 
+	connection = "host="+host+" user="+user+" password="+password+" port="+port+" dbname="+dbname ;
+
+	db.connect(connection) ;
 
 	::testing::InitGoogleTest(&argc, argv) ;
 	return RUN_ALL_TESTS() ;

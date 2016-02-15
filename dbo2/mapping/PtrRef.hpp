@@ -1,17 +1,17 @@
 #ifndef _DBO_MAPPING_KEYREF_HPP_
 #define _DBO_MAPPING_KEYREF_HPP_
 
-#include <dbo2/key.hpp>
+#include <dbo2/ptr.hpp>
 #include <dbo2/traits/dbo_traits.hpp>
 
 namespace dbo2 {
 namespace mapping {
 
 template<class C>
-class KeyRef
+class PtrRef
 {
 public:
-	KeyRef(key<C>& key, const std::string& name, int size, int fkConstraints) ;
+	PtrRef(ptr<C>& value, const std::string& name, int size, int fkConstraints) ;
 
 	const std::string& name() const
 	{
@@ -23,14 +23,14 @@ public:
 		return fkConstraints_ ;
 	}
 
-	key<C>& value() const
+	ptr<C>& value() const
 	{
-		return key_ ;
+		return value_ ;
 	}
 
 	typename traits::dbo_traits<C>::IdType id() const
 	{
-		return key_.id() ;
+		return value_.id() ;
 	}
 
 	const std::type_info* type() const ;
@@ -39,10 +39,10 @@ public:
 	 * If session = 0, the visited foreign key fields will not be named
 	 * correctly (ok when e.g. reading/writing data)
 	 */
-	template<typename A> void visit(A& action, database& conn) const ;
+	template<typename A> void visit(A& action, connection& conn) const ;
 
 private:
-	key<C>& key_ ;
+	ptr<C>& value_ ;
 	std::string name_ ;
 	int size_ ;
 	int fkConstraints_ ;

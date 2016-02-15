@@ -17,6 +17,9 @@
 #include <dbo2/traits/sql_value_traits.hpp>
 
 namespace dbo2 {
+namespace stmt {
+class Statement ;
+}
 namespace traits {
 
 template<>
@@ -25,7 +28,7 @@ struct sql_value_traits<std::string, void>
 	static const bool specialized=true ;
 
 	static std::string type(int size) ;
-//	static void bind(const std::string& v, SqlStatement *statement, int column, int size) ;
+	static void bind(const std::string& v, stmt::Statement& statement, int size) ;
 //	static bool read(std::string& v, SqlStatement *statement, int column, int size) ;
 } ;
 

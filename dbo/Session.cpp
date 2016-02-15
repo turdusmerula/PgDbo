@@ -589,6 +589,10 @@ void Session::prepareStatements(Impl::MappingInfo *mapping)
 			mapping->statements.push_back(sql.str());
 		}
 	}
+
+	// debug print all created statements
+	for(auto& statement : mapping->statements)
+		std::cout << statement << std::endl ;
 }
 
 void Session::executeSql(std::vector<std::string>& sql, std::ostream *sout)
@@ -738,6 +742,8 @@ void Session::createTable(Impl::MappingInfo *mapping, std::set<std::string>& tab
 	for(unsigned i = 0 ; i<mapping->fields.size() ; ++i)
 	{
 		const FieldInfo& field = mapping->fields[i];
+
+		std::cout << field.debug() << std::endl ;
 
 		if(!field.isVersionField())
 		{

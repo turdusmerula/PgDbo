@@ -7,10 +7,17 @@
 #include <set>
 
 #include <dbo2/mapping/JoinId.h>
-
 #include <dbo2/traits/SqlPostgresTypes.hpp>
+#include <dbo2/transaction.h>
+
+#include <pqxx/pqxx>
+
+struct pg_conn;
+typedef struct pg_conn PGconn;
 
 namespace dbo2 {
+template <class T> class ptr ;
+
 namespace action {
 class InitSchema ;
 }
@@ -19,14 +26,25 @@ namespace mapping {
 class MappingInfo ;
 template <class T> class Mapping ;
 class FieldInfo ;
-template<class C> class KeyRef ;
+template<class C> class PtrRef ;
 }
 
-class database
+namespace stmt {
+class Statement ;
+}
+
+class connection
 {
 public:
-	database() ;
-	virtual ~database() ;
+	connection() ;
+
+	virtual ~connection() ;
+
+	/*! \brief Connects to database.	 *
+	 */
+	void connect(std::string options="") ;
+
+	bool connected() const ;
 
 	/*! \brief Maps a class to a database table.
 	 *
@@ -63,7 +81,37 @@ public:
 	 */
 	std::string tableCreationSql() ;
 
+
+	/**
+	 * Open a new transaction for the session, if transaction already exists then access it
+	 */
+	dbo2::transaction& transaction() ;
+
+	/**
+	 * Same than transaction() with auto commit/rollback functionality.
+	 * In case an error is catched then auto rollback is applied and error is rethrowed to caller
+	 */
+	void transaction(std::function<void()> func) ;
+
+
+	/*! \brief Persists a transient object.
+	 *
+	 * The transient object pointed to by \p ptr is added to the
+	 * session, and will be persisted when the session is flushed.
+	 *
+	 * A transient object is usually a newly created object which want
+	 * to add to the database.
+	 *
+	 * The method returns \p ptr.
+	 */
+	template<class C>
+	ptr<C> insert(ptr<C>& ptr) ;
+
+	void debug() ;
 protected:
+	std::string options_ ;
+	PGconn* conn_ ;
+	bool showQueries_ ;
 
 	// RTTI class info
 	typedef const std::type_info * const_typeinfo_ptr ;
@@ -84,8 +132,11 @@ protected:
 	ClassRegistry classRegistry_ ;
 	TableRegistry tableRegistry_ ;
 
-	void executeSql(std::vector<std::string>& sql, std::ostream *sout) ;
-	void executeSql(std::stringstream& sql, std::ostream *sout) ;
+	dbo2::transaction transaction_ ;	// current living transaction
+
+	void executeSql(const std::vector<std::string>& sql, std::ostream *sout=nullptr) ;
+	void executeSql(const std::stringstream& sql, std::ostream *sout=nullptr) ;
+	void executeSql(const std::string& sql, std::ostream *sout=nullptr) ;
 
 	void resolveJoinIds(MappingInfoPtr mapping) ;
 	void createRelations(MappingInfoPtr mapping, std::set<std::string>& tablesCreated, std::ostream *sout) ;
@@ -100,18 +151,20 @@ protected:
 	void addJoinTableFields(MappingInfoPtr result, MappingInfoPtr mapping, const std::string& joinId, const std::string& keyName, int fkConstraints) ;
 	void createJoinIndex(MappingInfoPtr joinTableMapping, MappingInfoPtr mapping, const std::string& joinId, const std::string& foreignKeyName, std::ostream *sout) ;
 
-	void prepareUpdateStatements(MappingInfoPtr mapping, bool& firstField) ;
-	void prepareDeleteStatements(MappingInfoPtr mapping, bool& firstField) ;
-	void prepareSelectedByIdStatements(MappingInfoPtr mapping, bool& firstField) ;
-	void prepareCollectionsStatements(MappingInfoPtr mapping, bool& firstField) ;
+	void prepareInsertStatements(MappingInfoPtr mapping) ;
+	void prepareUpdateStatements(MappingInfoPtr mapping) ;
+	void prepareDeleteStatements(MappingInfoPtr mapping) ;
+	void prepareSelectedByIdStatements(MappingInfoPtr mapping) ;
+	void prepareCollectionsStatements(MappingInfoPtr mapping) ;
 	void prepareStatements(MappingInfoPtr mapping) ;
 
 	template<class C> std::shared_ptr<mapping::Mapping<C>> getMapping() ;
 	MappingInfoPtr getMapping(const std::string& tableName) const ;
 
 	friend class action::InitSchema ;
-	template<class C> friend class mapping::KeyRef ;
-
+	template<class C> friend class mapping::PtrRef ;
+	friend class stmt::Statement ;
+	friend class transaction ;
 } ;
 
 }

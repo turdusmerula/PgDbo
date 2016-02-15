@@ -1,4 +1,4 @@
-#include <dbo2/database.h>
+#include <dbo2/connection.h>
 
 #include <dbo2/mapping/Field.h>
 #include <dbo2/mapping/FieldInfo.h>
@@ -6,20 +6,29 @@
 #include <dbo2/mapping/MappingInfo.h>
 #include <dbo2/mapping/Mapping.hpp>
 
+#include <dbo2/stmt/Statement.h>
+
+#include <dbo2/action/InitStatement.hpp>
+
 #include <dbo2/traits/sql_value_traits.hpp>
 #include <dbo2/traits/StdSqlTraits.h>
 
+#include <postgresql/libpq-fe.h>
+
 using namespace dbo2 ;
 
-database::database()
-	:	schemaInitialized_(false)
+
+connection::connection()
+	:	schemaInitialized_(false),
+		transaction_(*this),
+		conn_(nullptr),
+		showQueries_(false)
 {
 
 }
 
-database::~database()
+connection::~connection()
 {
-
 }
 
 std::string& replace(std::string& s, char c, const std::string& r)
@@ -42,35 +51,69 @@ std::string quoteSchemaDot(const std::string& table)
 	return result ;
 }
 
-void database::executeSql(std::vector<std::string>& sql, std::ostream *sout)
+void connection::connect(std::string options)
+{
+	options_ = options ;
+	conn_ = PQconnectdb(options.c_str()) ;
+
+	if(PQstatus(conn_)!=CONNECTION_OK)
+	{
+		std::string error = PQerrorMessage(conn_) ;
+		PQfinish(conn_) ;
+		conn_ = nullptr ;
+		throw Exception("Could not connect to: "+error) ;
+	}
+
+	PQsetClientEncoding(conn_, "UTF8") ;
+}
+
+bool connection::connected() const
+{
+	return conn_!=nullptr ;
+}
+
+void connection::executeSql(const std::vector<std::string>& sql, std::ostream* sout)
 {
 	for(auto& request : sql)
+		executeSql(request, sout) ;
+}
+
+void connection::executeSql(const std::stringstream& sql, std::ostream* sout)
+{
+	executeSql(sql.str(), sout) ;
+}
+
+void connection::executeSql(const std::string& sql, std::ostream* sout)
+{
+	if(sout)
+		*sout << sql << ";\n" ;
+	else
 	{
-		if(sout)
-			*sout << request << ";\n" ;
-		else
-			// TODO
-			std::cout << request << std::endl ;
+		PGresult *result ;
+		int err ;
+
+		if(showQueries_)
+			std::cerr << sql << std::endl ;
+
+		result = PQexec(conn_, sql.c_str()) ;
+		err = PQresultStatus(result) ;
+		if(err!=PGRES_COMMAND_OK && err!=PGRES_TUPLES_OK)
+		{
+			PQclear(result) ;
+			throw Exception(PQerrorMessage(conn_)) ;
+		}
+		PQclear(result) ;
 	}
 }
 
-void database::executeSql(std::stringstream& sql, std::ostream *sout)
-{
-	if(sout)
-		*sout << sql.str() << ";\n" ;
-	else
-		// TODO
-		std::cout << sql.str() << std::endl ;
-}
-
-void database::createTable(MappingInfoPtr mapping, std::set<std::string>& tablesCreated, std::ostream *sout, bool createConstraints)
+void connection::createTable(MappingInfoPtr mapping, std::set<std::string>& tablesCreated, std::ostream *sout, bool createConstraints)
 {
 	if(tablesCreated.count(mapping->tableName)!=0)
 		return ;
 
-	tablesCreated.insert(mapping->tableName);
+	tablesCreated.insert(mapping->tableName) ;
 
-	std::stringstream sql;
+	std::stringstream sql ;
 
 	sql << "create table \"" << quoteSchemaDot(mapping->tableName) << "\" (\n" ;
 
@@ -89,7 +132,7 @@ void database::createTable(MappingInfoPtr mapping, std::set<std::string>& tables
 		if(!firstField)
 			sql << ",\n" ;
 
-		std::cout << field.debug() << std::endl ;
+//		std::cout << field.debug() << std::endl ;
 
 		std::string sqlType=field.sqlType() ;
 		if(field.isForeignKey() && !(field.fkConstraints() & mapping::FKNotNull))
@@ -142,16 +185,16 @@ void database::createTable(MappingInfoPtr mapping, std::set<std::string>& tables
 }
 
 //constraint fk_... foreign key ( ..., .. , .. ) references (..)
-std::string database::constraintString(MappingInfoPtr mapping, const mapping::FieldInfo& field, unsigned fromIndex, unsigned toIndex)
+std::string connection::constraintString(MappingInfoPtr mapping, const mapping::FieldInfo& field, unsigned fromIndex, unsigned toIndex)
 {
 	std::stringstream sql;
 
-	sql<<"constraint \"fk_"<<mapping->tableName<<"_"<<field.foreignKeyName()<<"\""<<" foreign key (\""<<field.name()<<"\"";
+	sql << "constraint \"fk_" << mapping->tableName << "_" << field.foreignKeyName() << "\"" << " foreign key (\"" << field.name() << "\"" ;
 
-	for(unsigned i = fromIndex+1 ; i<toIndex ; ++i)
+	for(unsigned i=fromIndex+1 ; i<toIndex ; ++i)
 	{
-		const mapping::FieldInfo& nextField = mapping->fields[i];
-		sql<<", \""<<nextField.name()<<"\"";
+		const mapping::FieldInfo& nextField=mapping->fields[i] ;
+		sql << ", \"" << nextField.name() << "\"" ;
 	}
 
 	MappingInfoPtr otherMapping=getMapping(field.foreignKeyTable()) ;
@@ -173,7 +216,7 @@ std::string database::constraintString(MappingInfoPtr mapping, const mapping::Fi
 	return sql.str();
 }
 
-unsigned database::findLastForeignKeyField(MappingInfoPtr mapping, const mapping::FieldInfo& field, unsigned index)
+unsigned connection::findLastForeignKeyField(MappingInfoPtr mapping, const mapping::FieldInfo& field, unsigned index)
 {
 	while(index<mapping->fields.size())
 	{
@@ -189,20 +232,20 @@ unsigned database::findLastForeignKeyField(MappingInfoPtr mapping, const mapping
 	return index;
 }
 
-void database::createTables()
+void connection::createTables()
 {
 	initSchema() ;
 
 	std::set<std::string> tablesCreated ;
 
-	for(ClassRegistry::iterator i = classRegistry_.begin() ; i!=classRegistry_.end() ; ++i)
-		createTable(i->second, tablesCreated, 0, false) ;
+	for(auto& registry : classRegistry_)
+		createTable(registry.second, tablesCreated, 0, false) ;
 
-	for(ClassRegistry::iterator i = classRegistry_.begin() ; i!=classRegistry_.end() ; ++i)
-		createRelations(i->second, tablesCreated, 0) ;
+	for(auto& registry : classRegistry_)
+		createRelations(registry.second, tablesCreated, 0) ;
 }
 
-void database::resolveJoinIds(MappingInfoPtr mapping)
+void connection::resolveJoinIds(MappingInfoPtr mapping)
 {
 	for(auto& set : mapping->sets)
 	{
@@ -216,11 +259,11 @@ void database::resolveJoinIds(MappingInfoPtr mapping)
 				{
 					// second check make sure we find the other id if Many-To-Many between
 					// same table
-					if(mapping!=other || &set!=&otherSet )
+					if(mapping!=other || &set!=&otherSet)
 					{
 						set.joinOtherId = otherSet.joinSelfId ;
 						set.otherFkConstraints = otherSet.fkConstraints ;
-						break;
+						break ;
 					}
 				}
 			}
@@ -228,7 +271,7 @@ void database::resolveJoinIds(MappingInfoPtr mapping)
 	}
 }
 
-void database::createRelations(MappingInfoPtr mapping, std::set<std::string>& tablesCreated, std::ostream *sout)
+void connection::createRelations(MappingInfoPtr mapping, std::set<std::string>& tablesCreated, std::ostream *sout)
 {
 	for(auto& set : mapping->sets)
 	{
@@ -244,8 +287,10 @@ void database::createRelations(MappingInfoPtr mapping, std::set<std::string>& ta
 	}
 
 	unsigned i=0 ;
-	for(auto& field : mapping->fields)
+	for(unsigned i=0 ; i<mapping->fields.size() ; )
 	{
+		const mapping::FieldInfo& field = mapping->fields[i] ;
+
 		if(field.isForeignKey())
 		{
 			std::stringstream sql ;
@@ -261,11 +306,11 @@ void database::createRelations(MappingInfoPtr mapping, std::set<std::string>& ta
 			executeSql(sql, sout) ;
 		}
 		else
-			++i;
+			++i ;
 	}
 }
 
-void database::createJoinTable(const std::string& joinName, MappingInfoPtr mapping1, MappingInfoPtr mapping2, const std::string& joinId1, const std::string& joinId2, int fkConstraints1, int fkConstraints2, std::set<std::string>& tablesCreated, std::ostream *sout)
+void connection::createJoinTable(const std::string& joinName, MappingInfoPtr mapping1, MappingInfoPtr mapping2, const std::string& joinId1, const std::string& joinId2, int fkConstraints1, int fkConstraints2, std::set<std::string>& tablesCreated, std::ostream *sout)
 {
 	std::shared_ptr<mapping::MappingInfo> joinTableMapping=std::make_shared<mapping::MappingInfo>() ;
 
@@ -280,7 +325,7 @@ void database::createJoinTable(const std::string& joinName, MappingInfoPtr mappi
 	createJoinIndex(joinTableMapping, mapping2, joinId2, "key2", sout) ;
 }
 
-void database::createJoinIndex(MappingInfoPtr joinTableMapping, MappingInfoPtr mapping, const std::string& joinId, const std::string& foreignKeyName, std::ostream *sout)
+void connection::createJoinIndex(MappingInfoPtr joinTableMapping, MappingInfoPtr mapping, const std::string& joinId, const std::string& foreignKeyName, std::ostream *sout)
 {
 	std::stringstream sql ;
 
@@ -309,7 +354,7 @@ void database::createJoinIndex(MappingInfoPtr joinTableMapping, MappingInfoPtr m
 	executeSql(sql, sout) ;
 }
 
-std::vector<mapping::JoinId> database::getJoinIds(MappingInfoPtr mapping, const std::string& joinId)
+std::vector<mapping::JoinId> connection::getJoinIds(MappingInfoPtr mapping, const std::string& joinId)
 {
 	std::vector<mapping::JoinId> result ;
 
@@ -346,7 +391,7 @@ std::vector<mapping::JoinId> database::getJoinIds(MappingInfoPtr mapping, const 
 	return result;
 }
 
-void database::addJoinTableFields(MappingInfoPtr result, MappingInfoPtr mapping, const std::string& joinId, const std::string& keyName, int fkConstraints)
+void connection::addJoinTableFields(MappingInfoPtr result, MappingInfoPtr mapping, const std::string& joinId, const std::string& keyName, int fkConstraints)
 {
 	std::vector<mapping::JoinId> joinIds=getJoinIds(mapping, joinId) ;
 
@@ -354,7 +399,43 @@ void database::addJoinTableFields(MappingInfoPtr result, MappingInfoPtr mapping,
 		result->fields.push_back(mapping::FieldInfo(joinIds[i].joinIdName, &typeid(long long), joinIds[i].sqlType, mapping->tableName, keyName, mapping::FieldInfo::NaturalId|mapping::FieldInfo::ForeignKey, fkConstraints)) ;
 }
 
-void database::prepareUpdateStatements(MappingInfoPtr mapping, bool& firstField)
+void connection::prepareInsertStatements(MappingInfoPtr mapping)
+{
+	std::stringstream sql ;
+
+	std::string table=quoteSchemaDot(mapping->tableName) ;
+
+	sql << "insert into \"" << table << "\" (" ;
+
+	bool firstField=true ;
+	for(auto& field : mapping->fields)
+	{
+		if(!firstField)
+			sql << ", " ;
+		sql << "\"" << field.name() << "\"" ;
+		firstField = false ;
+	}
+
+	sql << ") values (" ;
+
+	firstField = true ;
+	for(auto& field : mapping->fields)
+	{
+		if(!firstField)
+			sql << ", " ;
+		sql << "?" ;
+		firstField = false ;
+	}
+
+	sql << ")" ;
+
+	if(mapping->surrogateIdFieldName!=boost::none)
+		sql << Types::autoincrementInsertSuffix(mapping->surrogateIdFieldName.get()) ;
+
+	mapping->statements.insert({mapping::MappingInfo::SqlInsert, stmt::Statement(*this, sql.str())}) ;
+}
+
+void connection::prepareUpdateStatements(MappingInfoPtr mapping)
 {
 	std::stringstream sql ;
 
@@ -362,8 +443,7 @@ void database::prepareUpdateStatements(MappingInfoPtr mapping, bool& firstField)
 
 	sql << "update \"" << table << "\" set " ;
 
-	firstField = true ;
-
+	bool firstField=true ;
 	for(auto& field : mapping->fields)
 	{
 		if(!firstField)
@@ -380,7 +460,6 @@ void database::prepareUpdateStatements(MappingInfoPtr mapping, bool& firstField)
 	if(mapping->surrogateIdFieldName==boost::none)
 	{
 		firstField = true ;
-
 		for(auto& field : mapping->fields)
 		{
 			if(field.isNaturalIdField())
@@ -403,10 +482,10 @@ void database::prepareUpdateStatements(MappingInfoPtr mapping, bool& firstField)
 
 	sql << idCondition ;
 
-	mapping->statements.push_back(sql.str()) ; // SqlUpdate
+	mapping->statements.insert({mapping::MappingInfo::SqlUpdate, stmt::Statement(*this, sql.str())}) ;
 }
 
-void database::prepareDeleteStatements(MappingInfoPtr mapping, bool& firstField)
+void connection::prepareDeleteStatements(MappingInfoPtr mapping)
 {
 	std::stringstream sql ;
 
@@ -414,10 +493,10 @@ void database::prepareDeleteStatements(MappingInfoPtr mapping, bool& firstField)
 
 	sql << "delete from \"" << table << "\" where " << mapping->idCondition ;
 
-	mapping->statements.push_back(sql.str()) ; // SqlDelete
+	mapping->statements.insert({mapping::MappingInfo::SqlDelete, stmt::Statement(*this, sql.str())}) ;
 }
 
-void database::prepareSelectedByIdStatements(MappingInfoPtr mapping, bool& firstField)
+void connection::prepareSelectedByIdStatements(MappingInfoPtr mapping)
 {
 	std::stringstream sql ;
 
@@ -425,7 +504,7 @@ void database::prepareSelectedByIdStatements(MappingInfoPtr mapping, bool& first
 
 	sql << "select ";
 
-	firstField = true ;
+	bool firstField=true ;
 	for(auto& field : mapping->fields)
 	{
 		if(!firstField)
@@ -436,10 +515,10 @@ void database::prepareSelectedByIdStatements(MappingInfoPtr mapping, bool& first
 
 	sql << " from \"" << table << "\" where " << mapping->idCondition ;
 
-	mapping->statements.push_back(sql.str()) ; // SelectById
+	mapping->statements.insert({mapping::MappingInfo::SqlSelectById, stmt::Statement(*this, sql.str())}) ;
 }
 
-void database::prepareCollectionsStatements(MappingInfoPtr mapping, bool& firstField)
+void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 {
 
 	for(auto& info : mapping->sets)
@@ -452,7 +531,7 @@ void database::prepareCollectionsStatements(MappingInfoPtr mapping, bool& firstF
 
 		sql << "select " ;
 
-		firstField = true ;
+		bool firstField = true ;
 		if(otherMapping->surrogateIdFieldName!=boost::none)
 		{
 			sql << "\"" << otherMapping->surrogateIdFieldName << "\"" ;
@@ -507,7 +586,7 @@ void database::prepareCollectionsStatements(MappingInfoPtr mapping, bool& firstF
 
 			sql << "\" where " << fkConditions ;
 
-			mapping->statements.push_back(sql.str()) ;
+			mapping->statements.insert({mapping::MappingInfo::FirstSqlSelectSet, stmt::Statement(*this, sql.str())}) ;
 			break ;
 		case mapping::ManyToMany:
 			// (1) select for collection
@@ -550,7 +629,7 @@ void database::prepareCollectionsStatements(MappingInfoPtr mapping, bool& firstF
 				first = false ;
 			}
 
-			mapping->statements.push_back(sql.str()) ;
+			mapping->statements.insert({mapping::MappingInfo::FirstSqlSelectSet, stmt::Statement(*this, sql.str())}) ;
 
 			// (2) insert into collection
 
@@ -588,7 +667,7 @@ void database::prepareCollectionsStatements(MappingInfoPtr mapping, bool& firstF
 
 			sql << ")" ;
 
-			mapping->statements.push_back(sql.str()) ;
+			mapping->statements.insert({mapping::MappingInfo::FirstSqlSelectSet, stmt::Statement(*this, sql.str())}) ;
 
 			// (3) delete from collections
 
@@ -615,73 +694,41 @@ void database::prepareCollectionsStatements(MappingInfoPtr mapping, bool& firstF
 				sql << "\"" << otherJoinIds[i].joinIdName << "\" = ?" ;
 			}
 
-			mapping->statements.push_back(sql.str()) ;
+			mapping->statements.insert({mapping::MappingInfo::FirstSqlSelectSet, stmt::Statement(*this, sql.str())}) ;
 		}
 	}
 
 }
 
-void database::prepareStatements(MappingInfoPtr mapping)
+void connection::prepareStatements(MappingInfoPtr mapping)
 {
-	std::stringstream sql ;
-
-	std::string table=quoteSchemaDot(mapping->tableName) ;
-
 	/*
 	 * SqlInsert
 	 */
-	sql << "insert into \"" << table << "\" (" ;
-
-	bool firstField=true ;
-	for(auto& field : mapping->fields)
-	{
-		if(!firstField)
-			sql << ", " ;
-		sql << "\"" << field.name() << "\"" ;
-		firstField = false ;
-	}
-
-	sql << ") values (" ;
-
-	firstField = true ;
-	for(auto& field : mapping->fields)
-	{
-		if(!firstField)
-			sql << ", " ;
-		sql << "?" ;
-		firstField = false ;
-	}
-
-	sql << ")" ;
-
-	if(mapping->surrogateIdFieldName!=boost::none)
-		sql << Types::autoincrementInsertSuffix(mapping->surrogateIdFieldName.get()) ;
-
-	mapping->statements.push_back(sql.str()) ; // SqlInsert
+	prepareInsertStatements(mapping) ;
 
 	/*
 	 * SqlUpdate
 	 */
-	prepareUpdateStatements(mapping, firstField) ;
+	prepareUpdateStatements(mapping) ;
 
 	/*
 	 * SqlDelete
 	 */
-	prepareDeleteStatements(mapping, firstField) ;
+	prepareDeleteStatements(mapping) ;
 
 	/*
 	 * SelectedById
 	 */
-	prepareSelectedByIdStatements(mapping, firstField) ;
-
+	prepareSelectedByIdStatements(mapping) ;
 
 	/*
 	 * Collections SQL
 	 */
-	prepareCollectionsStatements(mapping, firstField) ;
+	prepareCollectionsStatements(mapping) ;
 }
 
-void database::initSchema()
+void connection::initSchema()
 {
 	if(schemaInitialized_)
 		return ;
@@ -696,9 +743,10 @@ void database::initSchema()
 
 	for(auto& registry : classRegistry_)
 		prepareStatements(registry.second) ;
+
 }
 
-std::string database::tableCreationSql()
+std::string connection::tableCreationSql()
 {
 	initSchema() ;
 
@@ -716,7 +764,7 @@ std::string database::tableCreationSql()
 }
 
 
-database::MappingInfoPtr database::getMapping(const std::string& tableName) const
+connection::MappingInfoPtr connection::getMapping(const std::string& tableName) const
 {
 	TableRegistry::const_iterator i = tableRegistry_.find(tableName);
 
@@ -724,4 +772,49 @@ database::MappingInfoPtr database::getMapping(const std::string& tableName) cons
 		return i->second;
 	else
 		return 0;
+}
+
+void connection::debug()
+{
+	std::stringstream ss ;
+	std::string stab(1, ' ') ;
+	std::string stab1(2, ' ') ;
+
+	std::cout << "<connection>" << std::endl ;
+	std::cout << stab << "classRegistry: " << std::endl ;
+	for(auto& registry : classRegistry_)
+	{
+		std::cout << stab1 << "first: " << registry.first->name() << std::endl ;
+		std::cout << stab1 << "second: " << std::endl ;
+		std::cout << registry.second->debug(3) ;
+	}
+
+	// tableRegistry_ is a synonym of classRegistry_, not displayed
+}
+
+transaction& connection::transaction()
+{
+	if(conn_==nullptr)
+		throw Exception("Database not connected") ;
+
+	transaction_.open() ;
+
+	return transaction_ ;
+}
+
+void connection::transaction(std::function<void()> func)
+{
+	transaction_.open() ;
+
+	try {
+		func() ;
+
+		// auto commit at the end of the transaction
+		transaction_.commit() ;
+	} catch(const std::exception& e) {
+		// should rollback to avoid letting the transaction in an unusable state
+		transaction_.rollback() ;
+		// throw without any parameters rethrow the original exception
+		throw ;
+	}
 }

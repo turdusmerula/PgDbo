@@ -1,0 +1,26 @@
+###############################################################################
+# Instructions for using ftrace:
+# ftrace.cpp must be included in the project of the program being compiled.
+# Every source must be compiled with the gcc options:
+#   -g -finstrument-functions
+# Link requires the option:
+#   -rdynamic
+#If libftrace.so is not inside system path add it path to LD_LIBRARY_PATH
+#Define the venv LD_PRELOAD=ftrace
+#Define the venv FTRACE=<path to config file>
+###############################################################################
+
+# declares options for the console logger that traces entry/exit of functions
+#Flag activating/deactivating logger
+#trace=true|false
+trace=false
+
+# output format, can be either text or json
+format=json
+
+#Patterns to ignore in logger, patterns are treaded by apparition order, if a pattern is matched more than once then the last match is taken.
+ignore std::.*
+ignore __gnu_cxx::.*
+ignore boost::.*
+#ignore anonymous scopes
+ignore [0-9]*

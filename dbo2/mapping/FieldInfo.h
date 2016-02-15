@@ -129,7 +129,7 @@ public:
 
 	std::string sql() const ;
 
-	std::string debug() ;
+	std::string debug(int tab) ;
 private:
 	std::string name_ ;
 	std::string sqlType_ ;

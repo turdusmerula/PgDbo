@@ -8,7 +8,7 @@ void InitSchema::visit(C& obj)
 {
 	mapping_.surrogateIdFieldName = traits::dbo_traits<C>::surrogateIdField() ;
 
-	persist<C>::apply(obj, *this) ;
+	obj.persist(*this) ;
 }
 
 template<typename V>
@@ -44,11 +44,13 @@ void InitSchema::actId(V& value, const std::string& name, int size)
 }
 
 template<class C>
-void InitSchema::actKey(const mapping::KeyRef<C>& field)
+void InitSchema::actPtr(const mapping::PtrRef<C>& field)
 {
 	std::shared_ptr<mapping::Mapping<C>> mapping=conn_.getMapping<C>() ;
 
-	if(foreignKeyName_.empty())
+	bool setName = foreignKeyName_.empty() ;
+
+	if(setName)
 	{
 		foreignKeyName_ = field.name() ;
 		foreignKeyTable_ = mapping->tableName ;
@@ -58,12 +60,12 @@ void InitSchema::actKey(const mapping::KeyRef<C>& field)
 
 	field.visit(*this, conn_);
 
-//	if(foreignKeyName_.empty())
-//	{
-//		foreignKeyName_.clear();
-//		foreignKeyTable_.clear();
-//		fkConstraints_ = 0;
-//	}
+	if(setName)
+	{
+		foreignKeyName_.clear();
+		foreignKeyTable_.clear();
+		fkConstraints_ = 0 ;
+	}
 }
 
 }}

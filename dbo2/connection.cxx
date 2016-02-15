@@ -2,7 +2,7 @@
 namespace dbo2 {
 
 template<class C>
-void database::mapClass(std::string tableName)
+void connection::mapClass(std::string tableName)
 {
 	if(schemaInitialized_)
 		throw Exception("Cannot map tables after schema was initialized.") ;
@@ -18,7 +18,7 @@ void database::mapClass(std::string tableName)
 }
 
 template<class C>
-const std::string& database::tableName() const
+const std::string& connection::tableName() const
 {
 	typedef typename boost::remove_const<C>::type MutC ;
 
@@ -30,11 +30,8 @@ const std::string& database::tableName() const
 }
 
 template<class C>
-std::shared_ptr<mapping::Mapping<C>> database::getMapping()
+std::shared_ptr<mapping::Mapping<C>> connection::getMapping()
 {
-//	if(!schemaInitialized_)
-//		initSchema() ;
-
 	ClassRegistry::const_iterator ireg=classRegistry_.find(&typeid(C)) ;
 	if(ireg!=classRegistry_.end())
 	{
@@ -43,6 +40,25 @@ std::shared_ptr<mapping::Mapping<C>> database::getMapping()
 	}
 	else
 		throw Exception(std::string("Class ")+typeid(C).name()+" was not mapped.") ;
+}
+
+template<class C>
+ptr<C> connection::insert(ptr<C>& obj)
+{
+	auto mapping=getMapping<C>() ;
+	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
+
+	if(stmt.prepared()==false)
+	{
+		// init prepared statement
+		action::InitStatement<C> action(mapping, stmt) ;
+		action.visit() ;
+	}
+
+	action::SaveDb<C> action(obj, mapping, stmt , 0) ;
+	action.visit() ;
+
+	return obj ;
 }
 
 }

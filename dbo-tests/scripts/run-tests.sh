@@ -36,6 +36,9 @@ do
 	elif [[ "_${key}" == "_--profiler=callgrind" ]]; 
 	then
 	    callgrind=true
+	elif [[ "_${key}" == "_--profiler=ftrace" ]]; 
+	then
+	    ftrace=true
 	else
 		filtargs="$filtargs $key"
 	fi		
@@ -91,6 +94,10 @@ elif [ $callgrind ]
 then
 	echo "[ Run tests with callgrind ]"
 	valgrind --tool=callgrind ${bin_path}/dbo-tests $filtargs
+elif [ $ftrace ]
+then
+	echo "[ Run tests with ftrace ]"
+	LD_PRELOAD=/opt/ftrace/Build/lib/libftracelib.so FTRACE=${conf_path}/ftrace.fcf ${bin_path}/dbo-tests $filtargs
 else
 	${bin_path}/dbo-tests $filtargs
 fi

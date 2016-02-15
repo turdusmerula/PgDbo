@@ -26,9 +26,6 @@ public:
 		value_ = value;
 	}
 
-//	void bindValue(SqlStatement *statement, int column) const ;
-//	void setValue(Session& session, SqlStatement *statement, int column) const ;
-
 private:
 	V& value_ ;
 	std::string name_ ;

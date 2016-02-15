@@ -80,7 +80,7 @@ void field(Action& action, V& value, const std::string& name, int size=-1) ;
  * \ingroup dbo
  */
 template<class Action, class C>
-void belongsTo(Action& action, key<C>& value, const std::string& name=std::string(), int size=-1) ;
+void belongsTo(Action& action, ptr<C>& value, const std::string& name=std::string(), int size=-1) ;
 
 }
 

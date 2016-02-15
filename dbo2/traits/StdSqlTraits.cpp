@@ -9,6 +9,8 @@
 #include <dbo2/traits/StdSqlTraits.h>
 #include <dbo2/traits/SqlPostgresTypes.hpp>
 
+#include <dbo2/stmt/Statement.h>
+
 #include <boost/lexical_cast.hpp>
 #include <string>
 
@@ -25,11 +27,11 @@ std::string sql_value_traits<std::string>::type(int size)
 	return SqlPostgresTypes::textType(size)+" not null" ;
 }
 
-//void sql_value_traits<std::string>::bind(const std::string& v, SqlStatement *statement, int column, int size)
-//{
-//	statement->bind(column, v);
-//}
-//
+void sql_value_traits<std::string>::bind(const std::string& v, stmt::Statement& statement, int size)
+{
+	statement.bind(v) ;
+}
+
 //bool sql_value_traits<std::string>::read(std::string& v, SqlStatement *statement, int column, int size)
 //{
 //	if(!statement->getResult(column, &v, size))

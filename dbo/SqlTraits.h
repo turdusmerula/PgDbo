@@ -220,6 +220,8 @@ public:
 
 	std::string sql() const;
 
+	std::string debug() const ;
+
 private:
 	std::string name_, sqlType_, qualifier_;
 	std::string foreignKeyName_, foreignKeyTable_;

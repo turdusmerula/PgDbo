@@ -4,7 +4,7 @@
 #include <dbo2/mapping/MappingInfo.h>
 
 namespace dbo2 {
-class database ;
+class connection ;
 
 namespace mapping {
 
@@ -15,7 +15,7 @@ public:
 	Mapping() ;
 	virtual ~Mapping() ;
 
-	virtual void init(database& conn) ;
+	virtual void init(connection& conn) ;
 } ;
 
 }}

@@ -19,7 +19,7 @@ Mapping<C>::~Mapping()
 }
 
 template<class C>
-void Mapping<C>::init(database& conn)
+void Mapping<C>::init(connection& conn)
 {
 	typedef typename boost::remove_const<C>::type MutC ;
 

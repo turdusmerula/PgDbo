@@ -82,7 +82,7 @@ public:
 
 
 TEST_F(TestSimpleTable, TestSql) {
-	dbo2::database db ;
+	dbo2::connection db ;
 
 	db.mapClass<aSimpleTable>("simple") ;
 

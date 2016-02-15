@@ -8,7 +8,7 @@
 extern dbo::backend::Postgres* db ;
 
 // The fixture for testing class Database.
-class TestHasManyTable : public ::testing::Test
+class TestBelongsToTable : public ::testing::Test
 {
 public:
 	static void SetUpTestCase()
@@ -36,25 +36,22 @@ public:
 } ;
 
 // ----------------------------------------------------------------------------
-class eUser ;
-class eSession ;
-
-struct eKey
+struct dKey
 {
 	std::string name ;
 	int age ;
 
-	bool operator< (const eKey &other) const
+	bool operator< (const dKey &other) const
 	{
 		return true ;
 	}
 
-	bool operator== (const eKey &other) const
+	bool operator== (const dKey &other) const
 	{
 		return true ;
 	}
 } ;
-std::ostream &operator<< (std::ostream &o, const eKey &c)
+std::ostream &operator<< (std::ostream &o, const dKey &c)
 {
 	return o << "(" << c.name << ", " << c.age << ")" ;
 }
@@ -62,35 +59,33 @@ std::ostream &operator<< (std::ostream &o, const eKey &c)
 // explains how to store a Key in database
 namespace dbo {
 template <class Action>
-void field(Action& action, eKey& key, const std::string& name, int size=-1)
+void field(Action& action, dKey& key, const std::string& name, int size=-1)
 {
 	dbo::field(action, key.name, name + "_name") ;
 	dbo::field(action, key.age, name + "_age") ;
 }
 }
 
-class eCompositeIdTable
+class dCompositeIdTable
 {
 public:
-	eKey composite_id ;
-	dbo::collection<dbo::ptr<eUser>> users ;
+	dKey composite_id ;
 
 	template<class Action>
 	void persist(Action& a)
 	{
 		dbo::id(a, composite_id) ;
-	    dbo::hasMany(a, users, dbo::ManyToMany, "user_compositeid") ;
 	}
 }
 ;
 namespace dbo {
 template<>
-struct dbo_traits<eCompositeIdTable> : public dbo_default_traits
+struct dbo_traits<dCompositeIdTable> : public dbo_default_traits
 {
 	// define custom id type
-	typedef eKey IdType ;
+	typedef dKey IdType ;
 
-	static IdType invalidId() { return eKey() ; }
+	static IdType invalidId() { return dKey() ; }
 
 	// deactivate default id
 	static const char* surrogateIdField() { return 0 ; }
@@ -98,30 +93,26 @@ struct dbo_traits<eCompositeIdTable> : public dbo_default_traits
 }
 // ----------------------------------------------------------------------------
 
-class eUser
+class dUser
 {
 public:
 	std::string name ;
-	dbo::collection<dbo::ptr<eSession>> sessions ;
-	dbo::collection<dbo::ptr<eCompositeIdTable>> compositeids ;
 
 	template<class Action>
 	void persist(Action& a)
 	{
 		dbo::field(a, name, "name") ;
-	    dbo::hasMany(a, sessions, dbo::ManyToOne, "user") ;
-	    dbo::hasMany(a, compositeids, dbo::ManyToMany, "user_compositeid") ;
 	}
 };
 // ----------------------------------------------------------------------------
 
-class eSession
+class dSession
 {
 public:
 	std::string token ;
 
-	dbo::ptr<eUser> user ;
-	dbo::ptr<eCompositeIdTable> composite ;
+	dbo::ptr<dUser> user ;
+	dbo::ptr<dCompositeIdTable> composite ;
 
 	template<class Action>
 	void persist(Action& a)
@@ -133,13 +124,13 @@ public:
 } ;
 
 
-TEST_F(TestHasManyTable, TestSql) {
+TEST_F(TestBelongsToTable, TestSql) {
 	dbo::Session session ;
 	session.setConnection(*db) ;
 
-	session.mapClass<eCompositeIdTable>("compositeid") ;
-	session.mapClass<eUser>("user") ;
-	session.mapClass<eSession>("session") ;
+	session.mapClass<dCompositeIdTable>("compositeid") ;
+	session.mapClass<dUser>("user") ;
+	session.mapClass<dSession>("session") ;
 
 	std::cout << session.tableCreationSql() << std::endl ;
 }

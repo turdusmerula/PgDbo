@@ -35,16 +35,4 @@ const std::type_info *FieldRef<V>::type() const
 	return &typeid(V) ;
 }
 
-//template<typename V>
-//void FieldRef<V>::bindValue(SqlStatement *statement, int column) const
-//{
-//	sql_value_traits<V>::bind(value_, statement, column, size_);
-//}
-//
-//template<typename V>
-//void FieldRef<V>::setValue(Session& session, SqlStatement *statement, int column) const
-//{
-//	sql_value_traits<V>::read(value_, statement, column, size_);
-//}
-
 }}

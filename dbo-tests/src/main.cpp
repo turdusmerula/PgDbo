@@ -13,7 +13,8 @@
 #include "TestCustomIdTable.hpp"
 #include "TestCompositeIdTable.hpp"
 #include "TestBelongsToTable.hpp"
-//#include "TestHasManyTable.hpp"
+#include "TestHasManyTable.hpp"
+#include "TestRequest.hpp"
 
 dbo::backend::Postgres* db=nullptr ;
 std::unique_ptr<dbo::FixedSqlConnectionPool> pool ;
