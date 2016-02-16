@@ -31,10 +31,21 @@ void LoadDb<C>::visit()
 
 		if(stmt_.nextRow())
 			ptr->persist(*this) ;
-		if(stmt_.nextRow())
-			throw Exception("More than one line fetched") ;
+		else
+		{
+			std::stringstream ss ;
+			ss << "Object not found for '" << mapping_->tableName << "' with id=" << ptr_.id() ;
+			throw Exception(ss.str()) ;
+		}
+		// TODO set id value
 
-		// TODO set id
+		if(stmt_.nextRow())
+		{
+			std::stringstream ss ;
+			ss << "More than one line fetched '" << mapping_->tableName << "' with id=" << ptr_.id() ;
+			throw Exception(ss.str()) ;
+		}
+
 	}
 }
 
@@ -42,8 +53,6 @@ template<class C>
 template<typename V>
 void LoadDb<C>::act(const mapping::FieldRef<V>& field)
 {
-	std::cout << "**** " << field.name() << std::endl ;
-
 	traits::sql_value_traits<V>::read(field.value(), stmt_, -1) ;
 }
 

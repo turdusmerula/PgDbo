@@ -68,6 +68,11 @@ public:
 
 	bool nextRow() ;
 
+	/**
+	 * Indicate if an insert has a returning
+	 */
+	bool hasReturning() { return hasReturning_ ; }
+
 	const std::string name() { return name_ ; }
 	const std::string sql() { return sql_ ; }
 	bool prepared() { return prepared_ ; }
@@ -88,6 +93,7 @@ protected:
 	int row_ ;
 	int column_ ;
 	size_t affectedRows_ ;
+	bool hasReturning_ ;
 
 	std::vector<unsigned int> oids_ ;
 

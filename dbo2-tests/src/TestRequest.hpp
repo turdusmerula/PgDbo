@@ -7,7 +7,7 @@
 
 #include <dbo2/dbo.hpp>
 
-extern dbo2::connection db ;
+extern std::string connection ;
 
 class fSimpleTable
 {
@@ -74,6 +74,7 @@ class TestRequest : public ::testing::Test
 public:
 	static void SetUpTestCase()
 	{
+		db.connect(connection) ;
 		db.mapClass<fSimpleTable>("fsimple") ;
 		db.mapClass<fSimpleTable2>("fsimple2") ;
 		std::cout << db.tableCreationSql() << std::endl ;
@@ -99,8 +100,10 @@ public:
 	}
 
 	// Objects declared here can be used by all tests in the test case for Foo.
-} ;
+	static dbo2::connection db ;
 
+} ;
+dbo2::connection TestRequest::db ;
 
 TEST_F(TestRequest, TestPtr) {
 	dbo2::ptr<fSimpleTable> p ;
@@ -115,28 +118,7 @@ TEST_F(TestRequest, TestPtr) {
 	ASSERT_TRUE((bool)q) ;
 }
 
-TEST_F(TestRequest, TestInsert1) {
-
-	fSimpleTable p ;
-	p.string_value = "toto" ;
-	p.longlong_value = 10 ;
-	p.int_value = 20 ;
-	p.long_value = 30 ;
-	p.bool_value = true ;
-	p.float_value = 40.5 ;
-	p.double_value = 50.6e15 ;
-	p.size_t_value = 60 ;
-	p.date_value = boost::gregorian::day_clock::local_day() ;
-	p.ptime_value = boost::posix_time::second_clock::local_time() ;
-	p.time_duration_value = boost::posix_time::second_clock::local_time().time_of_day() ;
-	p.vector_value = std::vector<unsigned char>({0, 1, 2, 3, 4, 'a', 'b', 'c'}) ;
-	// p->optional_value left null
-	p.enum_value = fSimpleTable::Enum2 ;
-
-//	db.insert(p) ;
-}
-
-TEST_F(TestRequest, TestInsert2) {
+TEST_F(TestRequest, TestInsert) {
 
 	dbo2::ptr<fSimpleTable> p=dbo2::make_ptr<fSimpleTable>() ;
 	p->string_value = "toto" ;
@@ -154,12 +136,43 @@ TEST_F(TestRequest, TestInsert2) {
 	// p->optional_value left null
 	p->enum_value = fSimpleTable::Enum2 ;
 
-	db.transaction([&](){
-		db.insert(p) ;
-	}) ;
+	db.insert(p) ;
 }
 
 TEST_F(TestRequest, TestLoad) {
 
-	dbo2::ptr<fSimpleTable> p=db.load<fSimpleTable>(1) ;
+	dbo2::ptr<fSimpleTable> p=dbo2::make_ptr<fSimpleTable>() ;
+	p->string_value = "toto" ;
+	p->longlong_value = 10 ;
+	p->int_value = 20 ;
+	p->long_value = 30 ;
+	p->bool_value = true ;
+	p->float_value = 40.5 ;
+	p->double_value = 50.6e15 ;
+	p->size_t_value = 60 ;
+	p->date_value = boost::gregorian::day_clock::local_day() ;
+	p->ptime_value = boost::posix_time::second_clock::local_time() ;
+	p->time_duration_value = boost::posix_time::second_clock::local_time().time_of_day() ;
+	p->vector_value = std::vector<unsigned char>({0, 1, 2, 3, 4, 'a', 'b', 'c'}) ;
+	// p->optional_value left null
+	p->enum_value = fSimpleTable::Enum2 ;
+
+	db.insert(p) ;
+
+	dbo2::ptr<fSimpleTable> q=db.load<fSimpleTable>(p.id()) ;
+	ASSERT_TRUE( q->string_value=="toto" ) ;
+	ASSERT_TRUE( q->longlong_value==10 ) ;
+	ASSERT_TRUE( q->int_value==20 ) ;
+	ASSERT_TRUE( q->long_value==30 ) ;
+	ASSERT_TRUE( q->bool_value==true ) ;
+	ASSERT_TRUE( q->float_value==40.5 ) ;
+	ASSERT_TRUE( q->double_value==50.6e15 ) ;
+	ASSERT_TRUE( q->size_t_value==60 ) ;
+	ASSERT_TRUE( q->date_value==boost::gregorian::day_clock::local_day() ) ;
+	ASSERT_TRUE( q->ptime_value==boost::posix_time::second_clock::local_time() ) ;
+	ASSERT_TRUE( q->time_duration_value==boost::posix_time::second_clock::local_time().time_of_day() ) ;
+	ASSERT_TRUE( q->vector_value==std::vector<unsigned char>({0, 1, 2, 3, 4, 'a', 'b', 'c'}) ) ;
+	ASSERT_TRUE( q->optional_value.is_initialized()==false ) ;
+	ASSERT_TRUE( q->enum_value==fSimpleTable::Enum2 ) ;
+
 }

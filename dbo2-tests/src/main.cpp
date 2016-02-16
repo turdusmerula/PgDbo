@@ -10,7 +10,7 @@
 #include <dbo2-tests/src/TestCompositeIdTable.hpp>
 #include <dbo2-tests/src/TestBelongsToTable.hpp>
 //#include <dbo2-tests/src/TestHasManyTable.hpp>
-#include <dbo2-tests/src/TestRequest.hpp>
+//#include <dbo2-tests/src/TestRequest.hpp>
 
 std::string connection ;
 dbo2::connection db ;

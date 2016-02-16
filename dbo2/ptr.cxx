@@ -199,4 +199,11 @@ typename ptr<C>::IdType ptr<C>::id()
 	return traits::dbo_traits<C>::invalidId() ;
 }
 
+template<class C>
+void ptr<C>::id(const ptr<C>::IdType& value)
+{
+	if(ptr_)
+		ptr_->id_ = value ;
+}
+
 }

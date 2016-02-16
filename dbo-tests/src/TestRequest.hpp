@@ -73,6 +73,37 @@ TEST_F(TestRequest, TestInsert) {
     transaction.commit() ;
 }
 
+TEST_F(TestRequest, TestLoad) {
+	dbo::ptr<fSimpleTable> simple ;
+	{
+		dbo::Transaction transaction(session);
+		simple = new fSimpleTable ;
+		simple.modify()->value1 = "aa" ;
+		simple.modify()->value2 = "bb" ;
+		simple.modify()->value3 = "cc" ;
+
+		session.add(simple) ;
+		transaction.commit() ;
+	}
+	{
+		dbo::Transaction transaction(session);
+		dbo::ptr<fSimpleTable> read=session.load<fSimpleTable>(simple.id()) ;
+		ASSERT_TRUE( read->value1=="aa" ) ;
+		ASSERT_TRUE( read->value2=="bb" ) ;
+		ASSERT_TRUE( read->value3=="cc" ) ;
+		transaction.commit() ;
+	}
+	{
+		dbo::Transaction transaction(session);
+		dbo::ptr<fSimpleTable> read=session.load<fSimpleTable>(1000) ;
+		ASSERT_TRUE( read->value1=="aa" ) ;
+		ASSERT_TRUE( read->value2=="bb" ) ;
+		ASSERT_TRUE( read->value3=="cc" ) ;
+		transaction.commit() ;
+	}
+
+}
+
 TEST_F(TestRequest, TestUpdate) {
 	int id=-1 ;
 

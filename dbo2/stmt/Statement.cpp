@@ -10,38 +10,39 @@
 
 using namespace dbo2::stmt ;
 
-Statement::Statement(connection& conn, std::string sql)
-	:	conn_(conn),
-		prepared_(false),
-		row_(-1),
-		result_(nullptr),
-		affectedRows_(0),
-		column_(0)
-{
-    name_ = boost::lexical_cast<std::string>(std::hash<std::string>{}(sql)) ;
-    sql_ = convertToNumberedPlaceholders(sql) ;
-    paramCount_ = getNumberPlaceHolders(sql_) ;
-    std::cout << "stmt " << name_ << "  " << paramCount_ << ": " << sql << std::endl ;
-}
 
 Statement::Statement(connection& conn, std::string name, std::string sql)
 	:	conn_(conn),
-		name_(name),
 		prepared_(false),
 		row_(-1),
 		result_(nullptr),
 		affectedRows_(0),
-		column_(0)
+		column_(0),
+		name_(name)
 {
     sql_ = convertToNumberedPlaceholders(sql) ;
     paramCount_ = getNumberPlaceHolders(sql_) ;
-    std::cout << "stmt " << name_ << "  " << paramCount_ << ": " << sql << std::endl ;
+
+    const std::string returning=" returning " ;
+	std::size_t j=sql_.rfind(returning) ;
+	if(j!=std::string::npos && sql_.find(' ', j+returning.length())==std::string::npos)
+		hasReturning_ = true ;
+	else
+		hasReturning_ = false ;
+}
+
+Statement::Statement(connection& conn, std::string sql)
+	:	Statement(conn, boost::lexical_cast<std::string>(std::hash<std::string>{}(sql)), sql)
+{
 }
 
 Statement::~Statement()
 {
 	if(result_)
+	{
 		PQclear(result_) ;
+		result_ = nullptr ;
+	}
 }
 
 void Statement::bind()
@@ -148,7 +149,11 @@ void Statement::reset()
 	column_ = 0 ;
 	affectedRows_ = 0 ;
 
-	PQclear(result_) ;
+	if(result_)
+	{
+		PQclear(result_) ;
+		result_ = nullptr ;
+	}
 }
 
 void Statement::execute()
@@ -159,7 +164,9 @@ void Statement::execute()
 	if(conn_.showQueries())
 		std::cerr << sql_ << std::endl ;
 
-	PQclear(result_) ;
+	if(result_)
+		PQclear(result_) ;
+
 	result_ = PQexecPrepared(conn_.conn_, name_.c_str(), oids_.size(), values_.data(), lengths_.data(), formats_.data(), 0) ;
 	auto res=PQresultStatus(result_) ;
 
@@ -177,6 +184,7 @@ void Statement::execute()
 	if(res!=PGRES_COMMAND_OK && res!=PGRES_TUPLES_OK)
 	{
 		PQclear(result_) ;
+		result_ = nullptr ;
 		throw Exception(PQerrorMessage(conn_.conn_)) ;
 	}
 }

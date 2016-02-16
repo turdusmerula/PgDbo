@@ -24,7 +24,13 @@ public:
 private:
 	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
-	stmt::Statement stmt_ ;
+	stmt::Statement& stmt_ ;
+
+	// indicate if action is preparing statement or executing it
+	bool preparing_ ;
+
+	// id is stored during build and is given to object only if insert succeeded
+	typename traits::dbo_traits<C>::IdType id_ ;
 };
 
 }}

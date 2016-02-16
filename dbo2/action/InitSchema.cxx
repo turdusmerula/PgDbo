@@ -55,7 +55,6 @@ void InitSchema::actPtr(const mapping::PtrRef<C>& field)
 		foreignKeyName_ = field.name() ;
 		foreignKeyTable_ = mapping->tableName ;
 		fkConstraints_ = field.fkConstraints() ;
-		std::cout << "++ " << foreignKeyName_ << " - " << foreignKeyTable_ << " - " << fkConstraints_ << std::endl ;
 	}
 
 	field.visit(*this, conn_);

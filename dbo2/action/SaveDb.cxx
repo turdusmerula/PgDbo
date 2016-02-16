@@ -5,7 +5,9 @@ template<class C>
 SaveDb<C>::SaveDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
 	: 	ptr_(ptr),
 		mapping_(mapping),
-		stmt_(stmt)
+		stmt_(stmt),
+		preparing_(false),
+		id_(traits::dbo_traits<C>::invalidId())
 {
 
 }
@@ -18,10 +20,12 @@ void SaveDb<C>::visit()
 	if(stmt_.prepared()==false)
 	{
 		// init prepared statement, use a dummy object to init the statement
+		preparing_ = true ;
 		C dummy ;
 		dummy.persist(*this) ;
 
 		stmt_.prepare() ;
+		preparing_ = false ;
 	}
 
 	if(ptr_)
@@ -30,11 +34,25 @@ void SaveDb<C>::visit()
 		ptr->persist(*this) ;
 		stmt_.execute() ;
 
-		if(stmt_.nextRow())
+		if(stmt_.hasReturning())
 		{
+			// inserted ok, insert result should now contain the generated id
+			if(stmt_.nextRow()==false)
+			{
+				std::stringstream ss ;
+				ss << "Insertion error for '" << mapping_->tableName << "' no returning id" ;
+				throw Exception(ss.str()) ;
+			}
+
 			// get returned id
-			// TODO
-			std::cout << "row" << std::endl ;
+			char* id ;
+			stmt_.read(id) ;
+			ptr_.id(boost::lexical_cast< typename traits::dbo_traits<C>::IdType>(id)) ;
+		}
+		else
+		{
+			// inserted ok, set the cached id
+			ptr_.id(id_) ;
 		}
 	}
 }
@@ -44,6 +62,25 @@ template<typename V>
 void SaveDb<C>::act(const mapping::FieldRef<V>& field)
 {
 	traits::sql_value_traits<V>::bind(field.value(), stmt_, -1) ;
+}
+
+template<class C>
+template<typename V>
+void SaveDb<C>::actId(V& value, const std::string& name, int size)
+{
+	traits::sql_value_traits<V>::bind(value, stmt_, -1) ;
+
+	if(preparing_==false)
+	{
+		if(value==traits::dbo_traits<C>::invalidId())
+		{
+			std::stringstream ss ;
+			ss << "Insertion error for '" << mapping_->tableName << "' invalid id '" << ptr_.id() << "'" ;
+			throw Exception(ss.str()) ;
+		}
+		else
+			id_ = value ;
+	}
 }
 
 }}

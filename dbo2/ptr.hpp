@@ -5,6 +5,10 @@
 
 namespace dbo2 {
 
+namespace action {
+template <class T> class SaveDb ;
+}
+
 class ptr_base
 {
 
@@ -135,7 +139,10 @@ protected:
 	void free() ;
 	void take() ;
 
+	void id(const IdType& value) ;
+
 	friend class connection ;
+	template <class T> friend class action::SaveDb ;
 } ;
 
 

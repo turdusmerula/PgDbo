@@ -24,7 +24,7 @@ public:
 private:
 	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
-	stmt::Statement stmt_ ;
+	stmt::Statement& stmt_ ;
 };
 
 }}

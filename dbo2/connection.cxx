@@ -8,7 +8,9 @@ void connection::mapClass(std::string tableName)
 		throw Exception("Cannot map tables after schema was initialized.") ;
 
 	if(classRegistry_.find(&typeid(C))!=classRegistry_.end())
-		return ;
+		throw Exception("Class "+std::string(typeid(C).name())+" already mapped") ;
+	if(tableRegistry_.find(tableName)!=tableRegistry_.end())
+		throw Exception("Table "+tableName+" already mapped") ;
 
 	std::shared_ptr<mapping::Mapping<C>> mapping=std::make_shared<mapping::Mapping<C>>() ;
 	mapping->tableName = tableName ;
@@ -54,8 +56,6 @@ ptr<C> connection::insert(ptr<C>& obj)
 
 	action::SaveDb<C> action(obj, mapping, stmt) ;
 	action.visit() ;
-
-	// TODO reload object to update id
 
 	return obj ;
 }
