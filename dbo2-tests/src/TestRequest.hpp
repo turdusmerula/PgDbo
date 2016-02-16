@@ -56,6 +56,17 @@ public:
 	}
 } ;
 
+class fSimpleTable2
+{
+public:
+	std::string value ;
+
+	template<class Action>
+	void persist(Action& a)
+	{
+		dbo2::field(a, value, "value") ;
+	}
+} ;
 
 // The fixture for testing class Database.
 class TestRequest : public ::testing::Test
@@ -64,6 +75,7 @@ public:
 	static void SetUpTestCase()
 	{
 		db.mapClass<fSimpleTable>("fsimple") ;
+		db.mapClass<fSimpleTable2>("fsimple2") ;
 		std::cout << db.tableCreationSql() << std::endl ;
 		db.createTables() ;
 		db.debug() ;
@@ -103,7 +115,29 @@ TEST_F(TestRequest, TestPtr) {
 	ASSERT_TRUE((bool)q) ;
 }
 
-TEST_F(TestRequest, TestInsert) {
+TEST_F(TestRequest, TestInsert1) {
+
+	fSimpleTable p ;
+	p.string_value = "toto" ;
+	p.longlong_value = 10 ;
+	p.int_value = 20 ;
+	p.long_value = 30 ;
+	p.bool_value = true ;
+	p.float_value = 40.5 ;
+	p.double_value = 50.6e15 ;
+	p.size_t_value = 60 ;
+	p.date_value = boost::gregorian::day_clock::local_day() ;
+	p.ptime_value = boost::posix_time::second_clock::local_time() ;
+	p.time_duration_value = boost::posix_time::second_clock::local_time().time_of_day() ;
+	p.vector_value = std::vector<unsigned char>({0, 1, 2, 3, 4, 'a', 'b', 'c'}) ;
+	// p->optional_value left null
+	p.enum_value = fSimpleTable::Enum2 ;
+
+//	db.insert(p) ;
+}
+
+TEST_F(TestRequest, TestInsert2) {
+
 	dbo2::ptr<fSimpleTable> p=dbo2::make_ptr<fSimpleTable>() ;
 	p->string_value = "toto" ;
 	p->longlong_value = 10 ;
@@ -119,5 +153,13 @@ TEST_F(TestRequest, TestInsert) {
 	p->vector_value = std::vector<unsigned char>({0, 1, 2, 3, 4, 'a', 'b', 'c'}) ;
 	// p->optional_value left null
 	p->enum_value = fSimpleTable::Enum2 ;
-	db.insert(p) ;
+
+	db.transaction([&](){
+		db.insert(p) ;
+	}) ;
+}
+
+TEST_F(TestRequest, TestLoad) {
+
+	dbo2::ptr<fSimpleTable> p=db.load<fSimpleTable>(1) ;
 }

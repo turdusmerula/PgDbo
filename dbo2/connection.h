@@ -8,6 +8,7 @@
 
 #include <dbo2/mapping/JoinId.h>
 #include <dbo2/traits/SqlPostgresTypes.hpp>
+#include <dbo2/traits/dbo_traits.hpp>
 #include <dbo2/transaction.h>
 
 #include <pqxx/pqxx>
@@ -94,24 +95,26 @@ public:
 	void transaction(std::function<void()> func) ;
 
 
-	/*! \brief Persists a transient object.
-	 *
-	 * The transient object pointed to by \p ptr is added to the
-	 * session, and will be persisted when the session is flushed.
-	 *
-	 * A transient object is usually a newly created object which want
-	 * to add to the database.
-	 *
-	 * The method returns \p ptr.
+	/**
+	 * Persists an object inside database and attribute it an id
 	 */
 	template<class C>
 	ptr<C> insert(ptr<C>& ptr) ;
 
+	template<class C>
+	ptr<C> load(const typename traits::dbo_traits<C>::IdType& id) ;
+
 	void debug() ;
+
+	bool showQueries() const { return showQueries_ ; }
+	void showQueries(bool value) { showQueries_ = value ; }
+	bool showBindings() const { return showBindings_ ; }
+	void showBindings(bool value) { showBindings_ = value ; }
 protected:
 	std::string options_ ;
 	PGconn* conn_ ;
 	bool showQueries_ ;
+	bool showBindings_ ;
 
 	// RTTI class info
 	typedef const std::type_info * const_typeinfo_ptr ;

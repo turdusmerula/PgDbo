@@ -12,7 +12,11 @@ using namespace dbo2::stmt ;
 
 Statement::Statement(connection& conn, std::string sql)
 	:	conn_(conn),
-		prepared_(false)
+		prepared_(false),
+		row_(-1),
+		result_(nullptr),
+		affectedRows_(0),
+		column_(0)
 {
     name_ = boost::lexical_cast<std::string>(std::hash<std::string>{}(sql)) ;
     sql_ = convertToNumberedPlaceholders(sql) ;
@@ -23,11 +27,21 @@ Statement::Statement(connection& conn, std::string sql)
 Statement::Statement(connection& conn, std::string name, std::string sql)
 	:	conn_(conn),
 		name_(name),
-		prepared_(false)
+		prepared_(false),
+		row_(-1),
+		result_(nullptr),
+		affectedRows_(0),
+		column_(0)
 {
     sql_ = convertToNumberedPlaceholders(sql) ;
     paramCount_ = getNumberPlaceHolders(sql_) ;
     std::cout << "stmt " << name_ << "  " << paramCount_ << ": " << sql << std::endl ;
+}
+
+Statement::~Statement()
+{
+	if(result_)
+		PQclear(result_) ;
 }
 
 void Statement::bind()
@@ -39,8 +53,6 @@ void Statement::bind()
 	values_.push_back(nullptr) ;
 	lengths_.push_back(0) ;
 	formats_.push_back(0) ;
-
-	std::cout << "bind null" << std::endl ;
 }
 
 void Statement::bind(const std::string& value)
@@ -52,8 +64,6 @@ void Statement::bind(const std::string& value)
 	values_.push_back(svalues_.back().c_str()) ;
 	lengths_.push_back(0) ;
 	formats_.push_back(0) ;
-
-	std::cout << "bind " << value << std::endl ;
 }
 
 void Statement::bind(const std::vector<unsigned char>& value)
@@ -70,16 +80,47 @@ void Statement::bind(const std::vector<unsigned char>& value)
 	values_.push_back(svalues_.back().c_str()) ;
 	lengths_.push_back(value.size()) ;
 	formats_.push_back(1) ;
+}
 
-	std::cout << "bind binary" << std::endl ;
+bool Statement::read(char*& value)
+{
+	if(PQgetisnull(result_, row_, column_))
+	{
+		column_++ ;
+		return false ;
+	}
+
+	value = PQgetvalue(result_, row_, column_) ;
+
+	column_++ ;
+	return true ;
+}
+
+bool Statement::read(std::vector<unsigned char>& value)
+{
+	if(PQgetisnull(result_, row_, column_))
+	{
+		column_++ ;
+		return false ;
+	}
+
+	const char* escaped=PQgetvalue(result_, row_, column_) ;
+
+	std::size_t vlength ;
+	unsigned char* v=PQunescapeBytea((unsigned char *)escaped, &vlength) ;
+
+	value.resize(vlength) ;
+	std::copy(v, v+vlength, value.begin()) ;
+	PQfreemem(v) ;
+
+	column_++ ;
+	return true ;
 }
 
 void Statement::prepare()
 {
 	if(conn_.connected()==false)
 		Exception("Database not connected") ;
-
-	std::cout << paramCount_ << "   " << oids_.size() << " " << sql_ << std::endl ;
 
 	if(oids_.size()!=paramCount_)
 		throw Exception("Statement types not properly set") ;
@@ -102,6 +143,12 @@ void Statement::reset()
 	svalues_.clear() ;
 	lengths_.clear() ;
 	formats_.clear() ;
+
+	row_ = -1 ;
+	column_ = 0 ;
+	affectedRows_ = 0 ;
+
+	PQclear(result_) ;
 }
 
 void Statement::execute()
@@ -109,14 +156,39 @@ void Statement::execute()
 	if(svalues_.size()<paramCount_)
 		throw Exception("Statement missing bindings values") ;
 
-	auto result=PQexecPrepared(conn_.conn_, name_.c_str(), oids_.size(), values_.data(), lengths_.data(), formats_.data(), 0) ;
-	auto err=PQresultStatus(result) ;
-	if(err!=PGRES_COMMAND_OK && err!=PGRES_TUPLES_OK)
+	if(conn_.showQueries())
+		std::cerr << sql_ << std::endl ;
+
+	PQclear(result_) ;
+	result_ = PQexecPrepared(conn_.conn_, name_.c_str(), oids_.size(), values_.data(), lengths_.data(), formats_.data(), 0) ;
+	auto res=PQresultStatus(result_) ;
+
+	if(res==PGRES_COMMAND_OK)
 	{
-		PQclear(result) ;
+		std::string s = PQcmdTuples(result_) ;
+		if(!s.empty())
+			affectedRows_ = boost::lexical_cast<int>(s) ;
+		else
+			affectedRows_ = 0 ;
+	}
+	else if(res==PGRES_TUPLES_OK)
+		affectedRows_ = PQntuples(result_) ;
+
+	if(res!=PGRES_COMMAND_OK && res!=PGRES_TUPLES_OK)
+	{
+		PQclear(result_) ;
 		throw Exception(PQerrorMessage(conn_.conn_)) ;
 	}
-	PQclear(result) ;
+}
+
+bool Statement::nextRow()
+{
+	if(row_+1<PQntuples(result_))
+	{
+		row_++ ;
+		return true ;
+	}
+	return false ;
 }
 
 std::string Statement::convertToNumberedPlaceholders(const std::string& sql)
@@ -129,6 +201,7 @@ std::string Statement::convertToNumberedPlaceholders(const std::string& sql)
 		SQuote,
 		DQuote
 	} state = Statement ;
+
 	int placeholder=1 ;
 
 	for(unsigned i=0 ; i<sql.length() ; ++i)

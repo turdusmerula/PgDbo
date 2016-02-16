@@ -16,7 +16,7 @@ public:
 	std::string sqlType() const ;
 	const std::type_info *type() const ;
 
-	const V& value() const
+	V& value() const
 	{
 		return value_;
 	}

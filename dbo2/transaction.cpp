@@ -25,6 +25,7 @@ void transaction::commit()
 		return ;
 
 	conn_.executeSql("COMMIT") ;
+	active_ = false ;
 }
 
 void transaction::rollback()
@@ -33,6 +34,7 @@ void transaction::rollback()
 		return ;
 
 	conn_.executeSql("ROLLBACK") ;
+	active_ = false ;
 }
 
 void transaction::open()

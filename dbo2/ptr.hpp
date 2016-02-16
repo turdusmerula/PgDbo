@@ -5,8 +5,13 @@
 
 namespace dbo2 {
 
+class ptr_base
+{
+
+} ;
+
 template<class C>
-class ptr
+class ptr : public ptr_base
 {
 private:
 	typedef typename boost::remove_const<C>::type MutC;
@@ -114,6 +119,8 @@ public:
 
 	bool loaded() const ;
 	bool orphan() const ;
+
+	IdType id() ;
 protected:
 	struct Ptr
 	{
@@ -127,6 +134,8 @@ protected:
 
 	void free() ;
 	void take() ;
+
+	friend class connection ;
 } ;
 
 

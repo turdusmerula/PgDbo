@@ -13,6 +13,7 @@ ptr<C>::ptr(C* obj)
 	ptr_ = new Ptr ;
 	ptr_->value_ = obj ;
 	ptr_->ref_ = 1 ;
+	ptr_->id_ = traits::dbo_traits<C>::invalidId() ;
 }
 
 template<class C>
@@ -47,6 +48,7 @@ void ptr<C>::reset(C* _ptr)
 		ptr_ = new Ptr ;
 		ptr_->value_ = _ptr ;
 		ptr_->ref_ = 1 ;
+		ptr_->id_ = traits::dbo_traits<C>::invalidId() ;
 	}
 }
 
@@ -187,6 +189,14 @@ void ptr<C>::take()
 {
 	if(ptr_)
 		ptr_->ref_++ ;
+}
+
+template<class C>
+typename ptr<C>::IdType ptr<C>::id()
+{
+	if(ptr_)
+		return ptr_->id_ ;
+	return traits::dbo_traits<C>::invalidId() ;
 }
 
 }

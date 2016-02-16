@@ -8,8 +8,6 @@
 
 #include <dbo2/stmt/Statement.h>
 
-#include <dbo2/action/InitStatement.hpp>
-
 #include <dbo2/traits/sql_value_traits.hpp>
 #include <dbo2/traits/StdSqlTraits.h>
 
@@ -22,7 +20,8 @@ connection::connection()
 	:	schemaInitialized_(false),
 		transaction_(*this),
 		conn_(nullptr),
-		showQueries_(false)
+		showQueries_(false),
+		showBindings_(false)
 {
 
 }

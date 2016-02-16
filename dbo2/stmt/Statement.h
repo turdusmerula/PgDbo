@@ -4,6 +4,11 @@
 #include <string>
 #include <vector>
 
+extern "C"
+{
+struct pg_result ;
+}
+
 namespace dbo2 {
 class connection ;
 
@@ -15,6 +20,8 @@ public:
 	Statement(connection& conn, std::string sql) ;
 
 	Statement(connection& conn, std::string name, std::string sql) ;
+
+	virtual ~Statement() ;
 
 	/**
 	 * Bind a null value
@@ -32,6 +39,16 @@ public:
 	void bind(const std::vector<unsigned char>& value) ;
 
 	/**
+	 * Read content to string
+	 */
+	bool read(char*& value) ;
+
+	/**
+	 * Read content to binary array
+	 */
+	bool read(std::vector<unsigned char>& value) ;
+
+	/**
 	 * Prepare the statement and registers it
 	 * Uses the bound values to chose the right oids
 	 * NULL values binds to OIDDefault
@@ -40,7 +57,7 @@ public:
 	void prepare() ;
 
 	/**
-	 * Clear the statement bound values
+	 * Clear the statement bound values and current result
 	 */
 	void reset() ;
 
@@ -48,6 +65,8 @@ public:
 	 * Execute the prepared statement
 	 */
 	void execute() ;
+
+	bool nextRow() ;
 
 	const std::string name() { return name_ ; }
 	const std::string sql() { return sql_ ; }
@@ -64,6 +83,11 @@ protected:
 	std::string sql_ ;
 	bool prepared_ ;
 	size_t paramCount_ ;
+
+	pg_result* result_ ;
+	int row_ ;
+	int column_ ;
+	size_t affectedRows_ ;
 
 	std::vector<unsigned int> oids_ ;
 

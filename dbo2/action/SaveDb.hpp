@@ -1,5 +1,5 @@
-#ifndef _DBO_ACTION_SAVEDBACTION_HPP_
-#define _DBO_ACTION_SAVEDBACTION_HPP_
+#ifndef _DBO_ACTION_SAVEDB_HPP_
+#define _DBO_ACTION_SAVEDB_HPP_
 
 namespace dbo2 {
 namespace mapping {
@@ -13,7 +13,7 @@ template<class C>
 class SaveDb
 {
 public:
-	SaveDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt, int column) ;
+	SaveDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
 
 	void visit() ;
 
@@ -25,7 +25,6 @@ private:
 	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::Statement stmt_ ;
-	int column_ ;
 };
 
 }}

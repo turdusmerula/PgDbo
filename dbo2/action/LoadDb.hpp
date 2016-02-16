@@ -1,5 +1,5 @@
-#ifndef _DBO_ACTION_INITSTATEMENT_HPP_
-#define _DBO_ACTION_INITSTATEMENT_HPP_
+#ifndef _DBO_ACTION_LOADDB_HPP_
+#define _DBO_ACTION_LOADDB_HPP_
 
 namespace dbo2 {
 namespace mapping {
@@ -9,14 +9,11 @@ template <class T> class FieldRef ;
 
 namespace action {
 
-/**
- * Initialize prepared statements
- */
 template<class C>
-class InitStatement
+class LoadDb
 {
 public:
-	InitStatement(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	LoadDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
 
 	void visit() ;
 
@@ -25,6 +22,7 @@ public:
 	template<class D> void actId(ptr<D>& value, const std::string& name, int size, int fkConstraints) ;
 
 private:
+	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::Statement stmt_ ;
 };

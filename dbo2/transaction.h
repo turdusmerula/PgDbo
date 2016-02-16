@@ -50,6 +50,8 @@ private:
 	connection& conn_ ;
 	bool active_ ;
 
+//	std::deque<ptr_base> transiants_ ;
+
 	friend connection ;
 } ;
 

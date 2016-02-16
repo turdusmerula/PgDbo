@@ -68,6 +68,8 @@ int main(int argc, char* argv[])
 	connection = "host="+host+" user="+user+" password="+password+" port="+port+" dbname="+dbname ;
 
 	db.connect(connection) ;
+	db.showQueries(true) ;
+	db.showBindings(true) ;
 
 	::testing::InitGoogleTest(&argc, argv) ;
 	return RUN_ALL_TESTS() ;

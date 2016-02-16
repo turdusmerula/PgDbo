@@ -32,16 +32,16 @@ void sql_value_traits<std::string>::bind(const std::string& v, stmt::Statement& 
 	statement.bind(v) ;
 }
 
-//bool sql_value_traits<std::string>::read(std::string& v, SqlStatement *statement, int column, int size)
-//{
-//	if(!statement->getResult(column, &v, size))
-//	{
-//		v.clear();
-//		return false;
-//	}
-//	else
-//		return true;
-//}
+bool sql_value_traits<std::string>::read(std::string& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = res ;
+		return true ;
+	}
+	return false ;
+}
 
 /*
  * long long
@@ -56,10 +56,16 @@ void sql_value_traits<long long>::bind(long long v, stmt::Statement& statement, 
 	statement.bind(boost::lexical_cast<std::string>(v)) ;
 }
 
-//bool sql_value_traits<long long>::read(long long& v, SqlStatement *statement, int column, int size)
-//{
-//	return statement->getResult(column, &v);
-//}
+bool sql_value_traits<long long>::read(long long& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = boost::lexical_cast<long long>(res) ;
+		return true ;
+	}
+	return false ;
+}
 
 /*
  * int
@@ -74,10 +80,16 @@ void sql_value_traits<int>::bind(int v, stmt::Statement& statement, int size)
 	statement.bind(boost::lexical_cast<std::string>(v)) ;
 }
 
-//bool sql_value_traits<int>::read(int& v, SqlStatement *statement, int column, int size)
-//{
-//	return statement->getResult(column, &v);
-//}
+bool sql_value_traits<int>::read(int& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = boost::lexical_cast<int>(res) ;
+		return true ;
+	}
+	return false ;
+}
 
 /*
  * long
@@ -96,23 +108,16 @@ void sql_value_traits<long>::bind(long v, stmt::Statement& statement, int size)
 	statement.bind(boost::lexical_cast<std::string>(v)) ;
 }
 
-//bool sql_value_traits<long>::read(long& v, SqlStatement *statement, int column, int size)
-//{
-//	if(sizeof(long)==4)
-//	{
-//		int v2;
-//		bool result = statement->getResult(column, &v2);
-//		v = v2;
-//		return result;
-//	}
-//	else
-//	{
-//		long long v2;
-//		bool result = statement->getResult(column, &v2);
-//		v = v2;
-//		return result;
-//	}
-//}
+bool sql_value_traits<long>::read(long& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = boost::lexical_cast<long>(res) ;
+		return true ;
+	}
+	return false ;
+}
 
 
 
@@ -130,10 +135,16 @@ void sql_value_traits<short>::bind(short v, stmt::Statement& statement, int size
 	statement.bind(boost::lexical_cast<std::string>(v)) ;
 }
 
-//bool sql_value_traits<short>::read(short& v, SqlStatement *statement, int column, int size)
-//{
-//	return statement->getResult(column, &v);
-//}
+bool sql_value_traits<short>::read(short& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = boost::lexical_cast<long>(res) ;
+		return true ;
+	}
+	return false ;
+}
 
 /*
  * bool
@@ -149,15 +160,16 @@ void sql_value_traits<bool>::bind(bool v, stmt::Statement& statement, int size)
 	statement.bind(boost::lexical_cast<std::string>(v)) ;
 }
 
-//bool sql_value_traits<bool>::read(bool& v, SqlStatement *statement, int column, int size)
-//{
-//	int intValue;
-//	bool result = statement->getResult(column, &intValue);
-//	if(result)
-//		v = intValue?true:false;
-//
-//	return result;
-//}
+bool sql_value_traits<bool>::read(bool& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = (res[0]=='t') ;
+		return true ;
+	}
+	return false ;
+}
 
 /*
  * float
@@ -173,10 +185,16 @@ void sql_value_traits<float>::bind(float v, stmt::Statement& statement, int size
 	statement.bind(boost::lexical_cast<std::string>(v)) ;
 }
 
-//bool sql_value_traits<float>::read(float& v, SqlStatement *statement, int column, int size)
-//{
-//	return statement->getResult(column, &v);
-//}
+bool sql_value_traits<float>::read(float& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = boost::lexical_cast<float>(res) ;
+		return true ;
+	}
+	return false ;
+}
 
 /*
  * double
@@ -192,10 +210,16 @@ void sql_value_traits<double>::bind(double v, stmt::Statement& statement, int si
 	statement.bind(boost::lexical_cast<std::string>(v)) ;
 }
 
-//bool sql_value_traits<double>::read(double& v, SqlStatement *statement, int column, int size)
-//{
-//	return statement->getResult(column, &v);
-//}
+bool sql_value_traits<double>::read(double& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = boost::lexical_cast<double>(res) ;
+		return true ;
+	}
+	return false ;
+}
 
 /*
  * size_t
@@ -211,13 +235,16 @@ void sql_value_traits<size_t>::bind(size_t v, stmt::Statement& statement, int si
 	statement.bind(boost::lexical_cast<std::string>(v)) ;
 }
 
-//bool sql_value_traits<size_t>::read(size_t& v, SqlStatement *statement, int column, int size)
-//{
-//	long long val ;
-//	bool res=statement->getResult(column, &val) ;
-//	v = static_cast<size_t>(val) ;
-//	return res ;
-//}
+bool sql_value_traits<size_t>::read(size_t& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = boost::lexical_cast<size_t>(res) ;
+		return true ;
+	}
+	return false ;
+}
 
 
 /*
@@ -236,16 +263,17 @@ void sql_value_traits<boost::gregorian::date>::bind(const boost::gregorian::date
 		statement.bind(boost::gregorian::to_iso_extended_string(v)) ;
 }
 
-//bool sql_value_traits<boost::posix_time::ptime>::read(boost::posix_time::ptime& v, SqlStatement *statement, int column, int size)
-//{
-//	if(statement->getResult(column, &v, SqlDateTime))
-//		return true;
-//	else
-//	{
-//		v = boost::posix_time::ptime();
-//		return false;
-//	}
-//}
+bool sql_value_traits<boost::gregorian::date>::read(boost::gregorian::date& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = boost::gregorian::from_string(res) ;
+		return true ;
+	}
+	v = boost::gregorian::date(boost::gregorian::not_a_date_time) ;
+	return false ;
+}
 
 
 /*
@@ -271,16 +299,30 @@ void sql_value_traits<boost::posix_time::ptime>::bind(const boost::posix_time::p
 	}
 }
 
-//bool sql_value_traits<boost::posix_time::ptime>::read(boost::posix_time::ptime& v, SqlStatement *statement, int column, int size)
-//{
-//	if(statement->getResult(column, &v, SqlDateTime))
-//		return true;
-//	else
-//	{
-//		v = boost::posix_time::ptime();
-//		return false;
-//	}
-//}
+bool sql_value_traits<boost::posix_time::ptime>::read(boost::posix_time::ptime& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		std::string s=res ;
+		/*
+		 * Handle timezone offset. Postgres will append a timezone offset [+-]dd
+		 * if a column is defined as TIMESTAMP WITH TIME ZONE -- possibly
+		 * in a legacy table. If offset is present, subtract it for UTC output.
+		 */
+		if(s.size()>=3 && std::strchr("+-", s[s.size()-3]))
+		{
+			int hours=boost::lexical_cast<int>(s.substr(s.size()-3)) ;
+			boost::posix_time::time_duration offset=boost::posix_time::hours(hours) ;
+			v = boost::posix_time::time_from_string(s.substr(0, s.size()-3))-offset ;
+		}
+		else
+			v = boost::posix_time::time_from_string(s) ;
+		return true ;
+	}
+	v = boost::posix_time::ptime(boost::posix_time::not_a_date_time) ;
+	return false ;
+}
 
 /*
  * boost::posix_time::time_duration
@@ -299,15 +341,18 @@ void sql_value_traits<boost::posix_time::time_duration>::bind(const boost::posix
 		statement.bind(boost::posix_time::to_simple_string(v)) ;
 }
 
-//bool sql_value_traits<boost::posix_time::time_duration>::read(boost::posix_time::time_duration& v, SqlStatement *statement, int column, int size)
-//{
-//	if(statement->getResult(column, &v))
-//		return true;
-//	else
-//	{
-//		v = boost::posix_time::time_duration(boost::posix_time::not_a_date_time);
-//		return false;
-//	}
+bool sql_value_traits<boost::posix_time::time_duration>::read(boost::posix_time::time_duration& v, stmt::Statement& statement, int size)
+{
+	char* res ;
+	if(statement.read(res))
+	{
+		v = boost::posix_time::time_duration(boost::posix_time::duration_from_string(res)) ;
+		return true ;
+	}
+
+	v = boost::posix_time::time_duration(boost::posix_time::not_a_date_time);
+	return false;
+}
 
 /*
  * std::vector<unsigned char>
@@ -323,10 +368,10 @@ void sql_value_traits<std::vector<unsigned char> >::bind(const std::vector<unsig
 	statement.bind(v) ;
 }
 
-//bool sql_value_traits<std::vector<unsigned char> >::read(std::vector<unsigned char>& v, SqlStatement *statement, int column, int size)
-//{
-//	return statement->getResult(column, &v, size);
-//}
+bool sql_value_traits<std::vector<unsigned char>>::read(std::vector<unsigned char>& v, stmt::Statement& statement, int size)
+{
+	return statement.read(v) ;
+}
 
 }}
 
