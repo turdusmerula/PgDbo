@@ -129,6 +129,7 @@ TEST_F(TestCustomIdTable, TestInsertInvalidId) {
 TEST_F(TestCustomIdTable, TestInsertDuplicate) {
 	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;
 	p->natural_id = "duplicate" ;
+
 	ASSERT_NO_THROW( db.insert(p) ) ;
 
 	dbo2::ptr<bNaturalIdTable> q=dbo2::make_ptr<bNaturalIdTable>() ;
@@ -171,6 +172,11 @@ TEST_F(TestCustomIdTable, TestLoadCustomId) {
 	ASSERT_TRUE( q.id()!=dbo2::traits::dbo_traits<bCustomIdTable>::invalidId() ) ;
 }
 
+TEST_F(TestCustomIdTable, TestUpdateNull) {
+	dbo2::ptr<bNaturalIdTable> p ;
+
+	ASSERT_THROW( db.update(p), std::exception ) ;
+}
 
 TEST_F(TestCustomIdTable, TestUpdate) {
 	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;

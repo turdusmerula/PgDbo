@@ -6,7 +6,7 @@ Insert<C>::Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),
-		preparing_(false),
+		state_(PreparingStatement),
 		id_(traits::dbo_traits<C>::invalidId())
 {
 
@@ -20,16 +20,16 @@ void Insert<C>::visit()
 	if(stmt_.prepared()==false)
 	{
 		// init prepared statement, use a dummy object to init the statement
-		preparing_ = true ;
+		state_ = PreparingStatement ;
 		C dummy ;
 		dummy.persist(*this) ;
 
 		stmt_.prepare() ;
-		preparing_ = false ;
 	}
 
 	if(ptr_)
 	{
+		state_ = Inserting ;
 		stmt_.reset() ;
 		ptr->persist(*this) ;
 
@@ -41,6 +41,7 @@ void Insert<C>::visit()
 			throw Exception(ss.str()) ;
 		}
 
+		state_ = ReadingId ;
 		if(stmt_.hasReturning())
 		{
 			// inserted ok, insert result should now contain the generated id
@@ -51,10 +52,11 @@ void Insert<C>::visit()
 				throw Exception(ss.str()) ;
 			}
 
-			// get returned id
-			char* id ;
-			stmt_.read(id) ;
-			ptr_.id(boost::lexical_cast< typename traits::dbo_traits<C>::IdType>(id)) ;
+			// read id
+			if(mapping_->surrogateIdFieldName!=boost::none)
+				field(*this, const_cast<IdType&>(ptr_.id()), mapping_->surrogateIdFieldName.get()) ;
+			else
+				field(*this, const_cast<IdType&>(ptr_.id()), mapping_->naturalIdFieldName, mapping_->naturalIdFieldSize) ;
 		}
 		else
 		{
@@ -68,25 +70,45 @@ template<class C>
 template<typename V>
 void Insert<C>::act(const mapping::FieldRef<V>& field)
 {
-	traits::sql_value_traits<V>::bind(field.value(), stmt_, -1) ;
+	switch(state_)
+	{
+	case PreparingStatement:
+	case Inserting:
+		traits::sql_value_traits<V>::bind(field.value(), stmt_, -1) ;
+		break ;
+	case ReadingId:
+		traits::sql_value_traits<V>::read(field.value(), stmt_, -1) ;
+		break ;
+	}
 }
 
 template<class C>
 template<typename V>
 void Insert<C>::actId(V& value, const std::string& name, int size)
 {
-	traits::sql_value_traits<V>::bind(value, stmt_, -1) ;
-
-	if(preparing_==false)
+	switch(state_)
 	{
+	case PreparingStatement:
+		// add id fields to statement
+		field(*this, value, name) ;
+		break ;
+	case Inserting:
 		if(value==traits::dbo_traits<C>::invalidId())
 		{
 			std::stringstream ss ;
 			ss << "Insert failed for '" << mapping_->tableName << "' invalid id '" << ptr_.id() << "'" ;
 			throw Exception(ss.str()) ;
 		}
-		else
-			id_ = value ;
+
+		// in case of a statement with a natural id we see the id here, put it in cache
+		id_ = value ;
+
+		// add id fields to statement
+		field(*this, value, name) ;
+		break ;
+	case ReadingId:
+
+		break ;
 	}
 }
 

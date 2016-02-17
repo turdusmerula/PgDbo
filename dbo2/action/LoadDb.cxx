@@ -2,11 +2,12 @@ namespace dbo2 {
 namespace action {
 
 template<class C>
-LoadDb<C>::LoadDb(ptr<C> ptr, typename traits::dbo_traits<C>::IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
+LoadDb<C>::LoadDb(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),
-		id_(id)
+		id_(id),
+		state_(PreparingStatement)
 {
 	if(id_==traits::dbo_traits<C>::invalidId())
 	{
@@ -23,8 +24,10 @@ void LoadDb<C>::visit()
 
 	if(stmt_.prepared()==false)
 	{
-		// init prepared statement
-		stmt_.bind(boost::lexical_cast<std::string>(ptr_.id())) ;
+		state_ = PreparingStatement ;
+
+		// init prepared statement, where clause is an id
+		field(*this, const_cast<IdType&>(ptr_.id()), "") ;
 
 		try {
 			stmt_.prepare() ;
@@ -36,12 +39,16 @@ void LoadDb<C>::visit()
 
 	}
 
+	state_ = Selecting ;
 	if(ptr_)
 	{
 		stmt_.reset() ;
 
 		// bind id to search for
-		stmt_.bind(boost::lexical_cast<std::string>(id_)) ;
+		if(mapping_->surrogateIdFieldName!=boost::none)
+			field(*this, id_, mapping_->surrogateIdFieldName.get()) ;
+		else
+			field(*this, id_, mapping_->naturalIdFieldName, mapping_->naturalIdFieldSize) ;
 
 		try {
 			stmt_.execute() ;
@@ -50,6 +57,8 @@ void LoadDb<C>::visit()
 			ss << "Select failed for '" << mapping_->tableName << "': " << e.what() ;
 			throw Exception(ss.str()) ;
 		}
+
+		state_ = ReadingResult ;
 
 		if(stmt_.nextRow())
 			ptr->persist(*this) ;
@@ -76,14 +85,24 @@ template<class C>
 template<typename V>
 void LoadDb<C>::act(const mapping::FieldRef<V>& field)
 {
-	traits::sql_value_traits<V>::read(field.value(), stmt_, -1) ;
+	switch(state_)
+	{
+	case PreparingStatement:
+	case Selecting:
+		traits::sql_value_traits<V>::bind(field.value(), stmt_, -1) ;
+		break ;
+	case ReadingResult:
+		traits::sql_value_traits<V>::read(field.value(), stmt_, -1) ;
+		break ;
+	}
 }
 
 template<class C>
 template<typename V>
 void LoadDb<C>::actId(V& value, const std::string& name, int size)
 {
-	traits::sql_value_traits<V>::read(value, stmt_, -1) ;
+	// add id fields to statement
+	field(*this, value, name) ;
 }
 
 }}

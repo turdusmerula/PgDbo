@@ -22,7 +22,6 @@ class ptr : public ptr_base
 private:
 	typedef typename boost::remove_const<C>::type MutC;
 public:
-
 	typedef typename traits::dbo_traits<C>::IdType IdType ;
 
 	enum class State : int {
@@ -126,7 +125,7 @@ public:
 	bool loaded() const ;
 	bool orphan() const ;
 
-	IdType id() ;
+	const IdType& id() ;
 protected:
 	struct Ptr
 	{
@@ -135,6 +134,8 @@ protected:
 		size_t ref_ ;
 		IdType id_ ;
 	} ;
+
+	static IdType invalidId_ ;
 
 	Ptr* ptr_ ;
 

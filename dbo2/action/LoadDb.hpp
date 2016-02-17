@@ -13,7 +13,9 @@ template<class C>
 class LoadDb
 {
 public:
-	LoadDb(ptr<C> ptr, typename traits::dbo_traits<C>::IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	using IdType = typename traits::dbo_traits<C>::IdType ;
+
+	LoadDb(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
 
 	void visit() ;
 
@@ -27,7 +29,14 @@ private:
 	stmt::Statement& stmt_ ;
 
 	// id to be loaded
-	typename traits::dbo_traits<C>::IdType id_ ;
+	IdType id_ ;
+
+	enum State {
+		PreparingStatement,
+		Selecting,
+		ReadingResult
+	} ;
+	State state_ ;
 };
 
 }}

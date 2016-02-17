@@ -13,6 +13,8 @@ template<class C>
 class Insert
 {
 public:
+	using IdType = typename traits::dbo_traits<C>::IdType ;
+
 	Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
 
 	void visit() ;
@@ -26,11 +28,15 @@ private:
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::Statement& stmt_ ;
 
-	// indicate if action is preparing statement or executing it
-	bool preparing_ ;
+	enum State {
+		PreparingStatement,
+		Inserting,
+		ReadingId
+	} ;
+	State state_ ;
 
 	// id is stored during build and is given to object only if insert succeeded
-	typename traits::dbo_traits<C>::IdType id_ ;
+	IdType id_ ;
 };
 
 }}

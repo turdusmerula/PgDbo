@@ -1,5 +1,9 @@
 namespace dbo2 {
 
+// init static invalidId_
+template<class C>
+typename ptr<C>::IdType ptr<C>::invalidId_=traits::dbo_traits<C>::invalidId() ;
+
 template <class C>
 ptr<C>::ptr()
 	:	ptr_(nullptr)
@@ -192,11 +196,12 @@ void ptr<C>::take()
 }
 
 template<class C>
-typename ptr<C>::IdType ptr<C>::id()
+const typename ptr<C>::IdType& ptr<C>::id()
 {
 	if(ptr_)
 		return ptr_->id_ ;
-	return traits::dbo_traits<C>::invalidId() ;
+	// return an invalid id without creating a temporrary
+	return invalidId_ ;
 }
 
 template<class C>
