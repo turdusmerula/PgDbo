@@ -101,8 +101,24 @@ public:
 	template<class C>
 	ptr<C> insert(ptr<C>& ptr) ;
 
+	/**
+	 * Persists a modified object inside database
+	 */
+	template<class C>
+	ptr<C> update(ptr<C>& ptr) ;
+
+	/**
+	 * Reload an existing object from database
+	 */
+	template<class C>
+	ptr<C> load(ptr<C>& ptr) ;
+
+	/**
+	 * Load an object from database
+	 */
 	template<class C>
 	ptr<C> load(const typename traits::dbo_traits<C>::IdType& id) ;
+
 
 	void debug() ;
 
@@ -110,11 +126,16 @@ public:
 	void showQueries(bool value) { showQueries_ = value ; }
 	bool showBindings() const { return showBindings_ ; }
 	void showBindings(bool value) { showBindings_ = value ; }
+	bool showResults() const { return showResults_ ; }
+	void showResults(bool value) { showResults_ = value ; }
 protected:
 	std::string options_ ;
 	PGconn* conn_ ;
+
+	// debugging flags
 	bool showQueries_ ;
 	bool showBindings_ ;
+	bool showResults_ ;
 
 	// RTTI class info
 	typedef const std::type_info * const_typeinfo_ptr ;

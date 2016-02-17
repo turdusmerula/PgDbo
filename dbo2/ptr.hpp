@@ -6,7 +6,9 @@
 namespace dbo2 {
 
 namespace action {
-template <class T> class SaveDb ;
+template <class T> class Insert ;
+template <class T> class Update ;
+template <class T> class LoadDb ;
 }
 
 class ptr_base
@@ -142,7 +144,9 @@ protected:
 	void id(const IdType& value) ;
 
 	friend class connection ;
-	template <class T> friend class action::SaveDb ;
+	template <class T> friend class action::Insert ;
+	template <class T> friend class action::Update ;
+	template <class T> friend class action::LoadDb ;
 } ;
 
 

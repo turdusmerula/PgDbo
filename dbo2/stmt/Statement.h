@@ -104,6 +104,8 @@ protected:
 
 	std::string convertToNumberedPlaceholders(const std::string& sql) ;
 	size_t getNumberPlaceHolders(const std::string& sql) ;
+	std::string getBoundPlaceholders() ;
+	std::string getResultRow(int row) ;
 } ;
 
 }}

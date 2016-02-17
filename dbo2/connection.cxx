@@ -47,17 +47,37 @@ std::shared_ptr<mapping::Mapping<C>> connection::getMapping()
 template<class C>
 ptr<C> connection::insert(ptr<C>& obj)
 {
-//	// insert must be inside a transaction as it is split in two requests
-//	if(transaction_.active()==false)
-//		throw Exception("No active transaction") ;
-//
 	auto mapping=getMapping<C>() ;
 	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
 
-	action::SaveDb<C> action(obj, mapping, stmt) ;
+	action::Insert<C> action(obj, mapping, stmt) ;
 	action.visit() ;
 
 	return obj ;
+}
+
+template<class C>
+ptr<C> connection::update(ptr<C>& obj)
+{
+	auto mapping=getMapping<C>() ;
+	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlUpdate)->second ;
+
+	action::Update<C> action(obj, mapping, stmt) ;
+	action.visit() ;
+
+	return obj ;
+}
+
+template<class C>
+ptr<C> connection::load(ptr<C>& obj)
+{
+//	auto mapping=getMapping<C>() ;
+//	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlSelectById)->second ;
+//
+//	action::SaveDb<C> action(obj, mapping, stmt) ;
+//	action.visit() ;
+//
+//	return obj ;
 }
 
 template<class C>
@@ -67,9 +87,8 @@ ptr<C> connection::load(const typename traits::dbo_traits<C>::IdType& id)
 	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlSelectById)->second ;
 
 	ptr<C> obj=make_ptr<C>() ;
-	obj.ptr_->id_ = id ;
 
-	action::LoadDb<C> action(obj, mapping, stmt) ;
+	action::LoadDb<C> action(obj, id, mapping, stmt) ;
 	action.visit() ;
 
 	return obj ;

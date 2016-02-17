@@ -55,7 +55,10 @@ std::string MappingInfo::debug(int tab)
 	ss << stab << "<MappingInfo>" << std::endl ;
 	ss << stab1 << "initialized: " << initialized_ << std::endl ;
 	ss << stab1 << "tableName: " << tableName << std::endl ;
-	ss << stab1 << "surrogateIdFieldName: " << surrogateIdFieldName << std::endl ;
+	if(surrogateIdFieldName==boost::none)
+		ss << stab1 << "surrogateIdFieldName is none" << std::endl ;
+	else
+		ss << stab1 << "surrogateIdFieldName: " << surrogateIdFieldName.get() << std::endl ;
 	ss << stab1 << "naturalIdFieldName: " << naturalIdFieldName << std::endl ;
 	ss << stab1 << "naturalIdFieldSize: " << naturalIdFieldSize << std::endl ;
 	ss << stab1 << "idCondition: " << idCondition << std::endl ;

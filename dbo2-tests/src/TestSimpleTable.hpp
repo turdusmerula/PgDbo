@@ -68,6 +68,8 @@ public:
 		db.connect(connection) ;
 		db.mapClass<aSimpleTable>("asimple") ;
 		db.createTables() ;
+		db.showQueries(true) ;
+		db.showBindings(true) ;
 	}
 
 	static void TearDownTestCase()
@@ -123,6 +125,7 @@ TEST_F(TestSimpleTable, TestInsert) {
 	p->longlong_value = 10 ;
 	p->int_value = 20 ;
 	p->long_value = 30 ;
+	p->short_value = 40 ;
 	p->bool_value = true ;
 	p->float_value = 40.5 ;
 	p->double_value = 50.6e15 ;
@@ -146,6 +149,7 @@ TEST_F(TestSimpleTable, TestLoad) {
 	p->longlong_value = 10 ;
 	p->int_value = 20 ;
 	p->long_value = 30 ;
+	p->short_value = 40 ;
 	p->bool_value = true ;
 	p->float_value = 40.5 ;
 	p->double_value = 50.6e15 ;
@@ -164,6 +168,7 @@ TEST_F(TestSimpleTable, TestLoad) {
 	ASSERT_TRUE( q->longlong_value==10 ) ;
 	ASSERT_TRUE( q->int_value==20 ) ;
 	ASSERT_TRUE( q->long_value==30 ) ;
+	ASSERT_TRUE( q->short_value==40 ) ;
 	ASSERT_TRUE( q->bool_value==true ) ;
 	ASSERT_TRUE( q->float_value==40.5 ) ;
 	ASSERT_TRUE( q->double_value==50.6e15 ) ;
@@ -177,3 +182,39 @@ TEST_F(TestSimpleTable, TestLoad) {
 
 }
 
+TEST_F(TestSimpleTable, TestUpdate) {
+
+	dbo2::ptr<aSimpleTable> p=dbo2::make_ptr<aSimpleTable>() ;
+	p->string_value = "toto" ;
+	p->longlong_value = 10 ;
+	p->int_value = 20 ;
+	p->long_value = 30 ;
+	p->bool_value = true ;
+	p->float_value = 40.5 ;
+	p->double_value = 50.6e15 ;
+	p->size_t_value = 60 ;
+	p->date_value = boost::gregorian::day_clock::local_day() ;
+	p->ptime_value = boost::posix_time::second_clock::local_time() ;
+	p->time_duration_value = boost::posix_time::second_clock::local_time().time_of_day() ;
+	p->vector_value = std::vector<unsigned char>({0, 1, 2, 3, 4, 'a', 'b', 'c'}) ;
+	// p->optional_value left null
+	p->enum_value = aSimpleTable::Enum2 ;
+
+	ASSERT_NO_THROW( db.insert(p) ) ;
+
+	dbo2::ptr<aSimpleTable> q=db.load<aSimpleTable>(p.id()) ;
+
+	q->string_value = "tata" ;
+	q->longlong_value = 100 ;
+	q->optional_value = 25 ;
+
+//	ASSERT_NO_THROW( db.update(q) ) ;
+	db.update(q) ;
+
+	dbo2::ptr<aSimpleTable> r=db.load<aSimpleTable>(p.id()) ;
+
+	ASSERT_TRUE( r->string_value=="tata" ) ;
+	ASSERT_TRUE( r->longlong_value==100 ) ;
+	ASSERT_TRUE( r->optional_value==25 ) ;
+
+}

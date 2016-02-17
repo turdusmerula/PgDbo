@@ -1,5 +1,5 @@
-#ifndef _DBO_ACTION_LOADDB_HPP_
-#define _DBO_ACTION_LOADDB_HPP_
+#ifndef _DBO_ACTION_INSERT_HPP_
+#define _DBO_ACTION_INSERT_HPP_
 
 namespace dbo2 {
 namespace mapping {
@@ -10,10 +10,10 @@ template <class T> class FieldRef ;
 namespace action {
 
 template<class C>
-class LoadDb
+class Insert
 {
 public:
-	LoadDb(ptr<C> ptr, typename traits::dbo_traits<C>::IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
 
 	void visit() ;
 
@@ -26,7 +26,10 @@ private:
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::Statement& stmt_ ;
 
-	// id to be loaded
+	// indicate if action is preparing statement or executing it
+	bool preparing_ ;
+
+	// id is stored during build and is given to object only if insert succeeded
 	typename traits::dbo_traits<C>::IdType id_ ;
 };
 

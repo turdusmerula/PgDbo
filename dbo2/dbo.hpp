@@ -16,7 +16,8 @@
 #include <dbo2/mapping/PtrRef.hpp>
 
 #include <dbo2/action/InitSchema.hpp>
-#include <dbo2/action/SaveDb.hpp>
+#include <dbo2/action/Insert.hpp>
+#include <dbo2/action/Update.hpp>
 #include <dbo2/action/LoadDb.hpp>
 
 #include <dbo2/traits/dbo_traits.hpp>
@@ -28,7 +29,8 @@
 #include <dbo2/relation.cxx>
 
 #include <dbo2/action/InitSchema.cxx>
-#include <dbo2/action/SaveDb.cxx>
+#include <dbo2/action/Insert.cxx>
+#include <dbo2/action/Update.cxx>
 #include <dbo2/action/LoadDb.cxx>
 
 #include <dbo2/mapping/FieldRef.cxx>

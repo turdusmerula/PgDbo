@@ -1,5 +1,5 @@
-#ifndef _DBO_ACTION_SAVEDB_HPP_
-#define _DBO_ACTION_SAVEDB_HPP_
+#ifndef _DBO_ACTION_UPDATE_HPP_
+#define _DBO_ACTION_UPDATE_HPP_
 
 namespace dbo2 {
 namespace mapping {
@@ -10,10 +10,10 @@ template <class T> class FieldRef ;
 namespace action {
 
 template<class C>
-class SaveDb
+class Update
 {
 public:
-	SaveDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	Update(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
 
 	void visit() ;
 
@@ -28,9 +28,6 @@ private:
 
 	// indicate if action is preparing statement or executing it
 	bool preparing_ ;
-
-	// id is stored during build and is given to object only if insert succeeded
-	typename traits::dbo_traits<C>::IdType id_ ;
 };
 
 }}

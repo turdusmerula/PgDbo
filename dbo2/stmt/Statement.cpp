@@ -124,7 +124,11 @@ void Statement::prepare()
 		Exception("Database not connected") ;
 
 	if(oids_.size()!=paramCount_)
-		throw Exception("Statement types not properly set") ;
+	{
+		std::stringstream ss ;
+		ss << "Statement '" << name_ << "' not properly prepared: " << oids_.size() << " types provided, " << paramCount_ << " needed" ;
+		throw Exception(ss.str()) ;
+	}
 
 	auto result=PQprepare(conn_.conn_, name_.c_str(), sql_.c_str(), oids_.size(), (Oid *)oids_.data()) ;
 	auto err=PQresultStatus(result) ;
@@ -158,10 +162,16 @@ void Statement::reset()
 
 void Statement::execute()
 {
-	if(svalues_.size()<paramCount_)
-		throw Exception("Statement missing bindings values") ;
+	if(svalues_.size()!=paramCount_)
+	{
+		std::stringstream ss ;
+		ss << "Statement '" << name_ << "' was not bound correctly: " << svalues_.size() << " bindings provided, " << paramCount_ << " needed" ;
+		throw Exception(ss.str()) ;
+	}
 
-	if(conn_.showQueries())
+	if(conn_.showQueries() && conn_.showBindings())
+		std::cerr << sql_ << " -> (" << getBoundPlaceholders() << ")" << std::endl ;
+	else if(conn_.showQueries())
 		std::cerr << sql_ << std::endl ;
 
 	if(result_)
@@ -180,6 +190,18 @@ void Statement::execute()
 	}
 	else if(res==PGRES_TUPLES_OK)
 		affectedRows_ = PQntuples(result_) ;
+
+	if(conn_.showResults())
+	{
+		if(res!=PGRES_COMMAND_OK && res!=PGRES_TUPLES_OK)
+			std::cerr << "Error executing request" << std::endl ;
+		else
+		{
+			std::cerr << "Fetched " << affectedRows_ << " lines" << std::endl ;
+			for(int i=0 ; i<affectedRows_ ; i++)
+				;
+		}
+	}
 
 	if(res!=PGRES_COMMAND_OK && res!=PGRES_TUPLES_OK)
 	{
@@ -275,4 +297,34 @@ size_t Statement::getNumberPlaceHolders(const std::string& sql)
 	}
 
 	return placeholders.size() ;
+}
+
+std::string Statement::getBoundPlaceholders()
+{
+	std::stringstream ss ;
+
+	for(int i=0 ; i<oids_.size() ; i++)
+	{
+		if(i>0)
+			ss << ", " ;
+		ss << "$" << i+1 << "=" ;
+		if(i<svalues_.size())
+		{
+			if(oids_[i]==OIDBytea)
+				ss << "blob " << lengths_[i] << " bytes" ;
+			else if(values_[i])
+				ss << "'" << svalues_[i] << "'" ;
+			else
+				ss << "null" ;
+		}
+		else
+			ss << "####" ;
+	}
+
+	return ss.str() ;
+}
+
+std::string Statement::getResultRow(int row)
+{
+	// TODO
 }

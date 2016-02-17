@@ -2,7 +2,7 @@ namespace dbo2 {
 namespace action {
 
 template<class C>
-SaveDb<C>::SaveDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
+Insert<C>::Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),
@@ -13,7 +13,7 @@ SaveDb<C>::SaveDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt
 }
 
 template<class C>
-void SaveDb<C>::visit()
+void Insert<C>::visit()
 {
 	auto ptr=const_cast<C*>(ptr_.get()) ;
 
@@ -32,7 +32,14 @@ void SaveDb<C>::visit()
 	{
 		stmt_.reset() ;
 		ptr->persist(*this) ;
-		stmt_.execute() ;
+
+		try {
+			stmt_.execute() ;
+		} catch(std::exception& e) {
+			std::stringstream ss ;
+			ss << "Insert failed for '" << mapping_->tableName << "': " << e.what() ;
+			throw Exception(ss.str()) ;
+		}
 
 		if(stmt_.hasReturning())
 		{
@@ -40,7 +47,7 @@ void SaveDb<C>::visit()
 			if(stmt_.nextRow()==false)
 			{
 				std::stringstream ss ;
-				ss << "Insertion error for '" << mapping_->tableName << "' no returning id" ;
+				ss << "Insert error for '" << mapping_->tableName << "' no returning id" ;
 				throw Exception(ss.str()) ;
 			}
 
@@ -59,14 +66,14 @@ void SaveDb<C>::visit()
 
 template<class C>
 template<typename V>
-void SaveDb<C>::act(const mapping::FieldRef<V>& field)
+void Insert<C>::act(const mapping::FieldRef<V>& field)
 {
 	traits::sql_value_traits<V>::bind(field.value(), stmt_, -1) ;
 }
 
 template<class C>
 template<typename V>
-void SaveDb<C>::actId(V& value, const std::string& name, int size)
+void Insert<C>::actId(V& value, const std::string& name, int size)
 {
 	traits::sql_value_traits<V>::bind(value, stmt_, -1) ;
 
@@ -75,7 +82,7 @@ void SaveDb<C>::actId(V& value, const std::string& name, int size)
 		if(value==traits::dbo_traits<C>::invalidId())
 		{
 			std::stringstream ss ;
-			ss << "Insertion error for '" << mapping_->tableName << "' invalid id '" << ptr_.id() << "'" ;
+			ss << "Insert failed for '" << mapping_->tableName << "' invalid id '" << ptr_.id() << "'" ;
 			throw Exception(ss.str()) ;
 		}
 		else
