@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include <gtest/gtest.h>
+#include <gtest_extend.h>
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 

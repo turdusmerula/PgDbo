@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gtest_extend.h>
 
 #include <iostream>
 
@@ -122,7 +123,7 @@ TEST_F(TestSimpleTable, TestPtr) {
 TEST_F(TestSimpleTable, TestInsertNull) {
 	dbo2::ptr<aSimpleTable> p ;
 
-	ASSERT_THROW( db.insert(p), std::exception ) ;
+	ASSERT_THROW_V( db.insert(p), std::exception ) ;
 }
 
 TEST_F(TestSimpleTable, TestInsert) {
@@ -152,11 +153,11 @@ TEST_F(TestSimpleTable, TestInsert) {
 TEST_F(TestSimpleTable, TestLoadInvalidId) {
 	dbo2::ptr<aSimpleTable> p=dbo2::make_ptr<aSimpleTable>() ;
 
-	ASSERT_THROW( db.load<aSimpleTable>(p.id()), std::exception ) ;
+	ASSERT_THROW_V( db.load<aSimpleTable>(p.id()), std::exception ) ;
 }
 
 TEST_F(TestSimpleTable, TestLoadNonExistingId) {
-	ASSERT_THROW( db.load<aSimpleTable>(2500), std::exception ) ;
+	ASSERT_THROW_V( db.load<aSimpleTable>(2500), std::exception ) ;
 }
 
 TEST_F(TestSimpleTable, TestLoad) {
@@ -178,7 +179,7 @@ TEST_F(TestSimpleTable, TestLoad) {
 	// p->optional_value left null
 	p->enum_value = aSimpleTable::Enum2 ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<aSimpleTable> q=db.load<aSimpleTable>(p.id()) ;
 	ASSERT_TRUE( q->string_value=="toto" ) ;
@@ -203,17 +204,17 @@ TEST_F(TestSimpleTable, TestLoad) {
 TEST_F(TestSimpleTable, TestUpdateNull) {
 	dbo2::ptr<aSimpleTable> p ;
 
-	ASSERT_THROW( db.load<aSimpleTable>(p.id()), std::exception ) ;
+	ASSERT_THROW_V( db.load<aSimpleTable>(p.id()), std::exception ) ;
 }
 
 TEST_F(TestSimpleTable, TestUpdateInvalidId) {
 	dbo2::ptr<aSimpleTable> p=dbo2::make_ptr<aSimpleTable>() ;
 
-	ASSERT_THROW( db.load<aSimpleTable>(p.id()), std::exception ) ;
+	ASSERT_THROW_V( db.load<aSimpleTable>(p.id()), std::exception ) ;
 }
 
 TEST_F(TestSimpleTable, TestUpdateNonExistingId) {
-	ASSERT_THROW( db.load<aSimpleTable>(2500), std::exception ) ;
+	ASSERT_THROW_V( db.load<aSimpleTable>(2500), std::exception ) ;
 }
 
 TEST_F(TestSimpleTable, TestUpdate) {
@@ -234,7 +235,7 @@ TEST_F(TestSimpleTable, TestUpdate) {
 	// p->optional_value left null
 	p->enum_value = aSimpleTable::Enum2 ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<aSimpleTable> q=db.load<aSimpleTable>(p.id()) ;
 
@@ -242,8 +243,7 @@ TEST_F(TestSimpleTable, TestUpdate) {
 	q->longlong_value = 100 ;
 	q->optional_value = 25 ;
 
-//	ASSERT_NO_THROW( db.update(q) ) ;
-	db.update(q) ;
+	ASSERT_NO_THROW_V( db.update(q) ) ;
 
 	dbo2::ptr<aSimpleTable> r=db.load<aSimpleTable>(p.id()) ;
 

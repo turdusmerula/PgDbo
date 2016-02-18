@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gtest_extend.h>
 
 #include <iostream>
 
@@ -123,18 +124,18 @@ TEST_F(TestCustomIdTable, TestInsertInvalidId) {
 	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;
 
 	// try to insert with an invalid id
-	ASSERT_THROW( db.insert(p), std::exception ) ;
+	ASSERT_THROW_V( db.insert(p), std::exception ) ;
 }
 
 TEST_F(TestCustomIdTable, TestInsertDuplicate) {
 	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;
 	p->natural_id = "duplicate" ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<bNaturalIdTable> q=dbo2::make_ptr<bNaturalIdTable>() ;
 	q->natural_id = "duplicate" ;
-	ASSERT_THROW( db.insert(q), std::exception ) ;
+	ASSERT_THROW_V( db.insert(q), std::exception ) ;
 }
 
 TEST_F(TestCustomIdTable, TestInsert) {
@@ -142,7 +143,7 @@ TEST_F(TestCustomIdTable, TestInsert) {
 	p->natural_id = "toto" ;
 	p->value = "value" ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	ASSERT_TRUE( p.id()!=dbo2::traits::dbo_traits<bNaturalIdTable>::invalidId() ) ;
 	ASSERT_TRUE( p.id()==p->natural_id ) ;
@@ -154,7 +155,7 @@ TEST_F(TestCustomIdTable, TestLoadNaturalId) {
 	p->natural_id = "load natural" ;
 	p->value = "value" ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<bNaturalIdTable> q=db.load<bNaturalIdTable>(p.id()) ;
 	ASSERT_TRUE( q.id()!=dbo2::traits::dbo_traits<bNaturalIdTable>::invalidId() ) ;
@@ -165,7 +166,7 @@ TEST_F(TestCustomIdTable, TestLoadCustomId) {
 	dbo2::ptr<bCustomIdTable> p=dbo2::make_ptr<bCustomIdTable>() ;
 	p->value = "zuper gut" ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<bCustomIdTable> q=db.load<bCustomIdTable>(p.id()) ;
 	ASSERT_TRUE( q->value=="zuper gut" ) ;
@@ -176,13 +177,13 @@ TEST_F(TestCustomIdTable, TestLoadCustomId) {
 TEST_F(TestCustomIdTable, TestUpdateInvalidId) {
 	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;
 
-	ASSERT_THROW( db.update(p), std::exception ) ;
+	ASSERT_THROW_V( db.update(p), std::exception ) ;
 }
 
 TEST_F(TestCustomIdTable, TestUpdateNonExistingId) {
 	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;
 	p->natural_id = "non exist" ;
-	ASSERT_THROW( db.update(p), std::exception ) ;
+	ASSERT_THROW_V( db.update(p), std::exception ) ;
 }
 
 TEST_F(TestCustomIdTable, TestUpdate) {
@@ -190,13 +191,13 @@ TEST_F(TestCustomIdTable, TestUpdate) {
 	p->natural_id = "update" ;
 	p->value = "1" ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<bNaturalIdTable> q=db.load<bNaturalIdTable>(p.id()) ;
 	ASSERT_TRUE( q->value=="1") ;
 	q->value = "2" ;
 
-	ASSERT_NO_THROW( db.update(q) ) ;
+	ASSERT_NO_THROW_V( db.update(q) ) ;
 
 	dbo2::ptr<bNaturalIdTable> r=db.load<bNaturalIdTable>(p.id()) ;
 	ASSERT_TRUE( r->value=="2") ;

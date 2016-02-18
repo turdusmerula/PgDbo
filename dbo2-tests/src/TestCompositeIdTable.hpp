@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gtest_extend.h>
 
 #include <iostream>
 
@@ -112,7 +113,7 @@ TEST_F(TestCompositeIdTable, TestInsertInvalidId) {
 	dbo2::ptr<cCompositeIdTable> p=dbo2::make_ptr<cCompositeIdTable>() ;
 
 	// try to insert with an invalid id
-	ASSERT_THROW( db.insert(p), std::exception ) ;
+	ASSERT_THROW_V( db.insert(p), std::exception ) ;
 }
 
 TEST_F(TestCompositeIdTable, TestInsertDuplicate) {
@@ -121,12 +122,12 @@ TEST_F(TestCompositeIdTable, TestInsertDuplicate) {
 	p->composite_id.age = 25 ;
 	p->value = "value" ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<cCompositeIdTable> q=dbo2::make_ptr<cCompositeIdTable>() ;
 	q->composite_id.name = "duplicate" ;
 	q->composite_id.age = 25 ;
-	ASSERT_THROW( db.insert(q), std::exception ) ;
+	ASSERT_THROW_V( db.insert(q), std::exception ) ;
 }
 
 TEST_F(TestCompositeIdTable, TestInsert) {
@@ -135,7 +136,7 @@ TEST_F(TestCompositeIdTable, TestInsert) {
 	p->composite_id.age = 10 ;
 	p->value = "value" ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	ASSERT_FALSE( p.id()==dbo2::traits::dbo_traits<cCompositeIdTable>::invalidId() ) ;
 }
@@ -143,14 +144,14 @@ TEST_F(TestCompositeIdTable, TestInsert) {
 
 TEST_F(TestCompositeIdTable, TestLoadInvalidId) {
 	dbo2::ptr<cCompositeIdTable> p=dbo2::make_ptr<cCompositeIdTable>() ;
-	ASSERT_THROW( db.load<cCompositeIdTable>(p.id()), std::exception ) ;
+	ASSERT_THROW_V( db.load<cCompositeIdTable>(p.id()), std::exception ) ;
 }
 
 TEST_F(TestCompositeIdTable, TestLoadNonExistingId) {
 	dbo2::ptr<cCompositeIdTable> p=dbo2::make_ptr<cCompositeIdTable>() ;
 	p->composite_id.name = "non exist" ;
 	p->composite_id.age = 1500 ;
-	ASSERT_THROW( db.load<cCompositeIdTable>(p.id()), std::exception ) ;
+	ASSERT_THROW_V( db.load<cCompositeIdTable>(p.id()), std::exception ) ;
 }
 
 TEST_F(TestCompositeIdTable, TestLoad) {
@@ -159,7 +160,7 @@ TEST_F(TestCompositeIdTable, TestLoad) {
 	p->composite_id.age = 15 ;
 	p->value = "value" ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<cCompositeIdTable> q=db.load<cCompositeIdTable>(p.id()) ;
 	ASSERT_FALSE( q.id()==dbo2::traits::dbo_traits<cCompositeIdTable>::invalidId() ) ;
@@ -167,19 +168,32 @@ TEST_F(TestCompositeIdTable, TestLoad) {
 }
 
 
+TEST_F(TestCompositeIdTable, TestUpdateInvalidId) {
+	dbo2::ptr<cCompositeIdTable> p=dbo2::make_ptr<cCompositeIdTable>() ;
+
+	ASSERT_THROW_V( db.update(p), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestUpdateNonExistingId) {
+	dbo2::ptr<cCompositeIdTable> p=dbo2::make_ptr<cCompositeIdTable>() ;
+	p->composite_id.name = "non exist" ;
+	p->composite_id.age = 200 ;
+	ASSERT_THROW_V( db.update(p), std::exception ) ;
+}
+
 TEST_F(TestCompositeIdTable, TestUpdate) {
 	dbo2::ptr<cCompositeIdTable> p=dbo2::make_ptr<cCompositeIdTable>() ;
 	p->composite_id.name = "update" ;
 	p->composite_id.age = 36 ;
 	p->value = "4" ;
 
-	ASSERT_NO_THROW( db.insert(p) ) ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<cCompositeIdTable> q=db.load<cCompositeIdTable>(p.id()) ;
 	ASSERT_TRUE( q->value=="4") ;
 	q->value = "8" ;
 
-	ASSERT_NO_THROW( db.update(q) ) ;
+	ASSERT_NO_THROW_V( db.update(q) ) ;
 
 	dbo2::ptr<cCompositeIdTable> r=db.load<cCompositeIdTable>(p.id()) ;
 	ASSERT_TRUE( r->value=="8") ;
