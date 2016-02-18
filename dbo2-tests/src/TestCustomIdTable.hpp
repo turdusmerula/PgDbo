@@ -172,9 +172,16 @@ TEST_F(TestCustomIdTable, TestLoadCustomId) {
 	ASSERT_TRUE( q.id()!=dbo2::traits::dbo_traits<bCustomIdTable>::invalidId() ) ;
 }
 
-TEST_F(TestCustomIdTable, TestUpdateNull) {
-	dbo2::ptr<bNaturalIdTable> p ;
 
+TEST_F(TestCustomIdTable, TestUpdateInvalidId) {
+	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;
+
+	ASSERT_THROW( db.update(p), std::exception ) ;
+}
+
+TEST_F(TestCustomIdTable, TestUpdateNonExistingId) {
+	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;
+	p->natural_id = "non exist" ;
 	ASSERT_THROW( db.update(p), std::exception ) ;
 }
 
@@ -188,9 +195,9 @@ TEST_F(TestCustomIdTable, TestUpdate) {
 	dbo2::ptr<bNaturalIdTable> q=db.load<bNaturalIdTable>(p.id()) ;
 	ASSERT_TRUE( q->value=="1") ;
 	q->value = "2" ;
-	//ASSERT_NO_THROW( db.update(q) ) ;
-	db.update(q) ;
+
+	ASSERT_NO_THROW( db.update(q) ) ;
 
 	dbo2::ptr<bNaturalIdTable> r=db.load<bNaturalIdTable>(p.id()) ;
-	ASSERT_TRUE( q->value=="2") ;
+	ASSERT_TRUE( r->value=="2") ;
 }

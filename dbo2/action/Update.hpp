@@ -13,6 +13,8 @@ template<class C>
 class Update
 {
 public:
+	using IdType = typename traits::dbo_traits<C>::IdType ;
+
 	Update(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
 
 	void visit() ;
@@ -26,8 +28,11 @@ private:
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::Statement& stmt_ ;
 
-	// indicate if action is preparing statement or executing it
-	bool preparing_ ;
+	enum State {
+		PreparingStatement,
+		Updating
+	} ;
+	State state_ ;
 };
 
 }}

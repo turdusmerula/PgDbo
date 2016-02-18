@@ -6,7 +6,7 @@ Update<C>::Update(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),
-		preparing_(false)
+		state_(PreparingStatement)
 {
 	if(ptr_.id()==traits::dbo_traits<C>::invalidId())
 	{
@@ -23,13 +23,14 @@ void Update<C>::visit()
 
 	if(stmt_.prepared()==false)
 	{
+		state_ = PreparingStatement ;
+
 		// init prepared statement, use a dummy object to init the statement
-		preparing_ = true ;
 		C dummy ;
 		dummy.persist(*this) ;
 
 		// set criteria id
-		stmt_.bind(boost::lexical_cast<std::string>(ptr_.id())) ;
+		field(*this, const_cast<IdType&>(ptr_.id()), "") ;
 
 		try {
 			stmt_.prepare() ;
@@ -38,17 +39,19 @@ void Update<C>::visit()
 			ss << "Update statement preparation failed for '" << mapping_->tableName << "': " << e.what() ;
 			throw Exception(ss.str()) ;
 		}
-
-		preparing_ = false ;
 	}
 
+	state_ = Updating ;
 	if(ptr_)
 	{
 		stmt_.reset() ;
 		ptr->persist(*this) ;
 
-		// set criteria id
-		stmt_.bind(boost::lexical_cast<std::string>(ptr_.id())) ;
+		// bind id to search for
+		if(mapping_->surrogateIdFieldName!=boost::none)
+			field(*this, const_cast<IdType&>(ptr_.id()), mapping_->surrogateIdFieldName.get()) ;
+		else
+			field(*this, const_cast<IdType&>(ptr_.id()), mapping_->naturalIdFieldName, mapping_->naturalIdFieldSize) ;
 
 		try {
 			stmt_.execute() ;
@@ -77,7 +80,8 @@ template<class C>
 template<typename V>
 void Update<C>::actId(V& value, const std::string& name, int size)
 {
-	traits::sql_value_traits<V>::bind(value, stmt_, -1) ;
+	// add id fields to statement
+	field(*this, value, name) ;
 }
 
 }}

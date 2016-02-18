@@ -9,6 +9,12 @@ Insert<C>::Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt
 		state_(PreparingStatement),
 		id_(traits::dbo_traits<C>::invalidId())
 {
+	if(!ptr)
+	{
+		std::stringstream ss ;
+		ss << "Insert error for '" << mapping_->tableName << "': passing null ptr" ;
+		throw Exception(ss.str()) ;
+	}
 
 }
 
@@ -48,7 +54,7 @@ void Insert<C>::visit()
 			if(stmt_.nextRow()==false)
 			{
 				std::stringstream ss ;
-				ss << "Insert error for '" << mapping_->tableName << "' no returning id" ;
+				ss << "Insert error for '" << mapping_->tableName << "': no returning id" ;
 				throw Exception(ss.str()) ;
 			}
 

@@ -118,8 +118,14 @@ TEST_F(TestSimpleTable, TestPtr) {
 	ASSERT_TRUE((bool)q) ;
 }
 
-TEST_F(TestSimpleTable, TestInsert) {
 
+TEST_F(TestSimpleTable, TestInsertNull) {
+	dbo2::ptr<aSimpleTable> p ;
+
+	ASSERT_THROW( db.insert(p), std::exception ) ;
+}
+
+TEST_F(TestSimpleTable, TestInsert) {
 	dbo2::ptr<aSimpleTable> p=dbo2::make_ptr<aSimpleTable>() ;
 	p->string_value = "toto" ;
 	p->longlong_value = 10 ;
@@ -140,6 +146,17 @@ TEST_F(TestSimpleTable, TestInsert) {
 	db.insert(p) ;
 
 	ASSERT_TRUE( p.id()!=dbo2::traits::dbo_traits<aSimpleTable>::invalidId() ) ;
+}
+
+
+TEST_F(TestSimpleTable, TestLoadInvalidId) {
+	dbo2::ptr<aSimpleTable> p=dbo2::make_ptr<aSimpleTable>() ;
+
+	ASSERT_THROW( db.load<aSimpleTable>(p.id()), std::exception ) ;
+}
+
+TEST_F(TestSimpleTable, TestLoadNonExistingId) {
+	ASSERT_THROW( db.load<aSimpleTable>(2500), std::exception ) ;
 }
 
 TEST_F(TestSimpleTable, TestLoad) {
@@ -180,6 +197,23 @@ TEST_F(TestSimpleTable, TestLoad) {
 	ASSERT_TRUE( q->optional_value.is_initialized()==false ) ;
 	ASSERT_TRUE( q->enum_value==aSimpleTable::Enum2 ) ;
 
+}
+
+
+TEST_F(TestSimpleTable, TestUpdateNull) {
+	dbo2::ptr<aSimpleTable> p ;
+
+	ASSERT_THROW( db.load<aSimpleTable>(p.id()), std::exception ) ;
+}
+
+TEST_F(TestSimpleTable, TestUpdateInvalidId) {
+	dbo2::ptr<aSimpleTable> p=dbo2::make_ptr<aSimpleTable>() ;
+
+	ASSERT_THROW( db.load<aSimpleTable>(p.id()), std::exception ) ;
+}
+
+TEST_F(TestSimpleTable, TestUpdateNonExistingId) {
+	ASSERT_THROW( db.load<aSimpleTable>(2500), std::exception ) ;
 }
 
 TEST_F(TestSimpleTable, TestUpdate) {
