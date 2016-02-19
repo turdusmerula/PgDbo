@@ -84,4 +84,19 @@ void Update<C>::actId(V& value, const std::string& name, int size)
 	field(*this, value, name) ;
 }
 
+template<class C>
+template<class D>
+void Update<C>::actPtr(const mapping::PtrRef<D>& field)
+{
+	using IdType = typename traits::dbo_traits<D>::IdType ;
+
+	// this action is C type, we need D, so we create a special one for this type
+	Update<D> action(field.value(), conn().template getMapping<D>(), stmt_) ;
+	action.state_ = static_cast<typename Update<D>::State>(state_) ;
+
+	// load the id
+	// objects are not loaded, only the id to be able to operate a lazy loading next
+	id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+}
+
 }}

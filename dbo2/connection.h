@@ -22,6 +22,7 @@ template <class T> class ptr ;
 namespace action {
 template <class T> class Insert ;
 template <class T> class LoadDb ;
+template <class T> class Update ;
 class InitSchema ;
 }
 
@@ -195,6 +196,7 @@ protected:
 
 	template <class T> friend class action::Insert ;
 	template <class T> friend class action::LoadDb ;
+	template <class T> friend class action::Update ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
 	friend class stmt::Statement ;

@@ -201,7 +201,8 @@ TEST_F(TestBelongsToTable, TestLoad) {
 	p->value = "ok" ;
 	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
-	dbo2::ptr<dBelongsToTable> q=db.load<dBelongsToTable>(p.id()) ;
+	dbo2::ptr<dBelongsToTable> q ;
+	ASSERT_NO_THROW_V( q=db.load<dBelongsToTable>(p.id()) ) ;
 	ASSERT_FALSE( q.id()==dbo2::traits::dbo_traits<dBelongsToTable>::invalidId() ) ;
 	ASSERT_TRUE( q.id()==p.id() ) ;
 
@@ -216,3 +217,66 @@ TEST_F(TestBelongsToTable, TestLoad) {
 	ASSERT_FALSE( q->owner_simple.orphan() ) ;
 }
 
+
+TEST_F(TestBelongsToTable, TestUpdateNull) {
+	dbo2::ptr<dSimpleTable> owner_simple=dbo2::make_ptr<dSimpleTable>() ;
+	owner_simple->name = "update null" ;
+	owner_simple->value = "me" ;
+	ASSERT_NO_THROW_V( db.insert(owner_simple) ) ;
+
+	dbo2::ptr<dCompositeIdTable> owner_composite=dbo2::make_ptr<dCompositeIdTable>() ;
+	owner_composite->composite_id.name = "update null" ;
+	owner_composite->composite_id.age = 36 ;
+	owner_composite->value = "10" ;
+	ASSERT_NO_THROW_V( db.insert(owner_composite) ) ;
+
+	dbo2::ptr<dBelongsToTable> p=dbo2::make_ptr<dBelongsToTable>() ;
+	p->owner_simple = owner_simple ;
+	p->owner_composite = owner_composite ;
+	p->value = "ok" ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo2::ptr<dBelongsToTable> q ;
+	ASSERT_NO_THROW_V( q=db.load<dBelongsToTable>(p.id()) ) ;
+
+	q->owner_composite = dbo2::make_ptr<dCompositeIdTable>() ;	// set null pointer
+	ASSERT_THROW_V( db.update(q), std::exception ) ;
+}
+
+TEST_F(TestBelongsToTable, TestUpdate) {
+	dbo2::ptr<dSimpleTable> owner_simple=dbo2::make_ptr<dSimpleTable>() ;
+	owner_simple->name = "update" ;
+	owner_simple->value = "me" ;
+	ASSERT_NO_THROW_V( db.insert(owner_simple) ) ;
+
+	dbo2::ptr<dCompositeIdTable> owner_composite=dbo2::make_ptr<dCompositeIdTable>() ;
+	owner_composite->composite_id.name = "update" ;
+	owner_composite->composite_id.age = 36 ;
+	owner_composite->value = "10" ;
+	ASSERT_NO_THROW_V( db.insert(owner_composite) ) ;
+
+	dbo2::ptr<dBelongsToTable> p=dbo2::make_ptr<dBelongsToTable>() ;
+	p->owner_simple = owner_simple ;
+	p->owner_composite = owner_composite ;
+	p->value = "ok" ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+
+	dbo2::ptr<dBelongsToTable> q ;
+	ASSERT_NO_THROW_V( q=db.load<dBelongsToTable>(p.id()) ) ;
+
+	dbo2::ptr<dSimpleTable> owner_simple2=dbo2::make_ptr<dSimpleTable>() ;
+	owner_simple->name = "update new" ;
+	owner_simple->value = "me" ;
+	ASSERT_NO_THROW_V( db.insert(owner_simple2) ) ;
+
+	q->value = "yeah" ;
+	q->owner_simple = owner_simple2 ;
+	ASSERT_NO_THROW_V( db.update(q) ) ;
+
+	dbo2::ptr<dBelongsToTable> r ;
+	ASSERT_NO_THROW_V( r=db.load<dBelongsToTable>(p.id()) ) ;
+	ASSERT_TRUE( r->value=="yeah" ) ;
+	ASSERT_TRUE( q->owner_simple.id()==owner_simple2.id() ) ;
+
+}
