@@ -35,16 +35,16 @@ std::ostream& operator<< (std::ostream& o, const dKey& c)
 	return o << "(" << c.name << ", " << c.age << ")" ;
 }
 
-class dCompositeIdTable
+class dComplexIdTable
 {
 public:
-	dKey composite_id ;
+	dKey complex_id ;
 	std::string value ;
 
 	template<class Action>
 	void persist(Action& a)
 	{
-		dbo2::id(a, composite_id) ;
+		dbo2::id(a, complex_id) ;
 		dbo2::field(a, value, "value") ;
 	}
 } ;
@@ -52,7 +52,7 @@ public:
 namespace dbo2 {
 namespace traits {
 template<>
-struct dbo_traits<dCompositeIdTable> : public dbo_default_traits
+struct dbo_traits<dComplexIdTable> : public dbo_default_traits
 {
 	// define custom id type
 	typedef dKey IdType ;
@@ -88,14 +88,14 @@ public:
 	std::string value ;
 
 	dbo2::ptr<dSimpleTable> owner_simple ;
-	dbo2::ptr<dCompositeIdTable> owner_composite ;
+	dbo2::ptr<dComplexIdTable> owner_complex ;
 
 	template<class Action>
 	void persist(Action& a)
 	{
 		dbo2::field(a, value, "value") ;
 	    dbo2::belongsTo(a, owner_simple) ;
-	    dbo2::belongsTo(a, owner_composite) ;
+	    dbo2::belongsTo(a, owner_complex) ;
 	}
 } ;
 // ----------------------------------------------------------------------------
@@ -108,7 +108,7 @@ public:
 	static void SetUpTestCase()
 	{
 		db.connect(connection) ;
-		db.mapClass<dCompositeIdTable>("dCompositeIdTable") ;
+		db.mapClass<dComplexIdTable>("dComplexIdTable") ;
 		db.mapClass<dSimpleTable>("dSimpleTable") ;
 		db.mapClass<dBelongsToTable>("dBelongsToSimpleTable1") ;
 		db.createTables() ;
@@ -144,7 +144,7 @@ class User ;
 TEST_F(TestBelongsToTable, TestSql) {
 	dbo2::connection db ;
 
-	db.mapClass<dCompositeIdTable>("dCompositeIdTable") ;
+	db.mapClass<dComplexIdTable>("dComplexIdTable") ;
 	db.mapClass<dSimpleTable>("dSimpleTable") ;
 	db.mapClass<dBelongsToTable>("dBelongsToSimpleTable1") ;
 
@@ -156,7 +156,7 @@ TEST_F(TestBelongsToTable, TestInsertNull) {
 
 	dbo2::ptr<dBelongsToTable> p=dbo2::make_ptr<dBelongsToTable>() ;
 	// p->owner_simple left null
-	// p->owner_composite left null
+	// p->owner_complex left null
 	p->value = "ok" ;
 	ASSERT_THROW_V( db.insert(p), std::exception ) ;
 
@@ -168,15 +168,15 @@ TEST_F(TestBelongsToTable, TestInsert) {
 	owner_simple->value = "me" ;
 	ASSERT_NO_THROW_V( db.insert(owner_simple) ) ;
 
-	dbo2::ptr<dCompositeIdTable> owner_composite=dbo2::make_ptr<dCompositeIdTable>() ;
-	owner_composite->composite_id.name = "toto" ;
-	owner_composite->composite_id.age = 36 ;
-	owner_composite->value = "10" ;
-	ASSERT_NO_THROW_V( db.insert(owner_composite) ) ;
+	dbo2::ptr<dComplexIdTable> owner_complex=dbo2::make_ptr<dComplexIdTable>() ;
+	owner_complex->complex_id.name = "toto" ;
+	owner_complex->complex_id.age = 36 ;
+	owner_complex->value = "10" ;
+	ASSERT_NO_THROW_V( db.insert(owner_complex) ) ;
 
 	dbo2::ptr<dBelongsToTable> p=dbo2::make_ptr<dBelongsToTable>() ;
 	p->owner_simple = owner_simple ;
-	p->owner_composite = owner_composite ;
+	p->owner_complex = owner_complex ;
 	p->value = "ok" ;
 	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
@@ -189,15 +189,15 @@ TEST_F(TestBelongsToTable, TestLoad) {
 	owner_simple->value = "me" ;
 	ASSERT_NO_THROW_V( db.insert(owner_simple) ) ;
 
-	dbo2::ptr<dCompositeIdTable> owner_composite=dbo2::make_ptr<dCompositeIdTable>() ;
-	owner_composite->composite_id.name = "load" ;
-	owner_composite->composite_id.age = 36 ;
-	owner_composite->value = "10" ;
-	ASSERT_NO_THROW_V( db.insert(owner_composite) ) ;
+	dbo2::ptr<dComplexIdTable> owner_complex=dbo2::make_ptr<dComplexIdTable>() ;
+	owner_complex->complex_id.name = "load" ;
+	owner_complex->complex_id.age = 36 ;
+	owner_complex->value = "10" ;
+	ASSERT_NO_THROW_V( db.insert(owner_complex) ) ;
 
 	dbo2::ptr<dBelongsToTable> p=dbo2::make_ptr<dBelongsToTable>() ;
 	p->owner_simple = owner_simple ;
-	p->owner_composite = owner_composite ;
+	p->owner_complex = owner_complex ;
 	p->value = "ok" ;
 	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
@@ -206,10 +206,10 @@ TEST_F(TestBelongsToTable, TestLoad) {
 	ASSERT_FALSE( q.id()==dbo2::traits::dbo_traits<dBelongsToTable>::invalidId() ) ;
 	ASSERT_TRUE( q.id()==p.id() ) ;
 
-	ASSERT_FALSE( q->owner_composite.id()==dbo2::traits::dbo_traits<dCompositeIdTable>::invalidId() ) ;
-	ASSERT_TRUE( q->owner_composite.id()==owner_composite.id() ) ;
-	ASSERT_FALSE( q->owner_composite.loaded() ) ;
-	ASSERT_FALSE( q->owner_composite.orphan() ) ;
+	ASSERT_FALSE( q->owner_complex.id()==dbo2::traits::dbo_traits<dComplexIdTable>::invalidId() ) ;
+	ASSERT_TRUE( q->owner_complex.id()==owner_complex.id() ) ;
+	ASSERT_FALSE( q->owner_complex.loaded() ) ;
+	ASSERT_FALSE( q->owner_complex.orphan() ) ;
 
 	ASSERT_FALSE( q->owner_simple.id()==dbo2::traits::dbo_traits<dSimpleTable>::invalidId() ) ;
 	ASSERT_TRUE( q->owner_simple.id()==owner_simple.id() ) ;
@@ -224,22 +224,22 @@ TEST_F(TestBelongsToTable, TestUpdateNull) {
 	owner_simple->value = "me" ;
 	ASSERT_NO_THROW_V( db.insert(owner_simple) ) ;
 
-	dbo2::ptr<dCompositeIdTable> owner_composite=dbo2::make_ptr<dCompositeIdTable>() ;
-	owner_composite->composite_id.name = "update null" ;
-	owner_composite->composite_id.age = 36 ;
-	owner_composite->value = "10" ;
-	ASSERT_NO_THROW_V( db.insert(owner_composite) ) ;
+	dbo2::ptr<dComplexIdTable> owner_complex=dbo2::make_ptr<dComplexIdTable>() ;
+	owner_complex->complex_id.name = "update null" ;
+	owner_complex->complex_id.age = 36 ;
+	owner_complex->value = "10" ;
+	ASSERT_NO_THROW_V( db.insert(owner_complex) ) ;
 
 	dbo2::ptr<dBelongsToTable> p=dbo2::make_ptr<dBelongsToTable>() ;
 	p->owner_simple = owner_simple ;
-	p->owner_composite = owner_composite ;
+	p->owner_complex = owner_complex ;
 	p->value = "ok" ;
 	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo2::ptr<dBelongsToTable> q ;
 	ASSERT_NO_THROW_V( q=db.load<dBelongsToTable>(p.id()) ) ;
 
-	q->owner_composite = dbo2::make_ptr<dCompositeIdTable>() ;	// set null pointer
+	q->owner_complex = dbo2::make_ptr<dComplexIdTable>() ;	// set null pointer
 	ASSERT_THROW_V( db.update(q), std::exception ) ;
 }
 
@@ -249,15 +249,15 @@ TEST_F(TestBelongsToTable, TestUpdate) {
 	owner_simple->value = "me" ;
 	ASSERT_NO_THROW_V( db.insert(owner_simple) ) ;
 
-	dbo2::ptr<dCompositeIdTable> owner_composite=dbo2::make_ptr<dCompositeIdTable>() ;
-	owner_composite->composite_id.name = "update" ;
-	owner_composite->composite_id.age = 36 ;
-	owner_composite->value = "10" ;
-	ASSERT_NO_THROW_V( db.insert(owner_composite) ) ;
+	dbo2::ptr<dComplexIdTable> owner_complex=dbo2::make_ptr<dComplexIdTable>() ;
+	owner_complex->complex_id.name = "update" ;
+	owner_complex->complex_id.age = 36 ;
+	owner_complex->value = "10" ;
+	ASSERT_NO_THROW_V( db.insert(owner_complex) ) ;
 
 	dbo2::ptr<dBelongsToTable> p=dbo2::make_ptr<dBelongsToTable>() ;
 	p->owner_simple = owner_simple ;
-	p->owner_composite = owner_composite ;
+	p->owner_complex = owner_complex ;
 	p->value = "ok" ;
 	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
@@ -278,5 +278,32 @@ TEST_F(TestBelongsToTable, TestUpdate) {
 	ASSERT_NO_THROW_V( r=db.load<dBelongsToTable>(p.id()) ) ;
 	ASSERT_TRUE( r->value=="yeah" ) ;
 	ASSERT_TRUE( q->owner_simple.id()==owner_simple2.id() ) ;
+}
 
+
+TEST_F(TestBelongsToTable, TestDelete) {
+	dbo2::ptr<dSimpleTable> owner_simple=dbo2::make_ptr<dSimpleTable>() ;
+	owner_simple->name = "delete" ;
+	owner_simple->value = "me" ;
+	ASSERT_NO_THROW_V( db.insert(owner_simple) ) ;
+
+	dbo2::ptr<dComplexIdTable> owner_complex=dbo2::make_ptr<dComplexIdTable>() ;
+	owner_complex->complex_id.name = "delete" ;
+	owner_complex->complex_id.age = 36 ;
+	owner_complex->value = "10" ;
+	ASSERT_NO_THROW_V( db.insert(owner_complex) ) ;
+
+	dbo2::ptr<dBelongsToTable> p=dbo2::make_ptr<dBelongsToTable>() ;
+	p->owner_simple = owner_simple ;
+	p->owner_complex = owner_complex ;
+	p->value = "ok" ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+
+	dbo2::ptr<dBelongsToTable> q ;
+	ASSERT_NO_THROW_V( q=db.load<dBelongsToTable>(p.id()) ) ;
+
+	ASSERT_NO_THROW_V( db.remove(q) ) ;
+	ASSERT_FALSE( q.loaded() ) ;
+	ASSERT_TRUE( q.orphan() ) ;
 }

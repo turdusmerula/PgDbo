@@ -7,7 +7,7 @@ ForeignKeyConstraint::ForeignKeyConstraint(int value)
 {
 }
 
-ForeignKeyConstraint operator|(ForeignKeyConstraint lhs, ForeignKeyConstraint rhs)
+ForeignKeyConstraint dbo2::operator|(ForeignKeyConstraint lhs, ForeignKeyConstraint rhs)
 {
 	return ForeignKeyConstraint(lhs.value() | rhs.value()) ;
 }

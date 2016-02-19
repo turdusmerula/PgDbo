@@ -12,6 +12,10 @@ template <class T> class Update ;
 template <class T> class LoadDb ;
 }
 
+template <class C> class ptr ;
+template<class C> std::ostream& operator<<(std::ostream& o, const ptr<C>& _ptr) ;
+
+
 class ptr_base
 {
 
@@ -126,13 +130,16 @@ public:
 	 */
 	bool orphan() const ;
 
-	const IdType& id() ;
+	const IdType& id() const ;
 protected:
 	struct Ptr
 	{
 		C* value_ ;
 		size_t ref_ ;
 		IdType id_ ;
+
+		// this is the table name corresponding to C type, it is needed for serialisation
+		char* tableName_ ;
 	} ;
 
 	static IdType invalidId_ ;
@@ -144,11 +151,15 @@ protected:
 
 	void id(const IdType& value) ;
 
+	void tableName(const char* tableName) ;
+
 	friend class connection ;
 	template <class T> friend class action::Delete ;
 	template <class T> friend class action::Insert ;
 	template <class T> friend class action::Update ;
 	template <class T> friend class action::LoadDb ;
+
+	friend std::ostream& operator<< <>(std::ostream& o, const ptr<C>& _ptr) ;
 } ;
 
 
@@ -160,4 +171,5 @@ inline ptr<_Tp> make_ptr(_Args&&... __args)
 }
 
 }
+
 #endif

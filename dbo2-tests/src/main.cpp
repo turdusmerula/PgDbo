@@ -8,8 +8,9 @@
 
 #include <dbo2-tests/src/TestSimpleTable.hpp>
 #include <dbo2-tests/src/TestCustomIdTable.hpp>
-#include <dbo2-tests/src/TestCompositeIdTable.hpp>
+#include <dbo2-tests/src/TestComplexIdTable.hpp>
 #include <dbo2-tests/src/TestBelongsToTable.hpp>
+#include <dbo2-tests/src/TestCompositeIdTable.hpp>
 //#include <dbo2-tests/src/TestHasManyTable.hpp>
 //#include <dbo2-tests/src/TestRequest.hpp>
 

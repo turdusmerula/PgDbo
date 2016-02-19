@@ -1,3 +1,4 @@
+
 namespace dbo2 {
 
 // init static invalidId_
@@ -18,6 +19,7 @@ ptr<C>::ptr(C* obj)
 	ptr_->value_ = obj ;
 	ptr_->ref_ = 1 ;
 	ptr_->id_ = traits::dbo_traits<C>::invalidId() ;
+	ptr_->tableName_ = nullptr ;
 }
 
 template<class C>
@@ -53,6 +55,7 @@ void ptr<C>::reset(C* _ptr)
 		ptr_->value_ = _ptr ;
 		ptr_->ref_ = 1 ;
 		ptr_->id_ = traits::dbo_traits<C>::invalidId() ;
+		ptr_->tableName_ = nullptr ;
 	}
 }
 
@@ -200,7 +203,7 @@ void ptr<C>::take()
 }
 
 template<class C>
-const typename ptr<C>::IdType& ptr<C>::id()
+const typename ptr<C>::IdType& ptr<C>::id() const
 {
 	if(ptr_)
 		return ptr_->id_ ;
@@ -213,6 +216,22 @@ void ptr<C>::id(const ptr<C>::IdType& value)
 {
 	if(ptr_)
 		ptr_->id_ = value ;
+}
+
+template<class C>
+void ptr<C>::tableName(const char* tableName)
+{
+	if(ptr_)
+		ptr_->tableName_ = const_cast<char*>(tableName) ;
+}
+
+template<class C>
+std::ostream& operator<<(std::ostream& o, const dbo2::ptr<C>& _ptr)
+{
+	if(_ptr.ptr_ && _ptr.ptr_->tableName_)
+		return o << "[" << _ptr.ptr_->tableName_ << ": " << _ptr.id() << "]" ;
+	else
+		return o << "[null]" ;
 }
 
 }

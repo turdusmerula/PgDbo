@@ -20,6 +20,7 @@ namespace dbo2 {
 template <class T> class ptr ;
 
 namespace action {
+template <class T> class Delete ;
 template <class T> class Insert ;
 template <class T> class LoadDb ;
 template <class T> class Update ;
@@ -194,6 +195,7 @@ protected:
 	template<class C> std::shared_ptr<mapping::Mapping<C>> getMapping() ;
 	MappingInfoPtr getMapping(const std::string& tableName) const ;
 
+	template <class T> friend class action::Delete ;
 	template <class T> friend class action::Insert ;
 	template <class T> friend class action::LoadDb ;
 	template <class T> friend class action::Update ;

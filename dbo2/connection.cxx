@@ -50,6 +50,8 @@ ptr<C> connection::insert(ptr<C>& obj)
 	auto mapping=getMapping<C>() ;
 	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
 
+	obj.tableName(tableName<C>().c_str()) ;
+
 	action::Insert<C> action(obj, mapping, stmt) ;
 	action.visit() ;
 
@@ -87,6 +89,7 @@ ptr<C> connection::load(const typename traits::dbo_traits<C>::IdType& id)
 	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlSelectById)->second ;
 
 	ptr<C> obj=make_ptr<C>() ;
+	obj.tableName(tableName<C>().c_str()) ;
 
 	action::LoadDb<C> action(obj, id, mapping, stmt) ;
 	action.visit() ;
