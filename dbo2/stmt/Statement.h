@@ -76,6 +76,7 @@ public:
 	const std::string name() { return name_ ; }
 	const std::string sql() { return sql_ ; }
 	bool prepared() { return prepared_ ; }
+	connection& conn() { return conn_ ; }
 protected:
 	enum OIDEnum
 	{

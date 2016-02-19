@@ -9,13 +9,6 @@ Insert<C>::Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt
 		state_(PreparingStatement),
 		id_(traits::dbo_traits<C>::invalidId())
 {
-	if(!ptr)
-	{
-		std::stringstream ss ;
-		ss << "Insert error for '" << mapping_->tableName << "': passing null ptr" ;
-		throw Exception(ss.str()) ;
-	}
-
 }
 
 template<class C>
@@ -30,10 +23,22 @@ void Insert<C>::visit()
 		C dummy ;
 		dummy.persist(*this) ;
 
-		stmt_.prepare() ;
+		try {
+			stmt_.prepare() ;
+		} catch(std::exception& e) {
+			std::stringstream ss ;
+			ss << "Insert statement preparation failed for '" << mapping_->tableName << "': " << e.what() ;
+			throw Exception(ss.str()) ;
+		}
 	}
 
-	if(ptr_)
+	if(!ptr)
+	{
+		std::stringstream ss ;
+		ss << "Insert error for '" << mapping_->tableName << "': passing null ptr" ;
+		throw Exception(ss.str()) ;
+	}
+	else
 	{
 		state_ = Inserting ;
 		stmt_.reset() ;
@@ -114,6 +119,45 @@ void Insert<C>::actId(V& value, const std::string& name, int size)
 		break ;
 	case ReadingId:
 
+		break ;
+	}
+}
+
+//template<class C>
+//template<class D>
+//void Insert<C>::actId(ptr<D>& value, const std::string& name, int size, int fkConstraints)
+//{
+//
+//}
+
+template<class C>
+template<class D>
+void Insert<C>::actPtr(const mapping::PtrRef<D>& field)
+{
+	using IdType = typename traits::dbo_traits<D>::IdType ;
+
+	// this action is C type, we need D, so we create a special one for this type
+	Insert<D> action(field.value(), conn().template getMapping<D>(), stmt_) ;
+	action.state_ = static_cast<typename Insert<D>::State>(state_) ;
+
+	switch(state_)
+	{
+	case PreparingStatement:
+		// add id fields to statement
+		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		break ;
+	case Inserting:
+		if(field.value().id()==traits::dbo_traits<D>::invalidId())
+		{
+			std::stringstream ss ;
+			ss << "Insert failed for '" << mapping_->tableName << "' invalid id '" << field.value().id() << "'" ;
+			throw Exception(ss.str()) ;
+		}
+
+		// add id fields to statement
+		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		break ;
+	case ReadingId:
 		break ;
 	}
 }

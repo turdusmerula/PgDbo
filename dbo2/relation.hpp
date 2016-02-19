@@ -1,6 +1,8 @@
 #ifndef _DBO_RELATION_HPP_
 #define _DBO_RELATION_HPP_
 
+#include <dbo2/mapping/ForeignKeyConstraint.h>
+
 namespace dbo2 {
 
 /*! \brief Maps a natural primary key (id) field.
@@ -82,6 +84,14 @@ void field(Action& action, V& value, const std::string& name, int size=-1) ;
 template<class Action, class C>
 void belongsTo(Action& action, ptr<C>& value, const std::string& name=std::string(), int size=-1) ;
 
+template<class Action, class C>
+void belongsTo(Action& action, ptr<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size=-1) ;
+
+template<class Action, class C>
+void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, int size=-1) ;
+
 }
+
+
 
 #endif

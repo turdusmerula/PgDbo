@@ -252,3 +252,31 @@ TEST_F(TestSimpleTable, TestUpdate) {
 	ASSERT_TRUE( r->optional_value==25 ) ;
 
 }
+
+
+TEST_F(TestSimpleTable, TestRemoveNull) {
+	dbo2::ptr<aSimpleTable> p ;
+
+	ASSERT_THROW_V( db.remove<aSimpleTable>(p), std::exception ) ;
+}
+
+TEST_F(TestSimpleTable, TestRemoveInvalidId) {
+	dbo2::ptr<aSimpleTable> p=dbo2::make_ptr<aSimpleTable>() ;
+
+	ASSERT_THROW_V( db.remove<aSimpleTable>(p), std::exception ) ;
+}
+
+TEST_F(TestSimpleTable, TestRemove) {
+
+	dbo2::ptr<aSimpleTable> p=dbo2::make_ptr<aSimpleTable>() ;
+	p->string_value = "toto" ;
+	p->longlong_value = 10 ;
+
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo2::ptr<aSimpleTable> q=db.load<aSimpleTable>(p.id()) ;
+
+	ASSERT_NO_THROW_V( db.remove<aSimpleTable>(q) ) ;
+	ASSERT_TRUE( q.id()==dbo2::traits::dbo_traits<aSimpleTable>::invalidId() ) ;
+
+}

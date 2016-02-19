@@ -202,3 +202,31 @@ TEST_F(TestCustomIdTable, TestUpdate) {
 	dbo2::ptr<bNaturalIdTable> r=db.load<bNaturalIdTable>(p.id()) ;
 	ASSERT_TRUE( r->value=="2") ;
 }
+
+
+TEST_F(TestCustomIdTable, TestRemoveNull) {
+	dbo2::ptr<bNaturalIdTable> p ;
+
+	ASSERT_THROW_V( db.remove<bNaturalIdTable>(p), std::exception ) ;
+}
+
+TEST_F(TestCustomIdTable, TestRemoveInvalidId) {
+	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;
+
+	ASSERT_THROW_V( db.remove<bNaturalIdTable>(p), std::exception ) ;
+}
+
+TEST_F(TestCustomIdTable, TestRemove) {
+
+	dbo2::ptr<bNaturalIdTable> p=dbo2::make_ptr<bNaturalIdTable>() ;
+	p->natural_id = "remove" ;
+	p->value = "10" ;
+
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo2::ptr<bNaturalIdTable> q=db.load<bNaturalIdTable>(p.id()) ;
+
+	ASSERT_NO_THROW_V( db.remove<bNaturalIdTable>(q) ) ;
+	ASSERT_TRUE( q.id()==dbo2::traits::dbo_traits<bNaturalIdTable>::invalidId() ) ;
+
+}

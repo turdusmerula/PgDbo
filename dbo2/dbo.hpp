@@ -1,6 +1,8 @@
 #ifndef _DBO_DBO_HPP_
 #define _DBO_DBO_HPP_
 
+#include <csignal>
+
 #include <dbo2/connection.h>
 #include <dbo2/ptr.hpp>
 #include <dbo2/relation.hpp>
@@ -16,6 +18,7 @@
 #include <dbo2/mapping/PtrRef.hpp>
 
 #include <dbo2/action/InitSchema.hpp>
+#include <dbo2/action/Delete.hpp>
 #include <dbo2/action/Insert.hpp>
 #include <dbo2/action/Update.hpp>
 #include <dbo2/action/LoadDb.hpp>
@@ -30,6 +33,7 @@
 #include <dbo2/relation.cxx>
 
 #include <dbo2/action/InitSchema.cxx>
+#include <dbo2/action/Delete.cxx>
 #include <dbo2/action/Insert.cxx>
 #include <dbo2/action/Update.cxx>
 #include <dbo2/action/LoadDb.cxx>

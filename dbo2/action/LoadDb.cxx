@@ -2,6 +2,12 @@ namespace dbo2 {
 namespace action {
 
 template<class C>
+LoadDb<C>::LoadDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
+	: 	LoadDb(ptr, traits::dbo_traits<C>::invalidId(), mapping, stmt)
+{
+}
+
+template<class C>
 LoadDb<C>::LoadDb(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
 	: 	ptr_(ptr),
 		mapping_(mapping),
@@ -9,12 +15,6 @@ LoadDb<C>::LoadDb(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> ma
 		id_(id),
 		state_(PreparingStatement)
 {
-	if(id_==traits::dbo_traits<C>::invalidId())
-	{
-		std::stringstream ss ;
-		ss << "Select failed for '" << mapping_->tableName << "': invalid id '" << id_ << "'" ;
-		throw Exception(ss.str()) ;
-	}
 }
 
 template<class C>
@@ -37,6 +37,13 @@ void LoadDb<C>::visit()
 			throw Exception(ss.str()) ;
 		}
 
+	}
+
+	if(id_==traits::dbo_traits<C>::invalidId())
+	{
+		std::stringstream ss ;
+		ss << "Select failed for '" << mapping_->tableName << "': invalid id '" << id_ << "'" ;
+		throw Exception(ss.str()) ;
 	}
 
 	state_ = Selecting ;
@@ -103,6 +110,26 @@ void LoadDb<C>::actId(V& value, const std::string& name, int size)
 {
 	// add id fields to statement
 	field(*this, value, name) ;
+}
+
+template<class C>
+template<class D>
+void LoadDb<C>::actPtr(const mapping::PtrRef<D>& field)
+{
+	using IdType = typename traits::dbo_traits<D>::IdType ;
+
+	// this action is C type, we need D, so we create a special one for this type
+	LoadDb<D> action(field.value(), conn().template getMapping<D>(), stmt_) ;
+	action.state_ = static_cast<typename LoadDb<D>::State>(state_) ;
+
+	// load the id
+	// objects are not loaded, only the id to be able to operate a lazy loading next
+	id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+
+//	IdType& loadid=const_cast<IdType&>(field.value().id()) ;
+//	LoadId<D> action2(loadid, conn().template getMapping<D>(), stmt_) ;
+//	id(action2, loadid, field.name()) ;
+//	std::cout << "id: " << loadid << std::endl ;
 }
 
 }}

@@ -1,5 +1,5 @@
-#ifndef _DBO_ACTION_LOADDB_HPP_
-#define _DBO_ACTION_LOADDB_HPP_
+#ifndef _DBO_ACTION_LOADID_HPP_
+#define _DBO_ACTION_LOADID_HPP_
 
 namespace dbo2 {
 namespace mapping {
@@ -10,13 +10,12 @@ template <class T> class FieldRef ;
 namespace action {
 
 template<class C>
-class LoadDb
+class LoadId
 {
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	LoadDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
-	LoadDb(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	LoadId(IdType& id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
 
 	void visit() ;
 
@@ -29,21 +28,11 @@ public:
 
 	connection& conn() { return stmt_.conn() ; } ;
 private:
-	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::Statement& stmt_ ;
 
 	// id to be loaded
-	IdType id_ ;
-
-	enum State {
-		PreparingStatement,
-		Selecting,
-		ReadingResult
-	} ;
-	State state_ ;
-
-	template <class D> friend class LoadDb ;
+	IdType& id_ ;
 };
 
 }}

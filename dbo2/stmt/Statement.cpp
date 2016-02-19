@@ -127,6 +127,7 @@ void Statement::prepare()
 	{
 		std::stringstream ss ;
 		ss << "Statement '" << name_ << "' not properly prepared: " << oids_.size() << " types provided, " << paramCount_ << " needed" ;
+		ss << " -> " << sql_ ;
 		throw Exception(ss.str()) ;
 	}
 
@@ -166,6 +167,7 @@ void Statement::execute()
 	{
 		std::stringstream ss ;
 		ss << "Statement '" << name_ << "' was not bound correctly: " << svalues_.size() << " bindings provided, " << paramCount_ << " needed" ;
+		ss << " -> " << sql_ ;
 		throw Exception(ss.str()) ;
 	}
 
@@ -199,6 +201,7 @@ void Statement::execute()
 		{
 			std::cerr << "Fetched " << affectedRows_ << " lines" << std::endl ;
 			for(int i=0 ; i<affectedRows_ ; i++)
+				// TODO show result lines
 				;
 		}
 	}
@@ -207,7 +210,11 @@ void Statement::execute()
 	{
 		PQclear(result_) ;
 		result_ = nullptr ;
-		throw Exception(PQerrorMessage(conn_.conn_)) ;
+
+		std::stringstream ss ;
+		ss << "Statement '" << name_ << "' execution failed: " << PQerrorMessage(conn_.conn_) ;
+		ss << " -> " << sql_ ;
+		throw Exception(ss.str()) ;
 	}
 }
 

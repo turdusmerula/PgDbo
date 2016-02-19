@@ -6,6 +6,7 @@
 namespace dbo2 {
 
 namespace action {
+template <class T> class Delete ;
 template <class T> class Insert ;
 template <class T> class Update ;
 template <class T> class LoadDb ;
@@ -23,13 +24,6 @@ private:
 	typedef typename boost::remove_const<C>::type MutC;
 public:
 	typedef typename traits::dbo_traits<C>::IdType IdType ;
-
-	enum class State : int {
-		Null,			// not initialized
-		Orphan, 		// object not linked with a database object
-		Transiant,		// operation in progress in a transaction
-		Loaded			// loaded from database
-	} ;
 
 	ptr() ;
 	ptr(C* obj) ;
@@ -122,14 +116,20 @@ public:
 	 */
 	explicit operator bool() const ;
 
+	/**
+	 * An object is considered as loaded if it has a content and a valid id
+	 */
 	bool loaded() const ;
+
+	/**
+	 * An object is considered as orphaned if it has a content and an invalid id
+	 */
 	bool orphan() const ;
 
 	const IdType& id() ;
 protected:
 	struct Ptr
 	{
-		State state_ ;
 		C* value_ ;
 		size_t ref_ ;
 		IdType id_ ;
@@ -145,6 +145,7 @@ protected:
 	void id(const IdType& value) ;
 
 	friend class connection ;
+	template <class T> friend class action::Delete ;
 	template <class T> friend class action::Insert ;
 	template <class T> friend class action::Update ;
 	template <class T> friend class action::LoadDb ;

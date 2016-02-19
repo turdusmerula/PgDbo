@@ -20,6 +20,8 @@ namespace dbo2 {
 template <class T> class ptr ;
 
 namespace action {
+template <class T> class Insert ;
+template <class T> class LoadDb ;
 class InitSchema ;
 }
 
@@ -119,6 +121,12 @@ public:
 	template<class C>
 	ptr<C> load(const typename traits::dbo_traits<C>::IdType& id) ;
 
+	/**
+	 * Remove an existing object from database
+	 */
+	template<class C>
+	void remove(ptr<C>& ptr) ;
+
 
 	void debug() ;
 
@@ -185,10 +193,14 @@ protected:
 	template<class C> std::shared_ptr<mapping::Mapping<C>> getMapping() ;
 	MappingInfoPtr getMapping(const std::string& tableName) const ;
 
+	template <class T> friend class action::Insert ;
+	template <class T> friend class action::LoadDb ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
 	friend class stmt::Statement ;
 	friend class transaction ;
+
+
 } ;
 
 }

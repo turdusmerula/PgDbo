@@ -94,4 +94,16 @@ ptr<C> connection::load(const typename traits::dbo_traits<C>::IdType& id)
 	return obj ;
 }
 
+template<class C>
+void connection::remove(ptr<C>& obj)
+{
+	auto mapping=getMapping<C>() ;
+	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlDelete)->second ;
+
+	action::Delete<C> action(obj, mapping, stmt) ;
+	action.visit() ;
+//
+//	return obj ;
+}
+
 }

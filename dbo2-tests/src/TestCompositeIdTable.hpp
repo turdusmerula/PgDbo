@@ -198,3 +198,32 @@ TEST_F(TestCompositeIdTable, TestUpdate) {
 	dbo2::ptr<cCompositeIdTable> r=db.load<cCompositeIdTable>(p.id()) ;
 	ASSERT_TRUE( r->value=="8") ;
 }
+
+
+TEST_F(TestCompositeIdTable, TestRemoveNull) {
+	dbo2::ptr<cCompositeIdTable> p ;
+
+	ASSERT_THROW_V( db.remove<cCompositeIdTable>(p), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestRemoveInvalidId) {
+	dbo2::ptr<cCompositeIdTable> p=dbo2::make_ptr<cCompositeIdTable>() ;
+
+	ASSERT_THROW_V( db.remove<cCompositeIdTable>(p), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestRemove) {
+
+	dbo2::ptr<cCompositeIdTable> p=dbo2::make_ptr<cCompositeIdTable>() ;
+	p->composite_id.name = "remove" ;
+	p->composite_id.age = 36 ;
+	p->value = "10" ;
+
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo2::ptr<cCompositeIdTable> q=db.load<cCompositeIdTable>(p.id()) ;
+
+	ASSERT_NO_THROW_V( db.remove<cCompositeIdTable>(q) ) ;
+	ASSERT_TRUE( q.id()==dbo2::traits::dbo_traits<cCompositeIdTable>::invalidId() ) ;
+
+}

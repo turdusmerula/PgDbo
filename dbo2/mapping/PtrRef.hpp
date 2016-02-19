@@ -35,10 +35,6 @@ public:
 
 	const std::type_info* type() const ;
 
-	/*
-	 * If session = 0, the visited foreign key fields will not be named
-	 * correctly (ok when e.g. reading/writing data)
-	 */
 	template<typename A> void visit(A& action, connection& conn) const ;
 
 private:

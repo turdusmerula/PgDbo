@@ -162,7 +162,9 @@ bool ptr<C>::loaded() const
 {
 	if(ptr_==nullptr)
 		return false ;
-	return ptr_->state_==State::Loaded ;
+	else if(ptr_->value_ && !(ptr_->id_==traits::dbo_traits<C>::invalidId()))
+		return true ;
+	return false ;
 }
 
 template<class C>
@@ -170,7 +172,9 @@ bool ptr<C>::orphan() const
 {
 	if(ptr_==nullptr)
 		return false ;
-	return ptr_->state_==State::Orphan ;
+	else if(ptr_->value_ && ptr_->id_==traits::dbo_traits<C>::invalidId())
+		return true ;
+	return false ;
 }
 
 template<class C>

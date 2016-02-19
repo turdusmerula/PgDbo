@@ -13,20 +13,26 @@ void field(Action& action, V& value, const std::string& name, int size)
 }
 
 
-
-template<class A, class C>
-void belongsToImpl(A& action, ptr<C>& value, const std::string& name, int fkConstraints, int size)
+template<class Action, class C>
+void belongsTo(Action& action, ptr<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size)
 {
 	if(name.empty())
-		action.actPtr(mapping::PtrRef<C>(value, action.conn().template tableName<C>(), size, fkConstraints));
+		action.actPtr(mapping::PtrRef<C>(value, action.conn().template tableName<C>(), size, constraints.value())) ;
 	else
-		action.actPtr(mapping::PtrRef<C>(value, name, size, fkConstraints));
+		action.actPtr(mapping::PtrRef<C>(value, name, size, constraints.value())) ;
 }
 
 template<class A, class C>
 void belongsTo(A& action, ptr<C>& value, const std::string& name, int size)
 {
-	belongsToImpl(action, value, name, 0, size);
+	belongsTo(action, value, name, None, size) ;
+}
+
+template<class Action, class C>
+void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, int size)
+{
+	belongsTo(action, value, "", None, size) ;
+
 }
 
 }

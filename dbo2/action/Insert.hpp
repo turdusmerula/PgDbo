@@ -5,6 +5,7 @@ namespace dbo2 {
 namespace mapping {
 template <class T> class Mapping ;
 template <class T> class FieldRef ;
+template <class T> class PtrRef ;
 }
 
 namespace action {
@@ -20,16 +21,20 @@ public:
 	void visit() ;
 
 	template<typename V> void act(const mapping::FieldRef<V>& field) ;
+
 	template<typename V> void actId(V& value, const std::string& name, int size) ;
 	template<class D> void actId(ptr<D>& value, const std::string& name, int size, int fkConstraints) ;
 
+	template <class D> void actPtr(const mapping::PtrRef<D>& field) ;
+
+	connection& conn() { return stmt_.conn() ; } ;
 private:
 	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::Statement& stmt_ ;
 
 	enum State {
-		PreparingStatement,
+		PreparingStatement=0,
 		Inserting,
 		ReadingId
 	} ;
@@ -37,6 +42,8 @@ private:
 
 	// id is stored during build and is given to object only if insert succeeded
 	IdType id_ ;
+
+	template <class D> friend class Insert ;
 };
 
 }}

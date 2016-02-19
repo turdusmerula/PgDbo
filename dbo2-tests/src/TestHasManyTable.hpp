@@ -42,7 +42,7 @@ class Session
 public:
 	std::string token ;
 
-	dbo2::key<User> user ;
+	dbo2::ptr<User> user ;
 
 	template<class Action>
 	void persist(Action& a)
