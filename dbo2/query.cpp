@@ -1,4 +1,5 @@
 #include <dbo2/query.hpp>
+#include <dbo2/traits/StdSqlTraits.h>
 
 using namespace dbo2 ;
 

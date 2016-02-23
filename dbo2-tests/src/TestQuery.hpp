@@ -77,13 +77,13 @@ TEST_F(TestQuery, TestFind) {
 	for(int i=0 ; i<10 ; i++)
 	{
 		dbo2::ptr<gSimpleTable> p=dbo2::make_ptr<gSimpleTable>() ;
-		p->value1 = "TestQuerySelect" ;
+		p->value1 = "TestFind" ;
 		p->value2 = i ;
 		ASSERT_NO_THROW_V( db.insert(p) ) ;
 	}
 
 	dbo2::query q(db) ;
-	ASSERT_NO_THROW_V( q = db.find<gSimpleTable>("value1='TestQuerySelect'").execute() ) ;
+	ASSERT_NO_THROW_V( q = db.find<gSimpleTable>("value1='TestFind'").execute() ) ;
 
 	int i=0 ;
 	while(q.hasrow())
@@ -91,8 +91,43 @@ TEST_F(TestQuery, TestFind) {
 		i++ ;
 		dbo2::ptr<gSimpleTable> r ;
 		ASSERT_NO_THROW_V( q.read(r) ) ;
-		ASSERT_TRUE( r->value1=="TestQuerySelect" ) ;
+		ASSERT_TRUE( r->value1=="TestFind" ) ;
 		q.nextRow() ;
 	}
 	ASSERT_TRUE( i==10 ) ;
+}
+
+TEST_F(TestQuery, TestFindBind) {
+	dbo2::ptr<gSimpleTable> p=dbo2::make_ptr<gSimpleTable>() ;
+	p->value1 = "TestFindBind" ;
+	p->value2 = 10 ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo2::query q(db) ;
+	ASSERT_NO_THROW_V( q = db.find<gSimpleTable>("value1=? and value2=?").bind("TestFindBind").bind(10).execute() ) ;
+
+	dbo2::ptr<gSimpleTable> r ;
+	ASSERT_NO_THROW_V( q.read(r) ) ;
+	ASSERT_TRUE( r->value1=="TestFindBind" ) ;
+	ASSERT_TRUE( r->value2==10 ) ;
+}
+
+TEST_F(TestQuery, TestQuery) {
+	dbo2::ptr<gSimpleTable> p=dbo2::make_ptr<gSimpleTable>() ;
+	p->value1 = "TestQuery" ;
+	p->value2 = 10 ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo2::query q(db) ;
+	ASSERT_NO_THROW_V( q = db.query("select *, 15 as count from \"gSimpleTable\" as t1 inner join \"gSimpleTable\" as t2 on t1.id=t2.id where t1.value1=? and t1.value2=? ").bind("TestQuery").bind(10).execute() ) ;
+
+	dbo2::ptr<gSimpleTable> r, s, t ;
+	int count=0 ;
+	ASSERT_NO_THROW_V( q.read(r).read(s).read(count) ) ;
+	ASSERT_THROW_V( q.read(t), std::exception ) ;
+	ASSERT_TRUE( count==15 ) ;
+	ASSERT_TRUE( r->value1=="TestQuery" ) ;
+	ASSERT_TRUE( r->value2==10 ) ;
+	ASSERT_TRUE( s->value1=="TestQuery" ) ;
+	ASSERT_TRUE( s->value2==10 ) ;
 }

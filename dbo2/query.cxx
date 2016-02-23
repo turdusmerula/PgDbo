@@ -78,10 +78,28 @@ query& query::read(ptr<C>& ptr)
 	return *this ;
 }
 
+template <class T>
+query& query::read(T& value)
+{
+	if(hasrow_==false)
+	{
+		std::stringstream ss ;
+		ss << "Query error: no data to fetch" ;
+		ss << " -> " << sql_ ;
+		throw Exception(ss.str()) ;
+	}
+
+	if(traits::sql_value_traits<T>::read(value, stmt_, -1)==false)
+		throw Exception("Load error: read out of bounds") ;
+
+	return *this ;
+}
+
 template <class C>
 query& query::bind(const C& value)
 {
-
+	traits::sql_value_traits<C>::bind(value, stmt_, -1) ;
+	return *this ;
 }
 
 }

@@ -45,6 +45,9 @@ public:
 	template <class C>
 	query& read(ptr<C>& ptr) ;
 
+	template <class T>
+	query& read(T& value) ;
+
 	bool nextRow() ;
 
 	const std::string& sql() { return sql_ ; }

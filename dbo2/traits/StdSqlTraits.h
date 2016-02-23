@@ -18,6 +18,18 @@
 
 #include <dbo2/stmt/Statement.h>
 
+  template <typename Type>
+  struct is_raw_string
+  {
+    static const bool value = (std::is_array<Type>::value &&
+      std::is_same<typename std::remove_const<
+        typename std::remove_extent<Type>::type>::type, char>::value) ||
+
+      (std::is_pointer<Type>::value &&
+        std::is_same<typename std::remove_const<
+          typename std::remove_pointer<Type>::type>::type, char>::value);
+  };
+
 namespace dbo2 {
 namespace stmt {
 class Statement ;
@@ -32,6 +44,21 @@ struct sql_value_traits<std::string, void>
 	static std::string type(int size) ;
 	static void bind(const std::string& v, stmt::Statement& statement, int size) ;
 	static bool read(std::string& v, stmt::Statement& statement, int size) ;
+} ;
+
+/**
+ * This trait allow binding from literal string.
+ * Read is deactivated, you must use std::string to define table bindings
+ */
+template<typename Type>
+struct sql_value_traits<Type, typename boost::enable_if<is_raw_string<Type>>::type> : public sql_value_traits<std::string>
+{
+	static void bind(const Type& v, stmt::Statement& statement, int size)
+	{
+		sql_value_traits<std::string>::bind(boost::lexical_cast<std::string>(v), statement, size) ;
+	}
+
+	// read deactivated for raw strings
 } ;
 
 template<>

@@ -25,7 +25,8 @@ template<class C>
 template<typename V>
 void LoadDb<C>::act(const mapping::FieldRef<V>& field)
 {
-	traits::sql_value_traits<V>::read(field.value(), stmt_, -1) ;
+	if(traits::sql_value_traits<V>::read(field.value(), stmt_, -1)==false)
+		throw Exception("Load error: read out of bounds") ;
 }
 
 template<class C>
