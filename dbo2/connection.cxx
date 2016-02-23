@@ -91,7 +91,7 @@ ptr<C> connection::load(const typename traits::dbo_traits<C>::IdType& id)
 	ptr<C> obj=make_ptr<C>() ;
 	obj.tableName(tableName<C>().c_str()) ;
 
-	action::LoadDb<C> action(obj, id, mapping, stmt) ;
+	action::SelectById<C> action(obj, id, mapping, stmt) ;
 	action.visit() ;
 
 	return obj ;
@@ -107,6 +107,15 @@ void connection::remove(ptr<C>& obj)
 	action.visit() ;
 //
 //	return obj ;
+}
+
+template<class C>
+query connection::find(const std::string& condition)
+{
+	if(condition.empty())
+		return dbo2::query(*this, "select * from \""+tableName<C>()+"\"") ;
+	else
+		return dbo2::query(*this, "select * from \""+tableName<C>()+"\" where "+condition) ;
 }
 
 }

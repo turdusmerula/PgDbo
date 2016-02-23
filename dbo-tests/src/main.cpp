@@ -15,6 +15,7 @@
 #include "TestBelongsToTable.hpp"
 #include "TestHasManyTable.hpp"
 #include "TestRequest.hpp"
+#include "TestQuery.hpp"
 
 dbo::backend::Postgres* db=nullptr ;
 std::unique_ptr<dbo::FixedSqlConnectionPool> pool ;
@@ -29,6 +30,8 @@ int main(int argc, char* argv[])
 
 	// decode command line
 	boost::program_options::options_description desc("Options") ;
+	::testing::InitGoogleTest(&argc, argv) ;
+
 	try {
 		// parse command line
 	    desc.add_options()
@@ -60,12 +63,12 @@ int main(int argc, char* argv[])
 
 	    if(vm.count("help")){
 	        std::cout << desc ;
+			::testing::InitGoogleTest(&argc, argv) ;
 	        exit(1) ;
 	    }
 
 	} catch(std::exception& e) {
 		std::cerr << "Usage " << desc << std::endl ;
-		::testing::InitGoogleTest(&argc, argv) ;
 		return 1 ;
 	}
 

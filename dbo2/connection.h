@@ -10,6 +10,7 @@
 #include <dbo2/traits/SqlPostgresTypes.hpp>
 #include <dbo2/traits/dbo_traits.hpp>
 #include <dbo2/transaction.h>
+#include <dbo2/query.hpp>
 
 #include <pqxx/pqxx>
 
@@ -18,11 +19,12 @@ typedef struct pg_conn PGconn;
 
 namespace dbo2 {
 template <class T> class ptr ;
+class query ;
 
 namespace action {
 template <class T> class Delete ;
 template <class T> class Insert ;
-template <class T> class LoadDb ;
+template <class T> class SelectById ;
 template <class T> class Update ;
 class InitSchema ;
 }
@@ -111,6 +113,7 @@ public:
 	template<class C>
 	ptr<C> update(ptr<C>& ptr) ;
 
+	// TODO: implement load lazy and load recursive (?)
 	/**
 	 * Reload an existing object from database
 	 */
@@ -123,12 +126,17 @@ public:
 	template<class C>
 	ptr<C> load(const typename traits::dbo_traits<C>::IdType& id) ;
 
+
 	/**
 	 * Remove an existing object from database
 	 */
 	template<class C>
 	void remove(ptr<C>& ptr) ;
 
+	template<class C>
+	query find(const std::string& condition="") ;
+
+	dbo2::query query(const std::string& sql) ;
 
 	void debug() ;
 
@@ -197,8 +205,9 @@ protected:
 
 	template <class T> friend class action::Delete ;
 	template <class T> friend class action::Insert ;
-	template <class T> friend class action::LoadDb ;
+	template <class T> friend class action::SelectById ;
 	template <class T> friend class action::Update ;
+	friend class query ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
 	friend class stmt::Statement ;

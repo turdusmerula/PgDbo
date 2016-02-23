@@ -9,14 +9,16 @@ template <class T> class FieldRef ;
 
 namespace action {
 
+/**
+ * Load an object from statement current state
+ */
 template<class C>
 class LoadDb
 {
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	LoadDb(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
-	LoadDb(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	LoadDb(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
 
 	void visit() ;
 
@@ -29,19 +31,9 @@ public:
 
 	connection& conn() { return stmt_.conn() ; } ;
 private:
-	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::Statement& stmt_ ;
-
-	// id to be loaded
-	IdType id_ ;
-
-	enum State {
-		PreparingStatement,
-		Selecting,
-		ReadingResult
-	} ;
-	State state_ ;
+	ptr<C>& ptr_ ;
 
 	template <class D> friend class LoadDb ;
 };

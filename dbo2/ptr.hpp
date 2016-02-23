@@ -9,9 +9,10 @@ namespace action {
 template <class T> class Delete ;
 template <class T> class Insert ;
 template <class T> class Update ;
-template <class T> class LoadDb ;
+template <class T> class SelectById ;
 }
 
+class query ;
 template <class C> class ptr ;
 template<class C> std::ostream& operator<<(std::ostream& o, const ptr<C>& _ptr) ;
 
@@ -157,7 +158,8 @@ protected:
 	template <class T> friend class action::Delete ;
 	template <class T> friend class action::Insert ;
 	template <class T> friend class action::Update ;
-	template <class T> friend class action::LoadDb ;
+	template <class T> friend class action::SelectById ;
+	friend class query ;
 
 	friend std::ostream& operator<< <>(std::ostream& o, const ptr<C>& _ptr) ;
 } ;

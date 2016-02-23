@@ -817,3 +817,8 @@ void connection::transaction(std::function<void()> func)
 		throw ;
 	}
 }
+
+dbo2::query connection::query(const std::string& sql)
+{
+	return dbo2::query(*this, sql) ;
+}

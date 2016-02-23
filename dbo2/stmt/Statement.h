@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <map>
+#include <memory>
 
 extern "C"
 {
@@ -17,11 +19,27 @@ namespace stmt {
 class Statement
 {
 public:
+	/**
+	 * Build a statement, the name of the statement will be created from the hash of the sql query
+	 */
 	Statement(connection& conn, std::string sql) ;
 
+	/**
+	 * Build a statement. If the given name is empty then the statement is treated as an anonymous
+	 * statement and will overwrite any previous anonymous statement
+	 */
 	Statement(connection& conn, std::string name, std::string sql) ;
 
 	virtual ~Statement() ;
+
+//	Statement(const Statement& other) ;
+
+	/**
+	 * A statement is copyable under conditions.
+	 * You can only copy prepared statements, statements with results will throw an error.
+	 * You can copy a statement only if it is from the same connection
+	 */
+//	Statement& operator=(const Statement& other) ;
 
 	/**
 	 * Bind a null value
@@ -73,10 +91,23 @@ public:
 	 */
 	bool hasReturning() { return hasReturning_ ; }
 
-	const std::string name() { return name_ ; }
-	const std::string sql() { return sql_ ; }
-	bool prepared() { return prepared_ ; }
-	connection& conn() { return conn_ ; }
+	const std::string sql() const { return rawsql_ ; }
+	void sql(const std::string& sql) ;
+
+	const std::string name() const { return name_ ; }
+
+	/**
+	 * Set name of prepared statement
+	 * If name is empty then prepared statement is anonymous and will overwrite previous
+	 * prepared anonymous statement at prepare.
+	 */
+	void name(const std::string& name) ;
+
+	bool hashName() { return hashname_ ; }
+	void hashName(bool value) ;
+
+	bool prepared() const { return prepared_ ; }
+	connection& conn() const { return *conn_ ; }
 protected:
 	enum OIDEnum
 	{
@@ -84,13 +115,20 @@ protected:
 		OIDBytea = 17
 	} ;
 
-	connection& conn_ ;
+	connection* conn_ ;
+
+	bool hashname_ ;
 	std::string name_ ;
+
+	std::string rawsql_ ;
 	std::string sql_ ;
+
 	bool prepared_ ;
 	size_t paramCount_ ;
 
-	pg_result* result_ ;
+	// allow statement to be copyable and change the pg_result to RAII object with pg_result_deleter as custom deleter
+	std::shared_ptr<pg_result> result_ ;
+
 	int row_ ;
 	int column_ ;
 	size_t affectedRows_ ;
@@ -105,8 +143,11 @@ protected:
 
 	std::string convertToNumberedPlaceholders(const std::string& sql) ;
 	size_t getNumberPlaceHolders(const std::string& sql) ;
+	size_t getPlaceHolders(const std::string& sql, std::map<std::string, std::string>& placeholders) ;
 	std::string getBoundPlaceholders() ;
 	std::string getResultRow(int row) ;
+
+	static void pg_result_deleter(pg_result* result) ;
 } ;
 
 }}

@@ -12,7 +12,9 @@
 #include <dbo2-tests/src/TestBelongsToTable.hpp>
 #include <dbo2-tests/src/TestCompositeIdTable.hpp>
 //#include <dbo2-tests/src/TestHasManyTable.hpp>
-//#include <dbo2-tests/src/TestRequest.hpp>
+#include <dbo2-tests/src/TestKeyConstraints.hpp>
+#include <dbo2-tests/src/TestStatement.hpp>
+#include <dbo2-tests/src/TestQuery.hpp>
 
 std::string connection ;
 dbo2::connection db ;
@@ -27,6 +29,8 @@ int main(int argc, char* argv[])
 
 	// decode command line
 	boost::program_options::options_description desc("Options") ;
+	::testing::InitGoogleTest(&argc, argv) ;
+
 	try {
 		// parse command line
 	    desc.add_options()
@@ -58,12 +62,12 @@ int main(int argc, char* argv[])
 
 	    if(vm.count("help")){
 	        std::cout << desc ;
+			::testing::InitGoogleTest(&argc, argv) ;
 	        exit(1) ;
 	    }
 
 	} catch(std::exception& e) {
 		std::cerr << "Usage " << desc << std::endl ;
-		::testing::InitGoogleTest(&argc, argv) ;
 		return 1 ;
 	}
 
