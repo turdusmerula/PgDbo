@@ -4,8 +4,6 @@
 #include <sstream>
 
 namespace dbo2 {
-namespace mapping {
-
 /*! \brief Type of an SQL relation.
  *
  * \ingroup dbo
@@ -16,17 +14,25 @@ enum RelationType
 	ManyToMany  //!< Many-to-Many relationship
 };
 
+namespace mapping {
+
 struct SetInfo
 {
-	std::string tableName ;
-	std::string joinName ;
-	std::string joinSelfId ;
-	std::string joinOtherId ;
-	RelationType type ;
-	int fkConstraints ;
-	int otherFkConstraints ;
+	std::string tableName_ ;
+	std::string joinName_ ;
+	std::string joinSelfId_ ;
+	std::string joinOtherId_ ;
+	RelationType type_ ;
+	int fkConstraints_ ;
+	int otherFkConstraints_ ;
 
-//	SetInfo(std::string aTableName, RelationType type, const std::string& aJoinName, const std::string& aJoinSelfId, int someFkConstraints) ;
+	SetInfo(std::string tableName, RelationType type, const std::string& joinName, const std::string& joinSelfId, int someFkConstraints)
+		: 	tableName_(tableName),
+			joinName_(joinName),
+			joinSelfId_(joinSelfId),
+			type_(type),
+			fkConstraints_(someFkConstraints)
+	{}
 
 	std::string debug(int tab)
 	{
@@ -34,13 +40,13 @@ struct SetInfo
 		std::string stab(tab, ' ') ;
 		std::string stab1(tab+1, ' ') ;
 
-		ss << "<SetInfo>" << std::endl ;
-		ss << stab1 << "tableName: " << tableName << std::endl ;
-		ss << stab1 << "joinName: " << joinName << std::endl ;
-		ss << stab1 << "joinSelfId: " << joinSelfId << std::endl ;
-		ss << stab1 << "joinOtherId: " << joinOtherId << std::endl ;
+		ss << stab << "<SetInfo>" << std::endl ;
+		ss << stab1 << "tableName: " << tableName_ << std::endl ;
+		ss << stab1 << "joinName: " << joinName_ << std::endl ;
+		ss << stab1 << "joinSelfId: " << joinSelfId_ << std::endl ;
+		ss << stab1 << "joinOtherId: " << joinOtherId_ << std::endl ;
 
-		switch(type)
+		switch(type_)
 		{
 		case ManyToOne:
 			ss << stab1 << "type: " << "ManyToOne" << std::endl ;
@@ -50,8 +56,8 @@ struct SetInfo
 			break ;
 		}
 
-		ss << stab1 << "fkConstraints: " << fkConstraints << std::endl ;
-		ss << stab1 << "otherFkConstraints: " << otherFkConstraints << std::endl ;
+		ss << stab1 << "fkConstraints: " << fkConstraints_ << std::endl ;
+		ss << stab1 << "otherFkConstraints: " << otherFkConstraints_ << std::endl ;
 
 		return ss.str() ;
 	}

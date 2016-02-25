@@ -1,5 +1,5 @@
-#ifndef _DBO_ACTION_INSERT_HPP_
-#define _DBO_ACTION_INSERT_HPP_
+#ifndef _DBO_ACTION_BULKINSERT_HPP_
+#define _DBO_ACTION_BULKINSERT_HPP_
 
 namespace dbo2 {
 namespace mapping {
@@ -11,12 +11,12 @@ template <class T> class PtrRef ;
 namespace action {
 
 template<class C>
-class Insert
+class BulkInsert
 {
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	BulkInsert(collection<C>& coll, std::shared_ptr<mapping::Mapping<C>> mapping, connection& conn) ;
 
 	void visit() ;
 
@@ -29,11 +29,11 @@ public:
 
 	template<class D> void actCollection(const mapping::CollectionRef<D>& field) ;
 
-	connection& conn() { return stmt_.conn() ; } ;
+	connection& conn() { return conn_ ; } ;
 private:
-	ptr<C> ptr_ ;
+	collection<C>& coll_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
-	stmt::Statement& stmt_ ;
+	dbo2::connection& conn_ ;
 
 	enum State {
 		PreparingStatement=0,
@@ -42,10 +42,7 @@ private:
 	} ;
 	State state_ ;
 
-	// id is stored during build and is given to object only if insert succeeded
-	IdType id_ ;
-
-	template <class D> friend class Insert ;
+	template <class D> friend class BulkInsert ;
 };
 
 }}

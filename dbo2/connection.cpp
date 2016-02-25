@@ -160,15 +160,16 @@ void connection::createTable(MappingInfoPtr mapping, std::set<std::string>& tabl
 		sql << "  primary key (" << primaryKey << ")" ;
 	}
 
-	int i=0 ;
-	for(auto& field : mapping->fields)
+	for(size_t i=0 ; i<mapping->fields.size() ; )
 	{
+		const mapping::FieldInfo& field=mapping->fields[i] ;
+
 		if(field.isForeignKey() && createConstraints)
 		{
 			if(!firstField)
 				sql << ",\n" ;
 
-			unsigned firstI=i ;
+			size_t firstI=i ;
 			i = findLastForeignKeyField(mapping, field, firstI) ;
 			sql << "  " << constraintString(mapping, field, firstI, i) ;
 
@@ -248,20 +249,20 @@ void connection::resolveJoinIds(MappingInfoPtr mapping)
 {
 	for(auto& set : mapping->sets)
 	{
-		if(set.type==mapping::ManyToMany)
+		if(set.type_==ManyToMany)
 		{
-			MappingInfoPtr other=getMapping(set.tableName) ;
+			MappingInfoPtr other=getMapping(set.tableName_) ;
 
 			for(auto& otherSet : mapping->sets)
 			{
-				if(otherSet.joinName==set.joinName)
+				if(otherSet.joinName_==set.joinName_)
 				{
 					// second check make sure we find the other id if Many-To-Many between
 					// same table
 					if(mapping!=other || &set!=&otherSet)
 					{
-						set.joinOtherId = otherSet.joinSelfId ;
-						set.otherFkConstraints = otherSet.fkConstraints ;
+						set.joinOtherId_ = otherSet.joinSelfId_ ;
+						set.otherFkConstraints_ = otherSet.fkConstraints_ ;
 						break ;
 					}
 				}
@@ -274,13 +275,13 @@ void connection::createRelations(MappingInfoPtr mapping, std::set<std::string>& 
 {
 	for(auto& set : mapping->sets)
 	{
-		if(set.type==mapping::ManyToMany)
+		if(set.type_==ManyToMany)
 		{
-			if(tablesCreated.count(set.joinName)==0)
+			if(tablesCreated.count(set.joinName_)==0)
 			{
-				MappingInfoPtr other=getMapping(set.tableName) ;
+				MappingInfoPtr other=getMapping(set.tableName_) ;
 
-				createJoinTable(set.joinName, mapping, other, set.joinSelfId, set.joinOtherId, set.fkConstraints, set.otherFkConstraints, tablesCreated, sout) ;
+				createJoinTable(set.joinName_, mapping, other, set.joinSelfId_, set.joinOtherId_, set.fkConstraints_, set.otherFkConstraints_, tablesCreated, sout) ;
 			}
 		}
 	}
@@ -520,11 +521,13 @@ void connection::prepareSelectedByIdStatements(MappingInfoPtr mapping)
 void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 {
 
+	size_t setIndex=mapping::MappingInfo::FirstSqlSelectSet ;
+
 	for(auto& info : mapping->sets)
 	{
 		std::stringstream sql ;
 
-		MappingInfoPtr otherMapping=getMapping(info.tableName) ;
+		MappingInfoPtr otherMapping=getMapping(info.tableName_) ;
 
 		// select [surrogate id,] version, ... from other
 
@@ -550,7 +553,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 
 			if(field.isForeignKey() && field.foreignKeyTable()==mapping->tableName)
 			{
-				if(field.foreignKeyName()==info.joinName)
+				if(field.foreignKeyName()==info.joinName_)
 				{
 					if(!fkConditions.empty())
 						fkConditions += " and " ;
@@ -568,14 +571,14 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 
 		sql << " from \"" << quoteSchemaDot(otherMapping->tableName) ;
 
-		switch(info.type)
+		switch(info.type_)
 		{
-		case mapping::ManyToOne:
+		case ManyToOne:
 			// where joinfield_id(s) = ?
 
 			if(fkConditions.empty())
 			{
-				std::string msg = std::string()+"Relation mismatch for table '"+mapping->tableName+"': no matching belongsTo() found in table '"+otherMapping->tableName+"' with name '"+info.joinName+"'" ;
+				std::string msg = std::string()+"Relation mismatch for table '"+mapping->tableName+"': no matching belongsTo() found in table '"+otherMapping->tableName+"' with name '"+info.joinName_+"'" ;
 
 				if(!other.empty())
 					msg += ", but did find with name "+other+"?" ;
@@ -585,20 +588,20 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 
 			sql << "\" where " << fkConditions ;
 
-			mapping->statements.insert({mapping::MappingInfo::FirstSqlSelectSet, stmt::Statement(*this, sql.str())}) ;
+			mapping->statements.insert({setIndex++, stmt::Statement(*this, sql.str())}) ;
 			break ;
-		case mapping::ManyToMany:
+		case ManyToMany:
 			// (1) select for collection
 
 			//     join "joinName" on "joinName"."joinId(s) = this."id(s)
 			//     where joinfield_id(s) = ?
 
-			std::string joinName=quoteSchemaDot(info.joinName) ;
-			std::string tableName=quoteSchemaDot(info.tableName) ;
+			std::string joinName=quoteSchemaDot(info.joinName_) ;
+			std::string tableName=quoteSchemaDot(info.tableName_) ;
 
 			sql << "\" join \"" << joinName << "\" on " ;
 
-			std::vector<mapping::JoinId> otherJoinIds=getJoinIds(otherMapping, info.joinOtherId) ;
+			std::vector<mapping::JoinId> otherJoinIds=getJoinIds(otherMapping, info.joinOtherId_) ;
 
 			if(otherJoinIds.size()>1)
 				sql << "(" ;
@@ -617,7 +620,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 
 			sql << " where " ;
 
-			std::vector<mapping::JoinId> selfJoinIds = getJoinIds(mapping, info.joinSelfId) ;
+			std::vector<mapping::JoinId> selfJoinIds = getJoinIds(mapping, info.joinSelfId_) ;
 
 			first = true ;
 			for(auto& selfJoinId : selfJoinIds)
@@ -628,7 +631,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 				first = false ;
 			}
 
-			mapping->statements.insert({mapping::MappingInfo::FirstSqlSelectSet, stmt::Statement(*this, sql.str())}) ;
+			mapping->statements.insert({setIndex++, stmt::Statement(*this, sql.str())}) ;
 
 			// (2) insert into collection
 
@@ -666,7 +669,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 
 			sql << ")" ;
 
-			mapping->statements.insert({mapping::MappingInfo::FirstSqlSelectSet, stmt::Statement(*this, sql.str())}) ;
+			mapping->statements.insert({setIndex++, stmt::Statement(*this, sql.str())}) ;
 
 			// (3) delete from collections
 
@@ -693,7 +696,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 				sql << "\"" << otherJoinIds[i].joinIdName << "\" = ?" ;
 			}
 
-			mapping->statements.insert({mapping::MappingInfo::FirstSqlSelectSet, stmt::Statement(*this, sql.str())}) ;
+			mapping->statements.insert({setIndex++, stmt::Statement(*this, sql.str())}) ;
 		}
 	}
 

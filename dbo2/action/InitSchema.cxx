@@ -67,4 +67,16 @@ void InitSchema::actPtr(const mapping::PtrRef<C>& field)
 	}
 }
 
+template<class C>
+void InitSchema::actCollection(const mapping::CollectionRef<C>& field)
+{
+	std::string joinTableName=conn_.tableName<C>() ;
+	std::string joinName=field.joinName() ;
+
+	if(joinName.empty())
+		joinName = createJoinName(field.type(), mapping_.tableName, joinTableName) ;
+
+	mapping_.sets.push_back(mapping::SetInfo(joinTableName, field.type(), joinName, field.joinId(), field.fkConstraints())) ;
+}
+
 }}

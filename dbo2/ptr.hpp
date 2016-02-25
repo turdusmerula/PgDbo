@@ -1,7 +1,7 @@
 #ifndef _DBO_PTR_HPP_
 #define _DBO_PTR_HPP_
 
-#include <dbo2/traits/dbo_traits.hpp>
+//#include <dbo2/traits/dbo_traits.hpp>
 
 namespace dbo2 {
 
@@ -13,6 +13,7 @@ template <class T> class SelectById ;
 }
 
 class query ;
+template <class C> class collection ;
 template <class C> class ptr ;
 template<class C> std::ostream& operator<<(std::ostream& o, const ptr<C>& _ptr) ;
 
@@ -26,9 +27,9 @@ template<class C>
 class ptr : public ptr_base
 {
 private:
-	typedef typename boost::remove_const<C>::type MutC;
+	using MutC = typename boost::remove_const<C>::type ;
 public:
-	typedef typename traits::dbo_traits<C>::IdType IdType ;
+	using IdType = typename traits::dbo_traits<C>::IdType ;
 
 	ptr() ;
 	ptr(C* obj) ;
@@ -138,10 +139,10 @@ protected:
 		C* value_ ;
 		size_t ref_ ;
 		IdType id_ ;
-
-		// this is the table name corresponding to C type, it is needed for serialisation
-		char* tableName_ ;
 	} ;
+
+	// this is the table name corresponding to C type, it is needed for serialisation
+	char* tableName_ ;
 
 	static IdType invalidId_ ;
 
@@ -162,6 +163,7 @@ protected:
 	friend class query ;
 
 	friend std::ostream& operator<< <>(std::ostream& o, const ptr<C>& _ptr) ;
+	template <class D> friend class collection ;
 } ;
 
 

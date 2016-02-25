@@ -6,27 +6,27 @@
 extern std::string connection ;
 
 // ----------------------------------------------------------------------------
-struct cKey
+struct cId
 {
 	std::string name ;
 	int age ;
 
-	bool operator==(const cKey& other) const
+	bool operator==(const cId& other) const
 	{
 		return name==other.name && age==other.age ;
 	}
 } ;
 
-// explains how to store a Key in database
+// explains how to store a Id in database
 template <class Action>
-void field(Action& action, cKey& key, const std::string& name, int size=-1)
+void field(Action& action, cId& key, const std::string& name, int size=-1)
 {
 	dbo2::field(action, key.name, name + "_name") ;
 	dbo2::field(action, key.age, name + "_age") ;
 }
 
 // dbo needs this internally
-std::ostream& operator<< (std::ostream& o, const cKey& c)
+std::ostream& operator<< (std::ostream& o, const cId& c)
 {
 	return o << "(" << c.name << ", " << c.age << ")" ;
 }
@@ -34,7 +34,7 @@ std::ostream& operator<< (std::ostream& o, const cKey& c)
 class cComplexIdTable
 {
 public:
-	cKey composite_id ;
+	cId composite_id ;
 
 	std::string value ;
 
@@ -52,9 +52,9 @@ template<>
 struct dbo_traits<cComplexIdTable> : public dbo_default_traits
 {
 	// define custom id type
-	typedef cKey IdType ;
+	typedef cId IdType ;
 
-	static IdType invalidId() { return cKey() ; }
+	static IdType invalidId() { return cId() ; }
 
 	// deactivate default id
 	static boost::optional<std::string> surrogateIdField() { return boost::none ; }

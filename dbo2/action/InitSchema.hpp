@@ -4,11 +4,14 @@
 #include <string>
 #include <memory>
 
+#include <dbo2/mapping/SetInfo.h>
+
 namespace dbo2 {
 class connection ;
 
 namespace mapping {
 class MappingInfo ;
+template <class T> class CollectionRef ;
 template <class T> class FieldRef ;
 template <class T> class PtrRef ;
 }
@@ -27,6 +30,7 @@ public:
 	template<typename V> void actId(V& value, const std::string& name, int size) ;
 	template<class C> void actPtr(const mapping::PtrRef<C>& field) ;
 	void actMapping(std::shared_ptr<mapping::MappingInfo> mapping) ;
+	template<class C> void actCollection(const mapping::CollectionRef<C>& field) ;
 
 	connection& conn()
 	{
@@ -41,6 +45,8 @@ private:
 	std::string foreignKeyTable_ ;
 	std::string foreignKeyName_ ;
 	int fkConstraints_ ;
+
+	std::string createJoinName(RelationType type, const std::string& c1, const std::string& c2) ;
 
 } ;
 

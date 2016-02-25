@@ -11,10 +11,11 @@
 #include <dbo2-tests/src/TestComplexIdTable.hpp>
 #include <dbo2-tests/src/TestBelongsToTable.hpp>
 #include <dbo2-tests/src/TestCompositeIdTable.hpp>
-//#include <dbo2-tests/src/TestHasManyTable.hpp>
-#include <dbo2-tests/src/TestKeyConstraints.hpp>
-#include <dbo2-tests/src/TestStatement.hpp>
+#include <dbo2-tests/src/TestIdConstraints.hpp>
 #include <dbo2-tests/src/TestQuery.hpp>
+#include <dbo2-tests/src/TestStatement.hpp>
+#include <dbo2-tests/src/TestHasManyTable.hpp>
+#include <dbo2-tests/src/TestCollection.hpp>
 
 std::string connection ;
 dbo2::connection db ;

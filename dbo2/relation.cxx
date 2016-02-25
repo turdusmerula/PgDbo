@@ -35,4 +35,19 @@ void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, 
 
 }
 
+template<class Action, class C>
+void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& joinName)
+{
+	action.actCollection(mapping::CollectionRef<C>(value, type, joinName, std::string(), FKNotNull|FKOnDeleteCascade)) ;
+}
+
+template<class Action, class C>
+void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& joinName, const std::string& joinId, ForeignKeyConstraint constraint)
+{
+	if(type!=ManyToMany)
+		throw Exception("hasMany() with named joinId only for a ManyToMany relation");
+
+	action.actCollection(mapping::CollectionRef<C>(value, type, joinName, joinId, constraint.value())) ;
+}
+
 }

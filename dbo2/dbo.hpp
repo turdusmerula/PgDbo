@@ -16,11 +16,13 @@
 #include <dbo2/traits/StdSqlTraits.h>
 
 #include <dbo2/mapping/Mapping.hpp>
+#include <dbo2/mapping/CollectionRef.hpp>
 #include <dbo2/mapping/FieldRef.hpp>
 #include <dbo2/mapping/PtrRef.hpp>
 
 #include <dbo2/action/InitSchema.hpp>
 #include <dbo2/action/Delete.hpp>
+#include <dbo2/action/BulkInsert.hpp>
 #include <dbo2/action/Insert.hpp>
 #include <dbo2/action/Update.hpp>
 #include <dbo2/action/SelectById.hpp>
@@ -38,6 +40,7 @@
 
 #include <dbo2/action/InitSchema.cxx>
 #include <dbo2/action/Delete.cxx>
+#include <dbo2/action/BulkInsert.cxx>
 #include <dbo2/action/Insert.cxx>
 #include <dbo2/action/Update.cxx>
 #include <dbo2/action/SelectById.cxx>

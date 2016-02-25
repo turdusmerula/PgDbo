@@ -45,7 +45,7 @@ std::shared_ptr<mapping::Mapping<C>> connection::getMapping()
 }
 
 template<class C>
-ptr<C> connection::insert(ptr<C>& obj)
+ptr<C>& connection::insert(ptr<C>& obj)
 {
 	auto mapping=getMapping<C>() ;
 	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
@@ -56,6 +56,18 @@ ptr<C> connection::insert(ptr<C>& obj)
 	action.visit() ;
 
 	return obj ;
+}
+
+template<class C>
+collection<C>& connection::insert(collection<C>& coll)
+{
+	auto mapping=getMapping<C>() ;
+//	obj.tableName(tableName<C>().c_str()) ;
+//
+	action::BulkInsert<C> action(coll, mapping, *this) ;
+	action.visit() ;
+
+	return coll ;
 }
 
 template<class C>
@@ -116,6 +128,12 @@ query connection::find(const std::string& condition)
 		return dbo2::query(*this, "select * from \""+tableName<C>()+"\"") ;
 	else
 		return dbo2::query(*this, "select * from \""+tableName<C>()+"\" where "+condition) ;
+}
+
+template<class C>
+query connection::find(const collection<C>& collection, const std::string& condition)
+{
+
 }
 
 }

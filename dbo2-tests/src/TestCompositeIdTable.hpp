@@ -22,27 +22,27 @@ public:
 // ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
-struct eCompositeKey
+struct eCompositeId
 {
 	std::string name ;
 	dbo2::ptr<eSimpleTable> simple_ptr ;
 
-	bool operator==(const eCompositeKey& other) const
+	bool operator==(const eCompositeId& other) const
 	{
 		return name==other.name && simple_ptr.id()==other.simple_ptr.id() ;
 	}
 } ;
 
-// explains how to store a Key in database
+// explains how to store a Id in database
 template <class Action>
-void field(Action& action, eCompositeKey& key, const std::string& name, int size=-1)
+void field(Action& action, eCompositeId& key, const std::string& name, int size=-1)
 {
 	dbo2::field(action, key.name, name + "_name") ;
 	dbo2::belongsTo(action, key.simple_ptr, name + "_simple", dbo2::OnDeleteCascade | dbo2::OnUpdateCascade | dbo2::NotNull) ;
 }
 
 // dbo needs this internally
-std::ostream& operator<< (std::ostream& o, const eCompositeKey& c)
+std::ostream& operator<< (std::ostream& o, const eCompositeId& c)
 {
 	return o << "(" << c.name << ", " << c.simple_ptr << ")" ;
 }
@@ -50,7 +50,7 @@ std::ostream& operator<< (std::ostream& o, const eCompositeKey& c)
 class eCompositeIdTable
 {
 public:
-	eCompositeKey composite_id ;
+	eCompositeId composite_id ;
 
 	std::string value ;
 
@@ -68,9 +68,9 @@ template<>
 struct dbo_traits<eCompositeIdTable> : public dbo_default_traits
 {
 	// define custom id type
-	typedef eCompositeKey IdType ;
+	typedef eCompositeId IdType ;
 
-	static IdType invalidId() { return eCompositeKey() ; }
+	static IdType invalidId() { return eCompositeId() ; }
 
 	// deactivate default id
 	static boost::optional<std::string> surrogateIdField() { return boost::none ; }

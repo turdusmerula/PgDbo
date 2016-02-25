@@ -45,7 +45,7 @@ public:
 	std::vector<FieldInfo> fields ;
 	std::vector<SetInfo> sets ;
 
-	std::map<StatementType, stmt::Statement> statements ;
+	std::map<size_t, stmt::Statement> statements ;
 
 	virtual void init(connection& conn) ;
 	std::string primaryKeys() const ;

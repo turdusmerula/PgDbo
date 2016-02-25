@@ -19,7 +19,7 @@ ptr<C>::ptr(C* obj)
 	ptr_->value_ = obj ;
 	ptr_->ref_ = 1 ;
 	ptr_->id_ = traits::dbo_traits<C>::invalidId() ;
-	ptr_->tableName_ = nullptr ;
+	tableName_ = nullptr ;
 }
 
 template<class C>
@@ -221,15 +221,14 @@ void ptr<C>::id(const ptr<C>::IdType& value)
 template<class C>
 void ptr<C>::tableName(const char* tableName)
 {
-	if(ptr_)
-		ptr_->tableName_ = const_cast<char*>(tableName) ;
+	tableName_ = const_cast<char*>(tableName) ;
 }
 
 template<class C>
 std::ostream& operator<<(std::ostream& o, const dbo2::ptr<C>& _ptr)
 {
-	if(_ptr.ptr_ && _ptr.ptr_->tableName_)
-		return o << "[" << _ptr.ptr_->tableName_ << ": " << _ptr.id() << "]" ;
+	if(_ptr.ptr_ && _ptr.tableName_)
+		return o << "[" << _ptr.tableName_ << ": " << _ptr.id() << "]" ;
 	else
 		return o << "[null]" ;
 }

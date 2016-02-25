@@ -18,3 +18,18 @@ void InitSchema::actMapping(std::shared_ptr<mapping::MappingInfo> mapping)
 	if(!mapping->initialized_)
 		mapping->init(conn_) ;
 }
+
+std::string InitSchema::createJoinName(RelationType type, const std::string& c1, const std::string& c2)
+{
+	if(type==ManyToOne)
+		return c1 ;
+	else
+	{
+		std::string t1=c1 ;
+		std::string t2=c2 ;
+		if(t2<t1)
+			std::swap(t1, t2) ;
+
+		return t1+"_"+t2 ;
+	}
+}

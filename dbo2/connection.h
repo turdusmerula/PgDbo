@@ -18,6 +18,7 @@ struct pg_conn;
 typedef struct pg_conn PGconn;
 
 namespace dbo2 {
+template <class T> class collection ;
 template <class T> class ptr ;
 class query ;
 
@@ -105,13 +106,20 @@ public:
 	 * Persists an object inside database and attribute it an id
 	 */
 	template<class C>
-	ptr<C> insert(ptr<C>& ptr) ;
+	ptr<C>& insert(ptr<C>& ptr) ;
+
+	/**
+	 * bulk insert content of collection
+	 */
+	template<class C>
+	collection<C>& insert(collection<C>& coll) ;
 
 	/**
 	 * Persists a modified object inside database
 	 */
 	template<class C>
 	ptr<C> update(ptr<C>& ptr) ;
+
 
 	// TODO: implement load lazy and load recursive (?)
 	/**
@@ -133,13 +141,25 @@ public:
 	template<class C>
 	void remove(ptr<C>& ptr) ;
 
+	/**
+	 * Create a select query from mapping
+	 */
 	template<class C>
 	query find(const std::string& condition="") ;
 
+	/**
+	 * Create a select query from collection mapping
+	 */
+	template<class C>
+	query find(const collection<C>& collection, const std::string& condition="") ;
+
+	/**
+	 * Create query from sql request
+	 */
 	dbo2::query query(const std::string& sql) ;
 
-	void debug() ;
 
+	void debug() ;
 	bool showQueries() const { return showQueries_ ; }
 	void showQueries(bool value) { showQueries_ = value ; }
 	bool showBindings() const { return showBindings_ ; }
@@ -207,10 +227,10 @@ protected:
 	template <class T> friend class action::Insert ;
 	template <class T> friend class action::SelectById ;
 	template <class T> friend class action::Update ;
-	friend class query ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
 	friend class stmt::Statement ;
+	friend class query ;
 	friend class transaction ;
 
 
