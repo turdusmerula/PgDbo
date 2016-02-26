@@ -38,7 +38,8 @@ template<class C> class PtrRef ;
 }
 
 namespace stmt {
-class Statement ;
+class BulkStatement ;
+class PreparedStatement ;
 }
 
 class connection
@@ -229,7 +230,8 @@ protected:
 	template <class T> friend class action::Update ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
-	friend class stmt::Statement ;
+	friend class stmt::PreparedStatement ;
+	friend class stmt::BulkStatement ;
 	friend class query ;
 	friend class transaction ;
 

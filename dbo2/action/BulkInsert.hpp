@@ -1,6 +1,8 @@
 #ifndef _DBO_ACTION_BULKINSERT_HPP_
 #define _DBO_ACTION_BULKINSERT_HPP_
 
+#include <sstream>
+
 namespace dbo2 {
 namespace mapping {
 template <class T> class Mapping ;
@@ -16,7 +18,7 @@ class BulkInsert
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	BulkInsert(collection<C>& coll, std::shared_ptr<mapping::Mapping<C>> mapping, connection& conn) ;
+	BulkInsert(collection<C>& coll, mapping::Mapping<C>& mapping, connection& conn) ;
 
 	void visit() ;
 
@@ -32,13 +34,15 @@ public:
 	connection& conn() { return conn_ ; } ;
 private:
 	collection<C>& coll_ ;
-	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
+	mapping::Mapping<C>& mapping_ ;
 	dbo2::connection& conn_ ;
+	stmt::BulkStatement stmt_ ;
+
+	std::vector<std::string> columns_ ;
 
 	enum State {
-		PreparingStatement=0,
-		Inserting,
-		ReadingId
+		PreparingHeader=0,
+		PreparingData
 	} ;
 	State state_ ;
 

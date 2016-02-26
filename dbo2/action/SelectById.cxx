@@ -2,13 +2,13 @@ namespace dbo2 {
 namespace action {
 
 template<class C>
-SelectById<C>::SelectById(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
+SelectById<C>::SelectById(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
 	: 	SelectById(ptr, traits::dbo_traits<C>::invalidId(), mapping, stmt)
 {
 }
 
 template<class C>
-SelectById<C>::SelectById(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
+SelectById<C>::SelectById(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),

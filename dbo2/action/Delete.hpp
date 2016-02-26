@@ -15,7 +15,7 @@ class Delete
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	Delete(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	Delete(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
 
 	void visit() ;
 
@@ -29,7 +29,7 @@ public:
 private:
 	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
-	stmt::Statement& stmt_ ;
+	stmt::PreparedStatement& stmt_ ;
 
 	enum State {
 		PreparingStatement,

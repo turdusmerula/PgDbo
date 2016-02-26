@@ -1,7 +1,7 @@
 #ifndef _DBO_QUERY_HPP_
 #define _DBO_QUERY_HPP_
 
-#include <dbo2/stmt/Statement.h>
+#include <dbo2/stmt/PreparedStatement.h>
 
 namespace dbo2 {
 template <class T> class ptr ;
@@ -55,7 +55,7 @@ public:
 	bool hasrow() const { return hasrow_ ; }
 protected:
 	connection* conn_ ;
-	stmt::Statement stmt_ ;
+	stmt::PreparedStatement stmt_ ;
 	std::string sql_ ;
 	bool prepared_ ;
 

@@ -18,7 +18,7 @@ class LoadDb
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	LoadDb(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	LoadDb(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
 
 	void visit() ;
 
@@ -32,7 +32,7 @@ public:
 	connection& conn() { return stmt_.conn() ; } ;
 private:
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
-	stmt::Statement& stmt_ ;
+	stmt::PreparedStatement& stmt_ ;
 	ptr<C>& ptr_ ;
 
 	template <class D> friend class LoadDb ;

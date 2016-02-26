@@ -2,7 +2,7 @@ namespace dbo2 {
 namespace action {
 
 template<class C>
-Update<C>::Update(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
+Update<C>::Update(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),

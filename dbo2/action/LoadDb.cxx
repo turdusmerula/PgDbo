@@ -2,7 +2,7 @@ namespace dbo2 {
 namespace action {
 
 template<class C>
-LoadDb<C>::LoadDb(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
+LoadDb<C>::LoadDb(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
 	: 	mapping_(mapping),
 		stmt_(stmt),
 		ptr_(ptr)

@@ -14,14 +14,47 @@ extern std::string connection ;
 class jSimpleTable
 {
 public:
-	std::string value1 ;
-	long long  value2 ;
+	std::string string_value ;
+	long long  longlong_value ;
+	int int_value ;
+	long long_value ;
+	short short_value ;
+	bool bool_value ;
+	float float_value ;
+	double double_value ;
+	size_t size_t_value ;
+	boost::gregorian::date date_value ;		//date only
+	boost::posix_time::ptime ptime_value ;	// date time
+	boost::posix_time::time_duration time_duration_value ;	// time only
+	std::vector<unsigned char> vector_value ;
+
+	boost::optional<int> optional_value ;
+
+	enum TypeEnum {
+		Enum0 = 0,
+		Enum1 = 1,
+		Enum2 = 2
+	};
+	TypeEnum enum_value ;
 
 	template<class Action>
 	void persist(Action& a)
 	{
-		dbo2::field(a, value1, "value1") ;
-		dbo2::field(a, value2, "value2") ;
+		dbo2::field(a, string_value, "string_value", 100) ;
+		dbo2::field(a, longlong_value, "longlong_value") ;
+		dbo2::field(a, int_value, "int_value") ;
+		dbo2::field(a, long_value, "long_value") ;
+		dbo2::field(a, short_value, "short_value") ;
+		dbo2::field(a, bool_value, "bool_value") ;
+		dbo2::field(a, float_value, "float_value") ;
+		dbo2::field(a, double_value, "double_value") ;
+		dbo2::field(a, size_t_value, "size_t_value") ;
+		dbo2::field(a, date_value, "date_value") ;
+		dbo2::field(a, ptime_value, "ptime_value") ;
+		dbo2::field(a, time_duration_value, "time_duration_value") ;
+		dbo2::field(a, vector_value, "vector_value") ;
+		dbo2::field(a, optional_value, "optional_value") ;
+		dbo2::field(a, enum_value, "enum_value") ;
 	}
 } ;
 // ----------------------------------------------------------------------------
@@ -66,11 +99,27 @@ dbo2::connection TestCollection::db ;
 TEST_F(TestCollection, TestBulkInsert) {
 	dbo2::collection<jSimpleTable> c ;
 
-	for(int i=0 ; i<100 ; i++)
+	for(int i=0 ; i<10 ; i++)
 	{
 		dbo2::ptr<jSimpleTable> p=dbo2::make_ptr<jSimpleTable>() ;
-		p->value1 = "TestBulkInsert" ;
-		p->value2 = i ;
+
+		p->string_value = "TestBulkInsert\b\f\n\r\t\v;\\073" ;
+		p->longlong_value = i ;
+		p->int_value = 20 ;
+		p->long_value = 30 ;
+		p->short_value = 40 ;
+		p->bool_value = true ;
+		p->float_value = 40.5 ;
+		p->double_value = 50.6e15 ;
+		p->size_t_value = 60 ;
+		p->date_value = boost::gregorian::day_clock::local_day() ;
+		p->ptime_value = boost::posix_time::second_clock::local_time() ;
+		p->time_duration_value = boost::posix_time::second_clock::local_time().time_of_day() ;
+		for(int j=0 ; j<=255 ; j++)
+			p->vector_value.push_back(j) ;
+		// p->optional_value left null
+		p->enum_value = jSimpleTable::Enum2 ;
+
 		c.push_back(p) ;
 	}
 

@@ -18,17 +18,17 @@
 
 #include <dbo2/stmt/Statement.h>
 
-  template <typename Type>
-  struct is_raw_string
-  {
-    static const bool value = (std::is_array<Type>::value &&
-      std::is_same<typename std::remove_const<
-        typename std::remove_extent<Type>::type>::type, char>::value) ||
-
-      (std::is_pointer<Type>::value &&
-        std::is_same<typename std::remove_const<
-          typename std::remove_pointer<Type>::type>::type, char>::value);
-  };
+template <typename Type>
+struct is_raw_string
+{
+	static const bool value =
+		(std::is_array<Type>::value &&
+			std::is_same<typename std::remove_const<
+        		typename std::remove_extent<Type>::type>::type, char>::value) ||
+		(std::is_pointer<Type>::value &&
+			std::is_same<typename std::remove_const<
+				typename std::remove_pointer<Type>::type>::type, char>::value) ;
+} ;
 
 namespace dbo2 {
 namespace stmt {

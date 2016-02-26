@@ -6,7 +6,7 @@
 #include <dbo2/mapping/MappingInfo.h>
 #include <dbo2/mapping/Mapping.hpp>
 
-#include <dbo2/stmt/Statement.h>
+#include <dbo2/stmt/PreparedStatement.h>
 
 #include <dbo2/traits/sql_value_traits.hpp>
 #include <dbo2/traits/StdSqlTraits.h>
@@ -432,7 +432,7 @@ void connection::prepareInsertStatements(MappingInfoPtr mapping)
 	if(mapping->surrogateIdFieldName!=boost::none)
 		sql << Types::autoincrementInsertSuffix(mapping->surrogateIdFieldName.get()) ;
 
-	mapping->statements.insert({mapping::MappingInfo::SqlInsert, stmt::Statement(*this, sql.str())}) ;
+	mapping->statements.insert({mapping::MappingInfo::SqlInsert, stmt::PreparedStatement(*this, sql.str())}) ;
 }
 
 void connection::prepareUpdateStatements(MappingInfoPtr mapping)
@@ -482,7 +482,7 @@ void connection::prepareUpdateStatements(MappingInfoPtr mapping)
 
 	sql << idCondition ;
 
-	mapping->statements.insert({mapping::MappingInfo::SqlUpdate, stmt::Statement(*this, sql.str())}) ;
+	mapping->statements.insert({mapping::MappingInfo::SqlUpdate, stmt::PreparedStatement(*this, sql.str())}) ;
 }
 
 void connection::prepareDeleteStatements(MappingInfoPtr mapping)
@@ -493,7 +493,7 @@ void connection::prepareDeleteStatements(MappingInfoPtr mapping)
 
 	sql << "delete from \"" << table << "\" where " << mapping->idCondition ;
 
-	mapping->statements.insert({mapping::MappingInfo::SqlDelete, stmt::Statement(*this, sql.str())}) ;
+	mapping->statements.insert({mapping::MappingInfo::SqlDelete, stmt::PreparedStatement(*this, sql.str())}) ;
 }
 
 void connection::prepareSelectedByIdStatements(MappingInfoPtr mapping)
@@ -515,7 +515,7 @@ void connection::prepareSelectedByIdStatements(MappingInfoPtr mapping)
 
 	sql << " from \"" << table << "\" where " << mapping->idCondition ;
 
-	mapping->statements.insert({mapping::MappingInfo::SqlSelectById, stmt::Statement(*this, sql.str())}) ;
+	mapping->statements.insert({mapping::MappingInfo::SqlSelectById, stmt::PreparedStatement(*this, sql.str())}) ;
 }
 
 void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
@@ -588,7 +588,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 
 			sql << "\" where " << fkConditions ;
 
-			mapping->statements.insert({setIndex++, stmt::Statement(*this, sql.str())}) ;
+			mapping->statements.insert({setIndex++, stmt::PreparedStatement(*this, sql.str())}) ;
 			break ;
 		case ManyToMany:
 			// (1) select for collection
@@ -631,7 +631,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 				first = false ;
 			}
 
-			mapping->statements.insert({setIndex++, stmt::Statement(*this, sql.str())}) ;
+			mapping->statements.insert({setIndex++, stmt::PreparedStatement(*this, sql.str())}) ;
 
 			// (2) insert into collection
 
@@ -669,7 +669,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 
 			sql << ")" ;
 
-			mapping->statements.insert({setIndex++, stmt::Statement(*this, sql.str())}) ;
+			mapping->statements.insert({setIndex++, stmt::PreparedStatement(*this, sql.str())}) ;
 
 			// (3) delete from collections
 
@@ -696,7 +696,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 				sql << "\"" << otherJoinIds[i].joinIdName << "\" = ?" ;
 			}
 
-			mapping->statements.insert({setIndex++, stmt::Statement(*this, sql.str())}) ;
+			mapping->statements.insert({setIndex++, stmt::PreparedStatement(*this, sql.str())}) ;
 		}
 	}
 

@@ -1,6 +1,6 @@
 #include <dbo2/mapping/MappingInfo.h>
 #include <dbo2/Exception.h>
-#include <dbo2/stmt/Statement.h>
+#include <dbo2/stmt/PreparedStatement.h>
 
 #include <sstream>
 

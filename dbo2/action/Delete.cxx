@@ -2,7 +2,7 @@ namespace dbo2 {
 namespace action {
 
 template<class C>
-Delete<C>::Delete(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt)
+Delete<C>::Delete(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),

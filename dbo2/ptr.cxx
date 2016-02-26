@@ -22,6 +22,14 @@ ptr<C>::ptr(C* obj)
 	tableName_ = nullptr ;
 }
 
+template <class C>
+ptr<C>::ptr(Ptr* ptr)
+{
+	ptr_ = ptr ;
+	tableName_ = nullptr ;
+	take() ;
+}
+
 template<class C>
 ptr<C>::ptr(const ptr<C>& other)
 		: ptr_(other.ptr_)

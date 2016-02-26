@@ -61,7 +61,7 @@ ptr<C>& connection::insert(ptr<C>& obj)
 template<class C>
 collection<C>& connection::insert(collection<C>& coll)
 {
-	auto mapping=getMapping<C>() ;
+	auto& mapping=*getMapping<C>() ;
 //	obj.tableName(tableName<C>().c_str()) ;
 //
 	action::BulkInsert<C> action(coll, mapping, *this) ;

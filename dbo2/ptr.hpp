@@ -148,6 +148,8 @@ protected:
 
 	Ptr* ptr_ ;
 
+	ptr(Ptr* ptr) ;
+
 	void free() ;
 	void take() ;
 

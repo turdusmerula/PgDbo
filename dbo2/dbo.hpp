@@ -10,7 +10,8 @@
 #include <dbo2/query.hpp>
 #include <dbo2/Exception.h>
 
-#include <dbo2/stmt/Statement.h>
+#include <dbo2/stmt/BulkStatement.h>
+#include <dbo2/stmt/PreparedStatement.h>
 
 #include <dbo2/traits/dbo_traits.hpp>
 #include <dbo2/traits/StdSqlTraits.h>

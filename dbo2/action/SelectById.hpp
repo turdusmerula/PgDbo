@@ -15,8 +15,8 @@ class SelectById
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	SelectById(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
-	SelectById(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Statement& stmt) ;
+	SelectById(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
+	SelectById(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
 
 	void visit() ;
 
@@ -31,7 +31,7 @@ public:
 private:
 	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
-	stmt::Statement& stmt_ ;
+	stmt::PreparedStatement& stmt_ ;
 
 	// id to be loaded
 	IdType id_ ;

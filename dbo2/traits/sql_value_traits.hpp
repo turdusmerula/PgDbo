@@ -37,41 +37,6 @@ template<typename V, class Enable=void>
 struct sql_value_traits
 {
 	static const bool not_specialized=true ;
-
-#ifdef DOXYGEN_ONLY
-	/*! \brief Returns the SQL type name.
-	 *
-	 * The \p size (for strings) is a hint and may be ignored by a back-end.
-	 *
-	 * This will usually return a type ending with " not null" except
-	 * for C++ types that support \c null values. For a normal c++ value
-	 * type \p T, boost::optional<T> has been specialized to allow for
-	 * \c null values.
-	 */
-	static const char *type(int size) ;
-
-	/*! \brief Binds a value to a statement parameter.
-	 *
-	 * The value \p v must be bound to parameter with index \p index in the
-	 * \p statement.
-	 *
-	 * \sa SqlStatement::bind()
-	 */
-	static void bind(const V& v, SqlStatement *statement, int index, int size) ;
-
-	/*! \brief Reads a result from an executed query.
-	 *
-	 * The value \p v must be read from result column \p column in the \p
-	 * statement.
-	 *
-	 * Returns \c true if the value was not \c null. This result may be
-	 * used by the boost::optional<V> specialization to support fields that
-	 * may have \c null values.
-	 *
-	 * \sa SqlStatement::getResult()
-	 */
-	static bool read(V& v, SqlStatement *statement, int column, int size) ;
-#endif // DOXYGEN_ONLY
 } ;
 
 }}

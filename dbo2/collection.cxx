@@ -60,4 +60,112 @@ void collection<C>::take(Ptr*& ptr)
 		ptr->ref_++ ;
 }
 
+template <class C>
+typename collection<C>::iterator collection<C>::begin()
+{
+	return collection<C>::iterator(*this) ;
+}
+
+template <class C>
+typename collection<C>::iterator collection<C>::end()
+{
+	return collection<C>::iterator() ;
+}
+
+
+template <class C>
+collection<C>::iterator::Itr::Itr(collection<C>& coll)
+	:	coll_(coll)
+{
+
+}
+
+template <class C>
+collection<C>::iterator::iterator()
+	:	itr_(nullptr)
+{
+
+}
+
+template <class C>
+collection<C>::iterator::iterator(collection<C>& coll)
+{
+	itr_ = std::make_shared<Itr>(coll) ;
+	itr_->iptr_ = coll.ptrs_.begin() ;
+}
+
+template <class C>
+collection<C>::iterator::iterator(const collection<C>::iterator& other)
+{
+	itr_ = other.itr_ ;
+}
+
+template <class C>
+collection<C>::iterator::~iterator()
+{
+
+}
+
+template <class C>
+typename collection<C>::iterator& collection<C>::iterator::operator=(const collection<C>::iterator& other)
+{
+	itr_ = other.itr_ ;
+}
+
+template <class C>
+ptr<C> collection<C>::iterator::operator*()
+{
+	if(itr_)
+	{
+		ptr<C> res(*itr_->iptr_) ;
+		return res ;
+	}
+	return ptr<C>() ;
+}
+
+template <class C>
+ptr<C>* collection<C>::iterator::operator->()
+{
+	if(itr_)
+	{
+		ptr<C> res(*itr_->iptr_) ;
+		return res ;
+	}
+	return ptr<C>() ;
+}
+
+template <class C>
+bool collection<C>::iterator::operator==(const collection<C>::iterator& other) const
+{
+	return itr_==other.itr_ || end()==other.end() ;
+}
+
+template <class C>
+bool collection<C>::iterator::operator!=(const collection<C>::iterator& other) const
+{
+	return !operator==(other) ;
+}
+
+template <class C>
+typename collection<C>::iterator& collection<C>::iterator::operator++()
+{
+	if(itr_)
+		itr_->iptr_++ ;
+	return *this ;
+}
+
+template <class C>
+typename collection<C>::iterator collection<C>::iterator::operator++(int value)
+{
+	if(itr_)
+		itr_->iptr_.operator++(value) ;
+	return *this ;
+}
+
+template <class C>
+bool collection<C>::iterator::end() const
+{
+	return itr_==nullptr || itr_->iptr_==itr_->coll_.ptrs_.end() ;
+}
+
 }

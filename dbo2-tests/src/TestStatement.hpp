@@ -79,7 +79,7 @@ TEST_F(TestStatement, TestNamedStatement) {
 	dbo2::ptr<iSimpleTable> p=dbo2::make_ptr<iSimpleTable>() ;
 	db.insert(p) ;
 
-	dbo2::stmt::Statement stmt(db, "TestNamedStatement", "select * from \"iSimpleTable\" where id=?") ;
+	dbo2::stmt::PreparedStatement stmt(db, "TestNamedStatement", "select * from \"iSimpleTable\" where id=?") ;
 	stmt.bind(boost::lexical_cast<std::string>(p.id())) ;
 
 	// prepare statement
@@ -106,7 +106,7 @@ TEST_F(TestStatement, TestNameHashStatement) {
 	dbo2::ptr<iSimpleTable> p=dbo2::make_ptr<iSimpleTable>() ;
 	db.insert(p) ;
 
-	dbo2::stmt::Statement stmt(db, "select * from \"iSimpleTable\" where id=?") ;
+	dbo2::stmt::PreparedStatement stmt(db, "select * from \"iSimpleTable\" where id=?") ;
 	stmt.bind(boost::lexical_cast<std::string>(p.id())) ;
 	ASSERT_NO_THROW_V( stmt.prepare() ) ;
 	ASSERT_NO_THROW_V( stmt.execute() ) ;
@@ -119,7 +119,7 @@ TEST_F(TestStatement, TestAnonymousStatement) {
 	dbo2::ptr<iSimpleTable> p=dbo2::make_ptr<iSimpleTable>() ;
 	db.insert(p) ;
 
-	dbo2::stmt::Statement stmt(db, "", "select * from \"iSimpleTable\" where id=?") ;
+	dbo2::stmt::PreparedStatement stmt(db, "", "select * from \"iSimpleTable\" where id=?") ;
 	stmt.bind(boost::lexical_cast<std::string>(p.id())) ;
 	ASSERT_NO_THROW( stmt.prepare() ) ;
 	ASSERT_NO_THROW( stmt.execute() ) ;
@@ -132,7 +132,7 @@ TEST_F(TestStatement, TestWrongPrepare) {
 	dbo2::ptr<iSimpleTable> p=dbo2::make_ptr<iSimpleTable>() ;
 	db.insert(p) ;
 
-	dbo2::stmt::Statement stmt(db, "TestWrongPrepare", "select * from \"iSimpleTable\" where id=? and value1=?") ;
+	dbo2::stmt::PreparedStatement stmt(db, "TestWrongPrepare", "select * from \"iSimpleTable\" where id=? and value1=?") ;
 	stmt.bind(boost::lexical_cast<std::string>(p.id())) ;
 
 	// prepare statement
@@ -147,7 +147,7 @@ TEST_F(TestStatement, TestDoublePrepareHashed) {
 	db.insert(p) ;
 
 	// hashed name statement
-	dbo2::stmt::Statement stmt1(db, "select * from \"iSimpleTable\" where id=? and value1=?") ;
+	dbo2::stmt::PreparedStatement stmt1(db, "select * from \"iSimpleTable\" where id=? and value1=?") ;
 	stmt1.bind(boost::lexical_cast<std::string>(p.id())) ;
 	stmt1.bind(boost::lexical_cast<std::string>("")) ;
 
@@ -156,7 +156,7 @@ TEST_F(TestStatement, TestDoublePrepareHashed) {
 	ASSERT_TRUE( stmt1.prepared() ) ;
 
 	// Prepare same statement
-	dbo2::stmt::Statement stmt2(db, "select * from \"iSimpleTable\" where id=? and value1=?") ;
+	dbo2::stmt::PreparedStatement stmt2(db, "select * from \"iSimpleTable\" where id=? and value1=?") ;
 	stmt2.bind(boost::lexical_cast<std::string>(p.id())) ;
 	stmt2.bind(boost::lexical_cast<std::string>("")) ;
 
@@ -170,7 +170,7 @@ TEST_F(TestStatement, TestDoublePrepareNamed) {
 	db.insert(p) ;
 
 	// hashed name statement
-	dbo2::stmt::Statement stmt1(db, "TestDoublePrepareNamed", "select * from \"iSimpleTable\" where id=? and value1=?") ;
+	dbo2::stmt::PreparedStatement stmt1(db, "TestDoublePrepareNamed", "select * from \"iSimpleTable\" where id=? and value1=?") ;
 	stmt1.bind(boost::lexical_cast<std::string>(p.id())) ;
 	stmt1.bind(boost::lexical_cast<std::string>("")) ;
 
@@ -179,7 +179,7 @@ TEST_F(TestStatement, TestDoublePrepareNamed) {
 	ASSERT_TRUE( stmt1.prepared() ) ;
 
 	// Prepare same statement
-	dbo2::stmt::Statement stmt2(db, "TestDoublePrepareNamed", "select * from \"iSimpleTable\" where id=? and value1=?") ;
+	dbo2::stmt::PreparedStatement stmt2(db, "TestDoublePrepareNamed", "select * from \"iSimpleTable\" where id=? and value1=?") ;
 	stmt2.bind(boost::lexical_cast<std::string>(p.id())) ;
 	stmt2.bind(boost::lexical_cast<std::string>("")) ;
 
@@ -196,7 +196,7 @@ TEST_F(TestStatement, TestMixedParameters) {
 
 	// use direct naming and dbo "?" in the same request, this is usefull when you need to bind a value more than once
 	// this is an example to show it works but prefer to put auto numbered parameters at the end
-	dbo2::stmt::Statement stmt(db, "select * from \"iSimpleTable\" where value1=$1 and id=? and value2=$2 and value3=$1") ;
+	dbo2::stmt::PreparedStatement stmt(db, "select * from \"iSimpleTable\" where value1=$1 and id=? and value2=$2 and value3=$1") ;
 	stmt.bind("v") ;
 	stmt.bind("w") ;
 	stmt.bind(boost::lexical_cast<std::string>(p.id())) ;
@@ -214,7 +214,7 @@ TEST_F(TestStatement, TestWrongBind) {
 	dbo2::ptr<iSimpleTable> p=dbo2::make_ptr<iSimpleTable>() ;
 	db.insert(p) ;
 
-	dbo2::stmt::Statement stmt(db, "select * from \"iSimpleTable\" where id=? and value1=?") ;
+	dbo2::stmt::PreparedStatement stmt(db, "select * from \"iSimpleTable\" where id=? and value1=?") ;
 	stmt.bind(boost::lexical_cast<std::string>(p.id())) ;
 	stmt.bind("") ;
 

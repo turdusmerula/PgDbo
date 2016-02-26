@@ -3,7 +3,6 @@
 
 #include <dbo2/mapping/FieldInfo.h>
 #include <dbo2/mapping/SetInfo.h>
-//#include <dbo2/mapping/Statement.h>
 
 #include <map>
 
@@ -12,7 +11,7 @@
 namespace dbo2 {
 class connection ;
 namespace stmt {
-class Statement ;
+class PreparedStatement ;
 }
 
 namespace mapping {
@@ -45,7 +44,7 @@ public:
 	std::vector<FieldInfo> fields ;
 	std::vector<SetInfo> sets ;
 
-	std::map<size_t, stmt::Statement> statements ;
+	std::map<size_t, stmt::PreparedStatement> statements ;
 
 	virtual void init(connection& conn) ;
 	std::string primaryKeys() const ;
@@ -54,15 +53,5 @@ public:
 } ;
 
 }}
-
-//template <>
-//struct hash<dbo2::mapping::MappingInfo::StatementType>
-//{
-//	std::size_t operator()(const dbo2::mapping::MappingInfo::StatementType& k) const
-//	{
-//		return hash<size_t>()(static_cast<size_t>(k)) ;
-//	}
-//};
-
 
 #endif
