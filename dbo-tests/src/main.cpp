@@ -2,23 +2,23 @@
 #include <fstream>
 
 #include <gtest/gtest.h>
+#include <gtest_extend.h>
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 
-#include <dbo/Dbo.h>
-#include <dbo/FixedSqlConnectionPool.h>
-#include <dbo/backend/Postgres.h>
+#include <dbo-tests/src/TestSimpleTable.hpp>
+#include <dbo-tests/src/TestCustomIdTable.hpp>
+#include <dbo-tests/src/TestComplexIdTable.hpp>
+#include <dbo-tests/src/TestBelongsToTable.hpp>
+#include <dbo-tests/src/TestCompositeIdTable.hpp>
+#include <dbo-tests/src/TestIdConstraints.hpp>
+#include <dbo-tests/src/TestQuery.hpp>
+#include <dbo-tests/src/TestStatement.hpp>
+#include <dbo-tests/src/TestHasManyTable.hpp>
+#include <dbo-tests/src/TestCollection.hpp>
 
-#include "TestSimpleTable.hpp"
-#include "TestCustomIdTable.hpp"
-#include "TestCompositeIdTable.hpp"
-#include "TestBelongsToTable.hpp"
-#include "TestRequest.hpp"
-#include "TestQuery.hpp"
-#include "TestHasManyTable.hpp"
-
-dbo::backend::Postgres* db=nullptr ;
-std::unique_ptr<dbo::FixedSqlConnectionPool> pool ;
+std::string connection ;
+dbo::connection db ;
 
 int main(int argc, char* argv[])
 {
@@ -72,12 +72,11 @@ int main(int argc, char* argv[])
 		return 1 ;
 	}
 
-	std::string connection="host="+host+" user="+user+" password="+password+" port="+port+" dbname="+dbname ;
+	connection = "host="+host+" user="+user+" password="+password+" port="+port+" dbname="+dbname ;
 
-	// prepare database for tests
-	db = new dbo::backend::Postgres(connection) ;
-	db->setProperty("show-queries", "true") ;
-	pool = std::unique_ptr<dbo::FixedSqlConnectionPool>(new dbo::FixedSqlConnectionPool(db, 40)) ;
+	db.connect(connection) ;
+	db.showQueries(true) ;
+	db.showBindings(true) ;
 
 	::testing::InitGoogleTest(&argc, argv) ;
 	return RUN_ALL_TESTS() ;

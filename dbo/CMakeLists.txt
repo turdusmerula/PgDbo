@@ -18,7 +18,10 @@ LINK_DIRECTORIES(
 
 FILE(GLOB sources 
     *.cpp
-    backend/*.cpp
+    action/*.cpp
+    mapping/*.cpp
+    stmt/*.cpp
+    traits/*.cpp
     )
     
 FILE(GLOB headers 

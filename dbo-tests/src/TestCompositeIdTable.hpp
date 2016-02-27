@@ -1,11 +1,83 @@
 #include <gtest/gtest.h>
+#include <gtest_extend.h>
 
 #include <iostream>
 
-#include <stdio.h>
-#include <stdlib.h>
+extern std::string connection ;
 
-extern dbo::backend::Postgres* db ;
+// ----------------------------------------------------------------------------
+class eSimpleTable
+{
+public:
+	std::string name ;
+	std::string value ;
+
+	template<class Action>
+	void persist(Action& a)
+	{
+		dbo::field(a, name, "name") ;
+		dbo::field(a, value, "value") ;
+	}
+};
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+struct eCompositeId
+{
+	std::string name ;
+	dbo::ptr<eSimpleTable> simple_ptr ;
+
+	bool operator==(const eCompositeId& other) const
+	{
+		return name==other.name && simple_ptr.id()==other.simple_ptr.id() ;
+	}
+} ;
+
+// explains how to store a Id in database
+template <class Action>
+void field(Action& action, eCompositeId& key, const std::string& name, int size=-1)
+{
+	dbo::field(action, key.name, name + "_name") ;
+	dbo::belongsTo(action, key.simple_ptr, name + "_simple", dbo::fk::OnDeleteCascade | dbo::fk::OnUpdateCascade | dbo::fk::NotNull) ;
+}
+
+// dbo needs this internally
+std::ostream& operator<< (std::ostream& o, const eCompositeId& c)
+{
+	return o << "(" << c.name << ", " << c.simple_ptr << ")" ;
+}
+
+class eCompositeIdTable
+{
+public:
+	eCompositeId composite_id ;
+
+	std::string value ;
+
+	template<class Action>
+	void persist(Action& a)
+	{
+		dbo::id(a, composite_id) ;
+		dbo::field(a, value, "value") ;
+	}
+} ;
+
+namespace dbo {
+namespace traits {
+template<>
+struct dbo_traits<eCompositeIdTable> : public dbo_default_traits
+{
+	// define custom id type
+	typedef eCompositeId IdType ;
+
+	static IdType invalidId() { return eCompositeId() ; }
+
+	// deactivate default id
+	static boost::optional<std::string> surrogateIdField() { return boost::none ; }
+};
+
+}}
+// ----------------------------------------------------------------------------
 
 // The fixture for testing class Database.
 class TestCompositeIdTable : public ::testing::Test
@@ -13,6 +85,12 @@ class TestCompositeIdTable : public ::testing::Test
 public:
 	static void SetUpTestCase()
 	{
+		db.connect(connection) ;
+		db.mapClass<eSimpleTable>("eSimpleTable") ;
+		db.mapClass<eCompositeIdTable>("eCompositeIdTable") ;
+		db.createTables() ;
+		db.showQueries(true) ;
+		db.showBindings(true) ;
 	}
 
 	static void TearDownTestCase()
@@ -33,71 +111,157 @@ public:
 	}
 
 	// Objects declared here can be used by all tests in the test case for Foo.
+	static dbo::connection db ;
 } ;
+dbo::connection TestCompositeIdTable::db ;
 
-// ----------------------------------------------------------------------------
-struct cKey
-{
-	std::string name ;
-	int age ;
-
-	bool operator< (const cKey &other) const
-	{
-		return true ;
-	}
-
-	bool operator== (const cKey &other) const
-	{
-		return true ;
-	}
-} ;
-std::ostream &operator<< (std::ostream &o, const cKey &c)
-{
-	return o << "(" << c.name << ", " << c.age << ")" ;
-}
-
-// explains how to store a Key in database
-namespace dbo {
-template <class Action>
-void field(Action& action, cKey& key, const std::string& name, int size=-1)
-{
-	dbo::field(action, key.name, name + "_name") ;
-	dbo::field(action, key.age, name + "_age") ;
-}
-}
-
-class cCompositeIdTable
-{
-public:
-	cKey composite_id ;
-
-	template<class Action>
-	void persist(Action& a)
-	{
-		dbo::id(a, composite_id) ;
-	}
-}
-;
-namespace dbo {
-template<>
-struct dbo_traits<cCompositeIdTable> : public dbo_default_traits
-{
-	// define custom id type
-	typedef cKey IdType ;
-
-	static IdType invalidId() { return cKey() ; }
-
-	// deactivate default id
-	static const char* surrogateIdField() { return 0 ; }
-};
-}
-// ----------------------------------------------------------------------------
 
 TEST_F(TestCompositeIdTable, TestSql) {
-	dbo::Session session ;
-	session.setConnection(*db) ;
+	dbo::connection db ;
 
-	session.mapClass<cCompositeIdTable>("compositeid") ;
+	db.mapClass<eSimpleTable>("eSimpleTable") ;
+	db.mapClass<eCompositeIdTable>("eCompositeIdTable") ;
 
-	std::cout << session.tableCreationSql() << std::endl ;
+	std::cout << db.tableCreationSql() << std::endl ;
+	db.debug() ;
+}
+
+
+TEST_F(TestCompositeIdTable, TestInsertInvalidId) {
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+
+	// try to insert with an invalid id
+	ASSERT_THROW_V( db.insert(p), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestInsertDuplicate) {
+	dbo::ptr<eSimpleTable> simple=dbo::make_ptr<eSimpleTable>() ;
+	ASSERT_NO_THROW_V( db.insert(simple) ) ;
+
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+	p->composite_id.name = "duplicate" ;
+	p->composite_id.simple_ptr = simple ;
+	p->value = "value" ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo::ptr<eCompositeIdTable> q=dbo::make_ptr<eCompositeIdTable>() ;
+	q->composite_id.name = "duplicate" ;
+	q->composite_id.simple_ptr = simple ;
+	q->value = "value" ;
+	ASSERT_THROW_V( db.insert(q), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestInsert) {
+	dbo::ptr<eSimpleTable> simple=dbo::make_ptr<eSimpleTable>() ;
+	ASSERT_NO_THROW_V( db.insert(simple) ) ;
+
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+	p->composite_id.name = "toto" ;
+	p->composite_id.simple_ptr = simple ;
+	p->value = "value" ;
+
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	ASSERT_FALSE( p.id()==dbo::traits::dbo_traits<eCompositeIdTable>::invalidId() ) ;
+}
+
+
+TEST_F(TestCompositeIdTable, TestLoadInvalidId) {
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+	ASSERT_THROW_V( db.load<eCompositeIdTable>(p.id()), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestLoadNonExistingId) {
+	dbo::ptr<eSimpleTable> simple=dbo::make_ptr<eSimpleTable>() ;
+	ASSERT_NO_THROW_V( db.insert(simple) ) ;
+
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+	p->composite_id.name = "non exist" ;
+	p->composite_id.simple_ptr = simple ;
+	ASSERT_THROW_V( db.load<eCompositeIdTable>(p.id()), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestLoad) {
+	dbo::ptr<eSimpleTable> simple=dbo::make_ptr<eSimpleTable>() ;
+	ASSERT_NO_THROW_V( db.insert(simple) ) ;
+
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+	p->composite_id.name = "load" ;
+	p->composite_id.simple_ptr = simple ;
+	p->value = "value" ;
+
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo::ptr<eCompositeIdTable> q=db.load<eCompositeIdTable>(p.id()) ;
+	ASSERT_FALSE( q.id()==dbo::traits::dbo_traits<eCompositeIdTable>::invalidId() ) ;
+	ASSERT_TRUE( q.id()==p->composite_id ) ;
+}
+
+
+TEST_F(TestCompositeIdTable, TestUpdateInvalidId) {
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+
+	ASSERT_THROW_V( db.update(p), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestUpdateNonExistingId) {
+	dbo::ptr<eSimpleTable> simple=dbo::make_ptr<eSimpleTable>() ;
+	ASSERT_NO_THROW_V( db.insert(simple) ) ;
+
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+	p->composite_id.name = "non exist" ;
+	p->composite_id.simple_ptr = simple ;
+	ASSERT_THROW_V( db.update(p), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestUpdate) {
+	dbo::ptr<eSimpleTable> simple=dbo::make_ptr<eSimpleTable>() ;
+	ASSERT_NO_THROW_V( db.insert(simple) ) ;
+
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+	p->composite_id.name = "update" ;
+	p->composite_id.simple_ptr = simple ;
+	p->value = "4" ;
+
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo::ptr<eCompositeIdTable> q=db.load<eCompositeIdTable>(p.id()) ;
+	ASSERT_TRUE( q->value=="4") ;
+	q->value = "8" ;
+
+	ASSERT_NO_THROW_V( db.update(q) ) ;
+
+	dbo::ptr<eCompositeIdTable> r=db.load<eCompositeIdTable>(p.id()) ;
+	ASSERT_TRUE( r->value=="8" ) ;
+}
+
+
+TEST_F(TestCompositeIdTable, TestRemoveNull) {
+	dbo::ptr<eCompositeIdTable> p ;
+
+	ASSERT_THROW_V( db.remove<eCompositeIdTable>(p), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestRemoveInvalidId) {
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+
+	ASSERT_THROW_V( db.remove<eCompositeIdTable>(p), std::exception ) ;
+}
+
+TEST_F(TestCompositeIdTable, TestRemove) {
+	dbo::ptr<eSimpleTable> simple=dbo::make_ptr<eSimpleTable>() ;
+	ASSERT_NO_THROW_V( db.insert(simple) ) ;
+
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+	p->composite_id.name = "remove" ;
+	p->composite_id.simple_ptr = simple ;
+	p->value = "10" ;
+
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	dbo::ptr<eCompositeIdTable> q=db.load<eCompositeIdTable>(p.id()) ;
+
+	ASSERT_NO_THROW_V( db.remove<eCompositeIdTable>(q) ) ;
+	ASSERT_TRUE( q.id()==dbo::traits::dbo_traits<eCompositeIdTable>::invalidId() ) ;
+
 }

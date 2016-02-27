@@ -244,7 +244,7 @@ function tgt_test()
 		opt="--ddd"
 	fi
 
-	dbo2-tests/scripts/run-tests.sh $opt || clean_exit
+	dbo-tests/scripts/run-tests.sh $opt || clean_exit
 }
 
 
