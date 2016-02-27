@@ -1,0 +1,62 @@
+.TH "dbo::action::InitSchema" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::action::InitSchema \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <InitSchema\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBInitSchema\fP (\fBconnection\fP &\fBconn\fP, \fBmapping::MappingInfo\fP &mapping)"
+.br
+.ti -1c
+.RI "template<class C > void \fBvisit\fP (C &obj)"
+.br
+.ti -1c
+.RI "template<typename V > void \fBact\fP (const \fBmapping::FieldRef\fP< V > &\fBfield\fP)"
+.br
+.ti -1c
+.RI "template<typename V > void \fBactId\fP (V &value, const std::string &name, int size)"
+.br
+.ti -1c
+.RI "template<class C > void \fBactPtr\fP (const \fBmapping::PtrRef\fP< C > &\fBfield\fP)"
+.br
+.ti -1c
+.RI "void \fBactMapping\fP (std::shared_ptr< \fBmapping::MappingInfo\fP > mapping)"
+.br
+.ti -1c
+.RI "template<class C > void \fBactCollection\fP (const \fBmapping::CollectionRef\fP< C > &\fBfield\fP)"
+.br
+.ti -1c
+.RI "\fBconnection\fP & \fBconn\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "InitSchema::InitSchema (\fBconnection\fP &conn, \fBmapping::MappingInfo\fP &mapping)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename V > void dbo::action::InitSchema::act (const \fBmapping::FieldRef\fP< V > &field)"
+
+.SS "template<class C > void dbo::action::InitSchema::actCollection (const \fBmapping::CollectionRef\fP< C > &field)"
+
+.SS "template<typename V > void dbo::action::InitSchema::actId (V &value, const std::string &name, intsize)"
+
+.SS "void InitSchema::actMapping (std::shared_ptr< \fBmapping::MappingInfo\fP >mapping)"
+
+.SS "template<class C > void dbo::action::InitSchema::actPtr (const \fBmapping::PtrRef\fP< C > &field)"
+
+.SS "\fBconnection\fP& dbo::action::InitSchema::conn ()\fC [inline]\fP"
+
+.SS "template<class C > void dbo::action::InitSchema::visit (C &obj)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

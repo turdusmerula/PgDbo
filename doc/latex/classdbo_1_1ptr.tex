@@ -1,0 +1,424 @@
+\hypertarget{classdbo_1_1ptr}{\section{dbo\+:\+:ptr$<$ C $>$ Class Template Reference}
+\label{classdbo_1_1ptr}\index{dbo\+::ptr$<$ C $>$@{dbo\+::ptr$<$ C $>$}}
+}
+
+
+{\ttfamily \#include $<$collection.\+hpp$>$}
+
+
+
+Inheritance diagram for dbo\+:\+:ptr$<$ C $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=156pt]{classdbo_1_1ptr__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for dbo\+:\+:ptr$<$ C $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=268pt]{classdbo_1_1ptr__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structdbo_1_1ptr_1_1_ptr}{Ptr}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classdbo_1_1ptr_a01fdb2e2c0743eb8bd1b822ccc8d4cd4}{Id\+Type} = typename \hyperlink{structdbo_1_1traits_1_1dbo__traits}{traits\+::dbo\+\_\+traits}$<$ C $>$\+::\hyperlink{classdbo_1_1ptr_a01fdb2e2c0743eb8bd1b822ccc8d4cd4}{Id\+Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1ptr_a3424e8d87ed87f97199e60d72d880222}{ptr} ()
+\item 
+\hyperlink{classdbo_1_1ptr_a2f545e2c6ac1854ea03d4701e41ea40a}{ptr} (C $\ast$obj)
+\item 
+\hyperlink{classdbo_1_1ptr_a1bb066cffcb5faaeec23a8e4ab2ef18e}{ptr} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class D $>$ }\\\hyperlink{classdbo_1_1ptr_adb1070e230529bd36aa1b262d68960ec}{ptr} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ D $>$ \&other)
+\item 
+virtual \hyperlink{classdbo_1_1ptr_ac98aace150c4d051e6bd8354210296f5}{$\sim$ptr} ()
+\item 
+void \hyperlink{classdbo_1_1ptr_ae4b0ee2c40996915d77d9fcdcc057fb8}{reset} (C $\ast$obj=nullptr)
+\begin{DoxyCompactList}\small\item\em Resets the pointer. \end{DoxyCompactList}\item 
+\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \& \hyperlink{classdbo_1_1ptr_a5056e13628f91e9449dd1bd24a761a31}{operator=} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class D $>$ }\\\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \& \hyperlink{classdbo_1_1ptr_a5391736647ac3d24efaad019805b42ca}{operator=} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ D $>$ \&other)
+\item 
+C $\ast$ \hyperlink{classdbo_1_1ptr_a19988f39645add72eed820fc754d78bb}{operator-\/$>$} () const 
+\begin{DoxyCompactList}\small\item\em Dereference operator. \end{DoxyCompactList}\item 
+C $\ast$ \hyperlink{classdbo_1_1ptr_ae05d3e079bd72edd92cb39d218ae6f7b}{get} () const 
+\begin{DoxyCompactList}\small\item\em Returns the pointer. \end{DoxyCompactList}\item 
+C \& \hyperlink{classdbo_1_1ptr_a5b61379bd3cc91221dd430b24a5cee01}{operator$\ast$} () const 
+\begin{DoxyCompactList}\small\item\em Dereference operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1ptr_a733dd776fa6437df42d43c658e9e2b46}{operator==} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ Mut\+C $>$ \&other) const 
+\begin{DoxyCompactList}\small\item\em Comparison operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1ptr_a53ffbe1fc2ff280ec1e51f07340afa59}{operator==} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ const C $>$ \&other) const 
+\item 
+bool \hyperlink{classdbo_1_1ptr_aeffa0731ad6db791543528ffc35b06ff}{operator!=} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ Mut\+C $>$ \&other) const 
+\begin{DoxyCompactList}\small\item\em Comparison operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1ptr_a8f75218dcf7602016bd05204de07bd1d}{operator!=} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ const C $>$ \&other) const 
+\item 
+bool \hyperlink{classdbo_1_1ptr_a352eff12b264f96f7fb9d8b99490ed0f}{operator$<$} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ Mut\+C $>$ \&other) const 
+\begin{DoxyCompactList}\small\item\em Comparison operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1ptr_a313ecb8531dcac45969342d26da9e0d9}{operator$<$} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ const C $>$ \&other) const 
+\item 
+\hyperlink{classdbo_1_1ptr_a72f14c0fec82d1a42ea26d978abaf16e}{operator bool} () const 
+\begin{DoxyCompactList}\small\item\em Checks for null. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1ptr_ab78eab684add44b9fcf6707b562fbf99}{loaded} () const 
+\item 
+bool \hyperlink{classdbo_1_1ptr_a838311b9897fad3559624d5d83b693a1}{orphan} () const 
+\item 
+const \hyperlink{classdbo_1_1ptr_a01fdb2e2c0743eb8bd1b822ccc8d4cd4}{Id\+Type} \& \hyperlink{classdbo_1_1ptr_a4de5c28173ca5ade1f7d4a8477d15c0f}{id} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1ptr_aaf763715686e40657a744d123b6fd9f8}{ptr} (\hyperlink{structdbo_1_1ptr_1_1_ptr}{Ptr} $\ast$\hyperlink{classdbo_1_1ptr}{ptr})
+\item 
+void \hyperlink{classdbo_1_1ptr_a792c1c28c473022d02e44c7ce9cfea6c}{free} ()
+\item 
+void \hyperlink{classdbo_1_1ptr_a0bcf503ebd97de9f203d884d24265789}{take} ()
+\item 
+void \hyperlink{classdbo_1_1ptr_a36439c82039e32a37fd149d8c54f7ee0}{id} (const \hyperlink{classdbo_1_1ptr_a01fdb2e2c0743eb8bd1b822ccc8d4cd4}{Id\+Type} \&value)
+\item 
+void \hyperlink{classdbo_1_1ptr_ace8682a6aa620ddb5b664f19cbb63af8}{table\+Name} (const char $\ast$table\+Name)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{classdbo_1_1ptr_aa021e5c70d53414dfbb3139ce3661b9d}{table\+Name\+\_\+}
+\item 
+\hyperlink{structdbo_1_1ptr_1_1_ptr}{Ptr} $\ast$ \hyperlink{classdbo_1_1ptr_a7c58e1f0ae8dcf8a7a9acd6197d2de38}{ptr\+\_\+}
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classdbo_1_1ptr_a01fdb2e2c0743eb8bd1b822ccc8d4cd4}{Id\+Type} \hyperlink{classdbo_1_1ptr_a26f06bd10de2444190c904a1814999fa}{invalid\+Id\+\_\+} =\hyperlink{structdbo_1_1traits_1_1dbo__traits}{traits\+::dbo\+\_\+traits}$<$C$>$\+::invalid\+Id()
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classdbo_1_1ptr_adb115488bb4890f7fc705ee527ad71e0}{connection}
+\item 
+{\footnotesize template$<$class T $>$ }\\class \hyperlink{classdbo_1_1ptr_ae779179e16547c9a93329dd197385493}{action\+::\+Delete}
+\item 
+{\footnotesize template$<$class T $>$ }\\class \hyperlink{classdbo_1_1ptr_a88a9b73e2cb3304941371508b660e53e}{action\+::\+Insert}
+\item 
+{\footnotesize template$<$class T $>$ }\\class \hyperlink{classdbo_1_1ptr_a90af99826aea472a0aa22e59376fed0f}{action\+::\+Update}
+\item 
+{\footnotesize template$<$class T $>$ }\\class \hyperlink{classdbo_1_1ptr_a8b98481706995f8b3e2665f74b2b3039}{action\+::\+Select\+By\+Id}
+\item 
+class \hyperlink{classdbo_1_1ptr_a7fddf73eaed86e45a2aacbd26b5af751}{query}
+\item 
+{\footnotesize template$<$class D $>$ }\\class \hyperlink{classdbo_1_1ptr_a916ea84dc420573cfdb360b67445d5d0}{collection}
+\item 
+std\+::ostream \& \hyperlink{classdbo_1_1ptr_a70a1cd538b5f03fbc42965ac8f918f23}{operator$<$$<$} (std\+::ostream \&o, const \hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&\+\_\+ptr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classdbo_1_1ptr_a01fdb2e2c0743eb8bd1b822ccc8d4cd4}{\index{dbo\+::ptr@{dbo\+::ptr}!Id\+Type@{Id\+Type}}
+\index{Id\+Type@{Id\+Type}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{Id\+Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ using {\bf dbo\+::ptr}$<$ C $>$\+::{\bf Id\+Type} =  typename {\bf traits\+::dbo\+\_\+traits}$<$C$>$\+::{\bf Id\+Type}}}\label{classdbo_1_1ptr_a01fdb2e2c0743eb8bd1b822ccc8d4cd4}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1ptr_a3424e8d87ed87f97199e60d72d880222}{\index{dbo\+::ptr@{dbo\+::ptr}!ptr@{ptr}}
+\index{ptr@{ptr}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::ptr}$<$ C $>$\+::{\bf ptr} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1ptr_a3424e8d87ed87f97199e60d72d880222}
+\hypertarget{classdbo_1_1ptr_a2f545e2c6ac1854ea03d4701e41ea40a}{\index{dbo\+::ptr@{dbo\+::ptr}!ptr@{ptr}}
+\index{ptr@{ptr}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::ptr}$<$ C $>$\+::{\bf ptr} (
+\begin{DoxyParamCaption}
+\item[{C $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1ptr_a2f545e2c6ac1854ea03d4701e41ea40a}
+\hypertarget{classdbo_1_1ptr_a1bb066cffcb5faaeec23a8e4ab2ef18e}{\index{dbo\+::ptr@{dbo\+::ptr}!ptr@{ptr}}
+\index{ptr@{ptr}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::ptr}$<$ C $>$\+::{\bf ptr} (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ C $>$ \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1ptr_a1bb066cffcb5faaeec23a8e4ab2ef18e}
+
+
+Copy constructor. 
+
+\hypertarget{classdbo_1_1ptr_adb1070e230529bd36aa1b262d68960ec}{\index{dbo\+::ptr@{dbo\+::ptr}!ptr@{ptr}}
+\index{ptr@{ptr}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ {\bf dbo\+::ptr}$<$ C $>$\+::{\bf ptr} (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ D $>$ \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1ptr_adb1070e230529bd36aa1b262d68960ec}
+\hypertarget{classdbo_1_1ptr_ac98aace150c4d051e6bd8354210296f5}{\index{dbo\+::ptr@{dbo\+::ptr}!````~ptr@{$\sim$ptr}}
+\index{````~ptr@{$\sim$ptr}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{$\sim$ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::ptr}$<$ C $>$\+::$\sim${\bf ptr} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classdbo_1_1ptr_ac98aace150c4d051e6bd8354210296f5}
+\hypertarget{classdbo_1_1ptr_aaf763715686e40657a744d123b6fd9f8}{\index{dbo\+::ptr@{dbo\+::ptr}!ptr@{ptr}}
+\index{ptr@{ptr}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::ptr}$<$ C $>$\+::{\bf ptr} (
+\begin{DoxyParamCaption}
+\item[{{\bf Ptr} $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1ptr_aaf763715686e40657a744d123b6fd9f8}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1ptr_a792c1c28c473022d02e44c7ce9cfea6c}{\index{dbo\+::ptr@{dbo\+::ptr}!free@{free}}
+\index{free@{free}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{free}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::ptr}$<$ C $>$\+::free (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1ptr_a792c1c28c473022d02e44c7ce9cfea6c}
+\hypertarget{classdbo_1_1ptr_ae05d3e079bd72edd92cb39d218ae6f7b}{\index{dbo\+::ptr@{dbo\+::ptr}!get@{get}}
+\index{get@{get}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ C $\ast$ {\bf dbo\+::ptr}$<$ C $>$\+::get (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_ae05d3e079bd72edd92cb39d218ae6f7b}
+
+
+Returns the pointer. 
+
+Note that returns a const pointer. Use modify() to get a non-\/const pointer.
+
+Since this may lazy-\/load the underlying database object, you should have an active transaction.
+
+\begin{DoxySeeAlso}{See also}
+modify() 
+\end{DoxySeeAlso}
+\hypertarget{classdbo_1_1ptr_a4de5c28173ca5ade1f7d4a8477d15c0f}{\index{dbo\+::ptr@{dbo\+::ptr}!id@{id}}
+\index{id@{id}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ const {\bf ptr}$<$ C $>$\+::{\bf Id\+Type} \& {\bf dbo\+::ptr}$<$ C $>$\+::id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_a4de5c28173ca5ade1f7d4a8477d15c0f}
+\hypertarget{classdbo_1_1ptr_a36439c82039e32a37fd149d8c54f7ee0}{\index{dbo\+::ptr@{dbo\+::ptr}!id@{id}}
+\index{id@{id}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ void {\bf dbo\+::ptr}$<$ C $>$\+::id (
+\begin{DoxyParamCaption}
+\item[{const {\bf Id\+Type} \&}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1ptr_a36439c82039e32a37fd149d8c54f7ee0}
+\hypertarget{classdbo_1_1ptr_ab78eab684add44b9fcf6707b562fbf99}{\index{dbo\+::ptr@{dbo\+::ptr}!loaded@{loaded}}
+\index{loaded@{loaded}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{loaded}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ bool {\bf dbo\+::ptr}$<$ C $>$\+::loaded (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_ab78eab684add44b9fcf6707b562fbf99}
+An object is considered as loaded if it has a content and a valid id \hypertarget{classdbo_1_1ptr_a72f14c0fec82d1a42ea26d978abaf16e}{\index{dbo\+::ptr@{dbo\+::ptr}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator bool}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::ptr}$<$ C $>$\+::operator bool (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [explicit]}}}\label{classdbo_1_1ptr_a72f14c0fec82d1a42ea26d978abaf16e}
+
+
+Checks for null. 
+
+Returns true if the pointer is pointing to a non-\/null object. \hypertarget{classdbo_1_1ptr_aeffa0731ad6db791543528ffc35b06ff}{\index{dbo\+::ptr@{dbo\+::ptr}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator"!=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ bool {\bf dbo\+::ptr}$<$ C $>$\+::operator!= (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ Mut\+C $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_aeffa0731ad6db791543528ffc35b06ff}
+
+
+Comparison operator. 
+
+Two pointers are equal if and only if they reference the same database object. \hypertarget{classdbo_1_1ptr_a8f75218dcf7602016bd05204de07bd1d}{\index{dbo\+::ptr@{dbo\+::ptr}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator"!=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ bool {\bf dbo\+::ptr}$<$ C $>$\+::operator!= (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ const C $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_a8f75218dcf7602016bd05204de07bd1d}
+\hypertarget{classdbo_1_1ptr_a5b61379bd3cc91221dd430b24a5cee01}{\index{dbo\+::ptr@{dbo\+::ptr}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ C \& {\bf dbo\+::ptr}$<$ C $>$\+::operator$\ast$ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_a5b61379bd3cc91221dd430b24a5cee01}
+
+
+Dereference operator. 
+
+Note that this operator returns a const copy of the referenced object. Use modify() to get a non-\/const reference.
+
+Since this may lazy-\/load the underlying database object, you should have an active transaction. \hypertarget{classdbo_1_1ptr_a19988f39645add72eed820fc754d78bb}{\index{dbo\+::ptr@{dbo\+::ptr}!operator-\/$>$@{operator-\/$>$}}
+\index{operator-\/$>$@{operator-\/$>$}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator-\/$>$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ C $\ast$ {\bf dbo\+::ptr}$<$ C $>$\+::operator-\/$>$ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_a19988f39645add72eed820fc754d78bb}
+
+
+Dereference operator. 
+
+Note that this operator returns a const copy of the referenced object. Use modify() to get a non-\/const reference.
+
+Since this may lazy-\/load the underlying database object, you should have an active transaction. \hypertarget{classdbo_1_1ptr_a352eff12b264f96f7fb9d8b99490ed0f}{\index{dbo\+::ptr@{dbo\+::ptr}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator$<$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ bool {\bf dbo\+::ptr}$<$ C $>$\+::operator$<$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ Mut\+C $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_a352eff12b264f96f7fb9d8b99490ed0f}
+
+
+Comparison operator. 
+
+This operator is implemented to be able to store pointers in std\+::set or std\+::map containers. \hypertarget{classdbo_1_1ptr_a313ecb8531dcac45969342d26da9e0d9}{\index{dbo\+::ptr@{dbo\+::ptr}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator$<$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ bool {\bf dbo\+::ptr}$<$ C $>$\+::operator$<$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ const C $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_a313ecb8531dcac45969342d26da9e0d9}
+\hypertarget{classdbo_1_1ptr_a5056e13628f91e9449dd1bd24a761a31}{\index{dbo\+::ptr@{dbo\+::ptr}!operator=@{operator=}}
+\index{operator=@{operator=}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf ptr}$<$ C $>$ \& {\bf dbo\+::ptr}$<$ C $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ C $>$ \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1ptr_a5056e13628f91e9449dd1bd24a761a31}
+
+
+Assignment operator. 
+
+\hypertarget{classdbo_1_1ptr_a5391736647ac3d24efaad019805b42ca}{\index{dbo\+::ptr@{dbo\+::ptr}!operator=@{operator=}}
+\index{operator=@{operator=}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ {\bf ptr}$<$ C $>$ \& {\bf dbo\+::ptr}$<$ C $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ D $>$ \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1ptr_a5391736647ac3d24efaad019805b42ca}
+\hypertarget{classdbo_1_1ptr_a733dd776fa6437df42d43c658e9e2b46}{\index{dbo\+::ptr@{dbo\+::ptr}!operator==@{operator==}}
+\index{operator==@{operator==}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ bool {\bf dbo\+::ptr}$<$ C $>$\+::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ Mut\+C $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_a733dd776fa6437df42d43c658e9e2b46}
+
+
+Comparison operator. 
+
+Two pointers are equal if and only if they reference the same database object. \hypertarget{classdbo_1_1ptr_a53ffbe1fc2ff280ec1e51f07340afa59}{\index{dbo\+::ptr@{dbo\+::ptr}!operator==@{operator==}}
+\index{operator==@{operator==}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ bool {\bf dbo\+::ptr}$<$ C $>$\+::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ const C $>$ \&}]{other}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_a53ffbe1fc2ff280ec1e51f07340afa59}
+\hypertarget{classdbo_1_1ptr_a838311b9897fad3559624d5d83b693a1}{\index{dbo\+::ptr@{dbo\+::ptr}!orphan@{orphan}}
+\index{orphan@{orphan}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{orphan}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ bool {\bf dbo\+::ptr}$<$ C $>$\+::orphan (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1ptr_a838311b9897fad3559624d5d83b693a1}
+An object is considered as orphaned if it has a content and an invalid id \hypertarget{classdbo_1_1ptr_ae4b0ee2c40996915d77d9fcdcc057fb8}{\index{dbo\+::ptr@{dbo\+::ptr}!reset@{reset}}
+\index{reset@{reset}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::ptr}$<$ C $>$\+::reset (
+\begin{DoxyParamCaption}
+\item[{C $\ast$}]{obj = {\ttfamily nullptr$<$~C~$>$}}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1ptr_ae4b0ee2c40996915d77d9fcdcc057fb8}
+
+
+Resets the pointer. 
+
+This is equivalent to\+: 
+\begin{DoxyCode}
+p = ptr<C>(obj);
+\end{DoxyCode}
+ \hypertarget{classdbo_1_1ptr_ace8682a6aa620ddb5b664f19cbb63af8}{\index{dbo\+::ptr@{dbo\+::ptr}!table\+Name@{table\+Name}}
+\index{table\+Name@{table\+Name}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{table\+Name}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::ptr}$<$ C $>$\+::table\+Name (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{table\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1ptr_ace8682a6aa620ddb5b664f19cbb63af8}
+\hypertarget{classdbo_1_1ptr_a0bcf503ebd97de9f203d884d24265789}{\index{dbo\+::ptr@{dbo\+::ptr}!take@{take}}
+\index{take@{take}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{take}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::ptr}$<$ C $>$\+::take (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1ptr_a0bcf503ebd97de9f203d884d24265789}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classdbo_1_1ptr_ae779179e16547c9a93329dd197385493}{\index{dbo\+::ptr@{dbo\+::ptr}!action\+::\+Delete@{action\+::\+Delete}}
+\index{action\+::\+Delete@{action\+::\+Delete}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{action\+::\+Delete}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ template$<$class T $>$ friend class {\bf action\+::\+Delete}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1ptr_ae779179e16547c9a93329dd197385493}
+\hypertarget{classdbo_1_1ptr_a88a9b73e2cb3304941371508b660e53e}{\index{dbo\+::ptr@{dbo\+::ptr}!action\+::\+Insert@{action\+::\+Insert}}
+\index{action\+::\+Insert@{action\+::\+Insert}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{action\+::\+Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ template$<$class T $>$ friend class {\bf action\+::\+Insert}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1ptr_a88a9b73e2cb3304941371508b660e53e}
+\hypertarget{classdbo_1_1ptr_a8b98481706995f8b3e2665f74b2b3039}{\index{dbo\+::ptr@{dbo\+::ptr}!action\+::\+Select\+By\+Id@{action\+::\+Select\+By\+Id}}
+\index{action\+::\+Select\+By\+Id@{action\+::\+Select\+By\+Id}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{action\+::\+Select\+By\+Id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ template$<$class T $>$ friend class {\bf action\+::\+Select\+By\+Id}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1ptr_a8b98481706995f8b3e2665f74b2b3039}
+\hypertarget{classdbo_1_1ptr_a90af99826aea472a0aa22e59376fed0f}{\index{dbo\+::ptr@{dbo\+::ptr}!action\+::\+Update@{action\+::\+Update}}
+\index{action\+::\+Update@{action\+::\+Update}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{action\+::\+Update}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ template$<$class T $>$ friend class {\bf action\+::\+Update}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1ptr_a90af99826aea472a0aa22e59376fed0f}
+\hypertarget{classdbo_1_1ptr_a916ea84dc420573cfdb360b67445d5d0}{\index{dbo\+::ptr@{dbo\+::ptr}!collection@{collection}}
+\index{collection@{collection}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ template$<$class D $>$ friend class {\bf collection}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1ptr_a916ea84dc420573cfdb360b67445d5d0}
+\hypertarget{classdbo_1_1ptr_adb115488bb4890f7fc705ee527ad71e0}{\index{dbo\+::ptr@{dbo\+::ptr}!connection@{connection}}
+\index{connection@{connection}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{connection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ friend class {\bf connection}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1ptr_adb115488bb4890f7fc705ee527ad71e0}
+\hypertarget{classdbo_1_1ptr_a70a1cd538b5f03fbc42965ac8f918f23}{\index{dbo\+::ptr@{dbo\+::ptr}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ std\+::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{o, }
+\item[{const {\bf ptr}$<$ C $>$ \&}]{\+\_\+ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1ptr_a70a1cd538b5f03fbc42965ac8f918f23}
+\hypertarget{classdbo_1_1ptr_a7fddf73eaed86e45a2aacbd26b5af751}{\index{dbo\+::ptr@{dbo\+::ptr}!query@{query}}
+\index{query@{query}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{query}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ friend class {\bf query}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1ptr_a7fddf73eaed86e45a2aacbd26b5af751}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classdbo_1_1ptr_a26f06bd10de2444190c904a1814999fa}{\index{dbo\+::ptr@{dbo\+::ptr}!invalid\+Id\+\_\+@{invalid\+Id\+\_\+}}
+\index{invalid\+Id\+\_\+@{invalid\+Id\+\_\+}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{invalid\+Id\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ {\bf ptr}$<$ C $>$\+::{\bf Id\+Type} {\bf dbo\+::ptr}$<$ C $>$\+::invalid\+Id\+\_\+ ={\bf traits\+::dbo\+\_\+traits}$<$C$>$\+::invalid\+Id()\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classdbo_1_1ptr_a26f06bd10de2444190c904a1814999fa}
+\hypertarget{classdbo_1_1ptr_a7c58e1f0ae8dcf8a7a9acd6197d2de38}{\index{dbo\+::ptr@{dbo\+::ptr}!ptr\+\_\+@{ptr\+\_\+}}
+\index{ptr\+\_\+@{ptr\+\_\+}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{ptr\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ {\bf Ptr}$\ast$ {\bf dbo\+::ptr}$<$ C $>$\+::ptr\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1ptr_a7c58e1f0ae8dcf8a7a9acd6197d2de38}
+\hypertarget{classdbo_1_1ptr_aa021e5c70d53414dfbb3139ce3661b9d}{\index{dbo\+::ptr@{dbo\+::ptr}!table\+Name\+\_\+@{table\+Name\+\_\+}}
+\index{table\+Name\+\_\+@{table\+Name\+\_\+}!dbo\+::ptr@{dbo\+::ptr}}
+\subsubsection[{table\+Name\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ char$\ast$ {\bf dbo\+::ptr}$<$ C $>$\+::table\+Name\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1ptr_aa021e5c70d53414dfbb3139ce3661b9d}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/\hyperlink{collection_8hpp}{collection.\+hpp}\item 
+dbo/\hyperlink{ptr_8hpp}{ptr.\+hpp}\item 
+dbo/\hyperlink{ptr_8cxx}{ptr.\+cxx}\end{DoxyCompactItemize}

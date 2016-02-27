@@ -1,0 +1,87 @@
+.TH "dbo::stmt::Statement" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::stmt::Statement \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Statement\&.h>\fP
+.PP
+Inherited by \fBdbo::stmt::BulkStatement\fP, and \fBdbo::stmt::PreparedStatement\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBStatement\fP (\fBconnection\fP &conn)"
+.br
+.ti -1c
+.RI "virtual \fB~Statement\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBbind\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBbind\fP (const std::string &value)=0"
+.br
+.ti -1c
+.RI "virtual void \fBbind\fP (const std::vector< unsigned char > &value)=0"
+.br
+.ti -1c
+.RI "virtual bool \fBread\fP (char *&value)=0"
+.br
+.ti -1c
+.RI "virtual bool \fBread\fP (std::vector< unsigned char > &value)=0"
+.br
+.ti -1c
+.RI "virtual void \fBexecute\fP ()=0"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBconnection\fP * \fBconn_\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Statement::Statement (\fBconnection\fP &conn)"
+Build a statement, the name of the statement will be created from the hash of the sql query 
+.SS "Statement::~Statement ()\fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void dbo::stmt::Statement::bind ()\fC [pure virtual]\fP"
+Bind a null value 
+.PP
+Implemented in \fBdbo::stmt::PreparedStatement\fP, and \fBdbo::stmt::BulkStatement\fP\&.
+.SS "virtual void dbo::stmt::Statement::bind (const std::string &value)\fC [pure virtual]\fP"
+Bind a string value 
+.PP
+Implemented in \fBdbo::stmt::PreparedStatement\fP, and \fBdbo::stmt::BulkStatement\fP\&.
+.SS "virtual void dbo::stmt::Statement::bind (const std::vector< unsigned char > &value)\fC [pure virtual]\fP"
+Bind a binary value 
+.PP
+Implemented in \fBdbo::stmt::PreparedStatement\fP, and \fBdbo::stmt::BulkStatement\fP\&.
+.SS "virtual void dbo::stmt::Statement::execute ()\fC [pure virtual]\fP"
+Execute the prepared statement 
+.PP
+Implemented in \fBdbo::stmt::PreparedStatement\fP, and \fBdbo::stmt::BulkStatement\fP\&.
+.SS "virtual bool dbo::stmt::Statement::read (char *&value)\fC [pure virtual]\fP"
+Read content to string 
+.PP
+Implemented in \fBdbo::stmt::PreparedStatement\fP, and \fBdbo::stmt::BulkStatement\fP\&.
+.SS "virtual bool dbo::stmt::Statement::read (std::vector< unsigned char > &value)\fC [pure virtual]\fP"
+Read content to binary array 
+.PP
+Implemented in \fBdbo::stmt::PreparedStatement\fP, and \fBdbo::stmt::BulkStatement\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBconnection\fP* dbo::stmt::Statement::conn_\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

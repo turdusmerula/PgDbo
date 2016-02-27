@@ -1,0 +1,87 @@
+.TH "dbo::transaction" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::transaction \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <transaction\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB~transaction\fP () noexcept(false)"
+.br
+.RI "\fIDestructor\&. \fP"
+.ti -1c
+.RI "bool \fBactive\fP () const "
+.br
+.RI "\fIReturns whether the transaction is still active\&. \fP"
+.ti -1c
+.RI "void \fBcommit\fP ()"
+.br
+.RI "\fICommits the transaction\&. \fP"
+.ti -1c
+.RI "void \fBrollback\fP ()"
+.br
+.RI "\fIRolls back the transaction\&. \fP"
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtransaction\fP (\fBconnection\fP &conn)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "void \fBopen\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "transaction::~transaction ()\fC [noexcept]\fP"
+
+.PP
+Destructor\&. If the transaction is still active, it is rolled back\&. 
+.SS "transaction::transaction (\fBconnection\fP &conn)\fC [protected]\fP"
+
+.PP
+Constructor\&. Opens a transaction for the given \fCsession\fP\&. If a transaction is already open for the connection nothing is done\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "bool transaction::active () const"
+
+.PP
+Returns whether the transaction is still active\&. A transaction is active unless it has been committed or rolled back\&.
+.PP
+While a transaction is active, new transactions for the same session are treated as the same transaction\&. Nested transactions are not implemented\&. 
+.SS "void transaction::commit ()"
+
+.PP
+Commits the transaction\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBrollback()\fP 
+.RE
+.PP
+
+.SS "void transaction::open ()\fC [protected]\fP"
+
+.SS "void transaction::rollback ()"
+
+.PP
+Rolls back the transaction\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcommit()\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

@@ -1,0 +1,69 @@
+.TH "dbo::traits::dbo_traits< C >" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::traits::dbo_traits< C > \- 
+.PP
+Traits for a class mapped with %Dbo\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <dbo_traits\&.hpp>\fP
+.PP
+Inherits \fBdbo_default_traits\fP\&.
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class C>class dbo::traits::dbo_traits< C >"
+Traits for a class mapped with %Dbo\&. 
+
+The traits class provides some of the mapping properties related to the primary key and optimistic concurrency locking using a version field\&.
+.PP
+See \fBdbo_default_traits\fP for default values\&.
+.PP
+The following example changes the surrogate id field name for a class \fCFoo\fP from the default \fC'id'\fP to \fC'foo_id'\fP:
+.PP
+.PP
+.nf
+namespace dbo {
+
+  template<>
+  struct dbo_traits<Foo> : dbo_default_traits
+  {
+     static const char *surrogateIdField() { return "foo_id"; }
+  };
+
+  // Necessary if you want to use ptr<const Foo>
+  template<> struct dbo_traits<const Foo> : dbo_traits<Foo> {};
+}
+.fi
+.PP
+.PP
+\fBNote:\fP
+.RS 4
+The safe pattern to define traits is before the class definition, based on a forward declaration\&. This is necessary since the persist() function relies on this specialization: 
+.PP
+.nf
+class Foo;
+
+  namespace dbo {
+    template<> struct dbo_traits<Foo> : \&.\&.\&. { };
+  }
+
+class Foo {
+  // definition here, including the persist() function
+};
+
+.fi
+.PP
+ 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

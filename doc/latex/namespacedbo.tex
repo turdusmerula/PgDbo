@@ -1,0 +1,330 @@
+\hypertarget{namespacedbo}{\section{dbo Namespace Reference}
+\label{namespacedbo}\index{dbo@{dbo}}
+}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacedbo_1_1action}{action}
+\item 
+ \hyperlink{namespacedbo_1_1fk}{fk}
+\item 
+ \hyperlink{namespacedbo_1_1mapping}{mapping}
+\item 
+ \hyperlink{namespacedbo_1_1opt}{opt}
+\item 
+ \hyperlink{namespacedbo_1_1stmt}{stmt}
+\item 
+ \hyperlink{namespacedbo_1_1traits}{traits}
+\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classdbo_1_1_action_option}{Action\+Option}
+\item 
+class \hyperlink{classdbo_1_1collection}{collection}
+\item 
+class \hyperlink{classdbo_1_1connection}{connection}
+\item 
+class \hyperlink{classdbo_1_1_exception}{Exception}
+\item 
+class \hyperlink{classdbo_1_1_foreign_key_constraint}{Foreign\+Key\+Constraint}
+\item 
+class \hyperlink{classdbo_1_1ptr}{ptr}
+\item 
+class \hyperlink{classdbo_1_1ptr__base}{ptr\+\_\+base}
+\item 
+class \hyperlink{classdbo_1_1query}{query}
+\item 
+class \hyperlink{classdbo_1_1transaction}{transaction}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73}{Relation\+Type} \{ \hyperlink{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73a59e6c8daa6834e97b78412862dd15d2c}{Many\+To\+One}, 
+\hyperlink{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73a1ace46567253a79a9b365e767e674a8f}{Many\+To\+Many}
+ \}
+\begin{DoxyCompactList}\small\item\em Type of an S\+Q\+L relation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1_action_option}{Action\+Option} \hyperlink{namespacedbo_abe2d0bbeb466a0c67f66c1835ad3a4e9}{operator$\vert$} (\hyperlink{classdbo_1_1_action_option}{Action\+Option} lhs, \hyperlink{classdbo_1_1_action_option}{Action\+Option} rhs)
+\begin{DoxyCompactList}\small\item\em Combines two options. \end{DoxyCompactList}\item 
+\hyperlink{classdbo_1_1_foreign_key_constraint}{Foreign\+Key\+Constraint} \hyperlink{namespacedbo_ae5bf60d97447a53872534069944ba4a7}{operator$\vert$} (\hyperlink{classdbo_1_1_foreign_key_constraint}{Foreign\+Key\+Constraint} lhs, \hyperlink{classdbo_1_1_foreign_key_constraint}{Foreign\+Key\+Constraint} rhs)
+\begin{DoxyCompactList}\small\item\em Combines two constraints. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class C $>$ }\\std\+::ostream \& \hyperlink{namespacedbo_a35fca6f52b51bacd907a2680d534ba1b}{operator$<$$<$} (std\+::ostream \&o, const \hyperlink{classdbo_1_1ptr}{dbo\+::ptr}$<$ C $>$ \&\+\_\+ptr)
+\item 
+{\footnotesize template$<$typename \+\_\+\+Tp , typename... \+\_\+\+Args$>$ }\\\hyperlink{classdbo_1_1ptr}{ptr}$<$ \+\_\+\+Tp $>$ \hyperlink{namespacedbo_ae23ac9fdb26d344155f3651112ac2f1a}{make\+\_\+ptr} (\+\_\+\+Args \&\&...\+\_\+\+\_\+args)
+\item 
+{\footnotesize template$<$class A , typename V $>$ }\\void \hyperlink{namespacedbo_a8d25907296ae8360b3120b7492022c1d}{id} (A \&action, V \&value, const std\+::string \&name, int size)
+\item 
+{\footnotesize template$<$class Action , typename V $>$ }\\void \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field} (Action \&action, V \&value, const std\+::string \&name, int size=-\/1)
+\begin{DoxyCompactList}\small\item\em Maps a database object field. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_a5137d8e177f585a8be34d5b2308ffe44}{belongs\+To} (Action \&action, \hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&value, const std\+::string \&name, \hyperlink{classdbo_1_1_foreign_key_constraint}{Foreign\+Key\+Constraint} constraints, int size)
+\item 
+{\footnotesize template$<$class A , class C $>$ }\\void \hyperlink{namespacedbo_a176633d717519df26153453ef88eb9f4}{belongs\+To} (A \&action, \hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&value, const std\+::string \&name, int size)
+\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_a520ac67a45a637201f5ce05d164a96ad}{belongs\+To} (Action \&action, \hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&value, \hyperlink{classdbo_1_1_foreign_key_constraint}{Foreign\+Key\+Constraint} constraints, int size)
+\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_aa10dd5a869d15f3883120b81daee7e0c}{has\+Many} (Action \&action, \hyperlink{classdbo_1_1collection}{collection}$<$ C $>$ \&value, \hyperlink{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73}{Relation\+Type} type, const std\+::string \&join\+Name)
+\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_a709ba218243298afbbb41036c538c942}{has\+Many} (Action \&action, \hyperlink{classdbo_1_1collection}{collection}$<$ C $>$ \&value, \hyperlink{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73}{Relation\+Type} type, const std\+::string \&join\+Name, const std\+::string \&join\+Id, \hyperlink{classdbo_1_1_foreign_key_constraint}{Foreign\+Key\+Constraint} constraint)
+\item 
+{\footnotesize template$<$class Action , typename V $>$ }\\void \hyperlink{namespacedbo_a4769c8262861d08762603687afb42550}{id} (Action \&action, V \&value, const std\+::string \&name=\char`\"{}id\char`\"{}, int size=-\/1)
+\begin{DoxyCompactList}\small\item\em Maps a natural primary key (id) field. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_a98c6fb4630710b2f9ac0b624a4f6dc35}{belongs\+To} (Action \&action, \hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&value, const std\+::string \&name=std\+::string(), int size=-\/1)
+\begin{DoxyCompactList}\small\item\em Maps the \char`\"{}\+One\char`\"{}-\/side (foreign key) of a Many\+To\+One or One\+To\+One relation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \hyperlink{namespacedbo_a47a23f634263db465e9394710b315393}{Opt\+None} =0x00
+\item 
+const int \hyperlink{namespacedbo_af04051dd11c9b2c8692319eaeee04224}{Opt\+Recursive} =0x01
+\item 
+const int \hyperlink{namespacedbo_a8fe48d016269671188c75d0e08589cde}{Opt\+Reload} =(0x01$<$$<$1)
+\item 
+const int \hyperlink{namespacedbo_a852726cb6e354fe0b7427952d7ee9bbd}{F\+K\+None} =0x00
+\item 
+const int \hyperlink{namespacedbo_aaee974161f0dade23c6dbd3aa44a145b}{F\+K\+Not\+Null} =0x01
+\item 
+const int \hyperlink{namespacedbo_ad015d5bfa1c6cfd1efbb7b6e97eb22ae}{F\+K\+On\+Update\+Cascade} =0x02
+\item 
+const int \hyperlink{namespacedbo_ac28416e0d117ea1806ceee4558b0f96b}{F\+K\+On\+Update\+Set\+Null} =0x04
+\item 
+const int \hyperlink{namespacedbo_a58edf54e3f9cb2c68130845cb2cff826}{F\+K\+On\+Delete\+Cascade} =0x08
+\item 
+const int \hyperlink{namespacedbo_ad8a98b325ad0becbd7231e924c6dbe26}{F\+K\+On\+Delete\+Set\+Null} =0x10
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73}{\index{dbo@{dbo}!Relation\+Type@{Relation\+Type}}
+\index{Relation\+Type@{Relation\+Type}!dbo@{dbo}}
+\subsubsection[{Relation\+Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf dbo\+::\+Relation\+Type}}}\label{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73}
+
+
+Type of an S\+Q\+L relation. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Many\+To\+One@{Many\+To\+One}!dbo@{dbo}}\index{dbo@{dbo}!Many\+To\+One@{Many\+To\+One}}\item[{\em 
+\hypertarget{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73a59e6c8daa6834e97b78412862dd15d2c}{Many\+To\+One}\label{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73a59e6c8daa6834e97b78412862dd15d2c}
+}]Many-\/to-\/\+One relationship. \index{Many\+To\+Many@{Many\+To\+Many}!dbo@{dbo}}\index{dbo@{dbo}!Many\+To\+Many@{Many\+To\+Many}}\item[{\em 
+\hypertarget{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73a1ace46567253a79a9b365e767e674a8f}{Many\+To\+Many}\label{namespacedbo_ab7f92e64aea13b1e3b60021e72a9fc73a1ace46567253a79a9b365e767e674a8f}
+}]Many-\/to-\/\+Many relationship. \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespacedbo_a5137d8e177f585a8be34d5b2308ffe44}{\index{dbo@{dbo}!belongs\+To@{belongs\+To}}
+\index{belongs\+To@{belongs\+To}!dbo@{dbo}}
+\subsubsection[{belongs\+To}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Action , class C $>$ void dbo\+::belongs\+To (
+\begin{DoxyParamCaption}
+\item[{Action \&}]{action, }
+\item[{ptr$<$ C $>$ \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{Foreign\+Key\+Constraint}]{constraints, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_a5137d8e177f585a8be34d5b2308ffe44}
+\hypertarget{namespacedbo_a176633d717519df26153453ef88eb9f4}{\index{dbo@{dbo}!belongs\+To@{belongs\+To}}
+\index{belongs\+To@{belongs\+To}!dbo@{dbo}}
+\subsubsection[{belongs\+To}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class A , class C $>$ void dbo\+::belongs\+To (
+\begin{DoxyParamCaption}
+\item[{A \&}]{action, }
+\item[{ptr$<$ C $>$ \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_a176633d717519df26153453ef88eb9f4}
+\hypertarget{namespacedbo_a520ac67a45a637201f5ce05d164a96ad}{\index{dbo@{dbo}!belongs\+To@{belongs\+To}}
+\index{belongs\+To@{belongs\+To}!dbo@{dbo}}
+\subsubsection[{belongs\+To}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Action , class C $>$ void dbo\+::belongs\+To (
+\begin{DoxyParamCaption}
+\item[{Action \&}]{action, }
+\item[{ptr$<$ C $>$ \&}]{value, }
+\item[{Foreign\+Key\+Constraint}]{constraints, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_a520ac67a45a637201f5ce05d164a96ad}
+\hypertarget{namespacedbo_a98c6fb4630710b2f9ac0b624a4f6dc35}{\index{dbo@{dbo}!belongs\+To@{belongs\+To}}
+\index{belongs\+To@{belongs\+To}!dbo@{dbo}}
+\subsubsection[{belongs\+To}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Action , class C $>$ void dbo\+::belongs\+To (
+\begin{DoxyParamCaption}
+\item[{Action \&}]{action, }
+\item[{ptr$<$ C $>$ \&}]{value, }
+\item[{const std\+::string \&}]{name = {\ttfamily std\+:\+:string()}, }
+\item[{int}]{size = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_a98c6fb4630710b2f9ac0b624a4f6dc35}
+
+
+Maps the \char`\"{}\+One\char`\"{}-\/side (foreign key) of a Many\+To\+One or One\+To\+One relation. 
+
+This function binds the pointer field {\ttfamily value} to the database foreign key field(s) {\ttfamily name} {\ttfamily + \char`\"{}\+\_\+\char`\"{} +} (C's primary key(s)).
+
+If the name is omitted or empty, then C's mapped table name is used.
+
+A \hyperlink{namespacedbo_a5137d8e177f585a8be34d5b2308ffe44}{belongs\+To()} will usually have a counter-\/part \hyperlink{namespacedbo_aa10dd5a869d15f3883120b81daee7e0c}{has\+Many()} or has\+One() declaration in the referenced class {\ttfamily C}.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{namespacedbo_aa10dd5a869d15f3883120b81daee7e0c}{has\+Many()} 
+\end{DoxySeeAlso}
+\hypertarget{namespacedbo_ad1f50f02cb050acf946807959252a93f}{\index{dbo@{dbo}!field@{field}}
+\index{field@{field}!dbo@{dbo}}
+\subsubsection[{field}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Action , typename V $>$ void dbo\+::field (
+\begin{DoxyParamCaption}
+\item[{Action \&}]{action, }
+\item[{V \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_ad1f50f02cb050acf946807959252a93f}
+
+
+Maps a database object field. 
+
+This function binds the field {\ttfamily value} to the database field {\ttfamily name}.
+
+The optional {\ttfamily size} may be used as a hint for the needed storage. It is only useful for {\itshape std\+::string} or {\itshape W\+String} fields, and causes the schema to use a {\ttfamily varchar(}{\itshape {\ttfamily size}}{\ttfamily )} for storing the field instead of an unlimited length string type.
+
+You may want to specialize this method for a particular composite type which should be persisted in multiple database fields but not as a separate table (e.\+g. for natural composite primary keys, see \hyperlink{namespacedbo_a8d25907296ae8360b3120b7492022c1d}{id()}).
+
+For example\+: 
+\begin{DoxyCode}
+\textcolor{keyword}{struct }Coordinate \{
+  \textcolor{keywordtype}{int} x, y;
+\};
+
+  \textcolor{keyword}{namespace }dbo \{
+
+    \textcolor{keyword}{template} <\textcolor{keyword}{class} Action>
+    \textcolor{keywordtype}{void} \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field}(Action& action, Coordinate& coordinate, \textcolor{keyword}{const} std::string& name, \textcolor{keywordtype}{int} size = -1)
+    \{
+      \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field}(action, coordinate.x, name + \textcolor{stringliteral}{"\_x"});
+      \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field}(action, coordinate.y, name + \textcolor{stringliteral}{"\_y"});
+    \}
+
+  \} \textcolor{comment}{// namespace dbo}
+\end{DoxyCode}
+
+
+To support a custom type that needs to be persisted as a single field, you should specialize sql\+\_\+value\+\_\+traits instead. \hypertarget{namespacedbo_aa10dd5a869d15f3883120b81daee7e0c}{\index{dbo@{dbo}!has\+Many@{has\+Many}}
+\index{has\+Many@{has\+Many}!dbo@{dbo}}
+\subsubsection[{has\+Many}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Action , class C $>$ void dbo\+::has\+Many (
+\begin{DoxyParamCaption}
+\item[{Action \&}]{action, }
+\item[{collection$<$ C $>$ \&}]{value, }
+\item[{Relation\+Type}]{type, }
+\item[{const std\+::string \&}]{join\+Name}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_aa10dd5a869d15f3883120b81daee7e0c}
+\hypertarget{namespacedbo_a709ba218243298afbbb41036c538c942}{\index{dbo@{dbo}!has\+Many@{has\+Many}}
+\index{has\+Many@{has\+Many}!dbo@{dbo}}
+\subsubsection[{has\+Many}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Action , class C $>$ void dbo\+::has\+Many (
+\begin{DoxyParamCaption}
+\item[{Action \&}]{action, }
+\item[{collection$<$ C $>$ \&}]{value, }
+\item[{Relation\+Type}]{type, }
+\item[{const std\+::string \&}]{join\+Name, }
+\item[{const std\+::string \&}]{join\+Id, }
+\item[{Foreign\+Key\+Constraint}]{constraint}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_a709ba218243298afbbb41036c538c942}
+\hypertarget{namespacedbo_a8d25907296ae8360b3120b7492022c1d}{\index{dbo@{dbo}!id@{id}}
+\index{id@{id}!dbo@{dbo}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class A , typename V $>$ void dbo\+::id (
+\begin{DoxyParamCaption}
+\item[{A \&}]{action, }
+\item[{V \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_a8d25907296ae8360b3120b7492022c1d}
+\hypertarget{namespacedbo_a4769c8262861d08762603687afb42550}{\index{dbo@{dbo}!id@{id}}
+\index{id@{id}!dbo@{dbo}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Action , typename V $>$ void dbo\+::id (
+\begin{DoxyParamCaption}
+\item[{Action \&}]{action, }
+\item[{V \&}]{value, }
+\item[{const std\+::string \&}]{name = {\ttfamily \char`\"{}id\char`\"{}}, }
+\item[{int}]{size = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_a4769c8262861d08762603687afb42550}
+
+
+Maps a natural primary key (id) field. 
+
+A natural primary key field is optional. If you define one and its type is not {\ttfamily long long}, you must specialize dbo\+::dbo\+\_\+traits to match the type {\ttfamily V} as the Id\+Type for this class. When not specified for a class, an auto-\/generated surrogate key field is used with the name specified by dbo\+::dbo\+\_\+traits\+::surrogate\+Id\+Field(), which defaults to \char`\"{}id\char`\"{}.
+
+Unlike the default surrogate key, a natural id is not auto-\/generated and thus you need to give each object a unique value when creating a new object.
+
+The id may be a composite type. In that case, you need to specialize \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{dbo\+::field()}. \hypertarget{namespacedbo_ae23ac9fdb26d344155f3651112ac2f1a}{\index{dbo@{dbo}!make\+\_\+ptr@{make\+\_\+ptr}}
+\index{make\+\_\+ptr@{make\+\_\+ptr}!dbo@{dbo}}
+\subsubsection[{make\+\_\+ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Tp , typename... \+\_\+\+Args$>$ {\bf ptr}$<$\+\_\+\+Tp$>$ dbo\+::make\+\_\+ptr (
+\begin{DoxyParamCaption}
+\item[{\+\_\+\+Args \&\&...}]{\+\_\+\+\_\+args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespacedbo_ae23ac9fdb26d344155f3651112ac2f1a}
+\hypertarget{namespacedbo_a35fca6f52b51bacd907a2680d534ba1b}{\index{dbo@{dbo}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!dbo@{dbo}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ std\+::ostream \& dbo\+::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{o, }
+\item[{const {\bf dbo\+::ptr}$<$ C $>$ \&}]{\+\_\+ptr}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_a35fca6f52b51bacd907a2680d534ba1b}
+\hypertarget{namespacedbo_abe2d0bbeb466a0c67f66c1835ad3a4e9}{\index{dbo@{dbo}!operator\texttt{"|}@{operator\texttt{"|}}}
+\index{operator\texttt{"|}@{operator\texttt{"|}}!dbo@{dbo}}
+\subsubsection[{operator\texttt{"|}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Action\+Option} dbo\+::operator$\vert$ (
+\begin{DoxyParamCaption}
+\item[{{\bf Action\+Option}}]{lhs, }
+\item[{{\bf Action\+Option}}]{rhs}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_abe2d0bbeb466a0c67f66c1835ad3a4e9}
+
+
+Combines two options. 
+
+\hypertarget{namespacedbo_ae5bf60d97447a53872534069944ba4a7}{\index{dbo@{dbo}!operator\texttt{"|}@{operator\texttt{"|}}}
+\index{operator\texttt{"|}@{operator\texttt{"|}}!dbo@{dbo}}
+\subsubsection[{operator\texttt{"|}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Foreign\+Key\+Constraint} dbo\+::operator$\vert$ (
+\begin{DoxyParamCaption}
+\item[{{\bf Foreign\+Key\+Constraint}}]{lhs, }
+\item[{{\bf Foreign\+Key\+Constraint}}]{rhs}
+\end{DoxyParamCaption}
+)}}\label{namespacedbo_ae5bf60d97447a53872534069944ba4a7}
+
+
+Combines two constraints. 
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{namespacedbo_a852726cb6e354fe0b7427952d7ee9bbd}{\index{dbo@{dbo}!F\+K\+None@{F\+K\+None}}
+\index{F\+K\+None@{F\+K\+None}!dbo@{dbo}}
+\subsubsection[{F\+K\+None}]{\setlength{\rightskip}{0pt plus 5cm}const int dbo\+::\+F\+K\+None =0x00}}\label{namespacedbo_a852726cb6e354fe0b7427952d7ee9bbd}
+\hypertarget{namespacedbo_aaee974161f0dade23c6dbd3aa44a145b}{\index{dbo@{dbo}!F\+K\+Not\+Null@{F\+K\+Not\+Null}}
+\index{F\+K\+Not\+Null@{F\+K\+Not\+Null}!dbo@{dbo}}
+\subsubsection[{F\+K\+Not\+Null}]{\setlength{\rightskip}{0pt plus 5cm}const int dbo\+::\+F\+K\+Not\+Null =0x01}}\label{namespacedbo_aaee974161f0dade23c6dbd3aa44a145b}
+\hypertarget{namespacedbo_a58edf54e3f9cb2c68130845cb2cff826}{\index{dbo@{dbo}!F\+K\+On\+Delete\+Cascade@{F\+K\+On\+Delete\+Cascade}}
+\index{F\+K\+On\+Delete\+Cascade@{F\+K\+On\+Delete\+Cascade}!dbo@{dbo}}
+\subsubsection[{F\+K\+On\+Delete\+Cascade}]{\setlength{\rightskip}{0pt plus 5cm}const int dbo\+::\+F\+K\+On\+Delete\+Cascade =0x08}}\label{namespacedbo_a58edf54e3f9cb2c68130845cb2cff826}
+\hypertarget{namespacedbo_ad8a98b325ad0becbd7231e924c6dbe26}{\index{dbo@{dbo}!F\+K\+On\+Delete\+Set\+Null@{F\+K\+On\+Delete\+Set\+Null}}
+\index{F\+K\+On\+Delete\+Set\+Null@{F\+K\+On\+Delete\+Set\+Null}!dbo@{dbo}}
+\subsubsection[{F\+K\+On\+Delete\+Set\+Null}]{\setlength{\rightskip}{0pt plus 5cm}const int dbo\+::\+F\+K\+On\+Delete\+Set\+Null =0x10}}\label{namespacedbo_ad8a98b325ad0becbd7231e924c6dbe26}
+\hypertarget{namespacedbo_ad015d5bfa1c6cfd1efbb7b6e97eb22ae}{\index{dbo@{dbo}!F\+K\+On\+Update\+Cascade@{F\+K\+On\+Update\+Cascade}}
+\index{F\+K\+On\+Update\+Cascade@{F\+K\+On\+Update\+Cascade}!dbo@{dbo}}
+\subsubsection[{F\+K\+On\+Update\+Cascade}]{\setlength{\rightskip}{0pt plus 5cm}const int dbo\+::\+F\+K\+On\+Update\+Cascade =0x02}}\label{namespacedbo_ad015d5bfa1c6cfd1efbb7b6e97eb22ae}
+\hypertarget{namespacedbo_ac28416e0d117ea1806ceee4558b0f96b}{\index{dbo@{dbo}!F\+K\+On\+Update\+Set\+Null@{F\+K\+On\+Update\+Set\+Null}}
+\index{F\+K\+On\+Update\+Set\+Null@{F\+K\+On\+Update\+Set\+Null}!dbo@{dbo}}
+\subsubsection[{F\+K\+On\+Update\+Set\+Null}]{\setlength{\rightskip}{0pt plus 5cm}const int dbo\+::\+F\+K\+On\+Update\+Set\+Null =0x04}}\label{namespacedbo_ac28416e0d117ea1806ceee4558b0f96b}
+\hypertarget{namespacedbo_a47a23f634263db465e9394710b315393}{\index{dbo@{dbo}!Opt\+None@{Opt\+None}}
+\index{Opt\+None@{Opt\+None}!dbo@{dbo}}
+\subsubsection[{Opt\+None}]{\setlength{\rightskip}{0pt plus 5cm}const int dbo\+::\+Opt\+None =0x00}}\label{namespacedbo_a47a23f634263db465e9394710b315393}
+\hypertarget{namespacedbo_af04051dd11c9b2c8692319eaeee04224}{\index{dbo@{dbo}!Opt\+Recursive@{Opt\+Recursive}}
+\index{Opt\+Recursive@{Opt\+Recursive}!dbo@{dbo}}
+\subsubsection[{Opt\+Recursive}]{\setlength{\rightskip}{0pt plus 5cm}const int dbo\+::\+Opt\+Recursive =0x01}}\label{namespacedbo_af04051dd11c9b2c8692319eaeee04224}
+\hypertarget{namespacedbo_a8fe48d016269671188c75d0e08589cde}{\index{dbo@{dbo}!Opt\+Reload@{Opt\+Reload}}
+\index{Opt\+Reload@{Opt\+Reload}!dbo@{dbo}}
+\subsubsection[{Opt\+Reload}]{\setlength{\rightskip}{0pt plus 5cm}const int dbo\+::\+Opt\+Reload =(0x01$<$$<$1)}}\label{namespacedbo_a8fe48d016269671188c75d0e08589cde}

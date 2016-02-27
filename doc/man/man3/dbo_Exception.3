@@ -1,0 +1,39 @@
+.TH "dbo::Exception" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::Exception \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Exception\&.h>\fP
+.PP
+Inherits runtime_error\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBException\fP (const std::string &error, const std::string &\fBcode\fP=std::string())"
+.br
+.ti -1c
+.RI "virtual \fB~Exception\fP ()  throw ()"
+.br
+.ti -1c
+.RI "std::string \fBcode\fP () const "
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "dbo::Exception::Exception (const std::string &error, const std::string &code = \fCstd::string()\fP)\fC [inline]\fP"
+
+.SS "virtual dbo::Exception::~Exception ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string dbo::Exception::code () const\fC [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

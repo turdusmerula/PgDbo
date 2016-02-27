@@ -1,0 +1,80 @@
+\hypertarget{structdbo_1_1traits_1_1dbo__traits}{\section{dbo\+:\+:traits\+:\+:dbo\+\_\+traits$<$ C $>$ Class Template Reference}
+\label{structdbo_1_1traits_1_1dbo__traits}\index{dbo\+::traits\+::dbo\+\_\+traits$<$ C $>$@{dbo\+::traits\+::dbo\+\_\+traits$<$ C $>$}}
+}
+
+
+Traits for a class mapped with \%Dbo.  
+
+
+
+
+{\ttfamily \#include $<$dbo\+\_\+traits.\+hpp$>$}
+
+
+
+Inheritance diagram for dbo\+:\+:traits\+:\+:dbo\+\_\+traits$<$ C $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{structdbo_1_1traits_1_1dbo__traits__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for dbo\+:\+:traits\+:\+:dbo\+\_\+traits$<$ C $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{structdbo_1_1traits_1_1dbo__traits__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class C$>$class dbo\+::traits\+::dbo\+\_\+traits$<$ C $>$}
+
+Traits for a class mapped with \%Dbo. 
+
+The traits class provides some of the mapping properties related to the primary key and optimistic concurrency locking using a version field.
+
+See \hyperlink{structdbo__default__traits}{dbo\+\_\+default\+\_\+traits} for default values.
+
+The following example changes the surrogate id field name for a class {\ttfamily Foo} from the default {\ttfamily \char`\"{}id\char`\"{}} to {\ttfamily \char`\"{}foo\+\_\+id\char`\"{}}\+:
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{namespace }dbo \{
+
+  \textcolor{keyword}{template}<>
+  \textcolor{keyword}{struct }dbo\_traits<Foo> : \hyperlink{structdbo__default__traits}{dbo\_default\_traits}
+  \{
+     \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} *\hyperlink{structdbo__default__traits_a7f0ee1558eb51f77cc1843f5fcf19057}{surrogateIdField}() \{ \textcolor{keywordflow}{return} \textcolor{stringliteral}{"foo\_id"}; \}
+  \};
+
+  \textcolor{comment}{// Necessary if you want to use ptr<const Foo>}
+  \textcolor{keyword}{template}<> \textcolor{keyword}{struct }dbo\_traits<const Foo> : dbo\_traits<Foo> \{\};
+\}
+\end{DoxyCode}
+
+
+\begin{DoxyNote}{Note}
+The safe pattern to define traits is before the class definition, based on a forward declaration. This is necessary since the persist() function relies on this specialization\+: 
+\begin{DoxyCode}
+\textcolor{keyword}{class }Foo;
+
+  \textcolor{keyword}{namespace }dbo \{
+    \textcolor{keyword}{template}<> \textcolor{keyword}{struct }dbo\_traits<Foo> : ... \{ \};
+  \}
+
+\textcolor{keyword}{class }Foo \{
+  \textcolor{comment}{// definition here, including the persist() function}
+\};
+\end{DoxyCode}
+ 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+dbo/traits/\hyperlink{dbo__traits_8hpp}{dbo\+\_\+traits.\+hpp}\end{DoxyCompactItemize}

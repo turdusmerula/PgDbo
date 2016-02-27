@@ -1,0 +1,46 @@
+\hypertarget{connection_8cpp}{\section{dbo/connection.cpp File Reference}
+\label{connection_8cpp}\index{dbo/connection.\+cpp@{dbo/connection.\+cpp}}
+}
+{\ttfamily \#include $<$dbo/connection.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/mapping/\+Field.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/mapping/\+Field\+Info.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/mapping/\+Set\+Info.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/mapping/\+Mapping\+Info.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/mapping/\+Mapping.\+hpp$>$}\\*
+{\ttfamily \#include $<$dbo/stmt/\+Prepared\+Statement.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/traits/sql\+\_\+value\+\_\+traits.\+hpp$>$}\\*
+{\ttfamily \#include $<$dbo/traits/\+Std\+Sql\+Traits.\+h$>$}\\*
+{\ttfamily \#include $<$postgresql/libpq-\/fe.\+h$>$}\\*
+Include dependency graph for connection.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{connection_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \& \hyperlink{connection_8cpp_ace4f7ce47eb184086c37bc588d168614}{replace} (std\+::string \&s, char c, const std\+::string \&r)
+\item 
+std\+::string \hyperlink{connection_8cpp_a1d5792fcb599079e1a716f36ef92b493}{quote\+Schema\+Dot} (const std\+::string \&table)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{connection_8cpp_a1d5792fcb599079e1a716f36ef92b493}{\index{connection.\+cpp@{connection.\+cpp}!quote\+Schema\+Dot@{quote\+Schema\+Dot}}
+\index{quote\+Schema\+Dot@{quote\+Schema\+Dot}!connection.\+cpp@{connection.\+cpp}}
+\subsubsection[{quote\+Schema\+Dot}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string quote\+Schema\+Dot (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{table}
+\end{DoxyParamCaption}
+)}}\label{connection_8cpp_a1d5792fcb599079e1a716f36ef92b493}
+\hypertarget{connection_8cpp_ace4f7ce47eb184086c37bc588d168614}{\index{connection.\+cpp@{connection.\+cpp}!replace@{replace}}
+\index{replace@{replace}!connection.\+cpp@{connection.\+cpp}}
+\subsubsection[{replace}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& replace (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{s, }
+\item[{char}]{c, }
+\item[{const std\+::string \&}]{r}
+\end{DoxyParamCaption}
+)}}\label{connection_8cpp_ace4f7ce47eb184086c37bc588d168614}

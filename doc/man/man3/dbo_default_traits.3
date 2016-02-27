@@ -1,0 +1,126 @@
+.TH "dbo_default_traits" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo_default_traits \- 
+.PP
+Default traits for a class mapped with %Dbo\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <dbo_default_traits\&.hpp>\fP
+.PP
+Inherited by \fBdbo::traits::dbo_traits< C >\fP\&.
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef long long \fBIdType\fP"
+.br
+.RI "\fIType of the primary key\&. \fP"
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBIdType\fP \fBinvalidId\fP ()"
+.br
+.RI "\fIReturns the sentinel value for a \fCnull\fP id\&. \fP"
+.ti -1c
+.RI "static boost::optional
+.br
+< std::string > \fBsurrogateIdField\fP ()"
+.br
+.RI "\fIConfigures the surrogate primary key field\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Default traits for a class mapped with %Dbo\&. 
+
+This class provides the default traits\&. It is convenient (and future proof) to inherit these default traits when customizing the traits for one particular class\&. 
+.SH "Member Typedef Documentation"
+.PP 
+.SS "typedef long long \fBdbo_default_traits::IdType\fP"
+
+.PP
+Type of the primary key\&. This indicates the type of the primary key, which needs to be \fClong long\fP for a surrogate id, but can be any type supported by \fBdbo::field()\fP (including composite types) for a natural primary key\&.
+.PP
+The following operations need to be supported for an id value:
+.PP
+.IP "\(bu" 2
+\fIdefault constructor\fP
+.IP "\(bu" 2
+\fIcopy constructor\fP
+.IP "\(bu" 2
+serialization to a string (for formatting an error message in exceptions) : \fCstd::ostream << id\fP
+.IP "\(bu" 2
+comparison operator (for use as a key in a std::map): \fCid == id\fP
+.IP "\(bu" 2
+less than operator (for use as a key in a std::map): \fCid < id\fP
+.PP
+.PP
+Only the default \fClong long\fP is supported for an auto-incrementing surrogate primary key\&. You need to change the default key type typically in conjuction with specifying a natural id, see \fBdbo::id()\fP\&.
+.PP
+The following example illustrates how to prepare a type to be usable as a composite id type:
+.PP
+.PP
+.nf
+struct Coordinate {
+  int x, y;
+
+  Coordinate()
+    : x(-1), y(-1) { }
+
+  bool operator== (const Coordinate& other) const {
+    return x == other\&.x && y == other\&.y;
+  }
+
+  bool operator< (const Coordinate& other) const {
+    if (x < other\&.x)
+      return true;
+    else if (x == other\&.x)
+      return y < other\&.y;
+    else
+      return false;
+  }
+};
+
+std::ostream& operator<< (std::ostream& o, const Coordinate& c)
+{
+  return o << "(" << c\&.x << ", " << c\&.y << ")";
+}
+
+  namespace dbo {
+
+    template <class Action>
+    void field(Action& action, Coordinate& coordinate, const std::string& name, int size = -1)
+    {
+      field(action, coordinate\&.x, name + "_x");
+      field(action, coordinate\&.y, name + "_y");
+    }
+  }
+.fi
+.PP
+ 
+.SH "Member Function Documentation"
+.PP 
+.SS "static \fBIdType\fP dbo_default_traits::invalidId ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Returns the sentinel value for a \fCnull\fP id\&. When used as a foreign key, this value is used to represent a \fCnull\fP value\&.
+.PP
+The default implementation returns -1\&. 
+.SS "static boost::optional<std::string> dbo_default_traits::surrogateIdField ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Configures the surrogate primary key field\&. Returns the field name which is the surrogate primary key, corresponding to the object's id\&.
+.PP
+You can disable this auto-incrementing surrogate id by returning \fC0\fP instead\&. In that case you will need to define a natural id for your class using \fBdbo::id()\fP\&.
+.PP
+The default surrogate id database field name is \fC'id'\fP\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

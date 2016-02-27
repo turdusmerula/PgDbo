@@ -1,0 +1,441 @@
+.TH "dbo::connection" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::connection \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <connection\&.h>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtypecomp\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBconnection\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~connection\fP ()"
+.br
+.ti -1c
+.RI "void \fBconnect\fP (std::string options='')"
+.br
+.RI "\fIConnects to database\&. *\&. \fP"
+.ti -1c
+.RI "bool \fBconnected\fP () const "
+.br
+.ti -1c
+.RI "template<class C > void \fBmapClass\fP (std::string name)"
+.br
+.RI "\fIMaps a class to a database table\&. \fP"
+.ti -1c
+.RI "template<class C > const std::string & \fBtableName\fP () const "
+.br
+.RI "\fIReturns the mapped table name for a class\&. \fP"
+.ti -1c
+.RI "void \fBcreateTables\fP ()"
+.br
+.RI "\fICreates the database schema\&. \fP"
+.ti -1c
+.RI "std::string \fBtableCreationSql\fP ()"
+.br
+.RI "\fIReturns database creation SQL\&. \fP"
+.ti -1c
+.RI "\fBdbo::transaction\fP & \fBtransaction\fP ()"
+.br
+.ti -1c
+.RI "void \fBtransaction\fP (std::function< void()> func)"
+.br
+.ti -1c
+.RI "template<class C > \fBptr\fP< C > & \fBinsert\fP (\fBptr\fP< C > &\fBptr\fP, \fBActionOption\fP opt=\fBopt::None\fP)"
+.br
+.ti -1c
+.RI "template<class C > \fBcollection\fP< C > & \fBinsert\fP (\fBcollection\fP< C > &coll, \fBActionOption\fP opt=\fBopt::None\fP)"
+.br
+.ti -1c
+.RI "template<class C > \fBptr\fP< C > \fBupdate\fP (\fBptr\fP< C > &\fBptr\fP)"
+.br
+.ti -1c
+.RI "template<class C > \fBptr\fP< C > \fBload\fP (\fBptr\fP< C > &\fBptr\fP)"
+.br
+.ti -1c
+.RI "template<class C > \fBptr\fP< C > \fBload\fP (const typename \fBtraits::dbo_traits\fP< C >::IdType &\fBid\fP)"
+.br
+.ti -1c
+.RI "template<class C > void \fBremove\fP (\fBptr\fP< C > &\fBptr\fP)"
+.br
+.ti -1c
+.RI "template<class C > \fBquery\fP \fBfind\fP (const std::string &condition='')"
+.br
+.ti -1c
+.RI "template<class C > \fBquery\fP \fBfind\fP (const \fBcollection\fP< C > &\fBcollection\fP, const std::string &condition='')"
+.br
+.ti -1c
+.RI "\fBdbo::query\fP \fBquery\fP (const std::string &sql)"
+.br
+.ti -1c
+.RI "void \fBdebug\fP ()"
+.br
+.ti -1c
+.RI "bool \fBshowQueries\fP () const "
+.br
+.ti -1c
+.RI "void \fBshowQueries\fP (bool value)"
+.br
+.ti -1c
+.RI "bool \fBshowBindings\fP () const "
+.br
+.ti -1c
+.RI "void \fBshowBindings\fP (bool value)"
+.br
+.ti -1c
+.RI "bool \fBshowResults\fP () const "
+.br
+.ti -1c
+.RI "void \fBshowResults\fP (bool value)"
+.br
+.in -1c
+.SS "Protected Types"
+
+.in +1c
+.ti -1c
+.RI "typedef const std::type_info * \fBconst_typeinfo_ptr\fP"
+.br
+.ti -1c
+.RI "using \fBMappingInfoPtr\fP = std::shared_ptr< \fBmapping::MappingInfo\fP >"
+.br
+.ti -1c
+.RI "using \fBClassRegistry\fP = std::map< \fBconst_typeinfo_ptr\fP, \fBMappingInfoPtr\fP, \fBtypecomp\fP >"
+.br
+.ti -1c
+.RI "using \fBTableRegistry\fP = std::unordered_map< std::string, \fBMappingInfoPtr\fP >"
+.br
+.ti -1c
+.RI "using \fBTypes\fP = \fBtraits::SqlPostgresTypes\fP"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBexecuteSql\fP (const std::vector< std::string > &sql, std::ostream *sout=nullptr)"
+.br
+.ti -1c
+.RI "void \fBexecuteSql\fP (const std::stringstream &sql, std::ostream *sout=nullptr)"
+.br
+.ti -1c
+.RI "void \fBexecuteSql\fP (const std::string &sql, std::ostream *sout=nullptr)"
+.br
+.ti -1c
+.RI "void \fBresolveJoinIds\fP (\fBMappingInfoPtr\fP mapping)"
+.br
+.ti -1c
+.RI "void \fBcreateRelations\fP (\fBMappingInfoPtr\fP mapping, std::set< std::string > &tablesCreated, std::ostream *sout)"
+.br
+.ti -1c
+.RI "void \fBinitSchema\fP ()"
+.br
+.ti -1c
+.RI "void \fBcreateTable\fP (\fBMappingInfoPtr\fP mapping, std::set< std::string > &tablesCreated, std::ostream *sout, bool createConstraints)"
+.br
+.ti -1c
+.RI "std::string \fBconstraintString\fP (\fBMappingInfoPtr\fP mapping, const \fBmapping::FieldInfo\fP &\fBfield\fP, unsigned fromIndex, unsigned toIndex)"
+.br
+.ti -1c
+.RI "unsigned \fBfindLastForeignKeyField\fP (\fBMappingInfoPtr\fP mapping, const \fBmapping::FieldInfo\fP &\fBfield\fP, unsigned index)"
+.br
+.ti -1c
+.RI "void \fBcreateJoinTable\fP (const std::string &joinName, \fBMappingInfoPtr\fP mapping1, \fBMappingInfoPtr\fP mapping2, const std::string &joinId1, const std::string &joinId2, int fkConstraints1, int fkConstraints2, std::set< std::string > &tablesCreated, std::ostream *sout)"
+.br
+.ti -1c
+.RI "std::vector< \fBmapping::JoinId\fP > \fBgetJoinIds\fP (\fBMappingInfoPtr\fP mapping, const std::string &joinId)"
+.br
+.ti -1c
+.RI "void \fBaddJoinTableFields\fP (\fBMappingInfoPtr\fP result, \fBMappingInfoPtr\fP mapping, const std::string &joinId, const std::string &keyName, int fkConstraints)"
+.br
+.ti -1c
+.RI "void \fBcreateJoinIndex\fP (\fBMappingInfoPtr\fP joinTableMapping, \fBMappingInfoPtr\fP mapping, const std::string &joinId, const std::string &foreignKeyName, std::ostream *sout)"
+.br
+.ti -1c
+.RI "void \fBprepareInsertStatements\fP (\fBMappingInfoPtr\fP mapping)"
+.br
+.ti -1c
+.RI "void \fBprepareUpdateStatements\fP (\fBMappingInfoPtr\fP mapping)"
+.br
+.ti -1c
+.RI "void \fBprepareDeleteStatements\fP (\fBMappingInfoPtr\fP mapping)"
+.br
+.ti -1c
+.RI "void \fBprepareSelectedByIdStatements\fP (\fBMappingInfoPtr\fP mapping)"
+.br
+.ti -1c
+.RI "void \fBprepareCollectionsStatements\fP (\fBMappingInfoPtr\fP mapping)"
+.br
+.ti -1c
+.RI "void \fBprepareStatements\fP (\fBMappingInfoPtr\fP mapping)"
+.br
+.ti -1c
+.RI "template<class C > std::shared_ptr
+.br
+< \fBmapping::Mapping\fP< C > > \fBgetMapping\fP ()"
+.br
+.ti -1c
+.RI "\fBMappingInfoPtr\fP \fBgetMapping\fP (const std::string &\fBtableName\fP) const "
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBoptions_\fP"
+.br
+.ti -1c
+.RI "\fBPGconn\fP * \fBconn_\fP"
+.br
+.ti -1c
+.RI "bool \fBshowQueries_\fP"
+.br
+.ti -1c
+.RI "bool \fBshowBindings_\fP"
+.br
+.ti -1c
+.RI "bool \fBshowResults_\fP"
+.br
+.ti -1c
+.RI "bool \fBschemaInitialized_\fP"
+.br
+.ti -1c
+.RI "\fBClassRegistry\fP \fBclassRegistry_\fP"
+.br
+.ti -1c
+.RI "\fBTableRegistry\fP \fBtableRegistry_\fP"
+.br
+.ti -1c
+.RI "\fBdbo::transaction\fP \fBtransaction_\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "template<class T > class \fBaction::Delete\fP"
+.br
+.ti -1c
+.RI "template<class T > class \fBaction::Insert\fP"
+.br
+.ti -1c
+.RI "template<class T > class \fBaction::SelectById\fP"
+.br
+.ti -1c
+.RI "template<class T > class \fBaction::Update\fP"
+.br
+.ti -1c
+.RI "class \fBaction::InitSchema\fP"
+.br
+.ti -1c
+.RI "template<class C > class \fBmapping::PtrRef\fP"
+.br
+.ti -1c
+.RI "class \fBstmt::PreparedStatement\fP"
+.br
+.ti -1c
+.RI "class \fBstmt::BulkStatement\fP"
+.br
+.ti -1c
+.RI "class \fBquery\fP"
+.br
+.ti -1c
+.RI "class \fBtransaction\fP"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "using \fBdbo::connection::ClassRegistry\fP =  std::map<\fBconst_typeinfo_ptr\fP, \fBMappingInfoPtr\fP, \fBtypecomp\fP>\fC [protected]\fP"
+
+.SS "typedef const std::type_info* \fBdbo::connection::const_typeinfo_ptr\fP\fC [protected]\fP"
+
+.SS "using \fBdbo::connection::MappingInfoPtr\fP =  std::shared_ptr<\fBmapping::MappingInfo\fP>\fC [protected]\fP"
+
+.SS "using \fBdbo::connection::TableRegistry\fP =  std::unordered_map<std::string, \fBMappingInfoPtr\fP>\fC [protected]\fP"
+
+.SS "using \fBdbo::connection::Types\fP =  \fBtraits::SqlPostgresTypes\fP\fC [protected]\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "connection::connection ()"
+
+.SS "connection::~connection ()\fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void connection::addJoinTableFields (\fBMappingInfoPtr\fPresult, \fBMappingInfoPtr\fPmapping, const std::string &joinId, const std::string &keyName, intfkConstraints)\fC [protected]\fP"
+
+.SS "void connection::connect (std::stringoptions = \fC''\fP)"
+
+.PP
+Connects to database\&. *\&. 
+.SS "bool connection::connected () const"
+
+.SS "std::string connection::constraintString (\fBMappingInfoPtr\fPmapping, const \fBmapping::FieldInfo\fP &field, unsignedfromIndex, unsignedtoIndex)\fC [protected]\fP"
+
+.SS "void connection::createJoinIndex (\fBMappingInfoPtr\fPjoinTableMapping, \fBMappingInfoPtr\fPmapping, const std::string &joinId, const std::string &foreignKeyName, std::ostream *sout)\fC [protected]\fP"
+
+.SS "void connection::createJoinTable (const std::string &joinName, \fBMappingInfoPtr\fPmapping1, \fBMappingInfoPtr\fPmapping2, const std::string &joinId1, const std::string &joinId2, intfkConstraints1, intfkConstraints2, std::set< std::string > &tablesCreated, std::ostream *sout)\fC [protected]\fP"
+
+.SS "void connection::createRelations (\fBMappingInfoPtr\fPmapping, std::set< std::string > &tablesCreated, std::ostream *sout)\fC [protected]\fP"
+
+.SS "void connection::createTable (\fBMappingInfoPtr\fPmapping, std::set< std::string > &tablesCreated, std::ostream *sout, boolcreateConstraints)\fC [protected]\fP"
+
+.SS "void connection::createTables ()"
+
+.PP
+Creates the database schema\&. This will create the database schema of the mapped tables\&. Schema creation will fail if one or more tables already existed\&. The creation of the tables is executed in a transaction that is rolled back when an error occurs\&.
+.PP
+This method throws an \fBdbo::Exception\fP if the table creation failed\&.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBmapClass()\fP, dropTables() 
+.RE
+.PP
+
+.SS "void connection::debug ()"
+
+.SS "void connection::executeSql (const std::vector< std::string > &sql, std::ostream *sout = \fCnullptr\fP)\fC [protected]\fP"
+
+.SS "void connection::executeSql (const std::stringstream &sql, std::ostream *sout = \fCnullptr\fP)\fC [protected]\fP"
+
+.SS "void connection::executeSql (const std::string &sql, std::ostream *sout = \fCnullptr\fP)\fC [protected]\fP"
+
+.SS "template<class C > \fBquery\fP dbo::connection::find (const std::string &condition = \fC''\fP)"
+Create a select query from mapping 
+.SS "template<class C > \fBquery\fP dbo::connection::find (const \fBcollection\fP< C > &collection, const std::string &condition = \fC''\fP)"
+Create a select query from collection mapping 
+.SS "unsigned connection::findLastForeignKeyField (\fBMappingInfoPtr\fPmapping, const \fBmapping::FieldInfo\fP &field, unsignedindex)\fC [protected]\fP"
+
+.SS "std::vector< \fBmapping::JoinId\fP > connection::getJoinIds (\fBMappingInfoPtr\fPmapping, const std::string &joinId)\fC [protected]\fP"
+
+.SS "template<class C > std::shared_ptr< \fBmapping::Mapping\fP< C > > dbo::connection::getMapping ()\fC [protected]\fP"
+
+.SS "\fBconnection::MappingInfoPtr\fP connection::getMapping (const std::string &tableName) const\fC [protected]\fP"
+
+.SS "void connection::initSchema ()\fC [protected]\fP"
+
+.SS "template<class C > \fBptr\fP< C > & dbo::connection::insert (\fBptr\fP< C > &ptr, \fBActionOption\fPopt = \fC\fBopt::None\fP\fP)"
+Persists an object inside database and attribute it an id 
+.SS "template<class C > \fBcollection\fP< C > & dbo::connection::insert (\fBcollection\fP< C > &coll, \fBActionOption\fPopt = \fC\fBopt::None\fP\fP)"
+bulk insert content of collection 
+.SS "template<class C > \fBptr\fP< C > dbo::connection::load (\fBptr\fP< C > &ptr)"
+Reload an existing object from database 
+.SS "template<class C > \fBptr\fP< C > dbo::connection::load (const typename \fBtraits::dbo_traits\fP< C >::IdType &id)"
+Load an object from database 
+.SS "template<class C > void dbo::connection::mapClass (std::stringname)"
+
+.PP
+Maps a class to a database table\&. The class \fCC\fP is mapped to table with \fCtableName\fP\&. You need to map classes to tables\&.
+.PP
+You may provide a schema-qualified table name, if the underlying database supports this, eg\&. \fC'myschema\&.users'\fP\&. 
+.SS "void connection::prepareCollectionsStatements (\fBMappingInfoPtr\fPmapping)\fC [protected]\fP"
+
+.SS "void connection::prepareDeleteStatements (\fBMappingInfoPtr\fPmapping)\fC [protected]\fP"
+
+.SS "void connection::prepareInsertStatements (\fBMappingInfoPtr\fPmapping)\fC [protected]\fP"
+
+.SS "void connection::prepareSelectedByIdStatements (\fBMappingInfoPtr\fPmapping)\fC [protected]\fP"
+
+.SS "void connection::prepareStatements (\fBMappingInfoPtr\fPmapping)\fC [protected]\fP"
+
+.SS "void connection::prepareUpdateStatements (\fBMappingInfoPtr\fPmapping)\fC [protected]\fP"
+
+.SS "\fBdbo::query\fP connection::query (const std::string &sql)"
+Create query from sql request 
+.SS "template<class C > void dbo::connection::remove (\fBptr\fP< C > &ptr)"
+Remove an existing object from database 
+.SS "void connection::resolveJoinIds (\fBMappingInfoPtr\fPmapping)\fC [protected]\fP"
+
+.SS "bool dbo::connection::showBindings () const\fC [inline]\fP"
+
+.SS "void dbo::connection::showBindings (boolvalue)\fC [inline]\fP"
+
+.SS "bool dbo::connection::showQueries () const\fC [inline]\fP"
+
+.SS "void dbo::connection::showQueries (boolvalue)\fC [inline]\fP"
+
+.SS "bool dbo::connection::showResults () const\fC [inline]\fP"
+
+.SS "void dbo::connection::showResults (boolvalue)\fC [inline]\fP"
+
+.SS "std::string connection::tableCreationSql ()"
+
+.PP
+Returns database creation SQL\&. 
+.SS "template<class C > const std::string & dbo::connection::tableName () const"
+
+.PP
+Returns the mapped table name for a class\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBmapClass()\fP, tableNameQuoted() 
+.RE
+.PP
+
+.SS "\fBdbo::transaction\fP& dbo::connection::transaction ()"
+Open a new transaction for the session, if transaction already exists then access it 
+.SS "void connection::transaction (std::function< void()>func)"
+Same than \fBtransaction()\fP with auto commit/rollback functionality\&. In case an error is catched then auto rollback is applied and error is rethrowed to caller 
+.SS "template<class C > \fBptr\fP< C > dbo::connection::update (\fBptr\fP< C > &ptr)"
+Persists a modified object inside database 
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "template<class T > friend class \fBaction::Delete\fP\fC [friend]\fP"
+
+.SS "friend class \fBaction::InitSchema\fP\fC [friend]\fP"
+
+.SS "template<class T > friend class \fBaction::Insert\fP\fC [friend]\fP"
+
+.SS "template<class T > friend class \fBaction::SelectById\fP\fC [friend]\fP"
+
+.SS "template<class T > friend class \fBaction::Update\fP\fC [friend]\fP"
+
+.SS "template<class C > friend class \fBmapping::PtrRef\fP\fC [friend]\fP"
+
+.SS "friend class \fBquery\fP\fC [friend]\fP"
+
+.SS "friend class \fBstmt::BulkStatement\fP\fC [friend]\fP"
+
+.SS "friend class \fBstmt::PreparedStatement\fP\fC [friend]\fP"
+
+.SS "\fBtransaction\fP & connection::transaction\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBClassRegistry\fP dbo::connection::classRegistry_\fC [protected]\fP"
+
+.SS "\fBPGconn\fP* dbo::connection::conn_\fC [protected]\fP"
+
+.SS "std::string dbo::connection::options_\fC [protected]\fP"
+
+.SS "bool dbo::connection::schemaInitialized_\fC [protected]\fP"
+
+.SS "bool dbo::connection::showBindings_\fC [protected]\fP"
+
+.SS "bool dbo::connection::showQueries_\fC [protected]\fP"
+
+.SS "bool dbo::connection::showResults_\fC [protected]\fP"
+
+.SS "\fBTableRegistry\fP dbo::connection::tableRegistry_\fC [protected]\fP"
+
+.SS "\fBdbo::transaction\fP dbo::connection::transaction_\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

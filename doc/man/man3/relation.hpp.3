@@ -1,0 +1,53 @@
+.TH "dbo/relation.hpp" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo/relation.hpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include <dbo/mapping/ForeignKeyConstraint\&.h>\fP
+.br
+\fC#include <dbo/mapping/SetInfo\&.h>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBdbo\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class Action , typename V > void \fBdbo::id\fP (Action &action, V &value, const std::string &name='id', int size=-1)"
+.br
+.RI "\fIMaps a natural primary key (id) field\&. \fP"
+.ti -1c
+.RI "template<class Action , typename V > void \fBdbo::field\fP (Action &action, V &value, const std::string &name, int size=-1)"
+.br
+.RI "\fIMaps a database object field\&. \fP"
+.ti -1c
+.RI "template<class Action , class C > void \fBdbo::belongsTo\fP (Action &action, ptr< C > &value, const std::string &name=std::string(), int size=-1)"
+.br
+.RI "\fIMaps the 'One'-side (foreign key) of a ManyToOne or OneToOne relation\&. \fP"
+.ti -1c
+.RI "template<class Action , class C > void \fBdbo::belongsTo\fP (Action &action, ptr< C > &value, const std::string &name, ForeignKeyConstraint constraints, int size)"
+.br
+.ti -1c
+.RI "template<class Action , class C > void \fBdbo::belongsTo\fP (Action &action, ptr< C > &value, ForeignKeyConstraint constraints, int size)"
+.br
+.ti -1c
+.RI "template<class Action , class C > void \fBdbo::hasMany\fP (Action &action, collection< C > &value, RelationType type, const std::string &joinName)"
+.br
+.ti -1c
+.RI "template<class Action , class C > void \fBdbo::hasMany\fP (Action &action, collection< C > &value, RelationType type, const std::string &joinName, const std::string &joinId, ForeignKeyConstraint constraint)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

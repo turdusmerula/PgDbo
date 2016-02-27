@@ -1,0 +1,163 @@
+\hypertarget{classdbo_1_1query}{\section{dbo\+:\+:query Class Reference}
+\label{classdbo_1_1query}\index{dbo\+::query@{dbo\+::query}}
+}
+
+
+{\ttfamily \#include $<$query.\+hpp$>$}
+
+
+
+Collaboration diagram for dbo\+:\+:query\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{classdbo_1_1query__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1query_ac19a74e69ad4218112831283f5f0df49}{query} (\hyperlink{classdbo_1_1connection}{connection} \&conn, const std\+::string \&\hyperlink{classdbo_1_1query_a3f8523a194010647409c1d088a873c2b}{sql}=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classdbo_1_1query_af479777fb57fbf7f857be5369d1c7241}{$\sim$query} ()
+\item 
+\hyperlink{classdbo_1_1query}{query} \& \hyperlink{classdbo_1_1query_a66350ea5d7bb84e7bdf3499a58afb0c3}{operator=} (const \hyperlink{classdbo_1_1query}{query} \&other)
+\item 
+{\footnotesize template$<$class C $>$ }\\\hyperlink{classdbo_1_1query}{query} \& \hyperlink{classdbo_1_1query_afc649b97327cf3447938d907251c77d4}{bind} (const C \&value)
+\item 
+\hyperlink{classdbo_1_1query}{query} \& \hyperlink{classdbo_1_1query_a29e671372b485030cf6dd1ddf6eb9562}{prepare} ()
+\item 
+\hyperlink{classdbo_1_1query}{query} \& \hyperlink{classdbo_1_1query_add1b7ef5fb795f0cc4c8e026374dde06}{execute} ()
+\item 
+{\footnotesize template$<$class C $>$ }\\\hyperlink{classdbo_1_1query}{query} \& \hyperlink{classdbo_1_1query_a2a5455a6e17b8807a1c8b8dfddcf9902}{read} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&\hyperlink{classdbo_1_1ptr}{ptr})
+\item 
+{\footnotesize template$<$class T $>$ }\\\hyperlink{classdbo_1_1query}{query} \& \hyperlink{classdbo_1_1query_a4b1687876a062d4c8f914bec512e1b36}{read} (T \&value)
+\item 
+bool \hyperlink{classdbo_1_1query_ae637eeb9728436f0e67d365ac5f85ae1}{next\+Row} ()
+\item 
+const std\+::string \& \hyperlink{classdbo_1_1query_a3f8523a194010647409c1d088a873c2b}{sql} ()
+\item 
+bool \hyperlink{classdbo_1_1query_a4b48b4d659f8377cea9976bc9506e354}{hasrow} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1connection}{connection} $\ast$ \hyperlink{classdbo_1_1query_a284b1502770d8ee9bcae3e5c76939d11}{conn\+\_\+}
+\item 
+\hyperlink{classdbo_1_1stmt_1_1_prepared_statement}{stmt\+::\+Prepared\+Statement} \hyperlink{classdbo_1_1query_a7402009c90a36d6e941cff2408c89b4e}{stmt\+\_\+}
+\item 
+std\+::string \hyperlink{classdbo_1_1query_a387fe6e99acb27b15db7ed46979a0b51}{sql\+\_\+}
+\item 
+bool \hyperlink{classdbo_1_1query_a87d47323c718b28fa479d6cb8ae33703}{prepared\+\_\+}
+\item 
+bool \hyperlink{classdbo_1_1query_ab345783ac96adcb4373c44bbecb075ef}{hasrow\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1query_ac19a74e69ad4218112831283f5f0df49}{\index{dbo\+::query@{dbo\+::query}!query@{query}}
+\index{query@{query}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{query}]{\setlength{\rightskip}{0pt plus 5cm}query\+::query (
+\begin{DoxyParamCaption}
+\item[{{\bf connection} \&}]{conn, }
+\item[{const std\+::string \&}]{sql = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1query_ac19a74e69ad4218112831283f5f0df49}
+\hypertarget{classdbo_1_1query_af479777fb57fbf7f857be5369d1c7241}{\index{dbo\+::query@{dbo\+::query}!````~query@{$\sim$query}}
+\index{````~query@{$\sim$query}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{$\sim$query}]{\setlength{\rightskip}{0pt plus 5cm}query\+::$\sim$query (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1query_af479777fb57fbf7f857be5369d1c7241}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1query_afc649b97327cf3447938d907251c77d4}{\index{dbo\+::query@{dbo\+::query}!bind@{bind}}
+\index{bind@{bind}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{bind}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf query} \& dbo\+::query\+::bind (
+\begin{DoxyParamCaption}
+\item[{const C \&}]{value}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1query_afc649b97327cf3447938d907251c77d4}
+\hypertarget{classdbo_1_1query_add1b7ef5fb795f0cc4c8e026374dde06}{\index{dbo\+::query@{dbo\+::query}!execute@{execute}}
+\index{execute@{execute}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{execute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf query} \& query\+::execute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1query_add1b7ef5fb795f0cc4c8e026374dde06}
+\hypertarget{classdbo_1_1query_a4b48b4d659f8377cea9976bc9506e354}{\index{dbo\+::query@{dbo\+::query}!hasrow@{hasrow}}
+\index{hasrow@{hasrow}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{hasrow}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::query\+::hasrow (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1query_a4b48b4d659f8377cea9976bc9506e354}
+\hypertarget{classdbo_1_1query_ae637eeb9728436f0e67d365ac5f85ae1}{\index{dbo\+::query@{dbo\+::query}!next\+Row@{next\+Row}}
+\index{next\+Row@{next\+Row}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{next\+Row}]{\setlength{\rightskip}{0pt plus 5cm}bool query\+::next\+Row (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1query_ae637eeb9728436f0e67d365ac5f85ae1}
+\hypertarget{classdbo_1_1query_a66350ea5d7bb84e7bdf3499a58afb0c3}{\index{dbo\+::query@{dbo\+::query}!operator=@{operator=}}
+\index{operator=@{operator=}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf query} \& query\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf query} \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1query_a66350ea5d7bb84e7bdf3499a58afb0c3}
+\hypertarget{classdbo_1_1query_a29e671372b485030cf6dd1ddf6eb9562}{\index{dbo\+::query@{dbo\+::query}!prepare@{prepare}}
+\index{prepare@{prepare}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{prepare}]{\setlength{\rightskip}{0pt plus 5cm}{\bf query} \& query\+::prepare (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1query_a29e671372b485030cf6dd1ddf6eb9562}
+Prepare the query. Once a query is prepared it becomes a named prepared statement and can not be modified Statements not prepared are executed as anonymous named statements. \hypertarget{classdbo_1_1query_a2a5455a6e17b8807a1c8b8dfddcf9902}{\index{dbo\+::query@{dbo\+::query}!read@{read}}
+\index{read@{read}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf query} \& dbo\+::query\+::read (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ C $>$ \&}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1query_a2a5455a6e17b8807a1c8b8dfddcf9902}
+\hypertarget{classdbo_1_1query_a4b1687876a062d4c8f914bec512e1b36}{\index{dbo\+::query@{dbo\+::query}!read@{read}}
+\index{read@{read}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ {\bf query} \& dbo\+::query\+::read (
+\begin{DoxyParamCaption}
+\item[{T \&}]{value}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1query_a4b1687876a062d4c8f914bec512e1b36}
+\hypertarget{classdbo_1_1query_a3f8523a194010647409c1d088a873c2b}{\index{dbo\+::query@{dbo\+::query}!sql@{sql}}
+\index{sql@{sql}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{sql}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string\& dbo\+::query\+::sql (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1query_a3f8523a194010647409c1d088a873c2b}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classdbo_1_1query_a284b1502770d8ee9bcae3e5c76939d11}{\index{dbo\+::query@{dbo\+::query}!conn\+\_\+@{conn\+\_\+}}
+\index{conn\+\_\+@{conn\+\_\+}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{conn\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}{\bf connection}$\ast$ dbo\+::query\+::conn\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1query_a284b1502770d8ee9bcae3e5c76939d11}
+\hypertarget{classdbo_1_1query_ab345783ac96adcb4373c44bbecb075ef}{\index{dbo\+::query@{dbo\+::query}!hasrow\+\_\+@{hasrow\+\_\+}}
+\index{hasrow\+\_\+@{hasrow\+\_\+}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{hasrow\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::query\+::hasrow\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1query_ab345783ac96adcb4373c44bbecb075ef}
+\hypertarget{classdbo_1_1query_a87d47323c718b28fa479d6cb8ae33703}{\index{dbo\+::query@{dbo\+::query}!prepared\+\_\+@{prepared\+\_\+}}
+\index{prepared\+\_\+@{prepared\+\_\+}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{prepared\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::query\+::prepared\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1query_a87d47323c718b28fa479d6cb8ae33703}
+\hypertarget{classdbo_1_1query_a387fe6e99acb27b15db7ed46979a0b51}{\index{dbo\+::query@{dbo\+::query}!sql\+\_\+@{sql\+\_\+}}
+\index{sql\+\_\+@{sql\+\_\+}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{sql\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string dbo\+::query\+::sql\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1query_a387fe6e99acb27b15db7ed46979a0b51}
+\hypertarget{classdbo_1_1query_a7402009c90a36d6e941cff2408c89b4e}{\index{dbo\+::query@{dbo\+::query}!stmt\+\_\+@{stmt\+\_\+}}
+\index{stmt\+\_\+@{stmt\+\_\+}!dbo\+::query@{dbo\+::query}}
+\subsubsection[{stmt\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}{\bf stmt\+::\+Prepared\+Statement} dbo\+::query\+::stmt\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1query_a7402009c90a36d6e941cff2408c89b4e}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/\hyperlink{query_8hpp}{query.\+hpp}\item 
+dbo/\hyperlink{query_8cpp}{query.\+cpp}\item 
+dbo/\hyperlink{query_8cxx}{query.\+cxx}\end{DoxyCompactItemize}

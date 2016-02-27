@@ -1,0 +1,165 @@
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info}{\section{dbo\+:\+:mapping\+:\+:Mapping\+Info Class Reference}
+\label{classdbo_1_1mapping_1_1_mapping_info}\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+}
+
+
+{\ttfamily \#include $<$Mapping\+Info.\+h$>$}
+
+
+
+Inheritance diagram for dbo\+:\+:mapping\+:\+:Mapping\+Info\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classdbo_1_1mapping_1_1_mapping_info__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09}{Statement\+Type} \{ \\*
+\hyperlink{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a5f8fdefc757a0babb57069a4190d9ba0}{Sql\+Insert} =0, 
+\hyperlink{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09ab1421ced8701f4023a7d3409a5d7e04f}{Sql\+Update} =1, 
+\hyperlink{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a5600f10d886e3eb9c4b8bc2f6becff6d}{Sql\+Delete} =2, 
+\hyperlink{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a2f33d6bb8c5068aab32a5050b5166507}{Sql\+Select\+By\+Id} =3, 
+\\*
+\hyperlink{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a9a17045c8f9fecfc4ae978657aa46aca}{First\+Sql\+Select\+Set} =4
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1mapping_1_1_mapping_info_ae70d8d648ad6a85496e70114c7f621f5}{Mapping\+Info} ()
+\item 
+virtual \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a0ee09d7f09d6c82b51c0b0d8944d866c}{$\sim$\+Mapping\+Info} ()
+\item 
+virtual void \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a1b52b4f58c49b0c7bd64968bae692846}{init} (\hyperlink{classdbo_1_1connection}{connection} \&conn)
+\item 
+std\+::string \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a0fbeeaedf55ac6c78f72ac8eee28fc97}{primary\+Keys} () const 
+\item 
+std\+::string \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a1285d681d1338c37b003375de2402739}{debug} (int tab)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classdbo_1_1mapping_1_1_mapping_info_acb52011c465986c42a13d51143810669}{initialized\+\_\+}
+\item 
+std\+::string \hyperlink{classdbo_1_1mapping_1_1_mapping_info_acbde5a13cfb34bfc295618d04f5e1b2f}{table\+Name}
+\item 
+boost\+::optional$<$ std\+::string $>$ \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a8748799b225f75d8f8b9921b9a154dc9}{surrogate\+Id\+Field\+Name}
+\item 
+std\+::string \hyperlink{classdbo_1_1mapping_1_1_mapping_info_af25df5f23a08b2cd0df50e70e1f8153b}{natural\+Id\+Field\+Name}
+\item 
+int \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a9002b148bddea56eed799ed55577644f}{natural\+Id\+Field\+Size}
+\item 
+std\+::string \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a1b0c501e1c8b77b950da36250119fb43}{id\+Condition}
+\item 
+std\+::vector$<$ \hyperlink{classdbo_1_1mapping_1_1_field_info}{Field\+Info} $>$ \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a07655a3c9ed3ada83735b7ab85775dec}{fields}
+\item 
+std\+::vector$<$ \hyperlink{structdbo_1_1mapping_1_1_set_info}{Set\+Info} $>$ \hyperlink{classdbo_1_1mapping_1_1_mapping_info_aa1aa365dcdf2b60f13bc7fbb9ec11f3f}{sets}
+\item 
+std\+::map$<$ size\+\_\+t, \\*
+\hyperlink{classdbo_1_1stmt_1_1_prepared_statement}{stmt\+::\+Prepared\+Statement} $>$ \hyperlink{classdbo_1_1mapping_1_1_mapping_info_a3049e05c4e13f8d423f84268720602cd}{statements}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!Statement\+Type@{Statement\+Type}}
+\index{Statement\+Type@{Statement\+Type}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{Statement\+Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf dbo\+::mapping\+::\+Mapping\+Info\+::\+Statement\+Type}}}\label{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Sql\+Insert@{Sql\+Insert}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!Sql\+Insert@{Sql\+Insert}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a5f8fdefc757a0babb57069a4190d9ba0}{Sql\+Insert}\label{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a5f8fdefc757a0babb57069a4190d9ba0}
+}]\index{Sql\+Update@{Sql\+Update}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!Sql\+Update@{Sql\+Update}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09ab1421ced8701f4023a7d3409a5d7e04f}{Sql\+Update}\label{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09ab1421ced8701f4023a7d3409a5d7e04f}
+}]\index{Sql\+Delete@{Sql\+Delete}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!Sql\+Delete@{Sql\+Delete}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a5600f10d886e3eb9c4b8bc2f6becff6d}{Sql\+Delete}\label{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a5600f10d886e3eb9c4b8bc2f6becff6d}
+}]\index{Sql\+Select\+By\+Id@{Sql\+Select\+By\+Id}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!Sql\+Select\+By\+Id@{Sql\+Select\+By\+Id}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a2f33d6bb8c5068aab32a5050b5166507}{Sql\+Select\+By\+Id}\label{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a2f33d6bb8c5068aab32a5050b5166507}
+}]\index{First\+Sql\+Select\+Set@{First\+Sql\+Select\+Set}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!First\+Sql\+Select\+Set@{First\+Sql\+Select\+Set}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a9a17045c8f9fecfc4ae978657aa46aca}{First\+Sql\+Select\+Set}\label{classdbo_1_1mapping_1_1_mapping_info_a8edaff7685bc58254cd05ef19ad19c09a9a17045c8f9fecfc4ae978657aa46aca}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_ae70d8d648ad6a85496e70114c7f621f5}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!Mapping\+Info@{Mapping\+Info}}
+\index{Mapping\+Info@{Mapping\+Info}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{Mapping\+Info}]{\setlength{\rightskip}{0pt plus 5cm}Mapping\+Info\+::\+Mapping\+Info (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1mapping_1_1_mapping_info_ae70d8d648ad6a85496e70114c7f621f5}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a0ee09d7f09d6c82b51c0b0d8944d866c}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!````~Mapping\+Info@{$\sim$\+Mapping\+Info}}
+\index{````~Mapping\+Info@{$\sim$\+Mapping\+Info}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{$\sim$\+Mapping\+Info}]{\setlength{\rightskip}{0pt plus 5cm}Mapping\+Info\+::$\sim$\+Mapping\+Info (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classdbo_1_1mapping_1_1_mapping_info_a0ee09d7f09d6c82b51c0b0d8944d866c}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a1285d681d1338c37b003375de2402739}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!debug@{debug}}
+\index{debug@{debug}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{debug}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Mapping\+Info\+::debug (
+\begin{DoxyParamCaption}
+\item[{int}]{tab}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1mapping_1_1_mapping_info_a1285d681d1338c37b003375de2402739}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a1b52b4f58c49b0c7bd64968bae692846}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!init@{init}}
+\index{init@{init}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void Mapping\+Info\+::init (
+\begin{DoxyParamCaption}
+\item[{{\bf connection} \&}]{conn}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classdbo_1_1mapping_1_1_mapping_info_a1b52b4f58c49b0c7bd64968bae692846}
+
+
+Reimplemented in \hyperlink{classdbo_1_1mapping_1_1_mapping_a62d1a2cf4a87bda5586012c674178b32}{dbo\+::mapping\+::\+Mapping$<$ T $>$}, and \hyperlink{classdbo_1_1mapping_1_1_mapping_a62d1a2cf4a87bda5586012c674178b32}{dbo\+::mapping\+::\+Mapping$<$ C $>$}.
+
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a0fbeeaedf55ac6c78f72ac8eee28fc97}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!primary\+Keys@{primary\+Keys}}
+\index{primary\+Keys@{primary\+Keys}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{primary\+Keys}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Mapping\+Info\+::primary\+Keys (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1mapping_1_1_mapping_info_a0fbeeaedf55ac6c78f72ac8eee28fc97}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a07655a3c9ed3ada83735b7ab85775dec}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!fields@{fields}}
+\index{fields@{fields}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{fields}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf Field\+Info}$>$ dbo\+::mapping\+::\+Mapping\+Info\+::fields}}\label{classdbo_1_1mapping_1_1_mapping_info_a07655a3c9ed3ada83735b7ab85775dec}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a1b0c501e1c8b77b950da36250119fb43}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!id\+Condition@{id\+Condition}}
+\index{id\+Condition@{id\+Condition}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{id\+Condition}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string dbo\+::mapping\+::\+Mapping\+Info\+::id\+Condition}}\label{classdbo_1_1mapping_1_1_mapping_info_a1b0c501e1c8b77b950da36250119fb43}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_acb52011c465986c42a13d51143810669}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!initialized\+\_\+@{initialized\+\_\+}}
+\index{initialized\+\_\+@{initialized\+\_\+}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{initialized\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::mapping\+::\+Mapping\+Info\+::initialized\+\_\+}}\label{classdbo_1_1mapping_1_1_mapping_info_acb52011c465986c42a13d51143810669}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_af25df5f23a08b2cd0df50e70e1f8153b}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!natural\+Id\+Field\+Name@{natural\+Id\+Field\+Name}}
+\index{natural\+Id\+Field\+Name@{natural\+Id\+Field\+Name}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{natural\+Id\+Field\+Name}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string dbo\+::mapping\+::\+Mapping\+Info\+::natural\+Id\+Field\+Name}}\label{classdbo_1_1mapping_1_1_mapping_info_af25df5f23a08b2cd0df50e70e1f8153b}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a9002b148bddea56eed799ed55577644f}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!natural\+Id\+Field\+Size@{natural\+Id\+Field\+Size}}
+\index{natural\+Id\+Field\+Size@{natural\+Id\+Field\+Size}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{natural\+Id\+Field\+Size}]{\setlength{\rightskip}{0pt plus 5cm}int dbo\+::mapping\+::\+Mapping\+Info\+::natural\+Id\+Field\+Size}}\label{classdbo_1_1mapping_1_1_mapping_info_a9002b148bddea56eed799ed55577644f}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_aa1aa365dcdf2b60f13bc7fbb9ec11f3f}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!sets@{sets}}
+\index{sets@{sets}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{sets}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf Set\+Info}$>$ dbo\+::mapping\+::\+Mapping\+Info\+::sets}}\label{classdbo_1_1mapping_1_1_mapping_info_aa1aa365dcdf2b60f13bc7fbb9ec11f3f}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a3049e05c4e13f8d423f84268720602cd}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!statements@{statements}}
+\index{statements@{statements}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{statements}]{\setlength{\rightskip}{0pt plus 5cm}std\+::map$<$size\+\_\+t, {\bf stmt\+::\+Prepared\+Statement}$>$ dbo\+::mapping\+::\+Mapping\+Info\+::statements}}\label{classdbo_1_1mapping_1_1_mapping_info_a3049e05c4e13f8d423f84268720602cd}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_a8748799b225f75d8f8b9921b9a154dc9}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!surrogate\+Id\+Field\+Name@{surrogate\+Id\+Field\+Name}}
+\index{surrogate\+Id\+Field\+Name@{surrogate\+Id\+Field\+Name}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{surrogate\+Id\+Field\+Name}]{\setlength{\rightskip}{0pt plus 5cm}boost\+::optional$<$std\+::string$>$ dbo\+::mapping\+::\+Mapping\+Info\+::surrogate\+Id\+Field\+Name}}\label{classdbo_1_1mapping_1_1_mapping_info_a8748799b225f75d8f8b9921b9a154dc9}
+\hypertarget{classdbo_1_1mapping_1_1_mapping_info_acbde5a13cfb34bfc295618d04f5e1b2f}{\index{dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}!table\+Name@{table\+Name}}
+\index{table\+Name@{table\+Name}!dbo\+::mapping\+::\+Mapping\+Info@{dbo\+::mapping\+::\+Mapping\+Info}}
+\subsubsection[{table\+Name}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string dbo\+::mapping\+::\+Mapping\+Info\+::table\+Name}}\label{classdbo_1_1mapping_1_1_mapping_info_acbde5a13cfb34bfc295618d04f5e1b2f}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/mapping/\hyperlink{_mapping_info_8h}{Mapping\+Info.\+h}\item 
+dbo/mapping/\hyperlink{_mapping_info_8cpp}{Mapping\+Info.\+cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,297 @@
+.TH "dbo::ptr< C >" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::ptr< C > \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <collection\&.hpp>\fP
+.PP
+Inherits \fBdbo::ptr_base\fP\&.
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBPtr\fP"
+.br
+.in -1c
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBIdType\fP = typename \fBtraits::dbo_traits\fP< C >::\fBIdType\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBptr\fP ()"
+.br
+.ti -1c
+.RI "\fBptr\fP (C *obj)"
+.br
+.ti -1c
+.RI "\fBptr\fP (const \fBptr\fP< C > &other)"
+.br
+.RI "\fICopy constructor\&. \fP"
+.ti -1c
+.RI "template<class D > \fBptr\fP (const \fBptr\fP< D > &other)"
+.br
+.ti -1c
+.RI "virtual \fB~ptr\fP ()"
+.br
+.ti -1c
+.RI "void \fBreset\fP (C *obj=nullptr)"
+.br
+.RI "\fIResets the pointer\&. \fP"
+.ti -1c
+.RI "\fBptr\fP< C > & \fBoperator=\fP (const \fBptr\fP< C > &other)"
+.br
+.RI "\fIAssignment operator\&. \fP"
+.ti -1c
+.RI "template<class D > \fBptr\fP< C > & \fBoperator=\fP (const \fBptr\fP< D > &other)"
+.br
+.ti -1c
+.RI "C * \fBoperator->\fP () const "
+.br
+.RI "\fIDereference operator\&. \fP"
+.ti -1c
+.RI "C * \fBget\fP () const "
+.br
+.RI "\fIReturns the pointer\&. \fP"
+.ti -1c
+.RI "C & \fBoperator*\fP () const "
+.br
+.RI "\fIDereference operator\&. \fP"
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBptr\fP< MutC > &other) const "
+.br
+.RI "\fIComparison operator\&. \fP"
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBptr\fP< const C > &other) const "
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBptr\fP< MutC > &other) const "
+.br
+.RI "\fIComparison operator\&. \fP"
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBptr\fP< const C > &other) const "
+.br
+.ti -1c
+.RI "bool \fBoperator<\fP (const \fBptr\fP< MutC > &other) const "
+.br
+.RI "\fIComparison operator\&. \fP"
+.ti -1c
+.RI "bool \fBoperator<\fP (const \fBptr\fP< const C > &other) const "
+.br
+.ti -1c
+.RI "\fBoperator bool\fP () const "
+.br
+.RI "\fIChecks for null\&. \fP"
+.ti -1c
+.RI "bool \fBloaded\fP () const "
+.br
+.ti -1c
+.RI "bool \fBorphan\fP () const "
+.br
+.ti -1c
+.RI "const \fBIdType\fP & \fBid\fP () const "
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBptr\fP (\fBPtr\fP *\fBptr\fP)"
+.br
+.ti -1c
+.RI "void \fBfree\fP ()"
+.br
+.ti -1c
+.RI "void \fBtake\fP ()"
+.br
+.ti -1c
+.RI "void \fBid\fP (const \fBIdType\fP &value)"
+.br
+.ti -1c
+.RI "void \fBtableName\fP (const char *tableName)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBtableName_\fP"
+.br
+.ti -1c
+.RI "\fBPtr\fP * \fBptr_\fP"
+.br
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBIdType\fP \fBinvalidId_\fP =\fBtraits::dbo_traits\fP<C>::invalidId()"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBconnection\fP"
+.br
+.ti -1c
+.RI "template<class T > class \fBaction::Delete\fP"
+.br
+.ti -1c
+.RI "template<class T > class \fBaction::Insert\fP"
+.br
+.ti -1c
+.RI "template<class T > class \fBaction::Update\fP"
+.br
+.ti -1c
+.RI "template<class T > class \fBaction::SelectById\fP"
+.br
+.ti -1c
+.RI "class \fBquery\fP"
+.br
+.ti -1c
+.RI "template<class D > class \fBcollection\fP"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &o, const \fBptr\fP< C > &_ptr)"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<class C> using \fBdbo::ptr\fP< C >::\fBIdType\fP =  typename \fBtraits::dbo_traits\fP<C>::\fBIdType\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class C > \fBdbo::ptr\fP< C >::\fBptr\fP ()"
+
+.SS "template<class C > \fBdbo::ptr\fP< C >::\fBptr\fP (C *obj)"
+
+.SS "template<class C > \fBdbo::ptr\fP< C >::\fBptr\fP (const \fBptr\fP< C > &other)"
+
+.PP
+Copy constructor\&. 
+.SS "template<class C > template<class D > \fBdbo::ptr\fP< C >::\fBptr\fP (const \fBptr\fP< D > &other)"
+
+.SS "template<class C > \fBdbo::ptr\fP< C >::~\fBptr\fP ()\fC [virtual]\fP"
+
+.SS "template<class C > \fBdbo::ptr\fP< C >::\fBptr\fP (\fBPtr\fP *ptr)\fC [protected]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class C > void \fBdbo::ptr\fP< C >::free ()\fC [protected]\fP"
+
+.SS "template<class C > C * \fBdbo::ptr\fP< C >::get () const"
+
+.PP
+Returns the pointer\&. Note that returns a const pointer\&. Use modify() to get a non-const pointer\&.
+.PP
+Since this may lazy-load the underlying database object, you should have an active transaction\&.
+.PP
+\fBSee also:\fP
+.RS 4
+modify() 
+.RE
+.PP
+
+.SS "template<class C > const \fBptr\fP< C >::\fBIdType\fP & \fBdbo::ptr\fP< C >::id () const"
+
+.SS "template<class C> void \fBdbo::ptr\fP< C >::id (const \fBIdType\fP &value)\fC [protected]\fP"
+
+.SS "template<class C > bool \fBdbo::ptr\fP< C >::loaded () const"
+An object is considered as loaded if it has a content and a valid id 
+.SS "template<class C > \fBdbo::ptr\fP< C >::operator bool () const\fC [explicit]\fP"
+
+.PP
+Checks for null\&. Returns true if the pointer is pointing to a non-null object\&. 
+.SS "template<class C > bool \fBdbo::ptr\fP< C >::operator!= (const \fBptr\fP< MutC > &other) const"
+
+.PP
+Comparison operator\&. Two pointers are equal if and only if they reference the same database object\&. 
+.SS "template<class C > bool \fBdbo::ptr\fP< C >::operator!= (const \fBptr\fP< const C > &other) const"
+
+.SS "template<class C > C & \fBdbo::ptr\fP< C >::operator* () const"
+
+.PP
+Dereference operator\&. Note that this operator returns a const copy of the referenced object\&. Use modify() to get a non-const reference\&.
+.PP
+Since this may lazy-load the underlying database object, you should have an active transaction\&. 
+.SS "template<class C > C * \fBdbo::ptr\fP< C >::operator-> () const"
+
+.PP
+Dereference operator\&. Note that this operator returns a const copy of the referenced object\&. Use modify() to get a non-const reference\&.
+.PP
+Since this may lazy-load the underlying database object, you should have an active transaction\&. 
+.SS "template<class C > bool \fBdbo::ptr\fP< C >::operator< (const \fBptr\fP< MutC > &other) const"
+
+.PP
+Comparison operator\&. This operator is implemented to be able to store pointers in std::set or std::map containers\&. 
+.SS "template<class C > bool \fBdbo::ptr\fP< C >::operator< (const \fBptr\fP< const C > &other) const"
+
+.SS "template<class C > \fBptr\fP< C > & \fBdbo::ptr\fP< C >::operator= (const \fBptr\fP< C > &other)"
+
+.PP
+Assignment operator\&. 
+.SS "template<class C > template<class D > \fBptr\fP< C > & \fBdbo::ptr\fP< C >::operator= (const \fBptr\fP< D > &other)"
+
+.SS "template<class C > bool \fBdbo::ptr\fP< C >::operator== (const \fBptr\fP< MutC > &other) const"
+
+.PP
+Comparison operator\&. Two pointers are equal if and only if they reference the same database object\&. 
+.SS "template<class C > bool \fBdbo::ptr\fP< C >::operator== (const \fBptr\fP< const C > &other) const"
+
+.SS "template<class C > bool \fBdbo::ptr\fP< C >::orphan () const"
+An object is considered as orphaned if it has a content and an invalid id 
+.SS "template<class C > void \fBdbo::ptr\fP< C >::reset (C *obj = \fCnullptr< C >\fP)"
+
+.PP
+Resets the pointer\&. This is equivalent to: 
+.PP
+.nf
+p = ptr<C>(obj);
+
+.fi
+.PP
+ 
+.SS "template<class C > void \fBdbo::ptr\fP< C >::tableName (const char *tableName)\fC [protected]\fP"
+
+.SS "template<class C > void \fBdbo::ptr\fP< C >::take ()\fC [protected]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "template<class C> template<class T > friend class \fBaction::Delete\fP\fC [friend]\fP"
+
+.SS "template<class C> template<class T > friend class \fBaction::Insert\fP\fC [friend]\fP"
+
+.SS "template<class C> template<class T > friend class \fBaction::SelectById\fP\fC [friend]\fP"
+
+.SS "template<class C> template<class T > friend class \fBaction::Update\fP\fC [friend]\fP"
+
+.SS "template<class C> template<class D > friend class \fBcollection\fP\fC [friend]\fP"
+
+.SS "template<class C> friend class \fBconnection\fP\fC [friend]\fP"
+
+.SS "template<class C> std::ostream& operator<< (std::ostream &o, const \fBptr\fP< C > &_ptr)\fC [friend]\fP"
+
+.SS "template<class C> friend class \fBquery\fP\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class C> \fBptr\fP< C >::\fBIdType\fP \fBdbo::ptr\fP< C >::invalidId_ =\fBtraits::dbo_traits\fP<C>::invalidId()\fC [static]\fP, \fC [protected]\fP"
+
+.SS "template<class C> \fBPtr\fP* \fBdbo::ptr\fP< C >::ptr_\fC [protected]\fP"
+
+.SS "template<class C> char* \fBdbo::ptr\fP< C >::tableName_\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

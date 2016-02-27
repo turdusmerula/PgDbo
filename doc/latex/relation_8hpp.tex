@@ -1,0 +1,42 @@
+\hypertarget{relation_8hpp}{\section{dbo/relation.hpp File Reference}
+\label{relation_8hpp}\index{dbo/relation.\+hpp@{dbo/relation.\+hpp}}
+}
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$dbo/mapping/\+Foreign\+Key\+Constraint.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/mapping/\+Set\+Info.\+h$>$}\\*
+Include dependency graph for relation.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{relation_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{relation_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacedbo}{dbo}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class Action , typename V $>$ }\\void \hyperlink{namespacedbo_a4769c8262861d08762603687afb42550}{dbo\+::id} (Action \&action, V \&value, const std\+::string \&name=\char`\"{}id\char`\"{}, int size=-\/1)
+\begin{DoxyCompactList}\small\item\em Maps a natural primary key (id) field. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Action , typename V $>$ }\\void \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{dbo\+::field} (Action \&action, V \&value, const std\+::string \&name, int size=-\/1)
+\begin{DoxyCompactList}\small\item\em Maps a database object field. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_a98c6fb4630710b2f9ac0b624a4f6dc35}{dbo\+::belongs\+To} (Action \&action, ptr$<$ C $>$ \&value, const std\+::string \&name=std\+::string(), int size=-\/1)
+\begin{DoxyCompactList}\small\item\em Maps the \char`\"{}\+One\char`\"{}-\/side (foreign key) of a Many\+To\+One or One\+To\+One relation. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_a5137d8e177f585a8be34d5b2308ffe44}{dbo\+::belongs\+To} (Action \&action, ptr$<$ C $>$ \&value, const std\+::string \&name, Foreign\+Key\+Constraint constraints, int size)
+\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_a520ac67a45a637201f5ce05d164a96ad}{dbo\+::belongs\+To} (Action \&action, ptr$<$ C $>$ \&value, Foreign\+Key\+Constraint constraints, int size)
+\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_aa10dd5a869d15f3883120b81daee7e0c}{dbo\+::has\+Many} (Action \&action, collection$<$ C $>$ \&value, Relation\+Type type, const std\+::string \&join\+Name)
+\item 
+{\footnotesize template$<$class Action , class C $>$ }\\void \hyperlink{namespacedbo_a709ba218243298afbbb41036c538c942}{dbo\+::has\+Many} (Action \&action, collection$<$ C $>$ \&value, Relation\+Type type, const std\+::string \&join\+Name, const std\+::string \&join\+Id, Foreign\+Key\+Constraint constraint)
+\end{DoxyCompactItemize}

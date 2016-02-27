@@ -1,0 +1,266 @@
+.TH "dbo" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBaction\fP"
+.br
+.ti -1c
+.RI " \fBfk\fP"
+.br
+.ti -1c
+.RI " \fBmapping\fP"
+.br
+.ti -1c
+.RI " \fBopt\fP"
+.br
+.ti -1c
+.RI " \fBstmt\fP"
+.br
+.ti -1c
+.RI " \fBtraits\fP"
+.br
+.in -1c
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBActionOption\fP"
+.br
+.ti -1c
+.RI "class \fBcollection\fP"
+.br
+.ti -1c
+.RI "class \fBconnection\fP"
+.br
+.ti -1c
+.RI "class \fBException\fP"
+.br
+.ti -1c
+.RI "class \fBForeignKeyConstraint\fP"
+.br
+.ti -1c
+.RI "class \fBptr\fP"
+.br
+.ti -1c
+.RI "class \fBptr_base\fP"
+.br
+.ti -1c
+.RI "class \fBquery\fP"
+.br
+.ti -1c
+.RI "class \fBtransaction\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBRelationType\fP { \fBManyToOne\fP, \fBManyToMany\fP }"
+.br
+.RI "\fIType of an SQL relation\&. \fP"
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBActionOption\fP \fBoperator|\fP (\fBActionOption\fP lhs, \fBActionOption\fP rhs)"
+.br
+.RI "\fICombines two options\&. \fP"
+.ti -1c
+.RI "\fBForeignKeyConstraint\fP \fBoperator|\fP (\fBForeignKeyConstraint\fP lhs, \fBForeignKeyConstraint\fP rhs)"
+.br
+.RI "\fICombines two constraints\&. \fP"
+.ti -1c
+.RI "template<class C > std::ostream & \fBoperator<<\fP (std::ostream &o, const \fBdbo::ptr\fP< C > &_ptr)"
+.br
+.ti -1c
+.RI "template<typename _Tp , typename\&.\&.\&. _Args> \fBptr\fP< _Tp > \fBmake_ptr\fP (_Args &&\&.\&.\&.__args)"
+.br
+.ti -1c
+.RI "template<class A , typename V > void \fBid\fP (A &action, V &value, const std::string &name, int size)"
+.br
+.ti -1c
+.RI "template<class Action , typename V > void \fBfield\fP (Action &action, V &value, const std::string &name, int size=-1)"
+.br
+.RI "\fIMaps a database object field\&. \fP"
+.ti -1c
+.RI "template<class Action , class C > void \fBbelongsTo\fP (Action &action, \fBptr\fP< C > &value, const std::string &name, \fBForeignKeyConstraint\fP constraints, int size)"
+.br
+.ti -1c
+.RI "template<class A , class C > void \fBbelongsTo\fP (A &action, \fBptr\fP< C > &value, const std::string &name, int size)"
+.br
+.ti -1c
+.RI "template<class Action , class C > void \fBbelongsTo\fP (Action &action, \fBptr\fP< C > &value, \fBForeignKeyConstraint\fP constraints, int size)"
+.br
+.ti -1c
+.RI "template<class Action , class C > void \fBhasMany\fP (Action &action, \fBcollection\fP< C > &value, \fBRelationType\fP type, const std::string &joinName)"
+.br
+.ti -1c
+.RI "template<class Action , class C > void \fBhasMany\fP (Action &action, \fBcollection\fP< C > &value, \fBRelationType\fP type, const std::string &joinName, const std::string &joinId, \fBForeignKeyConstraint\fP constraint)"
+.br
+.ti -1c
+.RI "template<class Action , typename V > void \fBid\fP (Action &action, V &value, const std::string &name='id', int size=-1)"
+.br
+.RI "\fIMaps a natural primary key (id) field\&. \fP"
+.ti -1c
+.RI "template<class Action , class C > void \fBbelongsTo\fP (Action &action, \fBptr\fP< C > &value, const std::string &name=std::string(), int size=-1)"
+.br
+.RI "\fIMaps the 'One'-side (foreign key) of a ManyToOne or OneToOne relation\&. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const int \fBOptNone\fP =0x00"
+.br
+.ti -1c
+.RI "const int \fBOptRecursive\fP =0x01"
+.br
+.ti -1c
+.RI "const int \fBOptReload\fP =(0x01<<1)"
+.br
+.ti -1c
+.RI "const int \fBFKNone\fP =0x00"
+.br
+.ti -1c
+.RI "const int \fBFKNotNull\fP =0x01"
+.br
+.ti -1c
+.RI "const int \fBFKOnUpdateCascade\fP =0x02"
+.br
+.ti -1c
+.RI "const int \fBFKOnUpdateSetNull\fP =0x04"
+.br
+.ti -1c
+.RI "const int \fBFKOnDeleteCascade\fP =0x08"
+.br
+.ti -1c
+.RI "const int \fBFKOnDeleteSetNull\fP =0x10"
+.br
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBdbo::RelationType\fP"
+
+.PP
+Type of an SQL relation\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIManyToOne \fP\fP
+Many-to-One relationship\&. 
+.TP
+\fB\fIManyToMany \fP\fP
+Many-to-Many relationship\&. 
+.SH "Function Documentation"
+.PP 
+.SS "template<class Action , class C > void dbo::belongsTo (Action &action, ptr< C > &value, const std::string &name, ForeignKeyConstraintconstraints, intsize)"
+
+.SS "template<class A , class C > void dbo::belongsTo (A &action, ptr< C > &value, const std::string &name, intsize)"
+
+.SS "template<class Action , class C > void dbo::belongsTo (Action &action, ptr< C > &value, ForeignKeyConstraintconstraints, intsize)"
+
+.SS "template<class Action , class C > void dbo::belongsTo (Action &action, ptr< C > &value, const std::string &name = \fCstd::string()\fP, intsize = \fC-1\fP)"
+
+.PP
+Maps the 'One'-side (foreign key) of a ManyToOne or OneToOne relation\&. This function binds the pointer field \fCvalue\fP to the database foreign key field(s) \fCname\fP \fC+ '_' +\fP (C's primary key(s))\&.
+.PP
+If the name is omitted or empty, then C's mapped table name is used\&.
+.PP
+A \fBbelongsTo()\fP will usually have a counter-part \fBhasMany()\fP or hasOne() declaration in the referenced class \fCC\fP\&.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBhasMany()\fP 
+.RE
+.PP
+
+.SS "template<class Action , typename V > void dbo::field (Action &action, V &value, const std::string &name, intsize = \fC-1\fP)"
+
+.PP
+Maps a database object field\&. This function binds the field \fCvalue\fP to the database field \fCname\fP\&.
+.PP
+The optional \fCsize\fP may be used as a hint for the needed storage\&. It is only useful for \fIstd::string\fP or \fIWString\fP fields, and causes the schema to use a \fCvarchar(\fP\fI\fCsize\fP\fP\fC)\fP for storing the field instead of an unlimited length string type\&.
+.PP
+You may want to specialize this method for a particular composite type which should be persisted in multiple database fields but not as a separate table (e\&.g\&. for natural composite primary keys, see \fBid()\fP)\&.
+.PP
+For example: 
+.PP
+.nf
+struct Coordinate {
+  int x, y;
+};
+
+  namespace dbo {
+
+    template <class Action>
+    void field(Action& action, Coordinate& coordinate, const std::string& name, int size = -1)
+    {
+      field(action, coordinate\&.x, name + "_x");
+      field(action, coordinate\&.y, name + "_y");
+    }
+
+  } // namespace dbo
+
+.fi
+.PP
+.PP
+To support a custom type that needs to be persisted as a single field, you should specialize sql_value_traits instead\&. 
+.SS "template<class Action , class C > void dbo::hasMany (Action &action, collection< C > &value, RelationTypetype, const std::string &joinName)"
+
+.SS "template<class Action , class C > void dbo::hasMany (Action &action, collection< C > &value, RelationTypetype, const std::string &joinName, const std::string &joinId, ForeignKeyConstraintconstraint)"
+
+.SS "template<class A , typename V > void dbo::id (A &action, V &value, const std::string &name, intsize)"
+
+.SS "template<class Action , typename V > void dbo::id (Action &action, V &value, const std::string &name = \fC'id'\fP, intsize = \fC-1\fP)"
+
+.PP
+Maps a natural primary key (id) field\&. A natural primary key field is optional\&. If you define one and its type is not \fClong long\fP, you must specialize dbo::dbo_traits to match the type \fCV\fP as the IdType for this class\&. When not specified for a class, an auto-generated surrogate key field is used with the name specified by dbo::dbo_traits::surrogateIdField(), which defaults to 'id'\&.
+.PP
+Unlike the default surrogate key, a natural id is not auto-generated and thus you need to give each object a unique value when creating a new object\&.
+.PP
+The id may be a composite type\&. In that case, you need to specialize \fBdbo::field()\fP\&. 
+.SS "template<typename _Tp , typename\&.\&.\&. _Args> \fBptr\fP<_Tp> dbo::make_ptr (_Args &&\&.\&.\&.__args)\fC [inline]\fP"
+
+.SS "template<class C > std::ostream & dbo::operator<< (std::ostream &o, const \fBdbo::ptr\fP< C > &_ptr)"
+
+.SS "\fBActionOption\fP dbo::operator| (\fBActionOption\fPlhs, \fBActionOption\fPrhs)"
+
+.PP
+Combines two options\&. 
+.SS "\fBForeignKeyConstraint\fP dbo::operator| (\fBForeignKeyConstraint\fPlhs, \fBForeignKeyConstraint\fPrhs)"
+
+.PP
+Combines two constraints\&. 
+.SH "Variable Documentation"
+.PP 
+.SS "const int dbo::FKNone =0x00"
+
+.SS "const int dbo::FKNotNull =0x01"
+
+.SS "const int dbo::FKOnDeleteCascade =0x08"
+
+.SS "const int dbo::FKOnDeleteSetNull =0x10"
+
+.SS "const int dbo::FKOnUpdateCascade =0x02"
+
+.SS "const int dbo::FKOnUpdateSetNull =0x04"
+
+.SS "const int dbo::OptNone =0x00"
+
+.SS "const int dbo::OptRecursive =0x01"
+
+.SS "const int dbo::OptReload =(0x01<<1)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

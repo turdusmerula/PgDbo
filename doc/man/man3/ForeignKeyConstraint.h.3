@@ -1,0 +1,82 @@
+.TH "dbo/mapping/ForeignKeyConstraint.h" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo/mapping/ForeignKeyConstraint.h \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBdbo::ForeignKeyConstraint\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBdbo\fP"
+.br
+.ti -1c
+.RI " \fBdbo::fk\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBForeignKeyConstraint\fP \fBdbo::operator|\fP (\fBForeignKeyConstraint\fP lhs, \fBForeignKeyConstraint\fP rhs)"
+.br
+.RI "\fICombines two constraints\&. \fP"
+.ti -1c
+.RI "const ForeignKeyConstraint \fBdbo::fk::None\fP (FKNone)"
+.br
+.RI "\fIA constraint that prevents a \fCnull\fP ptr\&. \fP"
+.ti -1c
+.RI "const ForeignKeyConstraint \fBdbo::fk::NotNull\fP (FKNotNull)"
+.br
+.RI "\fIA constraint that prevents a \fCnull\fP ptr\&. \fP"
+.ti -1c
+.RI "const ForeignKeyConstraint \fBdbo::fk::OnUpdateCascade\fP (FKOnUpdateCascade)"
+.br
+.RI "\fIA constraint that cascades updates\&. \fP"
+.ti -1c
+.RI "const ForeignKeyConstraint \fBdbo::fk::OnUpdateSetNull\fP (FKOnUpdateSetNull)"
+.br
+.RI "\fIA constraint that cascades updates\&. \fP"
+.ti -1c
+.RI "const ForeignKeyConstraint \fBdbo::fk::OnDeleteCascade\fP (FKOnDeleteCascade)"
+.br
+.RI "\fIA constraint that cascades deletes\&. \fP"
+.ti -1c
+.RI "const ForeignKeyConstraint \fBdbo::fk::OnDeleteSetNull\fP (FKOnDeleteSetNull)"
+.br
+.RI "\fIA constraint that cascades deletes\&. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const int \fBdbo::FKNone\fP =0x00"
+.br
+.ti -1c
+.RI "const int \fBdbo::FKNotNull\fP =0x01"
+.br
+.ti -1c
+.RI "const int \fBdbo::FKOnUpdateCascade\fP =0x02"
+.br
+.ti -1c
+.RI "const int \fBdbo::FKOnUpdateSetNull\fP =0x04"
+.br
+.ti -1c
+.RI "const int \fBdbo::FKOnDeleteCascade\fP =0x08"
+.br
+.ti -1c
+.RI "const int \fBdbo::FKOnDeleteSetNull\fP =0x10"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

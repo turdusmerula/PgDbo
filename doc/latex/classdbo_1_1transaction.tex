@@ -1,0 +1,107 @@
+\hypertarget{classdbo_1_1transaction}{\section{dbo\+:\+:transaction Class Reference}
+\label{classdbo_1_1transaction}\index{dbo\+::transaction@{dbo\+::transaction}}
+}
+
+
+{\ttfamily \#include $<$transaction.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1transaction_a9230c3550e5bbbbaf01af153caa7b8ee}{$\sim$transaction} () noexcept(false)
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1transaction_ad3586b191113f790957095f1fdc1bd74}{active} () const 
+\begin{DoxyCompactList}\small\item\em Returns whether the transaction is still active. \end{DoxyCompactList}\item 
+void \hyperlink{classdbo_1_1transaction_a4cd2f57757397b26e69cefda212fd292}{commit} ()
+\begin{DoxyCompactList}\small\item\em Commits the transaction. \end{DoxyCompactList}\item 
+void \hyperlink{classdbo_1_1transaction_a0cc9d5fb8dcfd391e64c5477119afab4}{rollback} ()
+\begin{DoxyCompactList}\small\item\em Rolls back the transaction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1transaction_a91895b970904b28405ab3e2d6c7671af}{transaction} (\hyperlink{classdbo_1_1connection}{connection} \&conn)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classdbo_1_1transaction_a6f14176b1b69158df1bf0dca9cae20d2}{open} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1transaction_a9230c3550e5bbbbaf01af153caa7b8ee}{\index{dbo\+::transaction@{dbo\+::transaction}!````~transaction@{$\sim$transaction}}
+\index{````~transaction@{$\sim$transaction}!dbo\+::transaction@{dbo\+::transaction}}
+\subsubsection[{$\sim$transaction}]{\setlength{\rightskip}{0pt plus 5cm}transaction\+::$\sim$transaction (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [noexcept]}}}\label{classdbo_1_1transaction_a9230c3550e5bbbbaf01af153caa7b8ee}
+
+
+Destructor. 
+
+If the transaction is still active, it is rolled back. \hypertarget{classdbo_1_1transaction_a91895b970904b28405ab3e2d6c7671af}{\index{dbo\+::transaction@{dbo\+::transaction}!transaction@{transaction}}
+\index{transaction@{transaction}!dbo\+::transaction@{dbo\+::transaction}}
+\subsubsection[{transaction}]{\setlength{\rightskip}{0pt plus 5cm}transaction\+::transaction (
+\begin{DoxyParamCaption}
+\item[{{\bf connection} \&}]{conn}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1transaction_a91895b970904b28405ab3e2d6c7671af}
+
+
+Constructor. 
+
+Opens a transaction for the given {\ttfamily session}. If a transaction is already open for the connection nothing is done. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1transaction_ad3586b191113f790957095f1fdc1bd74}{\index{dbo\+::transaction@{dbo\+::transaction}!active@{active}}
+\index{active@{active}!dbo\+::transaction@{dbo\+::transaction}}
+\subsubsection[{active}]{\setlength{\rightskip}{0pt plus 5cm}bool transaction\+::active (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1transaction_ad3586b191113f790957095f1fdc1bd74}
+
+
+Returns whether the transaction is still active. 
+
+A transaction is active unless it has been committed or rolled back.
+
+While a transaction is active, new transactions for the same session are treated as the same transaction. Nested transactions are not implemented. \hypertarget{classdbo_1_1transaction_a4cd2f57757397b26e69cefda212fd292}{\index{dbo\+::transaction@{dbo\+::transaction}!commit@{commit}}
+\index{commit@{commit}!dbo\+::transaction@{dbo\+::transaction}}
+\subsubsection[{commit}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\+::commit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1transaction_a4cd2f57757397b26e69cefda212fd292}
+
+
+Commits the transaction. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classdbo_1_1transaction_a0cc9d5fb8dcfd391e64c5477119afab4}{rollback()} 
+\end{DoxySeeAlso}
+\hypertarget{classdbo_1_1transaction_a6f14176b1b69158df1bf0dca9cae20d2}{\index{dbo\+::transaction@{dbo\+::transaction}!open@{open}}
+\index{open@{open}!dbo\+::transaction@{dbo\+::transaction}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\+::open (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1transaction_a6f14176b1b69158df1bf0dca9cae20d2}
+\hypertarget{classdbo_1_1transaction_a0cc9d5fb8dcfd391e64c5477119afab4}{\index{dbo\+::transaction@{dbo\+::transaction}!rollback@{rollback}}
+\index{rollback@{rollback}!dbo\+::transaction@{dbo\+::transaction}}
+\subsubsection[{rollback}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\+::rollback (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1transaction_a0cc9d5fb8dcfd391e64c5477119afab4}
+
+
+Rolls back the transaction. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classdbo_1_1transaction_a4cd2f57757397b26e69cefda212fd292}{commit()} 
+\end{DoxySeeAlso}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/\hyperlink{transaction_8h}{transaction.\+h}\item 
+dbo/\hyperlink{transaction_8cpp}{transaction.\+cpp}\end{DoxyCompactItemize}

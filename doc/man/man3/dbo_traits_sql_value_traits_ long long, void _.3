@@ -1,0 +1,46 @@
+.TH "dbo::traits::sql_value_traits< long long, void >" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::traits::sql_value_traits< long long, void > \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <StdSqlTraits\&.h>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::string \fBtype\fP (int size)"
+.br
+.ti -1c
+.RI "static void \fBbind\fP (long long v, \fBstmt::Statement\fP &statement, int size)"
+.br
+.ti -1c
+.RI "static bool \fBread\fP (long long &v, \fBstmt::Statement\fP &statement, int size)"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const bool \fBspecialized\fP =true"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "static void \fBdbo::traits::sql_value_traits\fP< long long, void >::bind (long longv, \fBstmt::Statement\fP &statement, intsize)\fC [static]\fP"
+
+.SS "static bool \fBdbo::traits::sql_value_traits\fP< long long, void >::read (long long &v, \fBstmt::Statement\fP &statement, intsize)\fC [static]\fP"
+
+.SS "static std::string \fBdbo::traits::sql_value_traits\fP< long long, void >::type (intsize)\fC [static]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "const bool \fBdbo::traits::sql_value_traits\fP< long long, void >::specialized =true\fC [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

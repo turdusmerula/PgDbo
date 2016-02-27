@@ -1,0 +1,128 @@
+.TH "dbo::mapping::MappingInfo" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::mapping::MappingInfo \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <MappingInfo\&.h>\fP
+.PP
+Inherited by \fBdbo::mapping::Mapping< T >\fP, and \fBdbo::mapping::Mapping< C >\fP\&.
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBStatementType\fP { \fBSqlInsert\fP =0, \fBSqlUpdate\fP =1, \fBSqlDelete\fP =2, \fBSqlSelectById\fP =3, \fBFirstSqlSelectSet\fP =4 }"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMappingInfo\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~MappingInfo\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBinit\fP (\fBconnection\fP &conn)"
+.br
+.ti -1c
+.RI "std::string \fBprimaryKeys\fP () const "
+.br
+.ti -1c
+.RI "std::string \fBdebug\fP (int tab)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBinitialized_\fP"
+.br
+.ti -1c
+.RI "std::string \fBtableName\fP"
+.br
+.ti -1c
+.RI "boost::optional< std::string > \fBsurrogateIdFieldName\fP"
+.br
+.ti -1c
+.RI "std::string \fBnaturalIdFieldName\fP"
+.br
+.ti -1c
+.RI "int \fBnaturalIdFieldSize\fP"
+.br
+.ti -1c
+.RI "std::string \fBidCondition\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBFieldInfo\fP > \fBfields\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBSetInfo\fP > \fBsets\fP"
+.br
+.ti -1c
+.RI "std::map< size_t, 
+.br
+\fBstmt::PreparedStatement\fP > \fBstatements\fP"
+.br
+.in -1c
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBdbo::mapping::MappingInfo::StatementType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fISqlInsert \fP\fP
+.TP
+\fB\fISqlUpdate \fP\fP
+.TP
+\fB\fISqlDelete \fP\fP
+.TP
+\fB\fISqlSelectById \fP\fP
+.TP
+\fB\fIFirstSqlSelectSet \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "MappingInfo::MappingInfo ()"
+
+.SS "MappingInfo::~MappingInfo ()\fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string MappingInfo::debug (inttab)"
+
+.SS "void MappingInfo::init (\fBconnection\fP &conn)\fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBdbo::mapping::Mapping< T >\fP, and \fBdbo::mapping::Mapping< C >\fP\&.
+.SS "std::string MappingInfo::primaryKeys () const"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBFieldInfo\fP> dbo::mapping::MappingInfo::fields"
+
+.SS "std::string dbo::mapping::MappingInfo::idCondition"
+
+.SS "bool dbo::mapping::MappingInfo::initialized_"
+
+.SS "std::string dbo::mapping::MappingInfo::naturalIdFieldName"
+
+.SS "int dbo::mapping::MappingInfo::naturalIdFieldSize"
+
+.SS "std::vector<\fBSetInfo\fP> dbo::mapping::MappingInfo::sets"
+
+.SS "std::map<size_t, \fBstmt::PreparedStatement\fP> dbo::mapping::MappingInfo::statements"
+
+.SS "boost::optional<std::string> dbo::mapping::MappingInfo::surrogateIdFieldName"
+
+.SS "std::string dbo::mapping::MappingInfo::tableName"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

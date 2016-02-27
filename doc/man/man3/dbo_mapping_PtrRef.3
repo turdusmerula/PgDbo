@@ -1,0 +1,57 @@
+.TH "dbo::mapping::PtrRef< T >" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::mapping::PtrRef< T > \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <BulkInsert\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBPtrRef\fP (\fBptr\fP< C > &\fBvalue\fP, const std::string &\fBname\fP, int size, int \fBfkConstraints\fP)"
+.br
+.ti -1c
+.RI "const std::string & \fBname\fP () const "
+.br
+.ti -1c
+.RI "int \fBfkConstraints\fP () const "
+.br
+.ti -1c
+.RI "\fBptr\fP< C > & \fBvalue\fP () const "
+.br
+.ti -1c
+.RI "\fBtraits::dbo_traits\fP< C >::IdType \fBid\fP () const "
+.br
+.ti -1c
+.RI "const std::type_info * \fBtype\fP () const "
+.br
+.ti -1c
+.RI "template<typename A > void \fBvisit\fP (A &action, \fBconnection\fP &conn) const "
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class C > \fBdbo::mapping::PtrRef\fP< C >::\fBPtrRef\fP (\fBptr\fP< C > &value, const std::string &name, intsize, intfkConstraints)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class T> int \fBdbo::mapping::PtrRef\fP< T >::fkConstraints () const\fC [inline]\fP"
+
+.SS "template<class T> \fBtraits::dbo_traits\fP<C>::IdType \fBdbo::mapping::PtrRef\fP< T >::id () const\fC [inline]\fP"
+
+.SS "template<class T> const std::string& \fBdbo::mapping::PtrRef\fP< T >::name () const\fC [inline]\fP"
+
+.SS "template<class C > const std::type_info * \fBdbo::mapping::PtrRef\fP< C >::type () const"
+
+.SS "template<class T> \fBptr\fP<C>& \fBdbo::mapping::PtrRef\fP< T >::value () const\fC [inline]\fP"
+
+.SS "template<class C > template<class A > void \fBdbo::mapping::PtrRef\fP< C >::visit (A &action, \fBconnection\fP &conn) const"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

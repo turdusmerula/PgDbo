@@ -1,0 +1,33 @@
+\hypertarget{structis__raw__string}{\section{is\+\_\+raw\+\_\+string$<$ Type $>$ Struct Template Reference}
+\label{structis__raw__string}\index{is\+\_\+raw\+\_\+string$<$ Type $>$@{is\+\_\+raw\+\_\+string$<$ Type $>$}}
+}
+
+
+{\ttfamily \#include $<$Std\+Sql\+Traits.\+h$>$}
+
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const bool \hyperlink{structis__raw__string_aa91ff7e983c848d28278d63c133c28bd}{value}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structis__raw__string_aa91ff7e983c848d28278d63c133c28bd}{\index{is\+\_\+raw\+\_\+string@{is\+\_\+raw\+\_\+string}!value@{value}}
+\index{value@{value}!is\+\_\+raw\+\_\+string@{is\+\_\+raw\+\_\+string}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Type $>$ const bool {\bf is\+\_\+raw\+\_\+string}$<$ Type $>$\+::value\hspace{0.3cm}{\ttfamily [static]}}}\label{structis__raw__string_aa91ff7e983c848d28278d63c133c28bd}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+        (std::is\_array<Type>::value &&
+            std::is\_same<\textcolor{keyword}{typename} std::remove\_const<
+                \textcolor{keyword}{typename} std::remove\_extent<Type>::type>::type, \textcolor{keywordtype}{char}>\hyperlink{structis__raw__string_aa91ff7e983c848d28278d63c133c28bd}{::value}) ||
+        (std::is\_pointer<Type>::value &&
+            std::is\_same<\textcolor{keyword}{typename} std::remove\_const<
+                \textcolor{keyword}{typename} std::remove\_pointer<Type>::type>::type, \textcolor{keywordtype}{char}>::\hyperlink{structis__raw__string_aa91ff7e983c848d28278d63c133c28bd}{value})
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+dbo/traits/\hyperlink{_std_sql_traits_8h}{Std\+Sql\+Traits.\+h}\end{DoxyCompactItemize}

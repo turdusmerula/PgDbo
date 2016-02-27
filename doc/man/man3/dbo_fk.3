@@ -1,0 +1,93 @@
+.TH "dbo::fk" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::fk \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "const \fBForeignKeyConstraint\fP \fBNone\fP (\fBFKNone\fP)"
+.br
+.RI "\fIA constraint that prevents a \fCnull\fP ptr\&. \fP"
+.ti -1c
+.RI "const \fBForeignKeyConstraint\fP \fBNotNull\fP (\fBFKNotNull\fP)"
+.br
+.RI "\fIA constraint that prevents a \fCnull\fP ptr\&. \fP"
+.ti -1c
+.RI "const \fBForeignKeyConstraint\fP \fBOnUpdateCascade\fP (\fBFKOnUpdateCascade\fP)"
+.br
+.RI "\fIA constraint that cascades updates\&. \fP"
+.ti -1c
+.RI "const \fBForeignKeyConstraint\fP \fBOnUpdateSetNull\fP (\fBFKOnUpdateSetNull\fP)"
+.br
+.RI "\fIA constraint that cascades updates\&. \fP"
+.ti -1c
+.RI "const \fBForeignKeyConstraint\fP \fBOnDeleteCascade\fP (\fBFKOnDeleteCascade\fP)"
+.br
+.RI "\fIA constraint that cascades deletes\&. \fP"
+.ti -1c
+.RI "const \fBForeignKeyConstraint\fP \fBOnDeleteSetNull\fP (\fBFKOnDeleteSetNull\fP)"
+.br
+.RI "\fIA constraint that cascades deletes\&. \fP"
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "const \fBForeignKeyConstraint\fP dbo::fk::None (FKNone)"
+
+.PP
+A constraint that prevents a \fCnull\fP ptr\&. A database constraint which prevents that a ptr references no object and has a value of \fCnull\fP\&. 
+.SS "const \fBForeignKeyConstraint\fP dbo::fk::NotNull (FKNotNull)"
+
+.PP
+A constraint that prevents a \fCnull\fP ptr\&. A database constraint which prevents that a ptr references no object and has a value of \fCnull\fP\&. 
+.SS "const \fBForeignKeyConstraint\fP dbo::fk::OnDeleteCascade (FKOnDeleteCascade)"
+
+.PP
+A constraint that cascades deletes\&. A database constraint which propagates deletes of the referenced object to also delete the object(s) that reference it\&.
+.PP
+\fBNote:\fP
+.RS 4
+This constraint only affects the database schema creation\&. 
+.RE
+.PP
+
+.SS "const \fBForeignKeyConstraint\fP dbo::fk::OnDeleteSetNull (FKOnDeleteSetNull)"
+
+.PP
+A constraint that cascades deletes\&. A database constraint which propagates deletes of the referenced object to also delete the objects that reference\&.
+.PP
+\fBNote:\fP
+.RS 4
+This constraint only affects the database schema creation\&. 
+.RE
+.PP
+
+.SS "const \fBForeignKeyConstraint\fP dbo::fk::OnUpdateCascade (FKOnUpdateCascade)"
+
+.PP
+A constraint that cascades updates\&. A database constraint which propagates updates to the natural primary key in the referenced table\&.
+.PP
+\fBNote:\fP
+.RS 4
+This constraint only affects the database schema creation\&. Currently it is not possible to update a natural Id of an already saved object through Dbo itself\&. 
+.RE
+.PP
+
+.SS "const \fBForeignKeyConstraint\fP dbo::fk::OnUpdateSetNull (FKOnUpdateSetNull)"
+
+.PP
+A constraint that cascades updates\&. A database constraint which sets the value of the ptr to null when the referenced primary key changes\&.
+.PP
+\fBNote:\fP
+.RS 4
+This constraint only affects the database schema creation\&. Currently it is not possible to update a natural Id of an already saved object through Dbo itself\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

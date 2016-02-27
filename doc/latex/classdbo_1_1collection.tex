@@ -1,0 +1,211 @@
+\hypertarget{classdbo_1_1collection}{\section{dbo\+:\+:collection$<$ C $>$ Class Template Reference}
+\label{classdbo_1_1collection}\index{dbo\+::collection$<$ C $>$@{dbo\+::collection$<$ C $>$}}
+}
+
+
+{\ttfamily \#include $<$collection.\+hpp$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classdbo_1_1collection_1_1iterator}{iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classdbo_1_1collection_ad004dc216c503f08d75c1d3e3fffe803}{Id\+Type} = typename \hyperlink{structdbo_1_1traits_1_1dbo__traits}{traits\+::dbo\+\_\+traits}$<$ C $>$\+::\hyperlink{classdbo_1_1collection_ad004dc216c503f08d75c1d3e3fffe803}{Id\+Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1collection_ae50f29fec46adcb871f7aad48dcfea15}{collection} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{classdbo_1_1collection_a3f4798e657f21b7dabf5f2ad8c408a03}{collection} (const \hyperlink{classdbo_1_1collection}{collection}$<$ C $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{classdbo_1_1collection_a4cc94ece60b1a87f99c250ef55eef3e4}{$\sim$collection} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{classdbo_1_1collection}{collection}$<$ C $>$ \& \hyperlink{classdbo_1_1collection_a0c43d0bf6e86d59bd0e10f8100e76ee7}{operator=} (const \hyperlink{classdbo_1_1collection}{collection}$<$ C $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+void \hyperlink{classdbo_1_1collection_a207e270b7df92cea700a640a5ac359e5}{push\+\_\+back} (const \hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&\hyperlink{classdbo_1_1ptr}{ptr})
+\item 
+void \hyperlink{classdbo_1_1collection_a48e3718fafd427fcf05f6508b3ffe818}{clear} ()
+\item 
+\hyperlink{classdbo_1_1collection_1_1iterator}{iterator} \hyperlink{classdbo_1_1collection_a963843d0db110b4eeeb5851d957cd545}{begin} ()
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the begin of the collection. \end{DoxyCompactList}\item 
+\hyperlink{classdbo_1_1collection_1_1iterator}{iterator} \hyperlink{classdbo_1_1collection_a9a0ffa8e99ded7d024a0847597e32f21}{end} ()
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the end of the collection. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{classdbo_1_1collection_ad0f7875f9a095559335d20583c655a30}{size} ()
+\item 
+bool \hyperlink{classdbo_1_1collection_aec3e88df5f1f281d7f0366a86e6d9565}{empty} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classdbo_1_1collection_a5d509fade7beb175d427ffca3dc9559f}{Ptr} = typename \hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$\+::\hyperlink{classdbo_1_1collection_a5d509fade7beb175d427ffca3dc9559f}{Ptr}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classdbo_1_1collection_ab6fd1148b56a8370eb9a354f0c19f99f}{free} (\hyperlink{classdbo_1_1collection_a5d509fade7beb175d427ffca3dc9559f}{Ptr} $\ast$\&\hyperlink{classdbo_1_1ptr}{ptr})
+\item 
+void \hyperlink{classdbo_1_1collection_a5d1235d48ba1a6c0abb28a86050cce78}{take} (\hyperlink{classdbo_1_1collection_a5d509fade7beb175d427ffca3dc9559f}{Ptr} $\ast$\&\hyperlink{classdbo_1_1ptr}{ptr})
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::deque$<$ \hyperlink{classdbo_1_1collection_a5d509fade7beb175d427ffca3dc9559f}{Ptr} $\ast$ $>$ \hyperlink{classdbo_1_1collection_a868d7d3bfb98c3a4f739e48043aeaba3}{ptrs\+\_\+}
+\item 
+char $\ast$ \hyperlink{classdbo_1_1collection_a8b18a6670d28cfc6e6ace16ce62c2609}{table\+Name\+\_\+}
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classdbo_1_1collection_ad004dc216c503f08d75c1d3e3fffe803}{Id\+Type} \hyperlink{classdbo_1_1collection_af3537bd847de5995e84cf83649276001}{invalid\+Id\+\_\+} =\hyperlink{structdbo_1_1traits_1_1dbo__traits}{traits\+::dbo\+\_\+traits}$<$C$>$\+::invalid\+Id()
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classdbo_1_1collection_ad004dc216c503f08d75c1d3e3fffe803}{\index{dbo\+::collection@{dbo\+::collection}!Id\+Type@{Id\+Type}}
+\index{Id\+Type@{Id\+Type}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{Id\+Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ using {\bf dbo\+::collection}$<$ C $>$\+::{\bf Id\+Type} =  typename {\bf traits\+::dbo\+\_\+traits}$<$C$>$\+::{\bf Id\+Type}}}\label{classdbo_1_1collection_ad004dc216c503f08d75c1d3e3fffe803}
+\hypertarget{classdbo_1_1collection_a5d509fade7beb175d427ffca3dc9559f}{\index{dbo\+::collection@{dbo\+::collection}!Ptr@{Ptr}}
+\index{Ptr@{Ptr}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ using {\bf dbo\+::collection}$<$ C $>$\+::{\bf Ptr} =  typename {\bf ptr}$<$C$>$\+::{\bf Ptr}\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1collection_a5d509fade7beb175d427ffca3dc9559f}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1collection_ae50f29fec46adcb871f7aad48dcfea15}{\index{dbo\+::collection@{dbo\+::collection}!collection@{collection}}
+\index{collection@{collection}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::collection}$<$ C $>$\+::{\bf collection} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_ae50f29fec46adcb871f7aad48dcfea15}
+
+
+Default constructor. 
+
+Constructs an empty collection that is not bound to a table or query \hypertarget{classdbo_1_1collection_a3f4798e657f21b7dabf5f2ad8c408a03}{\index{dbo\+::collection@{dbo\+::collection}!collection@{collection}}
+\index{collection@{collection}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::collection}$<$ C $>$\+::{\bf collection} (
+\begin{DoxyParamCaption}
+\item[{const {\bf collection}$<$ C $>$ \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_a3f4798e657f21b7dabf5f2ad8c408a03}
+
+
+Copy constructor. 
+
+\hypertarget{classdbo_1_1collection_a4cc94ece60b1a87f99c250ef55eef3e4}{\index{dbo\+::collection@{dbo\+::collection}!````~collection@{$\sim$collection}}
+\index{````~collection@{$\sim$collection}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{$\sim$collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::collection}$<$ C $>$\+::$\sim${\bf collection} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_a4cc94ece60b1a87f99c250ef55eef3e4}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1collection_a963843d0db110b4eeeb5851d957cd545}{\index{dbo\+::collection@{dbo\+::collection}!begin@{begin}}
+\index{begin@{begin}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{begin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf collection}$<$ C $>$\+::{\bf iterator} {\bf dbo\+::collection}$<$ C $>$\+::begin (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_a963843d0db110b4eeeb5851d957cd545}
+
+
+Returns an iterator to the begin of the collection. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classdbo_1_1collection_a9a0ffa8e99ded7d024a0847597e32f21}{end()} 
+\end{DoxySeeAlso}
+\hypertarget{classdbo_1_1collection_a48e3718fafd427fcf05f6508b3ffe818}{\index{dbo\+::collection@{dbo\+::collection}!clear@{clear}}
+\index{clear@{clear}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::collection}$<$ C $>$\+::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_a48e3718fafd427fcf05f6508b3ffe818}
+\hypertarget{classdbo_1_1collection_aec3e88df5f1f281d7f0366a86e6d9565}{\index{dbo\+::collection@{dbo\+::collection}!empty@{empty}}
+\index{empty@{empty}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{empty}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ bool {\bf dbo\+::collection}$<$ C $>$\+::empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_aec3e88df5f1f281d7f0366a86e6d9565}
+\hypertarget{classdbo_1_1collection_a9a0ffa8e99ded7d024a0847597e32f21}{\index{dbo\+::collection@{dbo\+::collection}!end@{end}}
+\index{end@{end}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf collection}$<$ C $>$\+::{\bf iterator} {\bf dbo\+::collection}$<$ C $>$\+::end (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_a9a0ffa8e99ded7d024a0847597e32f21}
+
+
+Returns an iterator to the end of the collection. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classdbo_1_1collection_a963843d0db110b4eeeb5851d957cd545}{begin()} 
+\end{DoxySeeAlso}
+\hypertarget{classdbo_1_1collection_ab6fd1148b56a8370eb9a354f0c19f99f}{\index{dbo\+::collection@{dbo\+::collection}!free@{free}}
+\index{free@{free}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{free}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::collection}$<$ C $>$\+::free (
+\begin{DoxyParamCaption}
+\item[{{\bf Ptr} $\ast$\&}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1collection_ab6fd1148b56a8370eb9a354f0c19f99f}
+\hypertarget{classdbo_1_1collection_a0c43d0bf6e86d59bd0e10f8100e76ee7}{\index{dbo\+::collection@{dbo\+::collection}!operator=@{operator=}}
+\index{operator=@{operator=}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf collection}$<$ C $>$ \& {\bf dbo\+::collection}$<$ C $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf collection}$<$ C $>$ \&}]{other}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_a0c43d0bf6e86d59bd0e10f8100e76ee7}
+
+
+Assignment operator. 
+
+\hypertarget{classdbo_1_1collection_a207e270b7df92cea700a640a5ac359e5}{\index{dbo\+::collection@{dbo\+::collection}!push\+\_\+back@{push\+\_\+back}}
+\index{push\+\_\+back@{push\+\_\+back}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{push\+\_\+back}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::collection}$<$ C $>$\+::push\+\_\+back (
+\begin{DoxyParamCaption}
+\item[{const {\bf ptr}$<$ C $>$ \&}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_a207e270b7df92cea700a640a5ac359e5}
+\hypertarget{classdbo_1_1collection_ad0f7875f9a095559335d20583c655a30}{\index{dbo\+::collection@{dbo\+::collection}!size@{size}}
+\index{size@{size}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ size\+\_\+t {\bf dbo\+::collection}$<$ C $>$\+::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1collection_ad0f7875f9a095559335d20583c655a30}
+\hypertarget{classdbo_1_1collection_a5d1235d48ba1a6c0abb28a86050cce78}{\index{dbo\+::collection@{dbo\+::collection}!take@{take}}
+\index{take@{take}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{take}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::collection}$<$ C $>$\+::take (
+\begin{DoxyParamCaption}
+\item[{{\bf Ptr} $\ast$\&}]{ptr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1collection_a5d1235d48ba1a6c0abb28a86050cce78}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classdbo_1_1collection_af3537bd847de5995e84cf83649276001}{\index{dbo\+::collection@{dbo\+::collection}!invalid\+Id\+\_\+@{invalid\+Id\+\_\+}}
+\index{invalid\+Id\+\_\+@{invalid\+Id\+\_\+}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{invalid\+Id\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ {\bf collection}$<$ C $>$\+::{\bf Id\+Type} {\bf dbo\+::collection}$<$ C $>$\+::invalid\+Id\+\_\+ ={\bf traits\+::dbo\+\_\+traits}$<$C$>$\+::invalid\+Id()\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classdbo_1_1collection_af3537bd847de5995e84cf83649276001}
+\hypertarget{classdbo_1_1collection_a868d7d3bfb98c3a4f739e48043aeaba3}{\index{dbo\+::collection@{dbo\+::collection}!ptrs\+\_\+@{ptrs\+\_\+}}
+\index{ptrs\+\_\+@{ptrs\+\_\+}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{ptrs\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ std\+::deque$<${\bf Ptr}$\ast$$>$ {\bf dbo\+::collection}$<$ C $>$\+::ptrs\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1collection_a868d7d3bfb98c3a4f739e48043aeaba3}
+\hypertarget{classdbo_1_1collection_a8b18a6670d28cfc6e6ace16ce62c2609}{\index{dbo\+::collection@{dbo\+::collection}!table\+Name\+\_\+@{table\+Name\+\_\+}}
+\index{table\+Name\+\_\+@{table\+Name\+\_\+}!dbo\+::collection@{dbo\+::collection}}
+\subsubsection[{table\+Name\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C$>$ char$\ast$ {\bf dbo\+::collection}$<$ C $>$\+::table\+Name\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1collection_a8b18a6670d28cfc6e6ace16ce62c2609}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/\hyperlink{collection_8hpp}{collection.\+hpp}\item 
+dbo/\hyperlink{collection_8cxx}{collection.\+cxx}\end{DoxyCompactItemize}

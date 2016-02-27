@@ -1,0 +1,308 @@
+\hypertarget{classdbo_1_1mapping_1_1_field_info}{\section{dbo\+:\+:mapping\+:\+:Field\+Info Class Reference}
+\label{classdbo_1_1mapping_1_1_field_info}\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+}
+
+
+Description of a field.  
+
+
+
+
+{\ttfamily \#include $<$Field\+Info.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dd}{Flags} \{ \\*
+\hyperlink{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda6de7a4ea4dae9a1d3ee99bdfe62ea265}{Surrogate\+Id} = 0x1, 
+\hyperlink{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001ddadf26125864257adc9fd3814a3ea24582}{Natural\+Id} = 0x2, 
+\hyperlink{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001ddab3033d795a06974f753a927b829b237c}{Mutable} = 0x8, 
+\hyperlink{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda488d560d149ccf2cbc43042da063f80d}{Needs\+Quotes} = 0x10, 
+\\*
+\hyperlink{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda07e0b2f157b634fe26a5c916182ec1b3}{Foreign\+Key} = 0x20, 
+\hyperlink{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda432cc6112f7921b2211e8ddc78c73b8d}{First\+Dbo\+Field} = 0x40
+ \}
+\begin{DoxyCompactList}\small\item\em Flags. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1mapping_1_1_field_info_a8763d05cee7a73c3b60cb133467c65b2}{Field\+Info} (const std\+::string \&\hyperlink{classdbo_1_1mapping_1_1_field_info_aa684340deb7dabfb5eab22c4589c7476}{name}, const std\+::type\+\_\+info $\ast$\hyperlink{classdbo_1_1mapping_1_1_field_info_a4321bb42c7c9d8296db5180b94a736f6}{type}, const std\+::string \&\hyperlink{classdbo_1_1mapping_1_1_field_info_a29f7e7f762345f1915033a9a456cd5d0}{sql\+Type}, int flags)
+\begin{DoxyCompactList}\small\item\em Creates a field description. \end{DoxyCompactList}\item 
+\hyperlink{classdbo_1_1mapping_1_1_field_info_acca8ec52e6b2d6f1810d499b30dd1aaa}{Field\+Info} (const std\+::string \&\hyperlink{classdbo_1_1mapping_1_1_field_info_aa684340deb7dabfb5eab22c4589c7476}{name}, const std\+::type\+\_\+info $\ast$\hyperlink{classdbo_1_1mapping_1_1_field_info_a4321bb42c7c9d8296db5180b94a736f6}{type}, const std\+::string \&\hyperlink{classdbo_1_1mapping_1_1_field_info_a29f7e7f762345f1915033a9a456cd5d0}{sql\+Type}, const std\+::string \&\hyperlink{classdbo_1_1mapping_1_1_field_info_ac90a4d26a0c091ba0a93960a8d8a8464}{foreign\+Key\+Table}, const std\+::string \&\hyperlink{classdbo_1_1mapping_1_1_field_info_adbc55f9c113054bed81ed7dd22aca09a}{foreign\+Key\+Name}, int flags, int \hyperlink{classdbo_1_1mapping_1_1_field_info_ae7700af51bf1672d8d2db4a52b885c4d}{fk\+Constraints})
+\begin{DoxyCompactList}\small\item\em Creates a field description. \end{DoxyCompactList}\item 
+void \hyperlink{classdbo_1_1mapping_1_1_field_info_adc3ba59211a120f92f09bfefa43a65b0}{set\+Qualifier} (const std\+::string \&\hyperlink{classdbo_1_1mapping_1_1_field_info_a3891d63e2efd86128fd6f6ae10979b22}{qualifier}, bool first\+Qualified=false)
+\begin{DoxyCompactList}\small\item\em Sets a qualifier for the field. \end{DoxyCompactList}\item 
+const std\+::string \& \hyperlink{classdbo_1_1mapping_1_1_field_info_aa684340deb7dabfb5eab22c4589c7476}{name} () const 
+\begin{DoxyCompactList}\small\item\em Returns the field name. \end{DoxyCompactList}\item 
+const std\+::string \& \hyperlink{classdbo_1_1mapping_1_1_field_info_a29f7e7f762345f1915033a9a456cd5d0}{sql\+Type} () const 
+\begin{DoxyCompactList}\small\item\em Returns the field S\+Q\+L type. \end{DoxyCompactList}\item 
+const std\+::string \& \hyperlink{classdbo_1_1mapping_1_1_field_info_a3891d63e2efd86128fd6f6ae10979b22}{qualifier} () const 
+\begin{DoxyCompactList}\small\item\em Returns the field qualifier. \end{DoxyCompactList}\item 
+const std\+::type\+\_\+info $\ast$ \hyperlink{classdbo_1_1mapping_1_1_field_info_a4321bb42c7c9d8296db5180b94a736f6}{type} () const 
+\begin{DoxyCompactList}\small\item\em Returns the field type. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1mapping_1_1_field_info_a1dce2395f113563a2525d7e1d150245d}{is\+Id\+Field} () const 
+\begin{DoxyCompactList}\small\item\em Returns whether the field is an Id field. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1mapping_1_1_field_info_a37ca3f6a5116fcc0afe4ea113dafe07a}{is\+Natural\+Id\+Field} () const 
+\begin{DoxyCompactList}\small\item\em Returns whether the field is a Natural Id field. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1mapping_1_1_field_info_a985286424bae56da1b84d3d1c1dcd128}{is\+Surrogate\+Id\+Field} () const 
+\begin{DoxyCompactList}\small\item\em Returns whether the field is a Surroaget Id field. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1mapping_1_1_field_info_aba30a705ddc3779e976ad2014fc19fbf}{is\+Mutable} () const 
+\begin{DoxyCompactList}\small\item\em Returns whether the field is mutable. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1mapping_1_1_field_info_abba9be734bfea0b4cf9c4408dcaa6d6e}{needs\+Quotes} () const 
+\begin{DoxyCompactList}\small\item\em Returns whether the field name needs to be quoted. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1mapping_1_1_field_info_ac56bc147c4c4385ae1b14e97055592a0}{is\+Foreign\+Key} () const 
+\begin{DoxyCompactList}\small\item\em Returns whether the field is part of a foreign key. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1mapping_1_1_field_info_ae694e49e7041d3a2795c87a7e2fa5064}{is\+First\+Dbo\+Field} () const 
+\item 
+std\+::string \hyperlink{classdbo_1_1mapping_1_1_field_info_adbc55f9c113054bed81ed7dd22aca09a}{foreign\+Key\+Name} () const 
+\item 
+std\+::string \hyperlink{classdbo_1_1mapping_1_1_field_info_ac90a4d26a0c091ba0a93960a8d8a8464}{foreign\+Key\+Table} () const 
+\item 
+int \hyperlink{classdbo_1_1mapping_1_1_field_info_ae7700af51bf1672d8d2db4a52b885c4d}{fk\+Constraints} () const 
+\item 
+std\+::string \hyperlink{classdbo_1_1mapping_1_1_field_info_a73d24bf3d349158bb842452a00c8655c}{sql} () const 
+\item 
+std\+::string \hyperlink{classdbo_1_1mapping_1_1_field_info_aafa055b3aa50d4a02cda73cb545d0a91}{debug} (int tab)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Description of a field. 
+
+\begin{DoxySeeAlso}{See also}
+query\+\_\+result\+\_\+traits\+::get\+Fields(), Query\+::fields() 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dd}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!Flags@{Flags}}
+\index{Flags@{Flags}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{Flags}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf dbo\+::mapping\+::\+Field\+Info\+::\+Flags}}}\label{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dd}
+
+
+Flags. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Surrogate\+Id@{Surrogate\+Id}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!Surrogate\+Id@{Surrogate\+Id}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda6de7a4ea4dae9a1d3ee99bdfe62ea265}{Surrogate\+Id}\label{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda6de7a4ea4dae9a1d3ee99bdfe62ea265}
+}]Field is a surrogate id. \index{Natural\+Id@{Natural\+Id}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!Natural\+Id@{Natural\+Id}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001ddadf26125864257adc9fd3814a3ea24582}{Natural\+Id}\label{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001ddadf26125864257adc9fd3814a3ea24582}
+}]Field is (part of) a natural id. \index{Mutable@{Mutable}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!Mutable@{Mutable}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001ddab3033d795a06974f753a927b829b237c}{Mutable}\label{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001ddab3033d795a06974f753a927b829b237c}
+}]Field can be edited. \index{Needs\+Quotes@{Needs\+Quotes}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!Needs\+Quotes@{Needs\+Quotes}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda488d560d149ccf2cbc43042da063f80d}{Needs\+Quotes}\label{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda488d560d149ccf2cbc43042da063f80d}
+}]Field name needs quotes when using in S\+Q\+L. \index{Foreign\+Key@{Foreign\+Key}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!Foreign\+Key@{Foreign\+Key}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda07e0b2f157b634fe26a5c916182ec1b3}{Foreign\+Key}\label{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda07e0b2f157b634fe26a5c916182ec1b3}
+}]Field is (part of) a foreign key. \index{First\+Dbo\+Field@{First\+Dbo\+Field}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!First\+Dbo\+Field@{First\+Dbo\+Field}}\item[{\em 
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda432cc6112f7921b2211e8ddc78c73b8d}{First\+Dbo\+Field}\label{classdbo_1_1mapping_1_1_field_info_ace9623c079f46b2c932e339e68c001dda432cc6112f7921b2211e8ddc78c73b8d}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1mapping_1_1_field_info_a8763d05cee7a73c3b60cb133467c65b2}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!Field\+Info@{Field\+Info}}
+\index{Field\+Info@{Field\+Info}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{Field\+Info}]{\setlength{\rightskip}{0pt plus 5cm}Field\+Info\+::\+Field\+Info (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{name, }
+\item[{const std\+::type\+\_\+info $\ast$}]{type, }
+\item[{const std\+::string \&}]{sql\+Type, }
+\item[{int}]{flags}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1mapping_1_1_field_info_a8763d05cee7a73c3b60cb133467c65b2}
+
+
+Creates a field description. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_acca8ec52e6b2d6f1810d499b30dd1aaa}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!Field\+Info@{Field\+Info}}
+\index{Field\+Info@{Field\+Info}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{Field\+Info}]{\setlength{\rightskip}{0pt plus 5cm}Field\+Info\+::\+Field\+Info (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{name, }
+\item[{const std\+::type\+\_\+info $\ast$}]{type, }
+\item[{const std\+::string \&}]{sql\+Type, }
+\item[{const std\+::string \&}]{foreign\+Key\+Table, }
+\item[{const std\+::string \&}]{foreign\+Key\+Name, }
+\item[{int}]{flags, }
+\item[{int}]{fk\+Constraints}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1mapping_1_1_field_info_acca8ec52e6b2d6f1810d499b30dd1aaa}
+
+
+Creates a field description. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1mapping_1_1_field_info_aafa055b3aa50d4a02cda73cb545d0a91}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!debug@{debug}}
+\index{debug@{debug}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{debug}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Field\+Info\+::debug (
+\begin{DoxyParamCaption}
+\item[{int}]{tab}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1mapping_1_1_field_info_aafa055b3aa50d4a02cda73cb545d0a91}
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ae7700af51bf1672d8d2db4a52b885c4d}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!fk\+Constraints@{fk\+Constraints}}
+\index{fk\+Constraints@{fk\+Constraints}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{fk\+Constraints}]{\setlength{\rightskip}{0pt plus 5cm}int dbo\+::mapping\+::\+Field\+Info\+::fk\+Constraints (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_ae7700af51bf1672d8d2db4a52b885c4d}
+\hypertarget{classdbo_1_1mapping_1_1_field_info_adbc55f9c113054bed81ed7dd22aca09a}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!foreign\+Key\+Name@{foreign\+Key\+Name}}
+\index{foreign\+Key\+Name@{foreign\+Key\+Name}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{foreign\+Key\+Name}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string dbo\+::mapping\+::\+Field\+Info\+::foreign\+Key\+Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_adbc55f9c113054bed81ed7dd22aca09a}
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ac90a4d26a0c091ba0a93960a8d8a8464}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!foreign\+Key\+Table@{foreign\+Key\+Table}}
+\index{foreign\+Key\+Table@{foreign\+Key\+Table}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{foreign\+Key\+Table}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string dbo\+::mapping\+::\+Field\+Info\+::foreign\+Key\+Table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_ac90a4d26a0c091ba0a93960a8d8a8464}
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ae694e49e7041d3a2795c87a7e2fa5064}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!is\+First\+Dbo\+Field@{is\+First\+Dbo\+Field}}
+\index{is\+First\+Dbo\+Field@{is\+First\+Dbo\+Field}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{is\+First\+Dbo\+Field}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::mapping\+::\+Field\+Info\+::is\+First\+Dbo\+Field (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_ae694e49e7041d3a2795c87a7e2fa5064}
+\hypertarget{classdbo_1_1mapping_1_1_field_info_ac56bc147c4c4385ae1b14e97055592a0}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!is\+Foreign\+Key@{is\+Foreign\+Key}}
+\index{is\+Foreign\+Key@{is\+Foreign\+Key}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{is\+Foreign\+Key}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::mapping\+::\+Field\+Info\+::is\+Foreign\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_ac56bc147c4c4385ae1b14e97055592a0}
+
+
+Returns whether the field is part of a foreign key. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_a1dce2395f113563a2525d7e1d150245d}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!is\+Id\+Field@{is\+Id\+Field}}
+\index{is\+Id\+Field@{is\+Id\+Field}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{is\+Id\+Field}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::mapping\+::\+Field\+Info\+::is\+Id\+Field (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_a1dce2395f113563a2525d7e1d150245d}
+
+
+Returns whether the field is an Id field. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_aba30a705ddc3779e976ad2014fc19fbf}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!is\+Mutable@{is\+Mutable}}
+\index{is\+Mutable@{is\+Mutable}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{is\+Mutable}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::mapping\+::\+Field\+Info\+::is\+Mutable (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_aba30a705ddc3779e976ad2014fc19fbf}
+
+
+Returns whether the field is mutable. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_a37ca3f6a5116fcc0afe4ea113dafe07a}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!is\+Natural\+Id\+Field@{is\+Natural\+Id\+Field}}
+\index{is\+Natural\+Id\+Field@{is\+Natural\+Id\+Field}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{is\+Natural\+Id\+Field}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::mapping\+::\+Field\+Info\+::is\+Natural\+Id\+Field (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_a37ca3f6a5116fcc0afe4ea113dafe07a}
+
+
+Returns whether the field is a Natural Id field. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_a985286424bae56da1b84d3d1c1dcd128}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!is\+Surrogate\+Id\+Field@{is\+Surrogate\+Id\+Field}}
+\index{is\+Surrogate\+Id\+Field@{is\+Surrogate\+Id\+Field}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{is\+Surrogate\+Id\+Field}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::mapping\+::\+Field\+Info\+::is\+Surrogate\+Id\+Field (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_a985286424bae56da1b84d3d1c1dcd128}
+
+
+Returns whether the field is a Surroaget Id field. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_aa684340deb7dabfb5eab22c4589c7476}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!name@{name}}
+\index{name@{name}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string\& dbo\+::mapping\+::\+Field\+Info\+::name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_aa684340deb7dabfb5eab22c4589c7476}
+
+
+Returns the field name. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_abba9be734bfea0b4cf9c4408dcaa6d6e}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!needs\+Quotes@{needs\+Quotes}}
+\index{needs\+Quotes@{needs\+Quotes}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{needs\+Quotes}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::mapping\+::\+Field\+Info\+::needs\+Quotes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_abba9be734bfea0b4cf9c4408dcaa6d6e}
+
+
+Returns whether the field name needs to be quoted. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_a3891d63e2efd86128fd6f6ae10979b22}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!qualifier@{qualifier}}
+\index{qualifier@{qualifier}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{qualifier}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string\& dbo\+::mapping\+::\+Field\+Info\+::qualifier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_a3891d63e2efd86128fd6f6ae10979b22}
+
+
+Returns the field qualifier. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_adc3ba59211a120f92f09bfefa43a65b0}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!set\+Qualifier@{set\+Qualifier}}
+\index{set\+Qualifier@{set\+Qualifier}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{set\+Qualifier}]{\setlength{\rightskip}{0pt plus 5cm}void dbo\+::mapping\+::\+Field\+Info\+::set\+Qualifier (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{qualifier, }
+\item[{bool}]{first\+Qualified = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1mapping_1_1_field_info_adc3ba59211a120f92f09bfefa43a65b0}
+
+
+Sets a qualifier for the field. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_a73d24bf3d349158bb842452a00c8655c}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!sql@{sql}}
+\index{sql@{sql}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{sql}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string dbo\+::mapping\+::\+Field\+Info\+::sql (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1mapping_1_1_field_info_a73d24bf3d349158bb842452a00c8655c}
+\hypertarget{classdbo_1_1mapping_1_1_field_info_a29f7e7f762345f1915033a9a456cd5d0}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!sql\+Type@{sql\+Type}}
+\index{sql\+Type@{sql\+Type}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{sql\+Type}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string\& dbo\+::mapping\+::\+Field\+Info\+::sql\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_a29f7e7f762345f1915033a9a456cd5d0}
+
+
+Returns the field S\+Q\+L type. 
+
+\hypertarget{classdbo_1_1mapping_1_1_field_info_a4321bb42c7c9d8296db5180b94a736f6}{\index{dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}!type@{type}}
+\index{type@{type}!dbo\+::mapping\+::\+Field\+Info@{dbo\+::mapping\+::\+Field\+Info}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::type\+\_\+info$\ast$ dbo\+::mapping\+::\+Field\+Info\+::type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_field_info_a4321bb42c7c9d8296db5180b94a736f6}
+
+
+Returns the field type. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/mapping/\hyperlink{_field_info_8h}{Field\+Info.\+h}\item 
+dbo/mapping/\hyperlink{_field_info_8cpp}{Field\+Info.\+cpp}\end{DoxyCompactItemize}

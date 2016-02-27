@@ -1,0 +1,170 @@
+.TH "dbo::collection< C >" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::collection< C > \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <collection\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBiterator\fP"
+.br
+.in -1c
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBIdType\fP = typename \fBtraits::dbo_traits\fP< C >::\fBIdType\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBcollection\fP ()"
+.br
+.RI "\fIDefault constructor\&. \fP"
+.ti -1c
+.RI "\fBcollection\fP (const \fBcollection\fP< C > &other)"
+.br
+.RI "\fICopy constructor\&. \fP"
+.ti -1c
+.RI "\fB~collection\fP ()"
+.br
+.RI "\fIDestructor\&. \fP"
+.ti -1c
+.RI "\fBcollection\fP< C > & \fBoperator=\fP (const \fBcollection\fP< C > &other)"
+.br
+.RI "\fIAssignment operator\&. \fP"
+.ti -1c
+.RI "void \fBpush_back\fP (const \fBptr\fP< C > &\fBptr\fP)"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBbegin\fP ()"
+.br
+.RI "\fIReturns an iterator to the begin of the collection\&. \fP"
+.ti -1c
+.RI "\fBiterator\fP \fBend\fP ()"
+.br
+.RI "\fIReturns an iterator to the end of the collection\&. \fP"
+.ti -1c
+.RI "size_t \fBsize\fP ()"
+.br
+.ti -1c
+.RI "bool \fBempty\fP ()"
+.br
+.in -1c
+.SS "Protected Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBPtr\fP = typename \fBptr\fP< C >::\fBPtr\fP"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBfree\fP (\fBPtr\fP *&\fBptr\fP)"
+.br
+.ti -1c
+.RI "void \fBtake\fP (\fBPtr\fP *&\fBptr\fP)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::deque< \fBPtr\fP * > \fBptrs_\fP"
+.br
+.ti -1c
+.RI "char * \fBtableName_\fP"
+.br
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBIdType\fP \fBinvalidId_\fP =\fBtraits::dbo_traits\fP<C>::invalidId()"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<class C> using \fBdbo::collection\fP< C >::\fBIdType\fP =  typename \fBtraits::dbo_traits\fP<C>::\fBIdType\fP"
+
+.SS "template<class C> using \fBdbo::collection\fP< C >::\fBPtr\fP =  typename \fBptr\fP<C>::\fBPtr\fP\fC [protected]\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class C > \fBdbo::collection\fP< C >::\fBcollection\fP ()"
+
+.PP
+Default constructor\&. Constructs an empty collection that is not bound to a table or query 
+.SS "template<class C > \fBdbo::collection\fP< C >::\fBcollection\fP (const \fBcollection\fP< C > &other)"
+
+.PP
+Copy constructor\&. 
+.SS "template<class C > \fBdbo::collection\fP< C >::~\fBcollection\fP ()"
+
+.PP
+Destructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class C > \fBcollection\fP< C >::\fBiterator\fP \fBdbo::collection\fP< C >::begin ()"
+
+.PP
+Returns an iterator to the begin of the collection\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBend()\fP 
+.RE
+.PP
+
+.SS "template<class C > void \fBdbo::collection\fP< C >::clear ()"
+
+.SS "template<class C > bool \fBdbo::collection\fP< C >::empty ()"
+
+.SS "template<class C > \fBcollection\fP< C >::\fBiterator\fP \fBdbo::collection\fP< C >::end ()"
+
+.PP
+Returns an iterator to the end of the collection\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBbegin()\fP 
+.RE
+.PP
+
+.SS "template<class C > void \fBdbo::collection\fP< C >::free (\fBPtr\fP *&ptr)\fC [protected]\fP"
+
+.SS "template<class C > \fBcollection\fP< C > & \fBdbo::collection\fP< C >::operator= (const \fBcollection\fP< C > &other)"
+
+.PP
+Assignment operator\&. 
+.SS "template<class C > void \fBdbo::collection\fP< C >::push_back (const \fBptr\fP< C > &ptr)"
+
+.SS "template<class C > size_t \fBdbo::collection\fP< C >::size ()"
+
+.SS "template<class C > void \fBdbo::collection\fP< C >::take (\fBPtr\fP *&ptr)\fC [protected]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class C> \fBcollection\fP< C >::\fBIdType\fP \fBdbo::collection\fP< C >::invalidId_ =\fBtraits::dbo_traits\fP<C>::invalidId()\fC [static]\fP, \fC [protected]\fP"
+
+.SS "template<class C> std::deque<\fBPtr\fP*> \fBdbo::collection\fP< C >::ptrs_\fC [protected]\fP"
+
+.SS "template<class C> char* \fBdbo::collection\fP< C >::tableName_\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

@@ -1,0 +1,73 @@
+\hypertarget{connection_8h}{\section{dbo/connection.h File Reference}
+\label{connection_8h}\index{dbo/connection.\+h@{dbo/connection.\+h}}
+}
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\\*
+{\ttfamily \#include $<$map$>$}\\*
+{\ttfamily \#include $<$memory$>$}\\*
+{\ttfamily \#include $<$set$>$}\\*
+{\ttfamily \#include $<$dbo/action/\+Action\+Option.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/mapping/\+Join\+Id.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/traits/\+Sql\+Postgres\+Types.\+hpp$>$}\\*
+{\ttfamily \#include $<$dbo/traits/dbo\+\_\+traits.\+hpp$>$}\\*
+{\ttfamily \#include $<$dbo/transaction.\+h$>$}\\*
+{\ttfamily \#include $<$dbo/query.\+hpp$>$}\\*
+{\ttfamily \#include $<$pqxx/pqxx$>$}\\*
+Include dependency graph for connection.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{connection_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{connection_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classdbo_1_1collection}{dbo\+::collection$<$ C $>$}
+\item 
+class \hyperlink{classdbo_1_1ptr}{dbo\+::ptr$<$ C $>$}
+\item 
+class \hyperlink{classdbo_1_1action_1_1_delete}{dbo\+::action\+::\+Delete$<$ C $>$}
+\item 
+class \hyperlink{classdbo_1_1action_1_1_insert}{dbo\+::action\+::\+Insert$<$ C $>$}
+\item 
+class \hyperlink{classdbo_1_1action_1_1_select_by_id}{dbo\+::action\+::\+Select\+By\+Id$<$ C $>$}
+\item 
+class \hyperlink{classdbo_1_1action_1_1_update}{dbo\+::action\+::\+Update$<$ C $>$}
+\item 
+class \hyperlink{classdbo_1_1mapping_1_1_mapping}{dbo\+::mapping\+::\+Mapping$<$ T $>$}
+\item 
+class \hyperlink{classdbo_1_1mapping_1_1_ptr_ref}{dbo\+::mapping\+::\+Ptr\+Ref$<$ T $>$}
+\item 
+class \hyperlink{classdbo_1_1connection}{dbo\+::connection}
+\item 
+struct \hyperlink{structdbo_1_1connection_1_1typecomp}{dbo\+::connection\+::typecomp}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacedbo}{dbo}
+\item 
+ \hyperlink{namespacedbo_1_1action}{dbo\+::action}
+\item 
+ \hyperlink{namespacedbo_1_1mapping}{dbo\+::mapping}
+\item 
+ \hyperlink{namespacedbo_1_1stmt}{dbo\+::stmt}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct pg\+\_\+conn \hyperlink{connection_8h_a5ed62e34058025c39959695e724603a6}{P\+Gconn}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{connection_8h_a5ed62e34058025c39959695e724603a6}{\index{connection.\+h@{connection.\+h}!P\+Gconn@{P\+Gconn}}
+\index{P\+Gconn@{P\+Gconn}!connection.\+h@{connection.\+h}}
+\subsubsection[{P\+Gconn}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct pg\+\_\+conn {\bf P\+Gconn}}}\label{connection_8h_a5ed62e34058025c39959695e724603a6}

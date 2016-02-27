@@ -1,0 +1,58 @@
+.TH "dbo/action/ActionOption.h" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo/action/ActionOption.h \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBdbo::ActionOption\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBdbo\fP"
+.br
+.ti -1c
+.RI " \fBdbo::opt\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBActionOption\fP \fBdbo::operator|\fP (\fBActionOption\fP lhs, \fBActionOption\fP rhs)"
+.br
+.RI "\fICombines two options\&. \fP"
+.ti -1c
+.RI "const ActionOption \fBdbo::opt::None\fP (OptNone)"
+.br
+.ti -1c
+.RI "const ActionOption \fBdbo::opt::Recursive\fP (OptRecursive)"
+.br
+.ti -1c
+.RI "const ActionOption \fBdbo::opt::Reload\fP (OptReload)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const int \fBdbo::OptNone\fP =0x00"
+.br
+.ti -1c
+.RI "const int \fBdbo::OptRecursive\fP =0x01"
+.br
+.ti -1c
+.RI "const int \fBdbo::OptReload\fP =(0x01<<1)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

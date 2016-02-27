@@ -1,0 +1,123 @@
+\hypertarget{classdbo_1_1action_1_1_bulk_insert}{\section{dbo\+:\+:action\+:\+:Bulk\+Insert$<$ C $>$ Class Template Reference}
+\label{classdbo_1_1action_1_1_bulk_insert}\index{dbo\+::action\+::\+Bulk\+Insert$<$ C $>$@{dbo\+::action\+::\+Bulk\+Insert$<$ C $>$}}
+}
+
+
+{\ttfamily \#include $<$Bulk\+Insert.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classdbo_1_1action_1_1_bulk_insert_a938dbd272f73f38b26415014b0a37aa6}{Id\+Type} = typename \hyperlink{structdbo_1_1traits_1_1dbo__traits}{traits\+::dbo\+\_\+traits}$<$ C $>$\+::\hyperlink{classdbo_1_1action_1_1_bulk_insert_a938dbd272f73f38b26415014b0a37aa6}{Id\+Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1action_1_1_bulk_insert_ad4b37ab837e9f85b5bda357dc8446ac2}{Bulk\+Insert} (\hyperlink{classdbo_1_1collection}{collection}$<$ C $>$ \&coll, \hyperlink{classdbo_1_1mapping_1_1_mapping}{mapping\+::\+Mapping}$<$ C $>$ \&mapping, \hyperlink{classdbo_1_1connection}{connection} \&\hyperlink{classdbo_1_1action_1_1_bulk_insert_a058df5bb17f965d776fa71daef2d4599}{conn})
+\item 
+void \hyperlink{classdbo_1_1action_1_1_bulk_insert_a930454811b943f4e7611b5277a33350b}{visit} ()
+\item 
+{\footnotesize template$<$typename V $>$ }\\void \hyperlink{classdbo_1_1action_1_1_bulk_insert_abe3f25b62b25ecb9c8e76d38896cc42a}{act} (const \hyperlink{classdbo_1_1mapping_1_1_field_ref}{mapping\+::\+Field\+Ref}$<$ V $>$ \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field})
+\item 
+{\footnotesize template$<$typename V $>$ }\\void \hyperlink{classdbo_1_1action_1_1_bulk_insert_a97100925f5d66b2cdbb329fd8fdc07da}{act\+Id} (V \&value, const std\+::string \&name, int size)
+\item 
+{\footnotesize template$<$class D $>$ }\\void \hyperlink{classdbo_1_1action_1_1_bulk_insert_acd9e71d2a99198bfebbb574aeba45853}{act\+Id} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ D $>$ \&value, const std\+::string \&name, int size, int fk\+Constraints)
+\item 
+{\footnotesize template$<$class D $>$ }\\void \hyperlink{classdbo_1_1action_1_1_bulk_insert_a1c7fcbf80882a177ae7012c8d5e89065}{act\+Ptr} (const \hyperlink{classdbo_1_1mapping_1_1_ptr_ref}{mapping\+::\+Ptr\+Ref}$<$ D $>$ \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field})
+\item 
+{\footnotesize template$<$class D $>$ }\\void \hyperlink{classdbo_1_1action_1_1_bulk_insert_a91600b0c5e6d1c12c3b95872613b75f6}{act\+Collection} (const \hyperlink{classdbo_1_1mapping_1_1_collection_ref}{mapping\+::\+Collection\+Ref}$<$ D $>$ \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field})
+\item 
+\hyperlink{classdbo_1_1connection}{connection} \& \hyperlink{classdbo_1_1action_1_1_bulk_insert_a058df5bb17f965d776fa71daef2d4599}{conn} ()
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class D $>$ }\\class \hyperlink{classdbo_1_1action_1_1_bulk_insert_ab3c3f3be04fba6797b09bf737db9451b}{Bulk\+Insert}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_a938dbd272f73f38b26415014b0a37aa6}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!Id\+Type@{Id\+Type}}
+\index{Id\+Type@{Id\+Type}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{Id\+Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ using {\bf dbo\+::action\+::\+Bulk\+Insert}$<$ C $>$\+::{\bf Id\+Type} =  typename {\bf traits\+::dbo\+\_\+traits}$<$C$>$\+::{\bf Id\+Type}}}\label{classdbo_1_1action_1_1_bulk_insert_a938dbd272f73f38b26415014b0a37aa6}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_ad4b37ab837e9f85b5bda357dc8446ac2}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!Bulk\+Insert@{Bulk\+Insert}}
+\index{Bulk\+Insert@{Bulk\+Insert}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{Bulk\+Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::action\+::\+Bulk\+Insert}$<$ C $>$\+::{\bf Bulk\+Insert} (
+\begin{DoxyParamCaption}
+\item[{{\bf collection}$<$ C $>$ \&}]{coll, }
+\item[{{\bf mapping\+::\+Mapping}$<$ C $>$ \&}]{mapping, }
+\item[{{\bf connection} \&}]{conn}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_bulk_insert_ad4b37ab837e9f85b5bda357dc8446ac2}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_abe3f25b62b25ecb9c8e76d38896cc42a}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!act@{act}}
+\index{act@{act}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{act}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$typename V $>$ void {\bf dbo\+::action\+::\+Bulk\+Insert}$<$ C $>$\+::act (
+\begin{DoxyParamCaption}
+\item[{const {\bf mapping\+::\+Field\+Ref}$<$ V $>$ \&}]{field}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_bulk_insert_abe3f25b62b25ecb9c8e76d38896cc42a}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_a91600b0c5e6d1c12c3b95872613b75f6}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!act\+Collection@{act\+Collection}}
+\index{act\+Collection@{act\+Collection}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{act\+Collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ void {\bf dbo\+::action\+::\+Bulk\+Insert}$<$ C $>$\+::act\+Collection (
+\begin{DoxyParamCaption}
+\item[{const {\bf mapping\+::\+Collection\+Ref}$<$ D $>$ \&}]{field}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_bulk_insert_a91600b0c5e6d1c12c3b95872613b75f6}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_a97100925f5d66b2cdbb329fd8fdc07da}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!act\+Id@{act\+Id}}
+\index{act\+Id@{act\+Id}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{act\+Id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$typename V $>$ void {\bf dbo\+::action\+::\+Bulk\+Insert}$<$ C $>$\+::act\+Id (
+\begin{DoxyParamCaption}
+\item[{V \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_bulk_insert_a97100925f5d66b2cdbb329fd8fdc07da}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_acd9e71d2a99198bfebbb574aeba45853}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!act\+Id@{act\+Id}}
+\index{act\+Id@{act\+Id}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{act\+Id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ void {\bf dbo\+::action\+::\+Bulk\+Insert}$<$ C $>$\+::act\+Id (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ D $>$ \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size, }
+\item[{int}]{fk\+Constraints}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_bulk_insert_acd9e71d2a99198bfebbb574aeba45853}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_a1c7fcbf80882a177ae7012c8d5e89065}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!act\+Ptr@{act\+Ptr}}
+\index{act\+Ptr@{act\+Ptr}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{act\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ void {\bf dbo\+::action\+::\+Bulk\+Insert}$<$ C $>$\+::act\+Ptr (
+\begin{DoxyParamCaption}
+\item[{const {\bf mapping\+::\+Ptr\+Ref}$<$ D $>$ \&}]{field}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_bulk_insert_a1c7fcbf80882a177ae7012c8d5e89065}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_a058df5bb17f965d776fa71daef2d4599}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!conn@{conn}}
+\index{conn@{conn}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{conn}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf connection}\& {\bf dbo\+::action\+::\+Bulk\+Insert}$<$ C $>$\+::conn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1action_1_1_bulk_insert_a058df5bb17f965d776fa71daef2d4599}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_a930454811b943f4e7611b5277a33350b}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!visit@{visit}}
+\index{visit@{visit}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{visit}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::action\+::\+Bulk\+Insert}$<$ C $>$\+::visit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_bulk_insert_a930454811b943f4e7611b5277a33350b}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classdbo_1_1action_1_1_bulk_insert_ab3c3f3be04fba6797b09bf737db9451b}{\index{dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}!Bulk\+Insert@{Bulk\+Insert}}
+\index{Bulk\+Insert@{Bulk\+Insert}!dbo\+::action\+::\+Bulk\+Insert@{dbo\+::action\+::\+Bulk\+Insert}}
+\subsubsection[{Bulk\+Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ friend class {\bf Bulk\+Insert}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1action_1_1_bulk_insert_ab3c3f3be04fba6797b09bf737db9451b}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/action/\hyperlink{_bulk_insert_8hpp}{Bulk\+Insert.\+hpp}\item 
+dbo/action/\hyperlink{_bulk_insert_8cxx}{Bulk\+Insert.\+cxx}\end{DoxyCompactItemize}

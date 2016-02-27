@@ -1,0 +1,147 @@
+\hypertarget{classdbo_1_1stmt_1_1_statement}{\section{dbo\+:\+:stmt\+:\+:Statement Class Reference}
+\label{classdbo_1_1stmt_1_1_statement}\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+}
+
+
+{\ttfamily \#include $<$Statement.\+h$>$}
+
+
+
+Inheritance diagram for dbo\+:\+:stmt\+:\+:Statement\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classdbo_1_1stmt_1_1_statement__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for dbo\+:\+:stmt\+:\+:Statement\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=191pt]{classdbo_1_1stmt_1_1_statement__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1stmt_1_1_statement_a6442da91d6cab533b92efdd2cb09bdff}{Statement} (\hyperlink{classdbo_1_1connection}{connection} \&conn)
+\item 
+virtual \hyperlink{classdbo_1_1stmt_1_1_statement_a57fdfef84b5f92d83850f6467b46012a}{$\sim$\+Statement} ()
+\item 
+virtual void \hyperlink{classdbo_1_1stmt_1_1_statement_a1699d7873785908a99211c91350cd376}{bind} ()=0
+\item 
+virtual void \hyperlink{classdbo_1_1stmt_1_1_statement_a8f2897467f5fccaec72ffe5ad797a8a3}{bind} (const std\+::string \&value)=0
+\item 
+virtual void \hyperlink{classdbo_1_1stmt_1_1_statement_a3f4f506b3df6f2d8667fa2900a662ee4}{bind} (const std\+::vector$<$ unsigned char $>$ \&value)=0
+\item 
+virtual bool \hyperlink{classdbo_1_1stmt_1_1_statement_a98ea71bb3c771dc5831b39d74035eb6b}{read} (char $\ast$\&value)=0
+\item 
+virtual bool \hyperlink{classdbo_1_1stmt_1_1_statement_a45864352cde548530425119915b3a2ef}{read} (std\+::vector$<$ unsigned char $>$ \&value)=0
+\item 
+virtual void \hyperlink{classdbo_1_1stmt_1_1_statement_af8e1a95b6c0c8b8ac6f5a25f4c48bf5e}{execute} ()=0
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1connection}{connection} $\ast$ \hyperlink{classdbo_1_1stmt_1_1_statement_ae2fbf1f27c829b348afa751e7d04f934}{conn\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1stmt_1_1_statement_a6442da91d6cab533b92efdd2cb09bdff}{\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}!Statement@{Statement}}
+\index{Statement@{Statement}!dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+\subsubsection[{Statement}]{\setlength{\rightskip}{0pt plus 5cm}Statement\+::\+Statement (
+\begin{DoxyParamCaption}
+\item[{{\bf connection} \&}]{conn}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1stmt_1_1_statement_a6442da91d6cab533b92efdd2cb09bdff}
+Build a statement, the name of the statement will be created from the hash of the sql query \hypertarget{classdbo_1_1stmt_1_1_statement_a57fdfef84b5f92d83850f6467b46012a}{\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}!````~Statement@{$\sim$\+Statement}}
+\index{````~Statement@{$\sim$\+Statement}!dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+\subsubsection[{$\sim$\+Statement}]{\setlength{\rightskip}{0pt plus 5cm}Statement\+::$\sim$\+Statement (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classdbo_1_1stmt_1_1_statement_a57fdfef84b5f92d83850f6467b46012a}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1stmt_1_1_statement_a1699d7873785908a99211c91350cd376}{\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}!bind@{bind}}
+\index{bind@{bind}!dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+\subsubsection[{bind}]{\setlength{\rightskip}{0pt plus 5cm}virtual void dbo\+::stmt\+::\+Statement\+::bind (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classdbo_1_1stmt_1_1_statement_a1699d7873785908a99211c91350cd376}
+Bind a null value 
+
+Implemented in \hyperlink{classdbo_1_1stmt_1_1_prepared_statement_a09a9cd82a4d0123b679312acf74fbd02}{dbo\+::stmt\+::\+Prepared\+Statement}, and \hyperlink{classdbo_1_1stmt_1_1_bulk_statement_ae40b794caf52eb3e1cafaef7eeb2042c}{dbo\+::stmt\+::\+Bulk\+Statement}.
+
+\hypertarget{classdbo_1_1stmt_1_1_statement_a8f2897467f5fccaec72ffe5ad797a8a3}{\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}!bind@{bind}}
+\index{bind@{bind}!dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+\subsubsection[{bind}]{\setlength{\rightskip}{0pt plus 5cm}virtual void dbo\+::stmt\+::\+Statement\+::bind (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classdbo_1_1stmt_1_1_statement_a8f2897467f5fccaec72ffe5ad797a8a3}
+Bind a string value 
+
+Implemented in \hyperlink{classdbo_1_1stmt_1_1_prepared_statement_a50a8195e7156004c2bf8533a89eb4541}{dbo\+::stmt\+::\+Prepared\+Statement}, and \hyperlink{classdbo_1_1stmt_1_1_bulk_statement_ae12881728ef31a7acc0903d7473a8cb9}{dbo\+::stmt\+::\+Bulk\+Statement}.
+
+\hypertarget{classdbo_1_1stmt_1_1_statement_a3f4f506b3df6f2d8667fa2900a662ee4}{\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}!bind@{bind}}
+\index{bind@{bind}!dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+\subsubsection[{bind}]{\setlength{\rightskip}{0pt plus 5cm}virtual void dbo\+::stmt\+::\+Statement\+::bind (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ unsigned char $>$ \&}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classdbo_1_1stmt_1_1_statement_a3f4f506b3df6f2d8667fa2900a662ee4}
+Bind a binary value 
+
+Implemented in \hyperlink{classdbo_1_1stmt_1_1_prepared_statement_ac569d72f107737acda7ce94c831f5838}{dbo\+::stmt\+::\+Prepared\+Statement}, and \hyperlink{classdbo_1_1stmt_1_1_bulk_statement_a36ca4fb16d32d17b838fe4604ebf2139}{dbo\+::stmt\+::\+Bulk\+Statement}.
+
+\hypertarget{classdbo_1_1stmt_1_1_statement_af8e1a95b6c0c8b8ac6f5a25f4c48bf5e}{\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}!execute@{execute}}
+\index{execute@{execute}!dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+\subsubsection[{execute}]{\setlength{\rightskip}{0pt plus 5cm}virtual void dbo\+::stmt\+::\+Statement\+::execute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classdbo_1_1stmt_1_1_statement_af8e1a95b6c0c8b8ac6f5a25f4c48bf5e}
+Execute the prepared statement 
+
+Implemented in \hyperlink{classdbo_1_1stmt_1_1_prepared_statement_a1f14d39e3ce01f550527b606ec7e16ab}{dbo\+::stmt\+::\+Prepared\+Statement}, and \hyperlink{classdbo_1_1stmt_1_1_bulk_statement_af2cde35cc87094525b4dc1e4dc99c710}{dbo\+::stmt\+::\+Bulk\+Statement}.
+
+\hypertarget{classdbo_1_1stmt_1_1_statement_a98ea71bb3c771dc5831b39d74035eb6b}{\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}!read@{read}}
+\index{read@{read}!dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool dbo\+::stmt\+::\+Statement\+::read (
+\begin{DoxyParamCaption}
+\item[{char $\ast$\&}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classdbo_1_1stmt_1_1_statement_a98ea71bb3c771dc5831b39d74035eb6b}
+Read content to string 
+
+Implemented in \hyperlink{classdbo_1_1stmt_1_1_prepared_statement_ab01ebe611bfdb2a17cc10e7edbb29d4f}{dbo\+::stmt\+::\+Prepared\+Statement}, and \hyperlink{classdbo_1_1stmt_1_1_bulk_statement_ae789fa6e80389758303064fcceafb597}{dbo\+::stmt\+::\+Bulk\+Statement}.
+
+\hypertarget{classdbo_1_1stmt_1_1_statement_a45864352cde548530425119915b3a2ef}{\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}!read@{read}}
+\index{read@{read}!dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool dbo\+::stmt\+::\+Statement\+::read (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ unsigned char $>$ \&}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classdbo_1_1stmt_1_1_statement_a45864352cde548530425119915b3a2ef}
+Read content to binary array 
+
+Implemented in \hyperlink{classdbo_1_1stmt_1_1_prepared_statement_a65620d8b28b279d717ed6a787f89ad70}{dbo\+::stmt\+::\+Prepared\+Statement}, and \hyperlink{classdbo_1_1stmt_1_1_bulk_statement_aaa5722c838af4203ae19bd94448d63dd}{dbo\+::stmt\+::\+Bulk\+Statement}.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classdbo_1_1stmt_1_1_statement_ae2fbf1f27c829b348afa751e7d04f934}{\index{dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}!conn\+\_\+@{conn\+\_\+}}
+\index{conn\+\_\+@{conn\+\_\+}!dbo\+::stmt\+::\+Statement@{dbo\+::stmt\+::\+Statement}}
+\subsubsection[{conn\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}{\bf connection}$\ast$ dbo\+::stmt\+::\+Statement\+::conn\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1stmt_1_1_statement_ae2fbf1f27c829b348afa751e7d04f934}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/stmt/\hyperlink{_statement_8h}{Statement.\+h}\item 
+dbo/stmt/\hyperlink{_statement_8cpp}{Statement.\+cpp}\end{DoxyCompactItemize}

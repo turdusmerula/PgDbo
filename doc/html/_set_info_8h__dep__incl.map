@@ -1,0 +1,10 @@
+<map id="dbo/mapping/SetInfo.h" name="dbo/mapping/SetInfo.h">
+<area shape="rect" id="node2" href="$_init_schema_8hpp.html" title="dbo/action/InitSchema.hpp" alt="" coords="147,80,324,107"/>
+<area shape="rect" id="node5" href="$_mapping_info_8h.html" title="dbo/mapping/MappingInfo.h" alt="" coords="355,80,537,107"/>
+<area shape="rect" id="node6" href="$connection_8cpp.html" title="dbo/connection.cpp" alt="" coords="714,229,848,256"/>
+<area shape="rect" id="node9" href="$relation_8hpp.html" title="dbo/relation.hpp" alt="" coords="5,80,120,107"/>
+<area shape="rect" id="node3" href="$_init_schema_8cpp.html" title="dbo/action/InitSchema.cpp" alt="" coords="147,155,324,181"/>
+<area shape="rect" id="node4" href="$dbo_8hpp.html" title="dbo/dbo.hpp" alt="" coords="63,229,156,256"/>
+<area shape="rect" id="node7" href="$_mapping_8hpp.html" title="dbo/mapping/Mapping.hpp" alt="" coords="569,155,743,181"/>
+<area shape="rect" id="node8" href="$_mapping_info_8cpp.html" title="dbo/mapping/MappingInfo.cpp" alt="" coords="349,155,544,181"/>
+</map>

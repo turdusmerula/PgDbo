@@ -1,0 +1,123 @@
+\hypertarget{classdbo_1_1action_1_1_insert}{\section{dbo\+:\+:action\+:\+:Insert$<$ C $>$ Class Template Reference}
+\label{classdbo_1_1action_1_1_insert}\index{dbo\+::action\+::\+Insert$<$ C $>$@{dbo\+::action\+::\+Insert$<$ C $>$}}
+}
+
+
+{\ttfamily \#include $<$Insert.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classdbo_1_1action_1_1_insert_a2b184308ac0b0389ad12e64d0c5b0fbf}{Id\+Type} = typename \hyperlink{structdbo_1_1traits_1_1dbo__traits}{traits\+::dbo\+\_\+traits}$<$ C $>$\+::\hyperlink{classdbo_1_1action_1_1_insert_a2b184308ac0b0389ad12e64d0c5b0fbf}{Id\+Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1action_1_1_insert_a3ced46fb3e173ec079b47b223db6280c}{Insert} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \hyperlink{classdbo_1_1ptr}{ptr}, std\+::shared\+\_\+ptr$<$ \hyperlink{classdbo_1_1mapping_1_1_mapping}{mapping\+::\+Mapping}$<$ C $>$$>$ mapping, \hyperlink{classdbo_1_1stmt_1_1_prepared_statement}{stmt\+::\+Prepared\+Statement} \&stmt)
+\item 
+void \hyperlink{classdbo_1_1action_1_1_insert_adf09ae0bc0f40ad9dadb1423e3a93eff}{visit} ()
+\item 
+{\footnotesize template$<$typename V $>$ }\\void \hyperlink{classdbo_1_1action_1_1_insert_a380b26e25745133af71e9291c4413a96}{act} (const \hyperlink{classdbo_1_1mapping_1_1_field_ref}{mapping\+::\+Field\+Ref}$<$ V $>$ \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field})
+\item 
+{\footnotesize template$<$typename V $>$ }\\void \hyperlink{classdbo_1_1action_1_1_insert_a5bbfc3d346d3ac7b95544159e1f8bc3e}{act\+Id} (V \&value, const std\+::string \&name, int size)
+\item 
+{\footnotesize template$<$class D $>$ }\\void \hyperlink{classdbo_1_1action_1_1_insert_a58afaf6a6d03ed7c8da491350e93b161}{act\+Id} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ D $>$ \&value, const std\+::string \&name, int size, int fk\+Constraints)
+\item 
+{\footnotesize template$<$class D $>$ }\\void \hyperlink{classdbo_1_1action_1_1_insert_ab481e055cba6c205bc286ea586b3f538}{act\+Ptr} (const \hyperlink{classdbo_1_1mapping_1_1_ptr_ref}{mapping\+::\+Ptr\+Ref}$<$ D $>$ \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field})
+\item 
+{\footnotesize template$<$class D $>$ }\\void \hyperlink{classdbo_1_1action_1_1_insert_aef4bc2afc4e946048534eecc24cbdcd3}{act\+Collection} (const \hyperlink{classdbo_1_1mapping_1_1_collection_ref}{mapping\+::\+Collection\+Ref}$<$ D $>$ \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field})
+\item 
+\hyperlink{classdbo_1_1connection}{connection} \& \hyperlink{classdbo_1_1action_1_1_insert_a5f04551268ff028ac7bc580ed5325ac1}{conn} ()
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class D $>$ }\\class \hyperlink{classdbo_1_1action_1_1_insert_a55ac54b13b7b7c6e6ab0ba2e6839dab6}{Insert}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classdbo_1_1action_1_1_insert_a2b184308ac0b0389ad12e64d0c5b0fbf}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!Id\+Type@{Id\+Type}}
+\index{Id\+Type@{Id\+Type}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{Id\+Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ using {\bf dbo\+::action\+::\+Insert}$<$ C $>$\+::{\bf Id\+Type} =  typename {\bf traits\+::dbo\+\_\+traits}$<$C$>$\+::{\bf Id\+Type}}}\label{classdbo_1_1action_1_1_insert_a2b184308ac0b0389ad12e64d0c5b0fbf}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1action_1_1_insert_a3ced46fb3e173ec079b47b223db6280c}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!Insert@{Insert}}
+\index{Insert@{Insert}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::action\+::\+Insert}$<$ C $>$\+::{\bf Insert} (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ C $>$}]{ptr, }
+\item[{std\+::shared\+\_\+ptr$<$ {\bf mapping\+::\+Mapping}$<$ C $>$$>$}]{mapping, }
+\item[{{\bf stmt\+::\+Prepared\+Statement} \&}]{stmt}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_insert_a3ced46fb3e173ec079b47b223db6280c}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1action_1_1_insert_a380b26e25745133af71e9291c4413a96}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!act@{act}}
+\index{act@{act}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{act}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$typename V $>$ void {\bf dbo\+::action\+::\+Insert}$<$ C $>$\+::act (
+\begin{DoxyParamCaption}
+\item[{const {\bf mapping\+::\+Field\+Ref}$<$ V $>$ \&}]{field}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_insert_a380b26e25745133af71e9291c4413a96}
+\hypertarget{classdbo_1_1action_1_1_insert_aef4bc2afc4e946048534eecc24cbdcd3}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!act\+Collection@{act\+Collection}}
+\index{act\+Collection@{act\+Collection}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{act\+Collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ void {\bf dbo\+::action\+::\+Insert}$<$ C $>$\+::act\+Collection (
+\begin{DoxyParamCaption}
+\item[{const {\bf mapping\+::\+Collection\+Ref}$<$ D $>$ \&}]{field}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_insert_aef4bc2afc4e946048534eecc24cbdcd3}
+\hypertarget{classdbo_1_1action_1_1_insert_a5bbfc3d346d3ac7b95544159e1f8bc3e}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!act\+Id@{act\+Id}}
+\index{act\+Id@{act\+Id}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{act\+Id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$typename V $>$ void {\bf dbo\+::action\+::\+Insert}$<$ C $>$\+::act\+Id (
+\begin{DoxyParamCaption}
+\item[{V \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_insert_a5bbfc3d346d3ac7b95544159e1f8bc3e}
+\hypertarget{classdbo_1_1action_1_1_insert_a58afaf6a6d03ed7c8da491350e93b161}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!act\+Id@{act\+Id}}
+\index{act\+Id@{act\+Id}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{act\+Id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ void {\bf dbo\+::action\+::\+Insert}$<$ C $>$\+::act\+Id (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ D $>$ \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size, }
+\item[{int}]{fk\+Constraints}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_insert_a58afaf6a6d03ed7c8da491350e93b161}
+\hypertarget{classdbo_1_1action_1_1_insert_ab481e055cba6c205bc286ea586b3f538}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!act\+Ptr@{act\+Ptr}}
+\index{act\+Ptr@{act\+Ptr}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{act\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ void {\bf dbo\+::action\+::\+Insert}$<$ C $>$\+::act\+Ptr (
+\begin{DoxyParamCaption}
+\item[{const {\bf mapping\+::\+Ptr\+Ref}$<$ D $>$ \&}]{field}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_insert_ab481e055cba6c205bc286ea586b3f538}
+\hypertarget{classdbo_1_1action_1_1_insert_a5f04551268ff028ac7bc580ed5325ac1}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!conn@{conn}}
+\index{conn@{conn}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{conn}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf connection}\& {\bf dbo\+::action\+::\+Insert}$<$ C $>$\+::conn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1action_1_1_insert_a5f04551268ff028ac7bc580ed5325ac1}
+\hypertarget{classdbo_1_1action_1_1_insert_adf09ae0bc0f40ad9dadb1423e3a93eff}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!visit@{visit}}
+\index{visit@{visit}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{visit}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::action\+::\+Insert}$<$ C $>$\+::visit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_insert_adf09ae0bc0f40ad9dadb1423e3a93eff}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classdbo_1_1action_1_1_insert_a55ac54b13b7b7c6e6ab0ba2e6839dab6}{\index{dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}!Insert@{Insert}}
+\index{Insert@{Insert}!dbo\+::action\+::\+Insert@{dbo\+::action\+::\+Insert}}
+\subsubsection[{Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ friend class {\bf Insert}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1action_1_1_insert_a55ac54b13b7b7c6e6ab0ba2e6839dab6}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/action/\hyperlink{_insert_8hpp}{Insert.\+hpp}\item 
+dbo/action/\hyperlink{_insert_8cxx}{Insert.\+cxx}\end{DoxyCompactItemize}

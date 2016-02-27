@@ -1,0 +1,108 @@
+.TH "dbo::query" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::query \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <query\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBquery\fP (\fBconnection\fP &conn, const std::string &\fBsql\fP='')"
+.br
+.ti -1c
+.RI "\fB~query\fP ()"
+.br
+.ti -1c
+.RI "\fBquery\fP & \fBoperator=\fP (const \fBquery\fP &other)"
+.br
+.ti -1c
+.RI "template<class C > \fBquery\fP & \fBbind\fP (const C &value)"
+.br
+.ti -1c
+.RI "\fBquery\fP & \fBprepare\fP ()"
+.br
+.ti -1c
+.RI "\fBquery\fP & \fBexecute\fP ()"
+.br
+.ti -1c
+.RI "template<class C > \fBquery\fP & \fBread\fP (\fBptr\fP< C > &\fBptr\fP)"
+.br
+.ti -1c
+.RI "template<class T > \fBquery\fP & \fBread\fP (T &value)"
+.br
+.ti -1c
+.RI "bool \fBnextRow\fP ()"
+.br
+.ti -1c
+.RI "const std::string & \fBsql\fP ()"
+.br
+.ti -1c
+.RI "bool \fBhasrow\fP () const "
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBconnection\fP * \fBconn_\fP"
+.br
+.ti -1c
+.RI "\fBstmt::PreparedStatement\fP \fBstmt_\fP"
+.br
+.ti -1c
+.RI "std::string \fBsql_\fP"
+.br
+.ti -1c
+.RI "bool \fBprepared_\fP"
+.br
+.ti -1c
+.RI "bool \fBhasrow_\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "query::query (\fBconnection\fP &conn, const std::string &sql = \fC''\fP)"
+
+.SS "query::~query ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class C > \fBquery\fP & dbo::query::bind (const C &value)"
+
+.SS "\fBquery\fP & query::execute ()"
+
+.SS "bool dbo::query::hasrow () const\fC [inline]\fP"
+
+.SS "bool query::nextRow ()"
+
+.SS "\fBquery\fP & query::operator= (const \fBquery\fP &other)"
+
+.SS "\fBquery\fP & query::prepare ()"
+Prepare the query\&. Once a query is prepared it becomes a named prepared statement and can not be modified Statements not prepared are executed as anonymous named statements\&. 
+.SS "template<class C > \fBquery\fP & dbo::query::read (\fBptr\fP< C > &ptr)"
+
+.SS "template<class T > \fBquery\fP & dbo::query::read (T &value)"
+
+.SS "const std::string& dbo::query::sql ()\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBconnection\fP* dbo::query::conn_\fC [protected]\fP"
+
+.SS "bool dbo::query::hasrow_\fC [protected]\fP"
+
+.SS "bool dbo::query::prepared_\fC [protected]\fP"
+
+.SS "std::string dbo::query::sql_\fC [protected]\fP"
+
+.SS "\fBstmt::PreparedStatement\fP dbo::query::stmt_\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

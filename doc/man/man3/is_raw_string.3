@@ -1,0 +1,36 @@
+.TH "is_raw_string< Type >" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+is_raw_string< Type > \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <StdSqlTraits\&.h>\fP
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const bool \fBvalue\fP"
+.br
+.in -1c
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename Type > const bool \fBis_raw_string\fP< Type >::value\fC [static]\fP"
+\fBInitial value:\fP
+.PP
+.nf
+=
+        (std::is_array<Type>::value &&
+            std::is_same<typename std::remove_const<
+                typename std::remove_extent<Type>::type>::type, char>::value) ||
+        (std::is_pointer<Type>::value &&
+            std::is_same<typename std::remove_const<
+                typename std::remove_pointer<Type>::type>::type, char>::value)
+.fi
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

@@ -1,0 +1,84 @@
+.TH "dbo::action::BulkInsert< C >" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::action::BulkInsert< C > \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <BulkInsert\&.hpp>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBIdType\fP = typename \fBtraits::dbo_traits\fP< C >::\fBIdType\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBulkInsert\fP (\fBcollection\fP< C > &coll, \fBmapping::Mapping\fP< C > &mapping, \fBconnection\fP &\fBconn\fP)"
+.br
+.ti -1c
+.RI "void \fBvisit\fP ()"
+.br
+.ti -1c
+.RI "template<typename V > void \fBact\fP (const \fBmapping::FieldRef\fP< V > &\fBfield\fP)"
+.br
+.ti -1c
+.RI "template<typename V > void \fBactId\fP (V &value, const std::string &name, int size)"
+.br
+.ti -1c
+.RI "template<class D > void \fBactId\fP (\fBptr\fP< D > &value, const std::string &name, int size, int fkConstraints)"
+.br
+.ti -1c
+.RI "template<class D > void \fBactPtr\fP (const \fBmapping::PtrRef\fP< D > &\fBfield\fP)"
+.br
+.ti -1c
+.RI "template<class D > void \fBactCollection\fP (const \fBmapping::CollectionRef\fP< D > &\fBfield\fP)"
+.br
+.ti -1c
+.RI "\fBconnection\fP & \fBconn\fP ()"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "template<class D > class \fBBulkInsert\fP"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<class C > using \fBdbo::action::BulkInsert\fP< C >::\fBIdType\fP =  typename \fBtraits::dbo_traits\fP<C>::\fBIdType\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class C > \fBdbo::action::BulkInsert\fP< C >::\fBBulkInsert\fP (\fBcollection\fP< C > &coll, \fBmapping::Mapping\fP< C > &mapping, \fBconnection\fP &conn)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class C > template<typename V > void \fBdbo::action::BulkInsert\fP< C >::act (const \fBmapping::FieldRef\fP< V > &field)"
+
+.SS "template<class C > template<class D > void \fBdbo::action::BulkInsert\fP< C >::actCollection (const \fBmapping::CollectionRef\fP< D > &field)"
+
+.SS "template<class C > template<typename V > void \fBdbo::action::BulkInsert\fP< C >::actId (V &value, const std::string &name, intsize)"
+
+.SS "template<class C > template<class D > void \fBdbo::action::BulkInsert\fP< C >::actId (\fBptr\fP< D > &value, const std::string &name, intsize, intfkConstraints)"
+
+.SS "template<class C > template<class D > void \fBdbo::action::BulkInsert\fP< C >::actPtr (const \fBmapping::PtrRef\fP< D > &field)"
+
+.SS "template<class C > \fBconnection\fP& \fBdbo::action::BulkInsert\fP< C >::conn ()\fC [inline]\fP"
+
+.SS "template<class C > void \fBdbo::action::BulkInsert\fP< C >::visit ()"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "template<class C > template<class D > friend class \fBBulkInsert\fP\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

@@ -1,0 +1,55 @@
+\hypertarget{structdbo_1_1traits_1_1sql__value__traits}{\section{dbo\+:\+:traits\+:\+:sql\+\_\+value\+\_\+traits$<$ V, Enable $>$ Class Template Reference}
+\label{structdbo_1_1traits_1_1sql__value__traits}\index{dbo\+::traits\+::sql\+\_\+value\+\_\+traits$<$ V, Enable $>$@{dbo\+::traits\+::sql\+\_\+value\+\_\+traits$<$ V, Enable $>$}}
+}
+
+
+Traits class for value types.  
+
+
+
+
+{\ttfamily \#include $<$sql\+\_\+value\+\_\+traits.\+hpp$>$}
+
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const bool \hyperlink{structdbo_1_1traits_1_1sql__value__traits_ac05f51eeec8be981aa7be0aac21858be}{not\+\_\+specialized} =true
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename V, class Enable = void$>$class dbo\+::traits\+::sql\+\_\+value\+\_\+traits$<$ V, Enable $>$}
+
+Traits class for value types. 
+
+This traits class may be specialized for a custom type {\ttfamily V}, to add dbo support for custom types. A value type has a one-\/to-\/one mapping to a single database column.
+
+The library has built-\/in support for\+:
+\begin{DoxyItemize}
+\item {\ttfamily std\+::string}
+\item {\ttfamily char const $\ast$} (read-\/only\+: only as a bound parameter for a query)
+\item {\ttfamily short}, {\ttfamily int}, {\ttfamily long long}
+\item {\ttfamily long}\+: since the size of a {\ttfamily long} is 64bit on U\+N\+I\+X/\+Linux 64bit systems and 32bit otherwise, it is mapped to an {\ttfamily integer} or a {\ttfamily bigint} depending on the environment.
+\item {\ttfamily float}, {\ttfamily double}
+\item enum types
+\item {\ttfamily bool}
+\item {\ttfamily std\+::vector$<$unsigned char$>$} (binary data)
+\item {\ttfamily boost\+::optional$<$\+T$>$}\+: to make the type optional (allowing an S\+Q\+L {\ttfamily null} value)
+\item {\ttfamily boost\+::posix\+\_\+time\+::ptime}\+: time stamp, an invalid value (e.\+g. default constructed), maps to {\ttfamily null}
+\item {\ttfamily boost\+::posix\+\_\+time\+::time\+\_\+duration}\+: time interval, an invalid value (boost\+::posix\+\_\+time\+::not\+\_\+a\+\_\+date\+\_\+time), maps to {\ttfamily null}
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+query\+\_\+result\+\_\+traits 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{structdbo_1_1traits_1_1sql__value__traits_ac05f51eeec8be981aa7be0aac21858be}{\index{dbo\+::traits\+::sql\+\_\+value\+\_\+traits@{dbo\+::traits\+::sql\+\_\+value\+\_\+traits}!not\+\_\+specialized@{not\+\_\+specialized}}
+\index{not\+\_\+specialized@{not\+\_\+specialized}!dbo\+::traits\+::sql\+\_\+value\+\_\+traits@{dbo\+::traits\+::sql\+\_\+value\+\_\+traits}}
+\subsubsection[{not\+\_\+specialized}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename V, class Enable  = void$>$ const bool {\bf dbo\+::traits\+::sql\+\_\+value\+\_\+traits}$<$ V, Enable $>$\+::not\+\_\+specialized =true\hspace{0.3cm}{\ttfamily [static]}}}\label{structdbo_1_1traits_1_1sql__value__traits_ac05f51eeec8be981aa7be0aac21858be}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+dbo/traits/\hyperlink{sql__value__traits_8hpp}{sql\+\_\+value\+\_\+traits.\+hpp}\end{DoxyCompactItemize}

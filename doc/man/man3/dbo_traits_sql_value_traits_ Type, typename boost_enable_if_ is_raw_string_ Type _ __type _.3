@@ -1,0 +1,33 @@
+.TH "dbo::traits::sql_value_traits< Type, typename boost::enable_if< is_raw_string< Type > >::type >" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::traits::sql_value_traits< Type, typename boost::enable_if< is_raw_string< Type > >::type > \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <StdSqlTraits\&.h>\fP
+.PP
+Inherits \fBdbo::traits::sql_value_traits< std::string >\fP\&.
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBbind\fP (const Type &v, \fBstmt::Statement\fP &statement, int size)"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename Type>struct dbo::traits::sql_value_traits< Type, typename boost::enable_if< is_raw_string< Type > >::type >"
+This trait allow binding from literal string\&. Read is deactivated, you must use std::string to define table bindings 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename Type > static void \fBdbo::traits::sql_value_traits\fP< Type, typename boost::enable_if< \fBis_raw_string\fP< Type > >::type >::bind (const Type &v, \fBstmt::Statement\fP &statement, intsize)\fC [inline]\fP, \fC [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

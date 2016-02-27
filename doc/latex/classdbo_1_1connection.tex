@@ -1,0 +1,667 @@
+\hypertarget{classdbo_1_1connection}{\section{dbo\+:\+:connection Class Reference}
+\label{classdbo_1_1connection}\index{dbo\+::connection@{dbo\+::connection}}
+}
+
+
+{\ttfamily \#include $<$connection.\+h$>$}
+
+
+
+Collaboration diagram for dbo\+:\+:connection\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{classdbo_1_1connection__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structdbo_1_1connection_1_1typecomp}{typecomp}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1connection_abf4fbe074e578b5744dc6dc8e595d8e8}{connection} ()
+\item 
+virtual \hyperlink{classdbo_1_1connection_a974638af9e9e1e5659dee7c9fab326ed}{$\sim$connection} ()
+\item 
+void \hyperlink{classdbo_1_1connection_aae5734a1ebadaf2597d9172c5ab7115a}{connect} (std\+::string options=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em Connects to database. $\ast$. \end{DoxyCompactList}\item 
+bool \hyperlink{classdbo_1_1connection_a1a68a49bf2ce826eaa08d1eb2527b454}{connected} () const 
+\item 
+{\footnotesize template$<$class C $>$ }\\void \hyperlink{classdbo_1_1connection_a78a8ab8b3fa23d45c96d75b906652e86}{map\+Class} (std\+::string name)
+\begin{DoxyCompactList}\small\item\em Maps a class to a database table. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class C $>$ }\\const std\+::string \& \hyperlink{classdbo_1_1connection_ade1cbdc41769464cd1076e09c2099c9a}{table\+Name} () const 
+\begin{DoxyCompactList}\small\item\em Returns the mapped table name for a class. \end{DoxyCompactList}\item 
+void \hyperlink{classdbo_1_1connection_a35c81eabb228750f0e4c517eb63d6de2}{create\+Tables} ()
+\begin{DoxyCompactList}\small\item\em Creates the database schema. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{classdbo_1_1connection_a5105d77e3a30044c0a97cdd42c8dbc62}{table\+Creation\+Sql} ()
+\begin{DoxyCompactList}\small\item\em Returns database creation S\+Q\+L. \end{DoxyCompactList}\item 
+\hyperlink{classdbo_1_1transaction}{dbo\+::transaction} \& \hyperlink{classdbo_1_1connection_a9e5653a2fc346acae23be6c3fd64e6aa}{transaction} ()
+\item 
+void \hyperlink{classdbo_1_1connection_a4ca7a503bc8fc3373ac2e49ea9c53f8f}{transaction} (std\+::function$<$ void()$>$ func)
+\item 
+{\footnotesize template$<$class C $>$ }\\\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \& \hyperlink{classdbo_1_1connection_a9aee3a878ec49c35c6c51caf608a830f}{insert} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&\hyperlink{classdbo_1_1ptr}{ptr}, \hyperlink{classdbo_1_1_action_option}{Action\+Option} opt=\hyperlink{namespacedbo_1_1opt_ab4b7820471aaf46d67dffc2ee8b91dc4}{opt\+::\+None})
+\item 
+{\footnotesize template$<$class C $>$ }\\\hyperlink{classdbo_1_1collection}{collection}$<$ C $>$ \& \hyperlink{classdbo_1_1connection_ad89a1897d616931d30d9fd8d1258a9ca}{insert} (\hyperlink{classdbo_1_1collection}{collection}$<$ C $>$ \&coll, \hyperlink{classdbo_1_1_action_option}{Action\+Option} opt=\hyperlink{namespacedbo_1_1opt_ab4b7820471aaf46d67dffc2ee8b91dc4}{opt\+::\+None})
+\item 
+{\footnotesize template$<$class C $>$ }\\\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \hyperlink{classdbo_1_1connection_a715d6c6defb04ba52aa09b630a0690a0}{update} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&\hyperlink{classdbo_1_1ptr}{ptr})
+\item 
+{\footnotesize template$<$class C $>$ }\\\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \hyperlink{classdbo_1_1connection_a2543fa651e2588cc33c8609006ea9f75}{load} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&\hyperlink{classdbo_1_1ptr}{ptr})
+\item 
+{\footnotesize template$<$class C $>$ }\\\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \hyperlink{classdbo_1_1connection_a877e459a53832d28340a58b41faafe38}{load} (const typename \hyperlink{structdbo_1_1traits_1_1dbo__traits}{traits\+::dbo\+\_\+traits}$<$ C $>$\+::Id\+Type \&\hyperlink{namespacedbo_a8d25907296ae8360b3120b7492022c1d}{id})
+\item 
+{\footnotesize template$<$class C $>$ }\\void \hyperlink{classdbo_1_1connection_a6943a85362796da5b6a054e680817d34}{remove} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&\hyperlink{classdbo_1_1ptr}{ptr})
+\item 
+{\footnotesize template$<$class C $>$ }\\\hyperlink{classdbo_1_1query}{query} \hyperlink{classdbo_1_1connection_add07b767b4b22afb986babf8dd899b65}{find} (const std\+::string \&condition=\char`\"{}\char`\"{})
+\item 
+{\footnotesize template$<$class C $>$ }\\\hyperlink{classdbo_1_1query}{query} \hyperlink{classdbo_1_1connection_a77a4ae27ad8ead0540ecb777f75bd019}{find} (const \hyperlink{classdbo_1_1collection}{collection}$<$ C $>$ \&\hyperlink{classdbo_1_1collection}{collection}, const std\+::string \&condition=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classdbo_1_1query}{dbo\+::query} \hyperlink{classdbo_1_1connection_acdfefa09f01c05245667a982997ebbf3}{query} (const std\+::string \&sql)
+\item 
+void \hyperlink{classdbo_1_1connection_a69fbd222607d92d26f4982372a983e9e}{debug} ()
+\item 
+bool \hyperlink{classdbo_1_1connection_ac7e8bf86476f50eb3206b02c2d630b57}{show\+Queries} () const 
+\item 
+void \hyperlink{classdbo_1_1connection_a7fc0f5d76e19b92fb2d496ce28f033e9}{show\+Queries} (bool value)
+\item 
+bool \hyperlink{classdbo_1_1connection_ae869e5469a63b2db3e4b8eddf182d62b}{show\+Bindings} () const 
+\item 
+void \hyperlink{classdbo_1_1connection_acf2c95c516bce9b9086b69498bff4515}{show\+Bindings} (bool value)
+\item 
+bool \hyperlink{classdbo_1_1connection_a56fb518379af8d6930c15fb00390b80d}{show\+Results} () const 
+\item 
+void \hyperlink{classdbo_1_1connection_ad976083297b76e9ccd62e88fb4e79e7e}{show\+Results} (bool value)
+\end{DoxyCompactItemize}
+\subsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef const std\+::type\+\_\+info $\ast$ \hyperlink{classdbo_1_1connection_ad9b28dcf5699796d552af8a159f03a5a}{const\+\_\+typeinfo\+\_\+ptr}
+\item 
+using \hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} = std\+::shared\+\_\+ptr$<$ \hyperlink{classdbo_1_1mapping_1_1_mapping_info}{mapping\+::\+Mapping\+Info} $>$
+\item 
+using \hyperlink{classdbo_1_1connection_adecb3694055470fb13f96185f3804e4e}{Class\+Registry} = std\+::map$<$ \hyperlink{classdbo_1_1connection_ad9b28dcf5699796d552af8a159f03a5a}{const\+\_\+typeinfo\+\_\+ptr}, \hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr}, \hyperlink{structdbo_1_1connection_1_1typecomp}{typecomp} $>$
+\item 
+using \hyperlink{classdbo_1_1connection_ac58484f4b88dbc57cbd1f63471aa456d}{Table\+Registry} = std\+::unordered\+\_\+map$<$ std\+::string, \hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} $>$
+\item 
+using \hyperlink{classdbo_1_1connection_a14300ab905d89431e1410f657c10f217}{Types} = \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types}{traits\+::\+Sql\+Postgres\+Types}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classdbo_1_1connection_a20dfa44b7e33cc6c7e4608153ee858aa}{execute\+Sql} (const std\+::vector$<$ std\+::string $>$ \&sql, std\+::ostream $\ast$sout=nullptr)
+\item 
+void \hyperlink{classdbo_1_1connection_ac0145aacaaf4825b30f4d5658c3e1a99}{execute\+Sql} (const std\+::stringstream \&sql, std\+::ostream $\ast$sout=nullptr)
+\item 
+void \hyperlink{classdbo_1_1connection_a367170bd3ee09486b2b98dc744865122}{execute\+Sql} (const std\+::string \&sql, std\+::ostream $\ast$sout=nullptr)
+\item 
+void \hyperlink{classdbo_1_1connection_a5b21d06d9dbd4d26c0e45f3e9d8d858e}{resolve\+Join\+Ids} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping)
+\item 
+void \hyperlink{classdbo_1_1connection_a4ff08bfe57ea4e7f57ad18882da3318b}{create\+Relations} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping, std\+::set$<$ std\+::string $>$ \&tables\+Created, std\+::ostream $\ast$sout)
+\item 
+void \hyperlink{classdbo_1_1connection_a6e2ae3d9b23274bdf55dd1b703cce598}{init\+Schema} ()
+\item 
+void \hyperlink{classdbo_1_1connection_aab0c16df3bda31c2efbf9ee6a4ef8a60}{create\+Table} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping, std\+::set$<$ std\+::string $>$ \&tables\+Created, std\+::ostream $\ast$sout, bool create\+Constraints)
+\item 
+std\+::string \hyperlink{classdbo_1_1connection_a062d5ba43ddd69a9ba8efa4141df2b8b}{constraint\+String} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping, const \hyperlink{classdbo_1_1mapping_1_1_field_info}{mapping\+::\+Field\+Info} \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field}, unsigned from\+Index, unsigned to\+Index)
+\item 
+unsigned \hyperlink{classdbo_1_1connection_ab7e69a0ef59496131688eebdedba1827}{find\+Last\+Foreign\+Key\+Field} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping, const \hyperlink{classdbo_1_1mapping_1_1_field_info}{mapping\+::\+Field\+Info} \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field}, unsigned index)
+\item 
+void \hyperlink{classdbo_1_1connection_a392f2f9b92b477aac4c61ed23f3f3671}{create\+Join\+Table} (const std\+::string \&join\+Name, \hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping1, \hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping2, const std\+::string \&join\+Id1, const std\+::string \&join\+Id2, int fk\+Constraints1, int fk\+Constraints2, std\+::set$<$ std\+::string $>$ \&tables\+Created, std\+::ostream $\ast$sout)
+\item 
+std\+::vector$<$ \hyperlink{structdbo_1_1mapping_1_1_join_id}{mapping\+::\+Join\+Id} $>$ \hyperlink{classdbo_1_1connection_a73cc012991e1f732b8f871ba8a36143c}{get\+Join\+Ids} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping, const std\+::string \&join\+Id)
+\item 
+void \hyperlink{classdbo_1_1connection_aa92e86aed48a4224501c7a2d3700d8d8}{add\+Join\+Table\+Fields} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} result, \hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping, const std\+::string \&join\+Id, const std\+::string \&key\+Name, int fk\+Constraints)
+\item 
+void \hyperlink{classdbo_1_1connection_ae8f0004c9e859c113918b5a8e766bb9e}{create\+Join\+Index} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} join\+Table\+Mapping, \hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping, const std\+::string \&join\+Id, const std\+::string \&foreign\+Key\+Name, std\+::ostream $\ast$sout)
+\item 
+void \hyperlink{classdbo_1_1connection_a73872df92d7ecfbdc57c8d8c1798392c}{prepare\+Insert\+Statements} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping)
+\item 
+void \hyperlink{classdbo_1_1connection_a0b6721462bddeb5349838e498e0ea839}{prepare\+Update\+Statements} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping)
+\item 
+void \hyperlink{classdbo_1_1connection_a7b9e24007952236d77dfabba20617e75}{prepare\+Delete\+Statements} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping)
+\item 
+void \hyperlink{classdbo_1_1connection_aa0953ba22e1fb34a7e80e557e117904f}{prepare\+Selected\+By\+Id\+Statements} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping)
+\item 
+void \hyperlink{classdbo_1_1connection_a3a73f471795ea5dee870f5ee3b51c1b6}{prepare\+Collections\+Statements} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping)
+\item 
+void \hyperlink{classdbo_1_1connection_a1c878e83c11f7f524920620e692cb61f}{prepare\+Statements} (\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} mapping)
+\item 
+{\footnotesize template$<$class C $>$ }\\std\+::shared\+\_\+ptr\\*
+$<$ \hyperlink{classdbo_1_1mapping_1_1_mapping}{mapping\+::\+Mapping}$<$ C $>$ $>$ \hyperlink{classdbo_1_1connection_ad29f174ef8539b4e3ae60c91a293adf8}{get\+Mapping} ()
+\item 
+\hyperlink{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{Mapping\+Info\+Ptr} \hyperlink{classdbo_1_1connection_a94500555db4f80aef65861c5ff9e6c10}{get\+Mapping} (const std\+::string \&\hyperlink{classdbo_1_1connection_ade1cbdc41769464cd1076e09c2099c9a}{table\+Name}) const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{classdbo_1_1connection_ab03d3dced341bf89b5cecdd645fff3d4}{options\+\_\+}
+\item 
+\hyperlink{connection_8h_a5ed62e34058025c39959695e724603a6}{P\+Gconn} $\ast$ \hyperlink{classdbo_1_1connection_a5bea8990337d86b92b274004a94288b4}{conn\+\_\+}
+\item 
+bool \hyperlink{classdbo_1_1connection_a38caab3883d4d165d0ef7fc81791dd95}{show\+Queries\+\_\+}
+\item 
+bool \hyperlink{classdbo_1_1connection_a1b14e416f52aed1aa46b9600bdd8c466}{show\+Bindings\+\_\+}
+\item 
+bool \hyperlink{classdbo_1_1connection_afdcf9d15e645a452153699e6833ea59f}{show\+Results\+\_\+}
+\item 
+bool \hyperlink{classdbo_1_1connection_aceadf42379584e3736187409857cff8f}{schema\+Initialized\+\_\+}
+\item 
+\hyperlink{classdbo_1_1connection_adecb3694055470fb13f96185f3804e4e}{Class\+Registry} \hyperlink{classdbo_1_1connection_a9dae61c756636fa11ad66de2b02d05aa}{class\+Registry\+\_\+}
+\item 
+\hyperlink{classdbo_1_1connection_ac58484f4b88dbc57cbd1f63471aa456d}{Table\+Registry} \hyperlink{classdbo_1_1connection_a9b17470dcf5f38ca668bd01852db2a52}{table\+Registry\+\_\+}
+\item 
+\hyperlink{classdbo_1_1transaction}{dbo\+::transaction} \hyperlink{classdbo_1_1connection_a7d822f46486566b7e6b310a581e6a148}{transaction\+\_\+}
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\class \hyperlink{classdbo_1_1connection_ae779179e16547c9a93329dd197385493}{action\+::\+Delete}
+\item 
+{\footnotesize template$<$class T $>$ }\\class \hyperlink{classdbo_1_1connection_a88a9b73e2cb3304941371508b660e53e}{action\+::\+Insert}
+\item 
+{\footnotesize template$<$class T $>$ }\\class \hyperlink{classdbo_1_1connection_a8b98481706995f8b3e2665f74b2b3039}{action\+::\+Select\+By\+Id}
+\item 
+{\footnotesize template$<$class T $>$ }\\class \hyperlink{classdbo_1_1connection_a90af99826aea472a0aa22e59376fed0f}{action\+::\+Update}
+\item 
+class \hyperlink{classdbo_1_1connection_af0423915055bedb88a9d6d44bd6d7d86}{action\+::\+Init\+Schema}
+\item 
+{\footnotesize template$<$class C $>$ }\\class \hyperlink{classdbo_1_1connection_a1dfe637f2baf477f4a0579512df51cf6}{mapping\+::\+Ptr\+Ref}
+\item 
+class \hyperlink{classdbo_1_1connection_afb842ec251d7985ea41205c003c9b86e}{stmt\+::\+Prepared\+Statement}
+\item 
+class \hyperlink{classdbo_1_1connection_ac67430204a570dc3ecd9da0db836157d}{stmt\+::\+Bulk\+Statement}
+\item 
+class \hyperlink{classdbo_1_1connection_a7fddf73eaed86e45a2aacbd26b5af751}{query}
+\item 
+class \hyperlink{classdbo_1_1connection_ac6311258cbfe9139b0ca828a99e9ce04}{transaction}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classdbo_1_1connection_adecb3694055470fb13f96185f3804e4e}{\index{dbo\+::connection@{dbo\+::connection}!Class\+Registry@{Class\+Registry}}
+\index{Class\+Registry@{Class\+Registry}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{Class\+Registry}]{\setlength{\rightskip}{0pt plus 5cm}using {\bf dbo\+::connection\+::\+Class\+Registry} =  std\+::map$<${\bf const\+\_\+typeinfo\+\_\+ptr}, {\bf Mapping\+Info\+Ptr}, {\bf typecomp}$>$\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_adecb3694055470fb13f96185f3804e4e}
+\hypertarget{classdbo_1_1connection_ad9b28dcf5699796d552af8a159f03a5a}{\index{dbo\+::connection@{dbo\+::connection}!const\+\_\+typeinfo\+\_\+ptr@{const\+\_\+typeinfo\+\_\+ptr}}
+\index{const\+\_\+typeinfo\+\_\+ptr@{const\+\_\+typeinfo\+\_\+ptr}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{const\+\_\+typeinfo\+\_\+ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef const std\+::type\+\_\+info$\ast$ {\bf dbo\+::connection\+::const\+\_\+typeinfo\+\_\+ptr}\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_ad9b28dcf5699796d552af8a159f03a5a}
+\hypertarget{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}{\index{dbo\+::connection@{dbo\+::connection}!Mapping\+Info\+Ptr@{Mapping\+Info\+Ptr}}
+\index{Mapping\+Info\+Ptr@{Mapping\+Info\+Ptr}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{Mapping\+Info\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}using {\bf dbo\+::connection\+::\+Mapping\+Info\+Ptr} =  std\+::shared\+\_\+ptr$<${\bf mapping\+::\+Mapping\+Info}$>$\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_acca03a784c87ffb1ec7bdf33f526dff5}
+\hypertarget{classdbo_1_1connection_ac58484f4b88dbc57cbd1f63471aa456d}{\index{dbo\+::connection@{dbo\+::connection}!Table\+Registry@{Table\+Registry}}
+\index{Table\+Registry@{Table\+Registry}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{Table\+Registry}]{\setlength{\rightskip}{0pt plus 5cm}using {\bf dbo\+::connection\+::\+Table\+Registry} =  std\+::unordered\+\_\+map$<$std\+::string, {\bf Mapping\+Info\+Ptr}$>$\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_ac58484f4b88dbc57cbd1f63471aa456d}
+\hypertarget{classdbo_1_1connection_a14300ab905d89431e1410f657c10f217}{\index{dbo\+::connection@{dbo\+::connection}!Types@{Types}}
+\index{Types@{Types}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{Types}]{\setlength{\rightskip}{0pt plus 5cm}using {\bf dbo\+::connection\+::\+Types} =  {\bf traits\+::\+Sql\+Postgres\+Types}\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a14300ab905d89431e1410f657c10f217}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1connection_abf4fbe074e578b5744dc6dc8e595d8e8}{\index{dbo\+::connection@{dbo\+::connection}!connection@{connection}}
+\index{connection@{connection}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{connection}]{\setlength{\rightskip}{0pt plus 5cm}connection\+::connection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_abf4fbe074e578b5744dc6dc8e595d8e8}
+\hypertarget{classdbo_1_1connection_a974638af9e9e1e5659dee7c9fab326ed}{\index{dbo\+::connection@{dbo\+::connection}!````~connection@{$\sim$connection}}
+\index{````~connection@{$\sim$connection}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{$\sim$connection}]{\setlength{\rightskip}{0pt plus 5cm}connection\+::$\sim$connection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classdbo_1_1connection_a974638af9e9e1e5659dee7c9fab326ed}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1connection_aa92e86aed48a4224501c7a2d3700d8d8}{\index{dbo\+::connection@{dbo\+::connection}!add\+Join\+Table\+Fields@{add\+Join\+Table\+Fields}}
+\index{add\+Join\+Table\+Fields@{add\+Join\+Table\+Fields}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{add\+Join\+Table\+Fields}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::add\+Join\+Table\+Fields (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{result, }
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping, }
+\item[{const std\+::string \&}]{join\+Id, }
+\item[{const std\+::string \&}]{key\+Name, }
+\item[{int}]{fk\+Constraints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_aa92e86aed48a4224501c7a2d3700d8d8}
+\hypertarget{classdbo_1_1connection_aae5734a1ebadaf2597d9172c5ab7115a}{\index{dbo\+::connection@{dbo\+::connection}!connect@{connect}}
+\index{connect@{connect}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{connect}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::connect (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{options = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_aae5734a1ebadaf2597d9172c5ab7115a}
+
+
+Connects to database. $\ast$. 
+
+\hypertarget{classdbo_1_1connection_a1a68a49bf2ce826eaa08d1eb2527b454}{\index{dbo\+::connection@{dbo\+::connection}!connected@{connected}}
+\index{connected@{connected}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{connected}]{\setlength{\rightskip}{0pt plus 5cm}bool connection\+::connected (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1connection_a1a68a49bf2ce826eaa08d1eb2527b454}
+\hypertarget{classdbo_1_1connection_a062d5ba43ddd69a9ba8efa4141df2b8b}{\index{dbo\+::connection@{dbo\+::connection}!constraint\+String@{constraint\+String}}
+\index{constraint\+String@{constraint\+String}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{constraint\+String}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string connection\+::constraint\+String (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping, }
+\item[{const {\bf mapping\+::\+Field\+Info} \&}]{field, }
+\item[{unsigned}]{from\+Index, }
+\item[{unsigned}]{to\+Index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a062d5ba43ddd69a9ba8efa4141df2b8b}
+\hypertarget{classdbo_1_1connection_ae8f0004c9e859c113918b5a8e766bb9e}{\index{dbo\+::connection@{dbo\+::connection}!create\+Join\+Index@{create\+Join\+Index}}
+\index{create\+Join\+Index@{create\+Join\+Index}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{create\+Join\+Index}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::create\+Join\+Index (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{join\+Table\+Mapping, }
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping, }
+\item[{const std\+::string \&}]{join\+Id, }
+\item[{const std\+::string \&}]{foreign\+Key\+Name, }
+\item[{std\+::ostream $\ast$}]{sout}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_ae8f0004c9e859c113918b5a8e766bb9e}
+\hypertarget{classdbo_1_1connection_a392f2f9b92b477aac4c61ed23f3f3671}{\index{dbo\+::connection@{dbo\+::connection}!create\+Join\+Table@{create\+Join\+Table}}
+\index{create\+Join\+Table@{create\+Join\+Table}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{create\+Join\+Table}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::create\+Join\+Table (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{join\+Name, }
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping1, }
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping2, }
+\item[{const std\+::string \&}]{join\+Id1, }
+\item[{const std\+::string \&}]{join\+Id2, }
+\item[{int}]{fk\+Constraints1, }
+\item[{int}]{fk\+Constraints2, }
+\item[{std\+::set$<$ std\+::string $>$ \&}]{tables\+Created, }
+\item[{std\+::ostream $\ast$}]{sout}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a392f2f9b92b477aac4c61ed23f3f3671}
+\hypertarget{classdbo_1_1connection_a4ff08bfe57ea4e7f57ad18882da3318b}{\index{dbo\+::connection@{dbo\+::connection}!create\+Relations@{create\+Relations}}
+\index{create\+Relations@{create\+Relations}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{create\+Relations}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::create\+Relations (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping, }
+\item[{std\+::set$<$ std\+::string $>$ \&}]{tables\+Created, }
+\item[{std\+::ostream $\ast$}]{sout}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a4ff08bfe57ea4e7f57ad18882da3318b}
+\hypertarget{classdbo_1_1connection_aab0c16df3bda31c2efbf9ee6a4ef8a60}{\index{dbo\+::connection@{dbo\+::connection}!create\+Table@{create\+Table}}
+\index{create\+Table@{create\+Table}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{create\+Table}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::create\+Table (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping, }
+\item[{std\+::set$<$ std\+::string $>$ \&}]{tables\+Created, }
+\item[{std\+::ostream $\ast$}]{sout, }
+\item[{bool}]{create\+Constraints}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_aab0c16df3bda31c2efbf9ee6a4ef8a60}
+\hypertarget{classdbo_1_1connection_a35c81eabb228750f0e4c517eb63d6de2}{\index{dbo\+::connection@{dbo\+::connection}!create\+Tables@{create\+Tables}}
+\index{create\+Tables@{create\+Tables}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{create\+Tables}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::create\+Tables (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a35c81eabb228750f0e4c517eb63d6de2}
+
+
+Creates the database schema. 
+
+This will create the database schema of the mapped tables. Schema creation will fail if one or more tables already existed. The creation of the tables is executed in a transaction that is rolled back when an error occurs.
+
+This method throws an \hyperlink{classdbo_1_1_exception}{dbo\+::\+Exception} if the table creation failed.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classdbo_1_1connection_a78a8ab8b3fa23d45c96d75b906652e86}{map\+Class()}, drop\+Tables() 
+\end{DoxySeeAlso}
+\hypertarget{classdbo_1_1connection_a69fbd222607d92d26f4982372a983e9e}{\index{dbo\+::connection@{dbo\+::connection}!debug@{debug}}
+\index{debug@{debug}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{debug}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::debug (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a69fbd222607d92d26f4982372a983e9e}
+\hypertarget{classdbo_1_1connection_a20dfa44b7e33cc6c7e4608153ee858aa}{\index{dbo\+::connection@{dbo\+::connection}!execute\+Sql@{execute\+Sql}}
+\index{execute\+Sql@{execute\+Sql}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{execute\+Sql}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::execute\+Sql (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ std\+::string $>$ \&}]{sql, }
+\item[{std\+::ostream $\ast$}]{sout = {\ttfamily nullptr}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a20dfa44b7e33cc6c7e4608153ee858aa}
+\hypertarget{classdbo_1_1connection_ac0145aacaaf4825b30f4d5658c3e1a99}{\index{dbo\+::connection@{dbo\+::connection}!execute\+Sql@{execute\+Sql}}
+\index{execute\+Sql@{execute\+Sql}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{execute\+Sql}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::execute\+Sql (
+\begin{DoxyParamCaption}
+\item[{const std\+::stringstream \&}]{sql, }
+\item[{std\+::ostream $\ast$}]{sout = {\ttfamily nullptr}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_ac0145aacaaf4825b30f4d5658c3e1a99}
+\hypertarget{classdbo_1_1connection_a367170bd3ee09486b2b98dc744865122}{\index{dbo\+::connection@{dbo\+::connection}!execute\+Sql@{execute\+Sql}}
+\index{execute\+Sql@{execute\+Sql}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{execute\+Sql}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::execute\+Sql (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{sql, }
+\item[{std\+::ostream $\ast$}]{sout = {\ttfamily nullptr}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a367170bd3ee09486b2b98dc744865122}
+\hypertarget{classdbo_1_1connection_add07b767b4b22afb986babf8dd899b65}{\index{dbo\+::connection@{dbo\+::connection}!find@{find}}
+\index{find@{find}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{find}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf query} dbo\+::connection\+::find (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{condition = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_add07b767b4b22afb986babf8dd899b65}
+Create a select query from mapping \hypertarget{classdbo_1_1connection_a77a4ae27ad8ead0540ecb777f75bd019}{\index{dbo\+::connection@{dbo\+::connection}!find@{find}}
+\index{find@{find}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{find}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf query} dbo\+::connection\+::find (
+\begin{DoxyParamCaption}
+\item[{const {\bf collection}$<$ C $>$ \&}]{collection, }
+\item[{const std\+::string \&}]{condition = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a77a4ae27ad8ead0540ecb777f75bd019}
+Create a select query from collection mapping \hypertarget{classdbo_1_1connection_ab7e69a0ef59496131688eebdedba1827}{\index{dbo\+::connection@{dbo\+::connection}!find\+Last\+Foreign\+Key\+Field@{find\+Last\+Foreign\+Key\+Field}}
+\index{find\+Last\+Foreign\+Key\+Field@{find\+Last\+Foreign\+Key\+Field}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{find\+Last\+Foreign\+Key\+Field}]{\setlength{\rightskip}{0pt plus 5cm}unsigned connection\+::find\+Last\+Foreign\+Key\+Field (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping, }
+\item[{const {\bf mapping\+::\+Field\+Info} \&}]{field, }
+\item[{unsigned}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_ab7e69a0ef59496131688eebdedba1827}
+\hypertarget{classdbo_1_1connection_a73cc012991e1f732b8f871ba8a36143c}{\index{dbo\+::connection@{dbo\+::connection}!get\+Join\+Ids@{get\+Join\+Ids}}
+\index{get\+Join\+Ids@{get\+Join\+Ids}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{get\+Join\+Ids}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ {\bf mapping\+::\+Join\+Id} $>$ connection\+::get\+Join\+Ids (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping, }
+\item[{const std\+::string \&}]{join\+Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a73cc012991e1f732b8f871ba8a36143c}
+\hypertarget{classdbo_1_1connection_ad29f174ef8539b4e3ae60c91a293adf8}{\index{dbo\+::connection@{dbo\+::connection}!get\+Mapping@{get\+Mapping}}
+\index{get\+Mapping@{get\+Mapping}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{get\+Mapping}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ std\+::shared\+\_\+ptr$<$ {\bf mapping\+::\+Mapping}$<$ C $>$ $>$ dbo\+::connection\+::get\+Mapping (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_ad29f174ef8539b4e3ae60c91a293adf8}
+\hypertarget{classdbo_1_1connection_a94500555db4f80aef65861c5ff9e6c10}{\index{dbo\+::connection@{dbo\+::connection}!get\+Mapping@{get\+Mapping}}
+\index{get\+Mapping@{get\+Mapping}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{get\+Mapping}]{\setlength{\rightskip}{0pt plus 5cm}{\bf connection\+::\+Mapping\+Info\+Ptr} connection\+::get\+Mapping (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{table\+Name}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a94500555db4f80aef65861c5ff9e6c10}
+\hypertarget{classdbo_1_1connection_a6e2ae3d9b23274bdf55dd1b703cce598}{\index{dbo\+::connection@{dbo\+::connection}!init\+Schema@{init\+Schema}}
+\index{init\+Schema@{init\+Schema}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{init\+Schema}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::init\+Schema (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a6e2ae3d9b23274bdf55dd1b703cce598}
+\hypertarget{classdbo_1_1connection_a9aee3a878ec49c35c6c51caf608a830f}{\index{dbo\+::connection@{dbo\+::connection}!insert@{insert}}
+\index{insert@{insert}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf ptr}$<$ C $>$ \& dbo\+::connection\+::insert (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ C $>$ \&}]{ptr, }
+\item[{{\bf Action\+Option}}]{opt = {\ttfamily {\bf opt\+::\+None}}}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a9aee3a878ec49c35c6c51caf608a830f}
+Persists an object inside database and attribute it an id \hypertarget{classdbo_1_1connection_ad89a1897d616931d30d9fd8d1258a9ca}{\index{dbo\+::connection@{dbo\+::connection}!insert@{insert}}
+\index{insert@{insert}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf collection}$<$ C $>$ \& dbo\+::connection\+::insert (
+\begin{DoxyParamCaption}
+\item[{{\bf collection}$<$ C $>$ \&}]{coll, }
+\item[{{\bf Action\+Option}}]{opt = {\ttfamily {\bf opt\+::\+None}}}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_ad89a1897d616931d30d9fd8d1258a9ca}
+bulk insert content of collection \hypertarget{classdbo_1_1connection_a2543fa651e2588cc33c8609006ea9f75}{\index{dbo\+::connection@{dbo\+::connection}!load@{load}}
+\index{load@{load}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf ptr}$<$ C $>$ dbo\+::connection\+::load (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ C $>$ \&}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a2543fa651e2588cc33c8609006ea9f75}
+Reload an existing object from database \hypertarget{classdbo_1_1connection_a877e459a53832d28340a58b41faafe38}{\index{dbo\+::connection@{dbo\+::connection}!load@{load}}
+\index{load@{load}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf ptr}$<$ C $>$ dbo\+::connection\+::load (
+\begin{DoxyParamCaption}
+\item[{const typename {\bf traits\+::dbo\+\_\+traits}$<$ C $>$\+::Id\+Type \&}]{id}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a877e459a53832d28340a58b41faafe38}
+Load an object from database \hypertarget{classdbo_1_1connection_a78a8ab8b3fa23d45c96d75b906652e86}{\index{dbo\+::connection@{dbo\+::connection}!map\+Class@{map\+Class}}
+\index{map\+Class@{map\+Class}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{map\+Class}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void dbo\+::connection\+::map\+Class (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{name}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a78a8ab8b3fa23d45c96d75b906652e86}
+
+
+Maps a class to a database table. 
+
+The class {\ttfamily C} is mapped to table with {\ttfamily table\+Name}. You need to map classes to tables.
+
+You may provide a schema-\/qualified table name, if the underlying database supports this, eg. {\ttfamily \char`\"{}myschema.\+users\char`\"{}}. \hypertarget{classdbo_1_1connection_a3a73f471795ea5dee870f5ee3b51c1b6}{\index{dbo\+::connection@{dbo\+::connection}!prepare\+Collections\+Statements@{prepare\+Collections\+Statements}}
+\index{prepare\+Collections\+Statements@{prepare\+Collections\+Statements}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{prepare\+Collections\+Statements}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::prepare\+Collections\+Statements (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a3a73f471795ea5dee870f5ee3b51c1b6}
+\hypertarget{classdbo_1_1connection_a7b9e24007952236d77dfabba20617e75}{\index{dbo\+::connection@{dbo\+::connection}!prepare\+Delete\+Statements@{prepare\+Delete\+Statements}}
+\index{prepare\+Delete\+Statements@{prepare\+Delete\+Statements}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{prepare\+Delete\+Statements}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::prepare\+Delete\+Statements (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a7b9e24007952236d77dfabba20617e75}
+\hypertarget{classdbo_1_1connection_a73872df92d7ecfbdc57c8d8c1798392c}{\index{dbo\+::connection@{dbo\+::connection}!prepare\+Insert\+Statements@{prepare\+Insert\+Statements}}
+\index{prepare\+Insert\+Statements@{prepare\+Insert\+Statements}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{prepare\+Insert\+Statements}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::prepare\+Insert\+Statements (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a73872df92d7ecfbdc57c8d8c1798392c}
+\hypertarget{classdbo_1_1connection_aa0953ba22e1fb34a7e80e557e117904f}{\index{dbo\+::connection@{dbo\+::connection}!prepare\+Selected\+By\+Id\+Statements@{prepare\+Selected\+By\+Id\+Statements}}
+\index{prepare\+Selected\+By\+Id\+Statements@{prepare\+Selected\+By\+Id\+Statements}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{prepare\+Selected\+By\+Id\+Statements}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::prepare\+Selected\+By\+Id\+Statements (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_aa0953ba22e1fb34a7e80e557e117904f}
+\hypertarget{classdbo_1_1connection_a1c878e83c11f7f524920620e692cb61f}{\index{dbo\+::connection@{dbo\+::connection}!prepare\+Statements@{prepare\+Statements}}
+\index{prepare\+Statements@{prepare\+Statements}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{prepare\+Statements}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::prepare\+Statements (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a1c878e83c11f7f524920620e692cb61f}
+\hypertarget{classdbo_1_1connection_a0b6721462bddeb5349838e498e0ea839}{\index{dbo\+::connection@{dbo\+::connection}!prepare\+Update\+Statements@{prepare\+Update\+Statements}}
+\index{prepare\+Update\+Statements@{prepare\+Update\+Statements}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{prepare\+Update\+Statements}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::prepare\+Update\+Statements (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a0b6721462bddeb5349838e498e0ea839}
+\hypertarget{classdbo_1_1connection_acdfefa09f01c05245667a982997ebbf3}{\index{dbo\+::connection@{dbo\+::connection}!query@{query}}
+\index{query@{query}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{query}]{\setlength{\rightskip}{0pt plus 5cm}{\bf dbo\+::query} connection\+::query (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{sql}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_acdfefa09f01c05245667a982997ebbf3}
+Create query from sql request \hypertarget{classdbo_1_1connection_a6943a85362796da5b6a054e680817d34}{\index{dbo\+::connection@{dbo\+::connection}!remove@{remove}}
+\index{remove@{remove}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void dbo\+::connection\+::remove (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ C $>$ \&}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a6943a85362796da5b6a054e680817d34}
+Remove an existing object from database \hypertarget{classdbo_1_1connection_a5b21d06d9dbd4d26c0e45f3e9d8d858e}{\index{dbo\+::connection@{dbo\+::connection}!resolve\+Join\+Ids@{resolve\+Join\+Ids}}
+\index{resolve\+Join\+Ids@{resolve\+Join\+Ids}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{resolve\+Join\+Ids}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::resolve\+Join\+Ids (
+\begin{DoxyParamCaption}
+\item[{{\bf Mapping\+Info\+Ptr}}]{mapping}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a5b21d06d9dbd4d26c0e45f3e9d8d858e}
+\hypertarget{classdbo_1_1connection_ae869e5469a63b2db3e4b8eddf182d62b}{\index{dbo\+::connection@{dbo\+::connection}!show\+Bindings@{show\+Bindings}}
+\index{show\+Bindings@{show\+Bindings}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{show\+Bindings}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::connection\+::show\+Bindings (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1connection_ae869e5469a63b2db3e4b8eddf182d62b}
+\hypertarget{classdbo_1_1connection_acf2c95c516bce9b9086b69498bff4515}{\index{dbo\+::connection@{dbo\+::connection}!show\+Bindings@{show\+Bindings}}
+\index{show\+Bindings@{show\+Bindings}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{show\+Bindings}]{\setlength{\rightskip}{0pt plus 5cm}void dbo\+::connection\+::show\+Bindings (
+\begin{DoxyParamCaption}
+\item[{bool}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1connection_acf2c95c516bce9b9086b69498bff4515}
+\hypertarget{classdbo_1_1connection_ac7e8bf86476f50eb3206b02c2d630b57}{\index{dbo\+::connection@{dbo\+::connection}!show\+Queries@{show\+Queries}}
+\index{show\+Queries@{show\+Queries}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{show\+Queries}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::connection\+::show\+Queries (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1connection_ac7e8bf86476f50eb3206b02c2d630b57}
+\hypertarget{classdbo_1_1connection_a7fc0f5d76e19b92fb2d496ce28f033e9}{\index{dbo\+::connection@{dbo\+::connection}!show\+Queries@{show\+Queries}}
+\index{show\+Queries@{show\+Queries}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{show\+Queries}]{\setlength{\rightskip}{0pt plus 5cm}void dbo\+::connection\+::show\+Queries (
+\begin{DoxyParamCaption}
+\item[{bool}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1connection_a7fc0f5d76e19b92fb2d496ce28f033e9}
+\hypertarget{classdbo_1_1connection_a56fb518379af8d6930c15fb00390b80d}{\index{dbo\+::connection@{dbo\+::connection}!show\+Results@{show\+Results}}
+\index{show\+Results@{show\+Results}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{show\+Results}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::connection\+::show\+Results (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1connection_a56fb518379af8d6930c15fb00390b80d}
+\hypertarget{classdbo_1_1connection_ad976083297b76e9ccd62e88fb4e79e7e}{\index{dbo\+::connection@{dbo\+::connection}!show\+Results@{show\+Results}}
+\index{show\+Results@{show\+Results}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{show\+Results}]{\setlength{\rightskip}{0pt plus 5cm}void dbo\+::connection\+::show\+Results (
+\begin{DoxyParamCaption}
+\item[{bool}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1connection_ad976083297b76e9ccd62e88fb4e79e7e}
+\hypertarget{classdbo_1_1connection_a5105d77e3a30044c0a97cdd42c8dbc62}{\index{dbo\+::connection@{dbo\+::connection}!table\+Creation\+Sql@{table\+Creation\+Sql}}
+\index{table\+Creation\+Sql@{table\+Creation\+Sql}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{table\+Creation\+Sql}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string connection\+::table\+Creation\+Sql (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a5105d77e3a30044c0a97cdd42c8dbc62}
+
+
+Returns database creation S\+Q\+L. 
+
+\hypertarget{classdbo_1_1connection_ade1cbdc41769464cd1076e09c2099c9a}{\index{dbo\+::connection@{dbo\+::connection}!table\+Name@{table\+Name}}
+\index{table\+Name@{table\+Name}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{table\+Name}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ const std\+::string \& dbo\+::connection\+::table\+Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1connection_ade1cbdc41769464cd1076e09c2099c9a}
+
+
+Returns the mapped table name for a class. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classdbo_1_1connection_a78a8ab8b3fa23d45c96d75b906652e86}{map\+Class()}, table\+Name\+Quoted() 
+\end{DoxySeeAlso}
+\hypertarget{classdbo_1_1connection_a9e5653a2fc346acae23be6c3fd64e6aa}{\index{dbo\+::connection@{dbo\+::connection}!transaction@{transaction}}
+\index{transaction@{transaction}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{transaction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf dbo\+::transaction}\& dbo\+::connection\+::transaction (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a9e5653a2fc346acae23be6c3fd64e6aa}
+Open a new transaction for the session, if transaction already exists then access it \hypertarget{classdbo_1_1connection_a4ca7a503bc8fc3373ac2e49ea9c53f8f}{\index{dbo\+::connection@{dbo\+::connection}!transaction@{transaction}}
+\index{transaction@{transaction}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{transaction}]{\setlength{\rightskip}{0pt plus 5cm}void connection\+::transaction (
+\begin{DoxyParamCaption}
+\item[{std\+::function$<$ void()$>$}]{func}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a4ca7a503bc8fc3373ac2e49ea9c53f8f}
+Same than \hyperlink{classdbo_1_1connection_a9e5653a2fc346acae23be6c3fd64e6aa}{transaction()} with auto commit/rollback functionality. In case an error is catched then auto rollback is applied and error is rethrowed to caller \hypertarget{classdbo_1_1connection_a715d6c6defb04ba52aa09b630a0690a0}{\index{dbo\+::connection@{dbo\+::connection}!update@{update}}
+\index{update@{update}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf ptr}$<$ C $>$ dbo\+::connection\+::update (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ C $>$ \&}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1connection_a715d6c6defb04ba52aa09b630a0690a0}
+Persists a modified object inside database 
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classdbo_1_1connection_ae779179e16547c9a93329dd197385493}{\index{dbo\+::connection@{dbo\+::connection}!action\+::\+Delete@{action\+::\+Delete}}
+\index{action\+::\+Delete@{action\+::\+Delete}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{action\+::\+Delete}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ friend class {\bf action\+::\+Delete}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_ae779179e16547c9a93329dd197385493}
+\hypertarget{classdbo_1_1connection_af0423915055bedb88a9d6d44bd6d7d86}{\index{dbo\+::connection@{dbo\+::connection}!action\+::\+Init\+Schema@{action\+::\+Init\+Schema}}
+\index{action\+::\+Init\+Schema@{action\+::\+Init\+Schema}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{action\+::\+Init\+Schema}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf action\+::\+Init\+Schema}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_af0423915055bedb88a9d6d44bd6d7d86}
+\hypertarget{classdbo_1_1connection_a88a9b73e2cb3304941371508b660e53e}{\index{dbo\+::connection@{dbo\+::connection}!action\+::\+Insert@{action\+::\+Insert}}
+\index{action\+::\+Insert@{action\+::\+Insert}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{action\+::\+Insert}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ friend class {\bf action\+::\+Insert}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_a88a9b73e2cb3304941371508b660e53e}
+\hypertarget{classdbo_1_1connection_a8b98481706995f8b3e2665f74b2b3039}{\index{dbo\+::connection@{dbo\+::connection}!action\+::\+Select\+By\+Id@{action\+::\+Select\+By\+Id}}
+\index{action\+::\+Select\+By\+Id@{action\+::\+Select\+By\+Id}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{action\+::\+Select\+By\+Id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ friend class {\bf action\+::\+Select\+By\+Id}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_a8b98481706995f8b3e2665f74b2b3039}
+\hypertarget{classdbo_1_1connection_a90af99826aea472a0aa22e59376fed0f}{\index{dbo\+::connection@{dbo\+::connection}!action\+::\+Update@{action\+::\+Update}}
+\index{action\+::\+Update@{action\+::\+Update}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{action\+::\+Update}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ friend class {\bf action\+::\+Update}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_a90af99826aea472a0aa22e59376fed0f}
+\hypertarget{classdbo_1_1connection_a1dfe637f2baf477f4a0579512df51cf6}{\index{dbo\+::connection@{dbo\+::connection}!mapping\+::\+Ptr\+Ref@{mapping\+::\+Ptr\+Ref}}
+\index{mapping\+::\+Ptr\+Ref@{mapping\+::\+Ptr\+Ref}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{mapping\+::\+Ptr\+Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ friend class {\bf mapping\+::\+Ptr\+Ref}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_a1dfe637f2baf477f4a0579512df51cf6}
+\hypertarget{classdbo_1_1connection_a7fddf73eaed86e45a2aacbd26b5af751}{\index{dbo\+::connection@{dbo\+::connection}!query@{query}}
+\index{query@{query}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{query}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf query}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_a7fddf73eaed86e45a2aacbd26b5af751}
+\hypertarget{classdbo_1_1connection_ac67430204a570dc3ecd9da0db836157d}{\index{dbo\+::connection@{dbo\+::connection}!stmt\+::\+Bulk\+Statement@{stmt\+::\+Bulk\+Statement}}
+\index{stmt\+::\+Bulk\+Statement@{stmt\+::\+Bulk\+Statement}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{stmt\+::\+Bulk\+Statement}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf stmt\+::\+Bulk\+Statement}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_ac67430204a570dc3ecd9da0db836157d}
+\hypertarget{classdbo_1_1connection_afb842ec251d7985ea41205c003c9b86e}{\index{dbo\+::connection@{dbo\+::connection}!stmt\+::\+Prepared\+Statement@{stmt\+::\+Prepared\+Statement}}
+\index{stmt\+::\+Prepared\+Statement@{stmt\+::\+Prepared\+Statement}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{stmt\+::\+Prepared\+Statement}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf stmt\+::\+Prepared\+Statement}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_afb842ec251d7985ea41205c003c9b86e}
+\hypertarget{classdbo_1_1connection_ac6311258cbfe9139b0ca828a99e9ce04}{\index{dbo\+::connection@{dbo\+::connection}!transaction@{transaction}}
+\index{transaction@{transaction}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{transaction}]{\setlength{\rightskip}{0pt plus 5cm}{\bf transaction} \& connection\+::transaction\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1connection_ac6311258cbfe9139b0ca828a99e9ce04}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classdbo_1_1connection_a9dae61c756636fa11ad66de2b02d05aa}{\index{dbo\+::connection@{dbo\+::connection}!class\+Registry\+\_\+@{class\+Registry\+\_\+}}
+\index{class\+Registry\+\_\+@{class\+Registry\+\_\+}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{class\+Registry\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Class\+Registry} dbo\+::connection\+::class\+Registry\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a9dae61c756636fa11ad66de2b02d05aa}
+\hypertarget{classdbo_1_1connection_a5bea8990337d86b92b274004a94288b4}{\index{dbo\+::connection@{dbo\+::connection}!conn\+\_\+@{conn\+\_\+}}
+\index{conn\+\_\+@{conn\+\_\+}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{conn\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\+Gconn}$\ast$ dbo\+::connection\+::conn\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a5bea8990337d86b92b274004a94288b4}
+\hypertarget{classdbo_1_1connection_ab03d3dced341bf89b5cecdd645fff3d4}{\index{dbo\+::connection@{dbo\+::connection}!options\+\_\+@{options\+\_\+}}
+\index{options\+\_\+@{options\+\_\+}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{options\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string dbo\+::connection\+::options\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_ab03d3dced341bf89b5cecdd645fff3d4}
+\hypertarget{classdbo_1_1connection_aceadf42379584e3736187409857cff8f}{\index{dbo\+::connection@{dbo\+::connection}!schema\+Initialized\+\_\+@{schema\+Initialized\+\_\+}}
+\index{schema\+Initialized\+\_\+@{schema\+Initialized\+\_\+}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{schema\+Initialized\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::connection\+::schema\+Initialized\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_aceadf42379584e3736187409857cff8f}
+\hypertarget{classdbo_1_1connection_a1b14e416f52aed1aa46b9600bdd8c466}{\index{dbo\+::connection@{dbo\+::connection}!show\+Bindings\+\_\+@{show\+Bindings\+\_\+}}
+\index{show\+Bindings\+\_\+@{show\+Bindings\+\_\+}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{show\+Bindings\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::connection\+::show\+Bindings\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a1b14e416f52aed1aa46b9600bdd8c466}
+\hypertarget{classdbo_1_1connection_a38caab3883d4d165d0ef7fc81791dd95}{\index{dbo\+::connection@{dbo\+::connection}!show\+Queries\+\_\+@{show\+Queries\+\_\+}}
+\index{show\+Queries\+\_\+@{show\+Queries\+\_\+}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{show\+Queries\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::connection\+::show\+Queries\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a38caab3883d4d165d0ef7fc81791dd95}
+\hypertarget{classdbo_1_1connection_afdcf9d15e645a452153699e6833ea59f}{\index{dbo\+::connection@{dbo\+::connection}!show\+Results\+\_\+@{show\+Results\+\_\+}}
+\index{show\+Results\+\_\+@{show\+Results\+\_\+}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{show\+Results\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}bool dbo\+::connection\+::show\+Results\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_afdcf9d15e645a452153699e6833ea59f}
+\hypertarget{classdbo_1_1connection_a9b17470dcf5f38ca668bd01852db2a52}{\index{dbo\+::connection@{dbo\+::connection}!table\+Registry\+\_\+@{table\+Registry\+\_\+}}
+\index{table\+Registry\+\_\+@{table\+Registry\+\_\+}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{table\+Registry\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Table\+Registry} dbo\+::connection\+::table\+Registry\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a9b17470dcf5f38ca668bd01852db2a52}
+\hypertarget{classdbo_1_1connection_a7d822f46486566b7e6b310a581e6a148}{\index{dbo\+::connection@{dbo\+::connection}!transaction\+\_\+@{transaction\+\_\+}}
+\index{transaction\+\_\+@{transaction\+\_\+}!dbo\+::connection@{dbo\+::connection}}
+\subsubsection[{transaction\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}{\bf dbo\+::transaction} dbo\+::connection\+::transaction\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}}\label{classdbo_1_1connection_a7d822f46486566b7e6b310a581e6a148}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/\hyperlink{connection_8h}{connection.\+h}\item 
+dbo/\hyperlink{connection_8cpp}{connection.\+cpp}\item 
+dbo/\hyperlink{connection_8cxx}{connection.\+cxx}\end{DoxyCompactItemize}

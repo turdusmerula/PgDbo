@@ -1,0 +1,90 @@
+\hypertarget{classdbo_1_1mapping_1_1_ptr_ref}{\section{dbo\+:\+:mapping\+:\+:Ptr\+Ref$<$ T $>$ Class Template Reference}
+\label{classdbo_1_1mapping_1_1_ptr_ref}\index{dbo\+::mapping\+::\+Ptr\+Ref$<$ T $>$@{dbo\+::mapping\+::\+Ptr\+Ref$<$ T $>$}}
+}
+
+
+{\ttfamily \#include $<$Bulk\+Insert.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1mapping_1_1_ptr_ref_a4db1b98f81576daa11f9f1bea49b35bb}{Ptr\+Ref} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&\hyperlink{classdbo_1_1mapping_1_1_ptr_ref_aa8e1c4fddbf00c5500980afb1f55ade8}{value}, const std\+::string \&\hyperlink{classdbo_1_1mapping_1_1_ptr_ref_a69221246e46fc6a9acb768fe4481cdf3}{name}, int size, int \hyperlink{classdbo_1_1mapping_1_1_ptr_ref_acff9c1f76ec5eca8c092d021bf59b0b0}{fk\+Constraints})
+\item 
+const std\+::string \& \hyperlink{classdbo_1_1mapping_1_1_ptr_ref_a69221246e46fc6a9acb768fe4481cdf3}{name} () const 
+\item 
+int \hyperlink{classdbo_1_1mapping_1_1_ptr_ref_acff9c1f76ec5eca8c092d021bf59b0b0}{fk\+Constraints} () const 
+\item 
+\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \& \hyperlink{classdbo_1_1mapping_1_1_ptr_ref_aa8e1c4fddbf00c5500980afb1f55ade8}{value} () const 
+\item 
+\hyperlink{structdbo_1_1traits_1_1dbo__traits}{traits\+::dbo\+\_\+traits}$<$ C $>$\+::Id\+Type \hyperlink{classdbo_1_1mapping_1_1_ptr_ref_af8368c09d2719cda38a089e9ae5f77d8}{id} () const 
+\item 
+const std\+::type\+\_\+info $\ast$ \hyperlink{classdbo_1_1mapping_1_1_ptr_ref_aaa6611897ff8d1442bf40a523ce027f3}{type} () const 
+\item 
+{\footnotesize template$<$typename A $>$ }\\void \hyperlink{classdbo_1_1mapping_1_1_ptr_ref_a2b5e67016cd1206bf13f592495992b5b}{visit} (A \&action, \hyperlink{classdbo_1_1connection}{connection} \&conn) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1mapping_1_1_ptr_ref_a4db1b98f81576daa11f9f1bea49b35bb}{\index{dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}!Ptr\+Ref@{Ptr\+Ref}}
+\index{Ptr\+Ref@{Ptr\+Ref}!dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}}
+\subsubsection[{Ptr\+Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::mapping\+::\+Ptr\+Ref}$<$ C $>$\+::{\bf Ptr\+Ref} (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ C $>$ \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size, }
+\item[{int}]{fk\+Constraints}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1mapping_1_1_ptr_ref_a4db1b98f81576daa11f9f1bea49b35bb}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1mapping_1_1_ptr_ref_acff9c1f76ec5eca8c092d021bf59b0b0}{\index{dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}!fk\+Constraints@{fk\+Constraints}}
+\index{fk\+Constraints@{fk\+Constraints}!dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}}
+\subsubsection[{fk\+Constraints}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ int {\bf dbo\+::mapping\+::\+Ptr\+Ref}$<$ T $>$\+::fk\+Constraints (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_ptr_ref_acff9c1f76ec5eca8c092d021bf59b0b0}
+\hypertarget{classdbo_1_1mapping_1_1_ptr_ref_af8368c09d2719cda38a089e9ae5f77d8}{\index{dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}!id@{id}}
+\index{id@{id}!dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf traits\+::dbo\+\_\+traits}$<$C$>$\+::Id\+Type {\bf dbo\+::mapping\+::\+Ptr\+Ref}$<$ T $>$\+::id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_ptr_ref_af8368c09d2719cda38a089e9ae5f77d8}
+\hypertarget{classdbo_1_1mapping_1_1_ptr_ref_a69221246e46fc6a9acb768fe4481cdf3}{\index{dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}!name@{name}}
+\index{name@{name}!dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ const std\+::string\& {\bf dbo\+::mapping\+::\+Ptr\+Ref}$<$ T $>$\+::name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_ptr_ref_a69221246e46fc6a9acb768fe4481cdf3}
+\hypertarget{classdbo_1_1mapping_1_1_ptr_ref_aaa6611897ff8d1442bf40a523ce027f3}{\index{dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}!type@{type}}
+\index{type@{type}!dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ const std\+::type\+\_\+info $\ast$ {\bf dbo\+::mapping\+::\+Ptr\+Ref}$<$ C $>$\+::type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1mapping_1_1_ptr_ref_aaa6611897ff8d1442bf40a523ce027f3}
+\hypertarget{classdbo_1_1mapping_1_1_ptr_ref_aa8e1c4fddbf00c5500980afb1f55ade8}{\index{dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}!value@{value}}
+\index{value@{value}!dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf ptr}$<$C$>$\& {\bf dbo\+::mapping\+::\+Ptr\+Ref}$<$ T $>$\+::value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1mapping_1_1_ptr_ref_aa8e1c4fddbf00c5500980afb1f55ade8}
+\hypertarget{classdbo_1_1mapping_1_1_ptr_ref_a2b5e67016cd1206bf13f592495992b5b}{\index{dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}!visit@{visit}}
+\index{visit@{visit}!dbo\+::mapping\+::\+Ptr\+Ref@{dbo\+::mapping\+::\+Ptr\+Ref}}
+\subsubsection[{visit}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class A $>$ void {\bf dbo\+::mapping\+::\+Ptr\+Ref}$<$ C $>$\+::visit (
+\begin{DoxyParamCaption}
+\item[{A \&}]{action, }
+\item[{{\bf connection} \&}]{conn}
+\end{DoxyParamCaption}
+) const}}\label{classdbo_1_1mapping_1_1_ptr_ref_a2b5e67016cd1206bf13f592495992b5b}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/action/\hyperlink{_bulk_insert_8hpp}{Bulk\+Insert.\+hpp}\item 
+dbo/mapping/\hyperlink{_ptr_ref_8hpp}{Ptr\+Ref.\+hpp}\item 
+dbo/mapping/\hyperlink{_ptr_ref_8cxx}{Ptr\+Ref.\+cxx}\end{DoxyCompactItemize}

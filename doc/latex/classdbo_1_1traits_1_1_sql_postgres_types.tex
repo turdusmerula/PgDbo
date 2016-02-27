@@ -1,0 +1,151 @@
+\hypertarget{classdbo_1_1traits_1_1_sql_postgres_types}{\section{dbo\+:\+:traits\+:\+:Sql\+Postgres\+Types Class Reference}
+\label{classdbo_1_1traits_1_1_sql_postgres_types}\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}
+}
+
+
+{\ttfamily \#include $<$Sql\+Postgres\+Types.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdea}{Sql\+Date\+Time\+Type} \{ \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdeaa522bb3ef71e99ebd0a0d7d806a5ac1d2}{Sql\+Date}, 
+\hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdeaac77f9a3f600090ebe2a9a3703340d5e5}{Sql\+Date\+Time}, 
+\hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdeaa9a7e92cc00af10d80e981f862e67964d}{Sql\+Time}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum that defines a date time type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::string \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_a4126485ad2defdb510abc04b24ab20a9}{autoincrement\+Type} ()
+\begin{DoxyCompactList}\small\item\em Returns the 'autoincrement' S\+Q\+L type. \end{DoxyCompactList}\item 
+static std\+::string \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_a7a19608314c899a3455f650c98036e0b}{autoincrement\+Insert\+Suffix} (const std\+::string \&\hyperlink{namespacedbo_a8d25907296ae8360b3120b7492022c1d}{id})
+\begin{DoxyCompactList}\small\item\em Returns the suffix for an 'autoincrement' insert statement. \end{DoxyCompactList}\item 
+static std\+::string \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_a21d4da1f854986d3c941f1438c95a891}{date\+Time\+Type} (\hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdea}{Sql\+Date\+Time\+Type} type)
+\begin{DoxyCompactList}\small\item\em Returns the date/time type. \end{DoxyCompactList}\item 
+static std\+::string \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_a787c62ab1b95709780c4196d541e210e}{blob\+Type} ()
+\begin{DoxyCompactList}\small\item\em Returns the blob type. \end{DoxyCompactList}\item 
+static std\+::string \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_abfa349db317aea7e888b6378301f9c6d}{text\+Type} (int size)
+\begin{DoxyCompactList}\small\item\em Returns the text type. \end{DoxyCompactList}\item 
+static std\+::string \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_a3a0bf17921987a36e44d0577cdad840d}{long\+Long\+Type} ()
+\begin{DoxyCompactList}\small\item\em Returns the 64-\/bit integer type. \end{DoxyCompactList}\item 
+static std\+::string \hyperlink{classdbo_1_1traits_1_1_sql_postgres_types_a4546fb422b2f00668453ea8eb7b4c17b}{boolean\+Type} ()
+\begin{DoxyCompactList}\small\item\em Returns the boolean type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdea}{\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!Sql\+Date\+Time\+Type@{Sql\+Date\+Time\+Type}}
+\index{Sql\+Date\+Time\+Type@{Sql\+Date\+Time\+Type}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}
+\subsubsection[{Sql\+Date\+Time\+Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf dbo\+::traits\+::\+Sql\+Postgres\+Types\+::\+Sql\+Date\+Time\+Type}}}\label{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdea}
+
+
+Enum that defines a date time type. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Sql\+Date@{Sql\+Date}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!Sql\+Date@{Sql\+Date}}\item[{\em 
+\hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdeaa522bb3ef71e99ebd0a0d7d806a5ac1d2}{Sql\+Date}\label{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdeaa522bb3ef71e99ebd0a0d7d806a5ac1d2}
+}]Date only. \index{Sql\+Date\+Time@{Sql\+Date\+Time}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!Sql\+Date\+Time@{Sql\+Date\+Time}}\item[{\em 
+\hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdeaac77f9a3f600090ebe2a9a3703340d5e5}{Sql\+Date\+Time}\label{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdeaac77f9a3f600090ebe2a9a3703340d5e5}
+}]Date and time. \index{Sql\+Time@{Sql\+Time}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!Sql\+Time@{Sql\+Time}}\item[{\em 
+\hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdeaa9a7e92cc00af10d80e981f862e67964d}{Sql\+Time}\label{classdbo_1_1traits_1_1_sql_postgres_types_ae4fe0e8ccef92e4330e470f407cabdeaa9a7e92cc00af10d80e981f862e67964d}
+}]Time duration. \end{description}
+\end{Desc}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_a7a19608314c899a3455f650c98036e0b}{\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!autoincrement\+Insert\+Suffix@{autoincrement\+Insert\+Suffix}}
+\index{autoincrement\+Insert\+Suffix@{autoincrement\+Insert\+Suffix}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}
+\subsubsection[{autoincrement\+Insert\+Suffix}]{\setlength{\rightskip}{0pt plus 5cm}static std\+::string dbo\+::traits\+::\+Sql\+Postgres\+Types\+::autoincrement\+Insert\+Suffix (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classdbo_1_1traits_1_1_sql_postgres_types_a7a19608314c899a3455f650c98036e0b}
+
+
+Returns the suffix for an 'autoincrement' insert statement. 
+
+This is appended to the {\ttfamily insert} statement, since some back-\/ends need to be indicated that they should return the autoincrement id. \hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_a4126485ad2defdb510abc04b24ab20a9}{\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!autoincrement\+Type@{autoincrement\+Type}}
+\index{autoincrement\+Type@{autoincrement\+Type}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}
+\subsubsection[{autoincrement\+Type}]{\setlength{\rightskip}{0pt plus 5cm}static std\+::string dbo\+::traits\+::\+Sql\+Postgres\+Types\+::autoincrement\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classdbo_1_1traits_1_1_sql_postgres_types_a4126485ad2defdb510abc04b24ab20a9}
+
+
+Returns the 'autoincrement' S\+Q\+L type. 
+
+This is used by Session\+::create\+Tables() to create the {\itshape id} column. \hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_a787c62ab1b95709780c4196d541e210e}{\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!blob\+Type@{blob\+Type}}
+\index{blob\+Type@{blob\+Type}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}
+\subsubsection[{blob\+Type}]{\setlength{\rightskip}{0pt plus 5cm}static std\+::string dbo\+::traits\+::\+Sql\+Postgres\+Types\+::blob\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classdbo_1_1traits_1_1_sql_postgres_types_a787c62ab1b95709780c4196d541e210e}
+
+
+Returns the blob type. 
+
+\begin{DoxySeeAlso}{See also}
+Sql\+Statement\+::bind(int, const std\+::vector$<$unsigned char$>$\&) 
+\end{DoxySeeAlso}
+\hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_a4546fb422b2f00668453ea8eb7b4c17b}{\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!boolean\+Type@{boolean\+Type}}
+\index{boolean\+Type@{boolean\+Type}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}
+\subsubsection[{boolean\+Type}]{\setlength{\rightskip}{0pt plus 5cm}static std\+::string dbo\+::traits\+::\+Sql\+Postgres\+Types\+::boolean\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classdbo_1_1traits_1_1_sql_postgres_types_a4546fb422b2f00668453ea8eb7b4c17b}
+
+
+Returns the boolean type. 
+
+This method will return \char`\"{}boolean\char`\"{} by default. \hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_a21d4da1f854986d3c941f1438c95a891}{\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!date\+Time\+Type@{date\+Time\+Type}}
+\index{date\+Time\+Type@{date\+Time\+Type}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}
+\subsubsection[{date\+Time\+Type}]{\setlength{\rightskip}{0pt plus 5cm}static std\+::string dbo\+::traits\+::\+Sql\+Postgres\+Types\+::date\+Time\+Type (
+\begin{DoxyParamCaption}
+\item[{{\bf Sql\+Date\+Time\+Type}}]{type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classdbo_1_1traits_1_1_sql_postgres_types_a21d4da1f854986d3c941f1438c95a891}
+
+
+Returns the date/time type. 
+
+\begin{DoxySeeAlso}{See also}
+Sql\+Statement\+::bind(int, const boost\+::posix\+\_\+time\+::ptime\&, Sql\+Date\+Time\+Type) 
+\end{DoxySeeAlso}
+\hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_a3a0bf17921987a36e44d0577cdad840d}{\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!long\+Long\+Type@{long\+Long\+Type}}
+\index{long\+Long\+Type@{long\+Long\+Type}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}
+\subsubsection[{long\+Long\+Type}]{\setlength{\rightskip}{0pt plus 5cm}static std\+::string dbo\+::traits\+::\+Sql\+Postgres\+Types\+::long\+Long\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classdbo_1_1traits_1_1_sql_postgres_types_a3a0bf17921987a36e44d0577cdad840d}
+
+
+Returns the 64-\/bit integer type. 
+
+This method will return \char`\"{}bigint\char`\"{} by default. \hypertarget{classdbo_1_1traits_1_1_sql_postgres_types_abfa349db317aea7e888b6378301f9c6d}{\index{dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}!text\+Type@{text\+Type}}
+\index{text\+Type@{text\+Type}!dbo\+::traits\+::\+Sql\+Postgres\+Types@{dbo\+::traits\+::\+Sql\+Postgres\+Types}}
+\subsubsection[{text\+Type}]{\setlength{\rightskip}{0pt plus 5cm}static std\+::string dbo\+::traits\+::\+Sql\+Postgres\+Types\+::text\+Type (
+\begin{DoxyParamCaption}
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classdbo_1_1traits_1_1_sql_postgres_types_abfa349db317aea7e888b6378301f9c6d}
+
+
+Returns the text type. 
+
+This is the text type for a string. If {\ttfamily size} = -\/1, then a type should be returned which does not require size information, otherwise a type should be returned that limits the size of the stored string to {\ttfamily size}.
+
+This method will return \char`\"{}text\char`\"{} by default if size = -\/1, and \char`\"{}varchar(size)\char`\"{} otherwise.
+
+\begin{DoxySeeAlso}{See also}
+Sql\+Statement\+::bind(int column, const std\+::string\& value) 
+\end{DoxySeeAlso}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+dbo/traits/\hyperlink{_sql_postgres_types_8hpp}{Sql\+Postgres\+Types.\+hpp}\end{DoxyCompactItemize}

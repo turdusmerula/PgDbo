@@ -1,0 +1,139 @@
+\hypertarget{structdbo__default__traits}{\section{dbo\+\_\+default\+\_\+traits Class Reference}
+\label{structdbo__default__traits}\index{dbo\+\_\+default\+\_\+traits@{dbo\+\_\+default\+\_\+traits}}
+}
+
+
+Default traits for a class mapped with \%Dbo.  
+
+
+
+
+{\ttfamily \#include $<$dbo\+\_\+default\+\_\+traits.\+hpp$>$}
+
+
+
+Inheritance diagram for dbo\+\_\+default\+\_\+traits\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{structdbo__default__traits__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef long long \hyperlink{structdbo__default__traits_a01f10d78fdf6ae4a23dff88daa60b8ac}{Id\+Type}
+\begin{DoxyCompactList}\small\item\em Type of the primary key. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structdbo__default__traits_a01f10d78fdf6ae4a23dff88daa60b8ac}{Id\+Type} \hyperlink{structdbo__default__traits_a63d90a044d84c0c5062ebd2b69713484}{invalid\+Id} ()
+\begin{DoxyCompactList}\small\item\em Returns the sentinel value for a {\ttfamily null} id. \end{DoxyCompactList}\item 
+static boost\+::optional\\*
+$<$ std\+::string $>$ \hyperlink{structdbo__default__traits_a7f0ee1558eb51f77cc1843f5fcf19057}{surrogate\+Id\+Field} ()
+\begin{DoxyCompactList}\small\item\em Configures the surrogate primary key field. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Default traits for a class mapped with \%Dbo. 
+
+This class provides the default traits. It is convenient (and future proof) to inherit these default traits when customizing the traits for one particular class. 
+
+\subsection{Member Typedef Documentation}
+\hypertarget{structdbo__default__traits_a01f10d78fdf6ae4a23dff88daa60b8ac}{\index{dbo\+\_\+default\+\_\+traits@{dbo\+\_\+default\+\_\+traits}!Id\+Type@{Id\+Type}}
+\index{Id\+Type@{Id\+Type}!dbo\+\_\+default\+\_\+traits@{dbo\+\_\+default\+\_\+traits}}
+\subsubsection[{Id\+Type}]{\setlength{\rightskip}{0pt plus 5cm}typedef long long {\bf dbo\+\_\+default\+\_\+traits\+::\+Id\+Type}}}\label{structdbo__default__traits_a01f10d78fdf6ae4a23dff88daa60b8ac}
+
+
+Type of the primary key. 
+
+This indicates the type of the primary key, which needs to be {\ttfamily long long} for a surrogate id, but can be any type supported by \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{dbo\+::field()} (including composite types) for a natural primary key.
+
+The following operations need to be supported for an id value\+:
+
+
+\begin{DoxyItemize}
+\item {\itshape default constructor}
+\item {\itshape copy constructor}
+\item serialization to a string (for formatting an error message in exceptions) \+: {\ttfamily std\+::ostream $<$$<$ id}
+\item comparison operator (for use as a key in a std\+::map)\+: {\ttfamily id == id}
+\item less than operator (for use as a key in a std\+::map)\+: {\ttfamily id $<$ id}
+\end{DoxyItemize}
+
+Only the default {\ttfamily long long} is supported for an auto-\/incrementing surrogate primary key. You need to change the default key type typically in conjuction with specifying a natural id, see \hyperlink{namespacedbo_a8d25907296ae8360b3120b7492022c1d}{dbo\+::id()}.
+
+The following example illustrates how to prepare a type to be usable as a composite id type\+:
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{struct }Coordinate \{
+  \textcolor{keywordtype}{int} x, y;
+
+  Coordinate()
+    : x(-1), y(-1) \{ \}
+
+  \textcolor{keywordtype}{bool} operator== (\textcolor{keyword}{const} Coordinate& other)\textcolor{keyword}{ const }\{
+    \textcolor{keywordflow}{return} x == other.x && y == other.y;
+  \}
+
+  \textcolor{keywordtype}{bool} operator< (\textcolor{keyword}{const} Coordinate& other)\textcolor{keyword}{ const }\{
+    \textcolor{keywordflow}{if} (x < other.x)
+      \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+    \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (x == other.x)
+      \textcolor{keywordflow}{return} y < other.y;
+    \textcolor{keywordflow}{else}
+      \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+  \}
+\};
+
+std::ostream& \hyperlink{namespacedbo_a35fca6f52b51bacd907a2680d534ba1b}{operator<< }(std::ostream& o, \textcolor{keyword}{const} Coordinate& c)
+\{
+  \textcolor{keywordflow}{return} o << \textcolor{stringliteral}{"("} << c.x << \textcolor{stringliteral}{", "} << c.y << \textcolor{stringliteral}{")"};
+\}
+
+  \textcolor{keyword}{namespace }dbo \{
+
+    \textcolor{keyword}{template} <\textcolor{keyword}{class} Action>
+    \textcolor{keywordtype}{void} \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field}(Action& action, Coordinate& coordinate, \textcolor{keyword}{const} std::string& name, \textcolor{keywordtype}{int} size = -1)
+    \{
+      \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field}(action, coordinate.x, name + \textcolor{stringliteral}{"\_x"});
+      \hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field}(action, coordinate.y, name + \textcolor{stringliteral}{"\_y"});
+    \}
+  \}
+\end{DoxyCode}
+ 
+
+\subsection{Member Function Documentation}
+\hypertarget{structdbo__default__traits_a63d90a044d84c0c5062ebd2b69713484}{\index{dbo\+\_\+default\+\_\+traits@{dbo\+\_\+default\+\_\+traits}!invalid\+Id@{invalid\+Id}}
+\index{invalid\+Id@{invalid\+Id}!dbo\+\_\+default\+\_\+traits@{dbo\+\_\+default\+\_\+traits}}
+\subsubsection[{invalid\+Id}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Id\+Type} dbo\+\_\+default\+\_\+traits\+::invalid\+Id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{structdbo__default__traits_a63d90a044d84c0c5062ebd2b69713484}
+
+
+Returns the sentinel value for a {\ttfamily null} id. 
+
+When used as a foreign key, this value is used to represent a {\ttfamily null} value.
+
+The default implementation returns -\/1. \hypertarget{structdbo__default__traits_a7f0ee1558eb51f77cc1843f5fcf19057}{\index{dbo\+\_\+default\+\_\+traits@{dbo\+\_\+default\+\_\+traits}!surrogate\+Id\+Field@{surrogate\+Id\+Field}}
+\index{surrogate\+Id\+Field@{surrogate\+Id\+Field}!dbo\+\_\+default\+\_\+traits@{dbo\+\_\+default\+\_\+traits}}
+\subsubsection[{surrogate\+Id\+Field}]{\setlength{\rightskip}{0pt plus 5cm}static boost\+::optional$<$std\+::string$>$ dbo\+\_\+default\+\_\+traits\+::surrogate\+Id\+Field (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{structdbo__default__traits_a7f0ee1558eb51f77cc1843f5fcf19057}
+
+
+Configures the surrogate primary key field. 
+
+Returns the field name which is the surrogate primary key, corresponding to the object's id.
+
+You can disable this auto-\/incrementing surrogate id by returning {\ttfamily 0} instead. In that case you will need to define a natural id for your class using \hyperlink{namespacedbo_a8d25907296ae8360b3120b7492022c1d}{dbo\+::id()}.
+
+The default surrogate id database field name is {\ttfamily \char`\"{}id\char`\"{}}. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+dbo/traits/\hyperlink{dbo__default__traits_8hpp}{dbo\+\_\+default\+\_\+traits.\+hpp}\end{DoxyCompactItemize}

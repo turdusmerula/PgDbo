@@ -1,0 +1,278 @@
+.TH "dbo::stmt::PreparedStatement" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::stmt::PreparedStatement \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <PreparedStatement\&.h>\fP
+.PP
+Inherits \fBdbo::stmt::Statement\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBPreparedStatement\fP (\fBconnection\fP &\fBconn\fP, std::string \fBsql\fP)"
+.br
+.ti -1c
+.RI "\fBPreparedStatement\fP (\fBconnection\fP &\fBconn\fP, std::string \fBname\fP, std::string \fBsql\fP)"
+.br
+.ti -1c
+.RI "virtual \fB~PreparedStatement\fP ()"
+.br
+.ti -1c
+.RI "void \fBbind\fP ()"
+.br
+.ti -1c
+.RI "void \fBbind\fP (const std::string &value)"
+.br
+.ti -1c
+.RI "void \fBbind\fP (const std::vector< unsigned char > &value)"
+.br
+.ti -1c
+.RI "bool \fBread\fP (char *&value)"
+.br
+.ti -1c
+.RI "bool \fBread\fP (std::vector< unsigned char > &value)"
+.br
+.ti -1c
+.RI "void \fBprepare\fP ()"
+.br
+.ti -1c
+.RI "void \fBreset\fP ()"
+.br
+.ti -1c
+.RI "void \fBexecute\fP ()"
+.br
+.ti -1c
+.RI "bool \fBnextRow\fP ()"
+.br
+.ti -1c
+.RI "bool \fBhasReturning\fP ()"
+.br
+.ti -1c
+.RI "const std::string \fBsql\fP () const "
+.br
+.ti -1c
+.RI "void \fBsql\fP (const std::string &sql)"
+.br
+.ti -1c
+.RI "const std::string \fBname\fP () const "
+.br
+.ti -1c
+.RI "void \fBname\fP (const std::string &name)"
+.br
+.ti -1c
+.RI "bool \fBhashName\fP ()"
+.br
+.ti -1c
+.RI "void \fBhashName\fP (bool value)"
+.br
+.ti -1c
+.RI "bool \fBprepared\fP () const "
+.br
+.ti -1c
+.RI "\fBconnection\fP & \fBconn\fP () const "
+.br
+.in -1c
+.SS "Protected Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBOIDEnum\fP { \fBOIDDefault\fP = 0, \fBOIDBytea\fP = 17 }"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBconvertToNumberedPlaceholders\fP (const std::string &\fBsql\fP)"
+.br
+.ti -1c
+.RI "size_t \fBgetNumberPlaceHolders\fP (const std::string &\fBsql\fP)"
+.br
+.ti -1c
+.RI "size_t \fBgetPlaceHolders\fP (const std::string &\fBsql\fP, std::map< std::string, std::string > &placeholders)"
+.br
+.ti -1c
+.RI "std::string \fBgetBoundPlaceholders\fP ()"
+.br
+.in -1c
+.SS "Static Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBpg_result_deleter\fP (pg_result *result)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBhashname_\fP"
+.br
+.ti -1c
+.RI "std::string \fBname_\fP"
+.br
+.ti -1c
+.RI "std::string \fBrawsql_\fP"
+.br
+.ti -1c
+.RI "std::string \fBsql_\fP"
+.br
+.ti -1c
+.RI "bool \fBprepared_\fP"
+.br
+.ti -1c
+.RI "size_t \fBparamCount_\fP"
+.br
+.ti -1c
+.RI "std::shared_ptr< pg_result > \fBresult_\fP"
+.br
+.ti -1c
+.RI "int \fBrow_\fP"
+.br
+.ti -1c
+.RI "int \fBcolumn_\fP"
+.br
+.ti -1c
+.RI "size_t \fBaffectedRows_\fP"
+.br
+.ti -1c
+.RI "bool \fBhasReturning_\fP"
+.br
+.ti -1c
+.RI "std::vector< unsigned int > \fBoids_\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBsvalues_\fP"
+.br
+.ti -1c
+.RI "std::vector< const char * > \fBvalues_\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBlengths_\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBformats_\fP"
+.br
+.in -1c
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBdbo::stmt::PreparedStatement::OIDEnum\fP\fC [protected]\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIOIDDefault \fP\fP
+.TP
+\fB\fIOIDBytea \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "PreparedStatement::PreparedStatement (\fBconnection\fP &conn, std::stringsql)"
+Build a statement, the name of the statement will be created from the hash of the sql query 
+.SS "PreparedStatement::PreparedStatement (\fBconnection\fP &conn, std::stringname, std::stringsql)"
+Build a statement\&. If the given name is empty then the statement is treated as an anonymous statement and will overwrite any previous anonymous statement 
+.SS "PreparedStatement::~PreparedStatement ()\fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void PreparedStatement::bind ()\fC [virtual]\fP"
+A statement is copyable under conditions\&. You can only copy prepared statements, statements with results will throw an error\&. You can copy a statement only if it is from the same connection Bind a null value 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "void PreparedStatement::bind (const std::string &value)\fC [virtual]\fP"
+Bind a string value 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "void PreparedStatement::bind (const std::vector< unsigned char > &value)\fC [virtual]\fP"
+Bind a binary value 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "\fBconnection\fP& dbo::stmt::PreparedStatement::conn () const\fC [inline]\fP"
+
+.SS "std::string PreparedStatement::convertToNumberedPlaceholders (const std::string &sql)\fC [protected]\fP"
+
+.SS "void PreparedStatement::execute ()\fC [virtual]\fP"
+Execute the prepared statement 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "std::string PreparedStatement::getBoundPlaceholders ()\fC [protected]\fP"
+
+.SS "size_t PreparedStatement::getNumberPlaceHolders (const std::string &sql)\fC [protected]\fP"
+
+.SS "size_t PreparedStatement::getPlaceHolders (const std::string &sql, std::map< std::string, std::string > &placeholders)\fC [protected]\fP"
+
+.SS "bool dbo::stmt::PreparedStatement::hashName ()\fC [inline]\fP"
+
+.SS "void PreparedStatement::hashName (boolvalue)"
+
+.SS "bool dbo::stmt::PreparedStatement::hasReturning ()\fC [inline]\fP"
+Indicate if an insert has a returning 
+.SS "const std::string dbo::stmt::PreparedStatement::name () const\fC [inline]\fP"
+
+.SS "void PreparedStatement::name (const std::string &name)"
+Set name of prepared statement If name is empty then prepared statement is anonymous and will overwrite previous prepared anonymous statement at prepare\&. 
+.SS "bool PreparedStatement::nextRow ()"
+
+.SS "void PreparedStatement::pg_result_deleter (pg_result *result)\fC [static]\fP, \fC [protected]\fP"
+
+.SS "void PreparedStatement::prepare ()"
+Prepare the statement and registers it Uses the bound values to chose the right oids NULL values binds to OIDDefault bind count must be equal to request parameters number 
+.SS "bool dbo::stmt::PreparedStatement::prepared () const\fC [inline]\fP"
+
+.SS "bool PreparedStatement::read (char *&value)\fC [virtual]\fP"
+Read content to string 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "bool PreparedStatement::read (std::vector< unsigned char > &value)\fC [virtual]\fP"
+Read content to binary array 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "void PreparedStatement::reset ()"
+Clear the statement bound values and current result 
+.SS "const std::string dbo::stmt::PreparedStatement::sql () const\fC [inline]\fP"
+
+.SS "void PreparedStatement::sql (const std::string &sql)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "size_t dbo::stmt::PreparedStatement::affectedRows_\fC [protected]\fP"
+
+.SS "int dbo::stmt::PreparedStatement::column_\fC [protected]\fP"
+
+.SS "std::vector<int> dbo::stmt::PreparedStatement::formats_\fC [protected]\fP"
+
+.SS "bool dbo::stmt::PreparedStatement::hashname_\fC [protected]\fP"
+
+.SS "bool dbo::stmt::PreparedStatement::hasReturning_\fC [protected]\fP"
+
+.SS "std::vector<int> dbo::stmt::PreparedStatement::lengths_\fC [protected]\fP"
+
+.SS "std::string dbo::stmt::PreparedStatement::name_\fC [protected]\fP"
+
+.SS "std::vector<unsigned int> dbo::stmt::PreparedStatement::oids_\fC [protected]\fP"
+
+.SS "size_t dbo::stmt::PreparedStatement::paramCount_\fC [protected]\fP"
+
+.SS "bool dbo::stmt::PreparedStatement::prepared_\fC [protected]\fP"
+
+.SS "std::string dbo::stmt::PreparedStatement::rawsql_\fC [protected]\fP"
+
+.SS "std::shared_ptr<pg_result> dbo::stmt::PreparedStatement::result_\fC [protected]\fP"
+
+.SS "int dbo::stmt::PreparedStatement::row_\fC [protected]\fP"
+
+.SS "std::string dbo::stmt::PreparedStatement::sql_\fC [protected]\fP"
+
+.SS "std::vector<std::string> dbo::stmt::PreparedStatement::svalues_\fC [protected]\fP"
+
+.SS "std::vector<const char*> dbo::stmt::PreparedStatement::values_\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

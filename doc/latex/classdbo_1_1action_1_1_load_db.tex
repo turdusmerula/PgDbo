@@ -1,0 +1,119 @@
+\hypertarget{classdbo_1_1action_1_1_load_db}{\section{dbo\+:\+:action\+:\+:Load\+Db$<$ C $>$ Class Template Reference}
+\label{classdbo_1_1action_1_1_load_db}\index{dbo\+::action\+::\+Load\+Db$<$ C $>$@{dbo\+::action\+::\+Load\+Db$<$ C $>$}}
+}
+
+
+{\ttfamily \#include $<$Load\+Db.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classdbo_1_1action_1_1_load_db_ab8096fbb7b377363def6103e9dd451a1}{Id\+Type} = typename \hyperlink{structdbo_1_1traits_1_1dbo__traits}{traits\+::dbo\+\_\+traits}$<$ C $>$\+::\hyperlink{classdbo_1_1action_1_1_load_db_ab8096fbb7b377363def6103e9dd451a1}{Id\+Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdbo_1_1action_1_1_load_db_a02817bb6d47c1ecb0d8757333e7bbafd}{Load\+Db} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ C $>$ \&\hyperlink{classdbo_1_1ptr}{ptr}, std\+::shared\+\_\+ptr$<$ \hyperlink{classdbo_1_1mapping_1_1_mapping}{mapping\+::\+Mapping}$<$ C $>$$>$ mapping, \hyperlink{classdbo_1_1stmt_1_1_prepared_statement}{stmt\+::\+Prepared\+Statement} \&stmt)
+\item 
+void \hyperlink{classdbo_1_1action_1_1_load_db_a7855582f0e69485ec912d0c1f25679cd}{visit} ()
+\item 
+{\footnotesize template$<$typename V $>$ }\\void \hyperlink{classdbo_1_1action_1_1_load_db_adbc0f146c54ddd386718c86b6959712b}{act} (const \hyperlink{classdbo_1_1mapping_1_1_field_ref}{mapping\+::\+Field\+Ref}$<$ V $>$ \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field})
+\item 
+{\footnotesize template$<$typename V $>$ }\\void \hyperlink{classdbo_1_1action_1_1_load_db_a404185ed719249af30c706eb8fffd140}{act\+Id} (V \&value, const std\+::string \&name, int size)
+\item 
+{\footnotesize template$<$class D $>$ }\\void \hyperlink{classdbo_1_1action_1_1_load_db_a4e7a6dc0ebc7a03cfbaa8efbd123b838}{act\+Id} (\hyperlink{classdbo_1_1ptr}{ptr}$<$ D $>$ \&value, const std\+::string \&name, int size, int fk\+Constraints)
+\item 
+{\footnotesize template$<$class D $>$ }\\void \hyperlink{classdbo_1_1action_1_1_load_db_ad3bcb9f15a436f52c6e8c740f7589c5e}{act\+Ptr} (const \hyperlink{classdbo_1_1mapping_1_1_ptr_ref}{mapping\+::\+Ptr\+Ref}$<$ D $>$ \&\hyperlink{namespacedbo_ad1f50f02cb050acf946807959252a93f}{field})
+\item 
+\hyperlink{classdbo_1_1connection}{connection} \& \hyperlink{classdbo_1_1action_1_1_load_db_a7c262008ee3d1e12b22ba405cd5a989b}{conn} ()
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class D $>$ }\\class \hyperlink{classdbo_1_1action_1_1_load_db_addf6451e303d1fec3fb0ffc370b29e81}{Load\+Db}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class C$>$class dbo\+::action\+::\+Load\+Db$<$ C $>$}
+
+Load an object from statement current state 
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classdbo_1_1action_1_1_load_db_ab8096fbb7b377363def6103e9dd451a1}{\index{dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}!Id\+Type@{Id\+Type}}
+\index{Id\+Type@{Id\+Type}!dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}}
+\subsubsection[{Id\+Type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ using {\bf dbo\+::action\+::\+Load\+Db}$<$ C $>$\+::{\bf Id\+Type} =  typename {\bf traits\+::dbo\+\_\+traits}$<$C$>$\+::{\bf Id\+Type}}}\label{classdbo_1_1action_1_1_load_db_ab8096fbb7b377363def6103e9dd451a1}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdbo_1_1action_1_1_load_db_a02817bb6d47c1ecb0d8757333e7bbafd}{\index{dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}!Load\+Db@{Load\+Db}}
+\index{Load\+Db@{Load\+Db}!dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}}
+\subsubsection[{Load\+Db}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf dbo\+::action\+::\+Load\+Db}$<$ C $>$\+::{\bf Load\+Db} (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ C $>$ \&}]{ptr, }
+\item[{std\+::shared\+\_\+ptr$<$ {\bf mapping\+::\+Mapping}$<$ C $>$$>$}]{mapping, }
+\item[{{\bf stmt\+::\+Prepared\+Statement} \&}]{stmt}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_load_db_a02817bb6d47c1ecb0d8757333e7bbafd}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classdbo_1_1action_1_1_load_db_adbc0f146c54ddd386718c86b6959712b}{\index{dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}!act@{act}}
+\index{act@{act}!dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}}
+\subsubsection[{act}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$typename V $>$ void {\bf dbo\+::action\+::\+Load\+Db}$<$ C $>$\+::act (
+\begin{DoxyParamCaption}
+\item[{const {\bf mapping\+::\+Field\+Ref}$<$ V $>$ \&}]{field}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_load_db_adbc0f146c54ddd386718c86b6959712b}
+\hypertarget{classdbo_1_1action_1_1_load_db_a404185ed719249af30c706eb8fffd140}{\index{dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}!act\+Id@{act\+Id}}
+\index{act\+Id@{act\+Id}!dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}}
+\subsubsection[{act\+Id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$typename V $>$ void {\bf dbo\+::action\+::\+Load\+Db}$<$ C $>$\+::act\+Id (
+\begin{DoxyParamCaption}
+\item[{V \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_load_db_a404185ed719249af30c706eb8fffd140}
+\hypertarget{classdbo_1_1action_1_1_load_db_a4e7a6dc0ebc7a03cfbaa8efbd123b838}{\index{dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}!act\+Id@{act\+Id}}
+\index{act\+Id@{act\+Id}!dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}}
+\subsubsection[{act\+Id}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ void {\bf dbo\+::action\+::\+Load\+Db}$<$ C $>$\+::act\+Id (
+\begin{DoxyParamCaption}
+\item[{{\bf ptr}$<$ D $>$ \&}]{value, }
+\item[{const std\+::string \&}]{name, }
+\item[{int}]{size, }
+\item[{int}]{fk\+Constraints}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_load_db_a4e7a6dc0ebc7a03cfbaa8efbd123b838}
+\hypertarget{classdbo_1_1action_1_1_load_db_ad3bcb9f15a436f52c6e8c740f7589c5e}{\index{dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}!act\+Ptr@{act\+Ptr}}
+\index{act\+Ptr@{act\+Ptr}!dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}}
+\subsubsection[{act\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ void {\bf dbo\+::action\+::\+Load\+Db}$<$ C $>$\+::act\+Ptr (
+\begin{DoxyParamCaption}
+\item[{const {\bf mapping\+::\+Ptr\+Ref}$<$ D $>$ \&}]{field}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_load_db_ad3bcb9f15a436f52c6e8c740f7589c5e}
+\hypertarget{classdbo_1_1action_1_1_load_db_a7c262008ee3d1e12b22ba405cd5a989b}{\index{dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}!conn@{conn}}
+\index{conn@{conn}!dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}}
+\subsubsection[{conn}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ {\bf connection}\& {\bf dbo\+::action\+::\+Load\+Db}$<$ C $>$\+::conn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classdbo_1_1action_1_1_load_db_a7c262008ee3d1e12b22ba405cd5a989b}
+\hypertarget{classdbo_1_1action_1_1_load_db_a7855582f0e69485ec912d0c1f25679cd}{\index{dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}!visit@{visit}}
+\index{visit@{visit}!dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}}
+\subsubsection[{visit}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ void {\bf dbo\+::action\+::\+Load\+Db}$<$ C $>$\+::visit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classdbo_1_1action_1_1_load_db_a7855582f0e69485ec912d0c1f25679cd}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classdbo_1_1action_1_1_load_db_addf6451e303d1fec3fb0ffc370b29e81}{\index{dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}!Load\+Db@{Load\+Db}}
+\index{Load\+Db@{Load\+Db}!dbo\+::action\+::\+Load\+Db@{dbo\+::action\+::\+Load\+Db}}
+\subsubsection[{Load\+Db}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class C $>$ template$<$class D $>$ friend class {\bf Load\+Db}\hspace{0.3cm}{\ttfamily [friend]}}}\label{classdbo_1_1action_1_1_load_db_addf6451e303d1fec3fb0ffc370b29e81}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+dbo/action/\hyperlink{_load_db_8hpp}{Load\+Db.\+hpp}\item 
+dbo/action/\hyperlink{_load_db_8cxx}{Load\+Db.\+cxx}\end{DoxyCompactItemize}

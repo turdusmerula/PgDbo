@@ -1,0 +1,205 @@
+.TH "dbo::mapping::FieldInfo" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::mapping::FieldInfo \- 
+.PP
+Description of a field\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FieldInfo\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBFlags\fP { \fBSurrogateId\fP = 0x1, \fBNaturalId\fP = 0x2, \fBMutable\fP = 0x8, \fBNeedsQuotes\fP = 0x10, \fBForeignKey\fP = 0x20, \fBFirstDboField\fP = 0x40 }"
+.br
+.RI "\fIFlags\&. \fP"
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFieldInfo\fP (const std::string &\fBname\fP, const std::type_info *\fBtype\fP, const std::string &\fBsqlType\fP, int flags)"
+.br
+.RI "\fICreates a field description\&. \fP"
+.ti -1c
+.RI "\fBFieldInfo\fP (const std::string &\fBname\fP, const std::type_info *\fBtype\fP, const std::string &\fBsqlType\fP, const std::string &\fBforeignKeyTable\fP, const std::string &\fBforeignKeyName\fP, int flags, int \fBfkConstraints\fP)"
+.br
+.RI "\fICreates a field description\&. \fP"
+.ti -1c
+.RI "void \fBsetQualifier\fP (const std::string &\fBqualifier\fP, bool firstQualified=false)"
+.br
+.RI "\fISets a qualifier for the field\&. \fP"
+.ti -1c
+.RI "const std::string & \fBname\fP () const "
+.br
+.RI "\fIReturns the field name\&. \fP"
+.ti -1c
+.RI "const std::string & \fBsqlType\fP () const "
+.br
+.RI "\fIReturns the field SQL type\&. \fP"
+.ti -1c
+.RI "const std::string & \fBqualifier\fP () const "
+.br
+.RI "\fIReturns the field qualifier\&. \fP"
+.ti -1c
+.RI "const std::type_info * \fBtype\fP () const "
+.br
+.RI "\fIReturns the field type\&. \fP"
+.ti -1c
+.RI "bool \fBisIdField\fP () const "
+.br
+.RI "\fIReturns whether the field is an Id field\&. \fP"
+.ti -1c
+.RI "bool \fBisNaturalIdField\fP () const "
+.br
+.RI "\fIReturns whether the field is a Natural Id field\&. \fP"
+.ti -1c
+.RI "bool \fBisSurrogateIdField\fP () const "
+.br
+.RI "\fIReturns whether the field is a Surroaget Id field\&. \fP"
+.ti -1c
+.RI "bool \fBisMutable\fP () const "
+.br
+.RI "\fIReturns whether the field is mutable\&. \fP"
+.ti -1c
+.RI "bool \fBneedsQuotes\fP () const "
+.br
+.RI "\fIReturns whether the field name needs to be quoted\&. \fP"
+.ti -1c
+.RI "bool \fBisForeignKey\fP () const "
+.br
+.RI "\fIReturns whether the field is part of a foreign key\&. \fP"
+.ti -1c
+.RI "bool \fBisFirstDboField\fP () const "
+.br
+.ti -1c
+.RI "std::string \fBforeignKeyName\fP () const "
+.br
+.ti -1c
+.RI "std::string \fBforeignKeyTable\fP () const "
+.br
+.ti -1c
+.RI "int \fBfkConstraints\fP () const "
+.br
+.ti -1c
+.RI "std::string \fBsql\fP () const "
+.br
+.ti -1c
+.RI "std::string \fBdebug\fP (int tab)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Description of a field\&. 
+
+
+.PP
+\fBSee also:\fP
+.RS 4
+query_result_traits::getFields(), Query::fields() 
+.RE
+.PP
+
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBdbo::mapping::FieldInfo::Flags\fP"
+
+.PP
+Flags\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fISurrogateId \fP\fP
+Field is a surrogate id\&. 
+.TP
+\fB\fINaturalId \fP\fP
+Field is (part of) a natural id\&. 
+.TP
+\fB\fIMutable \fP\fP
+Field can be edited\&. 
+.TP
+\fB\fINeedsQuotes \fP\fP
+Field name needs quotes when using in SQL\&. 
+.TP
+\fB\fIForeignKey \fP\fP
+Field is (part of) a foreign key\&. 
+.TP
+\fB\fIFirstDboField \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "FieldInfo::FieldInfo (const std::string &name, const std::type_info *type, const std::string &sqlType, intflags)"
+
+.PP
+Creates a field description\&. 
+.SS "FieldInfo::FieldInfo (const std::string &name, const std::type_info *type, const std::string &sqlType, const std::string &foreignKeyTable, const std::string &foreignKeyName, intflags, intfkConstraints)"
+
+.PP
+Creates a field description\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string FieldInfo::debug (inttab)"
+
+.SS "int dbo::mapping::FieldInfo::fkConstraints () const\fC [inline]\fP"
+
+.SS "std::string dbo::mapping::FieldInfo::foreignKeyName () const\fC [inline]\fP"
+
+.SS "std::string dbo::mapping::FieldInfo::foreignKeyTable () const\fC [inline]\fP"
+
+.SS "bool dbo::mapping::FieldInfo::isFirstDboField () const\fC [inline]\fP"
+
+.SS "bool dbo::mapping::FieldInfo::isForeignKey () const\fC [inline]\fP"
+
+.PP
+Returns whether the field is part of a foreign key\&. 
+.SS "bool dbo::mapping::FieldInfo::isIdField () const\fC [inline]\fP"
+
+.PP
+Returns whether the field is an Id field\&. 
+.SS "bool dbo::mapping::FieldInfo::isMutable () const\fC [inline]\fP"
+
+.PP
+Returns whether the field is mutable\&. 
+.SS "bool dbo::mapping::FieldInfo::isNaturalIdField () const\fC [inline]\fP"
+
+.PP
+Returns whether the field is a Natural Id field\&. 
+.SS "bool dbo::mapping::FieldInfo::isSurrogateIdField () const\fC [inline]\fP"
+
+.PP
+Returns whether the field is a Surroaget Id field\&. 
+.SS "const std::string& dbo::mapping::FieldInfo::name () const\fC [inline]\fP"
+
+.PP
+Returns the field name\&. 
+.SS "bool dbo::mapping::FieldInfo::needsQuotes () const\fC [inline]\fP"
+
+.PP
+Returns whether the field name needs to be quoted\&. 
+.SS "const std::string& dbo::mapping::FieldInfo::qualifier () const\fC [inline]\fP"
+
+.PP
+Returns the field qualifier\&. 
+.SS "void dbo::mapping::FieldInfo::setQualifier (const std::string &qualifier, boolfirstQualified = \fCfalse\fP)"
+
+.PP
+Sets a qualifier for the field\&. 
+.SS "std::string dbo::mapping::FieldInfo::sql () const"
+
+.SS "const std::string& dbo::mapping::FieldInfo::sqlType () const\fC [inline]\fP"
+
+.PP
+Returns the field SQL type\&. 
+.SS "const std::type_info* dbo::mapping::FieldInfo::type () const\fC [inline]\fP"
+
+.PP
+Returns the field type\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

@@ -1,0 +1,181 @@
+.TH "dbo::stmt::BulkStatement" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::stmt::BulkStatement \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <BulkStatement\&.h>\fP
+.PP
+Inherits \fBdbo::stmt::Statement\fP\&.
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBBuffer\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBulkStatement\fP (\fBconnection\fP &conn, const std::string &table)"
+.br
+.ti -1c
+.RI "virtual \fB~BulkStatement\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBbind\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBbind\fP (const std::string &value)"
+.br
+.ti -1c
+.RI "virtual void \fBbind\fP (const std::vector< unsigned char > &value)"
+.br
+.ti -1c
+.RI "virtual bool \fBread\fP (char *&value)"
+.br
+.ti -1c
+.RI "virtual bool \fBread\fP (std::vector< unsigned char > &value)"
+.br
+.ti -1c
+.RI "virtual void \fBexecute\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddColumn\fP (const std::string &name)"
+.br
+.ti -1c
+.RI "void \fBprepare\fP ()"
+.br
+.ti -1c
+.RI "bool \fBnextRow\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBescape\fP (const std::string &value)"
+.br
+.ti -1c
+.RI "std::string \fBescapeHex\fP (const std::vector< unsigned char > &value)"
+.br
+.ti -1c
+.RI "void \fBaddData\fP (const char *data)"
+.br
+.ti -1c
+.RI "void \fBaddData\fP (const std::string &data)"
+.br
+.in -1c
+.SS "Static Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBpg_result_deleter\fP (pg_result *result)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "size_t \fBrow_\fP"
+.br
+.ti -1c
+.RI "size_t \fBcolumn_\fP"
+.br
+.ti -1c
+.RI "std::string \fBsep_\fP"
+.br
+.ti -1c
+.RI "std::stringstream \fBsql_\fP"
+.br
+.ti -1c
+.RI "std::deque< \fBBuffer\fP > \fBbuffers_\fP"
+.br
+.ti -1c
+.RI "std::string \fBtable_\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBcolumns_\fP"
+.br
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const size_t \fBBuffSize\fP =sizeof(int)/2-1"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "BulkStatement::BulkStatement (\fBconnection\fP &conn, const std::string &table)"
+Build a statement, the name of the statement will be created from the hash of the sql query 
+.SS "BulkStatement::~BulkStatement ()\fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void BulkStatement::addColumn (const std::string &name)"
+
+.SS "void BulkStatement::addData (const char *data)\fC [protected]\fP"
+
+.SS "void BulkStatement::addData (const std::string &data)\fC [protected]\fP"
+
+.SS "void BulkStatement::bind ()\fC [virtual]\fP"
+Bind a null value 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "void BulkStatement::bind (const std::string &value)\fC [virtual]\fP"
+Bind a string value 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "void BulkStatement::bind (const std::vector< unsigned char > &value)\fC [virtual]\fP"
+Bind a binary value 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "std::string BulkStatement::escape (const std::string &value)\fC [protected]\fP"
+
+.SS "std::string BulkStatement::escapeHex (const std::vector< unsigned char > &value)\fC [protected]\fP"
+
+.SS "void BulkStatement::execute ()\fC [virtual]\fP"
+Execute the prepared statement 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "bool BulkStatement::nextRow ()"
+
+.SS "void BulkStatement::pg_result_deleter (pg_result *result)\fC [static]\fP, \fC [protected]\fP"
+
+.SS "void BulkStatement::prepare ()"
+
+.SS "bool BulkStatement::read (char *&value)\fC [virtual]\fP"
+Read content to string 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SS "bool BulkStatement::read (std::vector< unsigned char > &value)\fC [virtual]\fP"
+Read content to binary array 
+.PP
+Implements \fBdbo::stmt::Statement\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::deque<\fBBuffer\fP> dbo::stmt::BulkStatement::buffers_\fC [protected]\fP"
+
+.SS "const size_t dbo::stmt::BulkStatement::BuffSize =sizeof(int)/2-1\fC [static]\fP, \fC [protected]\fP"
+
+.SS "size_t dbo::stmt::BulkStatement::column_\fC [protected]\fP"
+
+.SS "std::vector<std::string> dbo::stmt::BulkStatement::columns_\fC [protected]\fP"
+
+.SS "size_t dbo::stmt::BulkStatement::row_\fC [protected]\fP"
+
+.SS "std::string dbo::stmt::BulkStatement::sep_\fC [protected]\fP"
+
+.SS "std::stringstream dbo::stmt::BulkStatement::sql_\fC [protected]\fP"
+
+.SS "std::string dbo::stmt::BulkStatement::table_\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

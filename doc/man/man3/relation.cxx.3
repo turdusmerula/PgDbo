@@ -1,0 +1,44 @@
+.TH "dbo/relation.cxx" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo/relation.cxx \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBdbo\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class A , typename V > void \fBdbo::id\fP (A &action, V &value, const std::string &name, int size)"
+.br
+.ti -1c
+.RI "template<class Action , typename V > void \fBdbo::field\fP (Action &action, V &value, const std::string &name, int size=-1)"
+.br
+.RI "\fIMaps a database object field\&. \fP"
+.ti -1c
+.RI "template<class Action , class C > void \fBdbo::belongsTo\fP (Action &action, ptr< C > &value, const std::string &name, ForeignKeyConstraint constraints, int size)"
+.br
+.ti -1c
+.RI "template<class A , class C > void \fBdbo::belongsTo\fP (A &action, ptr< C > &value, const std::string &name, int size)"
+.br
+.ti -1c
+.RI "template<class Action , class C > void \fBdbo::belongsTo\fP (Action &action, ptr< C > &value, ForeignKeyConstraint constraints, int size)"
+.br
+.ti -1c
+.RI "template<class Action , class C > void \fBdbo::hasMany\fP (Action &action, collection< C > &value, RelationType type, const std::string &joinName)"
+.br
+.ti -1c
+.RI "template<class Action , class C > void \fBdbo::hasMany\fP (Action &action, collection< C > &value, RelationType type, const std::string &joinName, const std::string &joinId, ForeignKeyConstraint constraint)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

@@ -1,0 +1,48 @@
+.TH "dbo/connection.cpp" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo/connection.cpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <dbo/connection\&.h>\fP
+.br
+\fC#include <dbo/mapping/Field\&.h>\fP
+.br
+\fC#include <dbo/mapping/FieldInfo\&.h>\fP
+.br
+\fC#include <dbo/mapping/SetInfo\&.h>\fP
+.br
+\fC#include <dbo/mapping/MappingInfo\&.h>\fP
+.br
+\fC#include <dbo/mapping/Mapping\&.hpp>\fP
+.br
+\fC#include <dbo/stmt/PreparedStatement\&.h>\fP
+.br
+\fC#include <dbo/traits/sql_value_traits\&.hpp>\fP
+.br
+\fC#include <dbo/traits/StdSqlTraits\&.h>\fP
+.br
+\fC#include <postgresql/libpq-fe\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string & \fBreplace\fP (std::string &s, char c, const std::string &r)"
+.br
+.ti -1c
+.RI "std::string \fBquoteSchemaDot\fP (const std::string &table)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "std::string quoteSchemaDot (const std::string &table)"
+
+.SS "std::string& replace (std::string &s, charc, const std::string &r)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

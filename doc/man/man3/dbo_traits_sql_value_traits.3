@@ -1,0 +1,67 @@
+.TH "dbo::traits::sql_value_traits< V, Enable >" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::traits::sql_value_traits< V, Enable > \- 
+.PP
+Traits class for value types\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <sql_value_traits\&.hpp>\fP
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const bool \fBnot_specialized\fP =true"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename V, class Enable = void>class dbo::traits::sql_value_traits< V, Enable >"
+Traits class for value types\&. 
+
+This traits class may be specialized for a custom type \fCV\fP, to add dbo support for custom types\&. A value type has a one-to-one mapping to a single database column\&.
+.PP
+The library has built-in support for:
+.IP "\(bu" 2
+\fCstd::string\fP
+.IP "\(bu" 2
+\fCchar const *\fP (read-only: only as a bound parameter for a query)
+.IP "\(bu" 2
+\fCshort\fP, \fCint\fP, \fClong long\fP
+.IP "\(bu" 2
+\fClong\fP: since the size of a \fClong\fP is 64bit on UNIX/Linux 64bit systems and 32bit otherwise, it is mapped to an \fCinteger\fP or a \fCbigint\fP depending on the environment\&.
+.IP "\(bu" 2
+\fCfloat\fP, \fCdouble\fP
+.IP "\(bu" 2
+enum types
+.IP "\(bu" 2
+\fCbool\fP
+.IP "\(bu" 2
+\fCstd::vector<unsigned char>\fP (binary data)
+.IP "\(bu" 2
+\fCboost::optional<T>\fP: to make the type optional (allowing an SQL \fCnull\fP value)
+.IP "\(bu" 2
+\fCboost::posix_time::ptime\fP: time stamp, an invalid value (e\&.g\&. default constructed), maps to \fCnull\fP
+.IP "\(bu" 2
+\fCboost::posix_time::time_duration\fP: time interval, an invalid value (boost::posix_time::not_a_date_time), maps to \fCnull\fP
+.PP
+.PP
+\fBSee also:\fP
+.RS 4
+query_result_traits 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename V, class Enable  = void> const bool \fBdbo::traits::sql_value_traits\fP< V, Enable >::not_specialized =true\fC [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

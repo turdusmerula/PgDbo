@@ -1,0 +1,95 @@
+.TH "dbo/connection.h" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo/connection.h \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <unordered_map>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <dbo/action/ActionOption\&.h>\fP
+.br
+\fC#include <dbo/mapping/JoinId\&.h>\fP
+.br
+\fC#include <dbo/traits/SqlPostgresTypes\&.hpp>\fP
+.br
+\fC#include <dbo/traits/dbo_traits\&.hpp>\fP
+.br
+\fC#include <dbo/transaction\&.h>\fP
+.br
+\fC#include <dbo/query\&.hpp>\fP
+.br
+\fC#include <pqxx/pqxx>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBdbo::collection< C >\fP"
+.br
+.ti -1c
+.RI "class \fBdbo::ptr< C >\fP"
+.br
+.ti -1c
+.RI "class \fBdbo::action::Delete< C >\fP"
+.br
+.ti -1c
+.RI "class \fBdbo::action::Insert< C >\fP"
+.br
+.ti -1c
+.RI "class \fBdbo::action::SelectById< C >\fP"
+.br
+.ti -1c
+.RI "class \fBdbo::action::Update< C >\fP"
+.br
+.ti -1c
+.RI "class \fBdbo::mapping::Mapping< T >\fP"
+.br
+.ti -1c
+.RI "class \fBdbo::mapping::PtrRef< T >\fP"
+.br
+.ti -1c
+.RI "class \fBdbo::connection\fP"
+.br
+.ti -1c
+.RI "struct \fBdbo::connection::typecomp\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBdbo\fP"
+.br
+.ti -1c
+.RI " \fBdbo::action\fP"
+.br
+.ti -1c
+.RI " \fBdbo::mapping\fP"
+.br
+.ti -1c
+.RI " \fBdbo::stmt\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct pg_conn \fBPGconn\fP"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct pg_conn \fBPGconn\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

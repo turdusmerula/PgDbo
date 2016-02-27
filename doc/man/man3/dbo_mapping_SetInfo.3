@@ -1,0 +1,73 @@
+.TH "dbo::mapping::SetInfo" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::mapping::SetInfo \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <SetInfo\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSetInfo\fP (std::string tableName, \fBRelationType\fP type, const std::string &joinName, const std::string &joinSelfId, int someFkConstraints)"
+.br
+.ti -1c
+.RI "std::string \fBdebug\fP (int tab)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBtableName_\fP"
+.br
+.ti -1c
+.RI "std::string \fBjoinName_\fP"
+.br
+.ti -1c
+.RI "std::string \fBjoinSelfId_\fP"
+.br
+.ti -1c
+.RI "std::string \fBjoinOtherId_\fP"
+.br
+.ti -1c
+.RI "\fBRelationType\fP \fBtype_\fP"
+.br
+.ti -1c
+.RI "int \fBfkConstraints_\fP"
+.br
+.ti -1c
+.RI "int \fBotherFkConstraints_\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "dbo::mapping::SetInfo::SetInfo (std::stringtableName, \fBRelationType\fPtype, const std::string &joinName, const std::string &joinSelfId, intsomeFkConstraints)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string dbo::mapping::SetInfo::debug (inttab)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "int dbo::mapping::SetInfo::fkConstraints_"
+
+.SS "std::string dbo::mapping::SetInfo::joinName_"
+
+.SS "std::string dbo::mapping::SetInfo::joinOtherId_"
+
+.SS "std::string dbo::mapping::SetInfo::joinSelfId_"
+
+.SS "int dbo::mapping::SetInfo::otherFkConstraints_"
+
+.SS "std::string dbo::mapping::SetInfo::tableName_"
+
+.SS "\fBRelationType\fP dbo::mapping::SetInfo::type_"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.

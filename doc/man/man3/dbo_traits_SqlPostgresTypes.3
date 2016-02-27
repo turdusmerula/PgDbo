@@ -1,0 +1,125 @@
+.TH "dbo::traits::SqlPostgresTypes" 3 "Sat Feb 27 2016" "Dbo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+dbo::traits::SqlPostgresTypes \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <SqlPostgresTypes\&.hpp>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBSqlDateTimeType\fP { \fBSqlDate\fP, \fBSqlDateTime\fP, \fBSqlTime\fP }"
+.br
+.RI "\fIEnum that defines a date time type\&. \fP"
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::string \fBautoincrementType\fP ()"
+.br
+.RI "\fIReturns the 'autoincrement' SQL type\&. \fP"
+.ti -1c
+.RI "static std::string \fBautoincrementInsertSuffix\fP (const std::string &\fBid\fP)"
+.br
+.RI "\fIReturns the suffix for an 'autoincrement' insert statement\&. \fP"
+.ti -1c
+.RI "static std::string \fBdateTimeType\fP (\fBSqlDateTimeType\fP type)"
+.br
+.RI "\fIReturns the date/time type\&. \fP"
+.ti -1c
+.RI "static std::string \fBblobType\fP ()"
+.br
+.RI "\fIReturns the blob type\&. \fP"
+.ti -1c
+.RI "static std::string \fBtextType\fP (int size)"
+.br
+.RI "\fIReturns the text type\&. \fP"
+.ti -1c
+.RI "static std::string \fBlongLongType\fP ()"
+.br
+.RI "\fIReturns the 64-bit integer type\&. \fP"
+.ti -1c
+.RI "static std::string \fBbooleanType\fP ()"
+.br
+.RI "\fIReturns the boolean type\&. \fP"
+.in -1c
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBdbo::traits::SqlPostgresTypes::SqlDateTimeType\fP"
+
+.PP
+Enum that defines a date time type\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fISqlDate \fP\fP
+Date only\&. 
+.TP
+\fB\fISqlDateTime \fP\fP
+Date and time\&. 
+.TP
+\fB\fISqlTime \fP\fP
+Time duration\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "static std::string dbo::traits::SqlPostgresTypes::autoincrementInsertSuffix (const std::string &id)\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Returns the suffix for an 'autoincrement' insert statement\&. This is appended to the \fCinsert\fP statement, since some back-ends need to be indicated that they should return the autoincrement id\&. 
+.SS "static std::string dbo::traits::SqlPostgresTypes::autoincrementType ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Returns the 'autoincrement' SQL type\&. This is used by Session::createTables() to create the \fIid\fP column\&. 
+.SS "static std::string dbo::traits::SqlPostgresTypes::blobType ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Returns the blob type\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+SqlStatement::bind(int, const std::vector<unsigned char>&) 
+.RE
+.PP
+
+.SS "static std::string dbo::traits::SqlPostgresTypes::booleanType ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Returns the boolean type\&. This method will return 'boolean' by default\&. 
+.SS "static std::string dbo::traits::SqlPostgresTypes::dateTimeType (\fBSqlDateTimeType\fPtype)\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Returns the date/time type\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+SqlStatement::bind(int, const boost::posix_time::ptime&, SqlDateTimeType) 
+.RE
+.PP
+
+.SS "static std::string dbo::traits::SqlPostgresTypes::longLongType ()\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Returns the 64-bit integer type\&. This method will return 'bigint' by default\&. 
+.SS "static std::string dbo::traits::SqlPostgresTypes::textType (intsize)\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Returns the text type\&. This is the text type for a string\&. If \fCsize\fP = -1, then a type should be returned which does not require size information, otherwise a type should be returned that limits the size of the stored string to \fCsize\fP\&.
+.PP
+This method will return 'text' by default if size = -1, and 'varchar(size)' otherwise\&.
+.PP
+\fBSee also:\fP
+.RS 4
+SqlStatement::bind(int column, const std::string& value) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Dbo from the source code\&.
