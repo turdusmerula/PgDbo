@@ -99,7 +99,7 @@ template<class Action, class C>
 void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& name=std::string()) ;
 
 template<class Action, class C>
-void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& name, const std::string& joinId, ForeignKeyConstraint constraints=(NotNull|OnDeleteCascade)) ;
+void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& name, const std::string& joinId, ForeignKeyConstraint constraints=(fk::NotNull|fk::OnDeleteCascade)) ;
 
 }
 

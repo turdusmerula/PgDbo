@@ -187,28 +187,25 @@ void PreparedStatement::prepare()
 		name_ = boost::lexical_cast<std::string>(std::hash<std::string>{}(sql_)) ;
 
 		// In case name is a hash it is ok to reuse a previous statement as we know it will be the same
-		auto result=PQdescribePrepared(conn_->conn_, name_.c_str()) ;
-		auto err=PQresultStatus(result) ;
+		auto result=std::shared_ptr<pg_result>(PQdescribePrepared(conn_->conn_, name_.c_str()), pg_result_deleter) ;
+		auto err=PQresultStatus(result.get()) ;
 		if(err==PGRES_COMMAND_OK)
 		{
 			// PreparedStatement already exist,exit ok
-			PQclear(result) ;
 			prepared_ = true ;
 			return ;
 		}
 	}
 
-	auto result=PQprepare(conn_->conn_, name_.c_str(), sql_.c_str(), oids_.size(), (Oid *)oids_.data()) ;
-	auto err=PQresultStatus(result) ;
+	auto result=std::shared_ptr<pg_result>(PQprepare(conn_->conn_, name_.c_str(), sql_.c_str(), oids_.size(), (Oid *)oids_.data()), pg_result_deleter) ;
+	auto err=PQresultStatus(result.get()) ;
 	if(err!=PGRES_COMMAND_OK && err!=PGRES_TUPLES_OK)
 	{
-		PQclear(result) ;
 		std::stringstream ss ;
 		ss << "PreparedStatement '" << name_ << "' preparation failed: " << PQerrorMessage(conn_->conn_) << " needed" ;
 		ss << " -> " << sql_ ;
 		throw Exception(ss.str()) ;
 	}
-	PQclear(result) ;
 
 	prepared_ = true ;
 }
@@ -409,11 +406,6 @@ std::string PreparedStatement::getBoundPlaceholders()
 	}
 
 	return ss.str() ;
-}
-
-std::string PreparedStatement::getResultRow(int row)
-{
-	// TODO
 }
 
 void PreparedStatement::sql(const std::string& sql)

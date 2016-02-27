@@ -45,7 +45,7 @@ std::shared_ptr<mapping::Mapping<C>> connection::getMapping()
 }
 
 template<class C>
-ptr<C>& connection::insert(ptr<C>& obj)
+ptr<C>& connection::insert(ptr<C>& obj, ActionOption opt)
 {
 	auto mapping=getMapping<C>() ;
 	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
@@ -59,7 +59,7 @@ ptr<C>& connection::insert(ptr<C>& obj)
 }
 
 template<class C>
-collection<C>& connection::insert(collection<C>& coll)
+collection<C>& connection::insert(collection<C>& coll, ActionOption opt)
 {
 	auto& mapping=*getMapping<C>() ;
 //	obj.tableName(tableName<C>().c_str()) ;

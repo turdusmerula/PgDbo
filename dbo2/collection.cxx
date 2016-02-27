@@ -13,7 +13,11 @@ collection<C>::collection()
 template <class C>
 collection<C>::collection(const collection<C>& other)
 {
-
+	for(auto& ptr : other.ptrs_)
+	{
+		ptrs_.push_back(ptr) ;
+		take(ptr) ;
+	}
 }
 
 template <class C>
@@ -35,6 +39,14 @@ void collection<C>::push_back(const ptr<C>& _ptr)
 	Ptr*& ptr=const_cast<dbo2::ptr<C>&>(_ptr).ptr_ ;
 	ptrs_.push_back(ptr) ;
 	take(ptr) ;
+}
+
+template <class C>
+void collection<C>::clear()
+{
+	for(auto& ptr : ptrs_)
+		free(ptr) ;
+	ptrs_.clear() ;
 }
 
 template <class C>
@@ -72,6 +84,20 @@ typename collection<C>::iterator collection<C>::end()
 	return collection<C>::iterator() ;
 }
 
+template <class C>
+size_t collection<C>::size()
+{
+	return ptrs_.size() ;
+}
+
+template <class C>
+bool collection<C>::empty()
+{
+	return ptrs_.empty() ;
+}
+
+
+
 
 template <class C>
 collection<C>::iterator::Itr::Itr(collection<C>& coll)
@@ -79,6 +105,9 @@ collection<C>::iterator::Itr::Itr(collection<C>& coll)
 {
 
 }
+
+
+
 
 template <class C>
 collection<C>::iterator::iterator()

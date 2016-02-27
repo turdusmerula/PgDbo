@@ -38,7 +38,7 @@ template <class Action>
 void field(Action& action, eCompositeId& key, const std::string& name, int size=-1)
 {
 	dbo2::field(action, key.name, name + "_name") ;
-	dbo2::belongsTo(action, key.simple_ptr, name + "_simple", dbo2::OnDeleteCascade | dbo2::OnUpdateCascade | dbo2::NotNull) ;
+	dbo2::belongsTo(action, key.simple_ptr, name + "_simple", dbo2::fk::OnDeleteCascade | dbo2::fk::OnUpdateCascade | dbo2::fk::NotNull) ;
 }
 
 // dbo needs this internally

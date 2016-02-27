@@ -31,6 +31,8 @@ void BulkInsert<C>::visit()
 		}
 	}
 	stmt_.execute() ;
+
+	coll_.clear() ;
 }
 
 template<class C>

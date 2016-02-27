@@ -25,13 +25,13 @@ void belongsTo(Action& action, ptr<C>& value, const std::string& name, ForeignKe
 template<class A, class C>
 void belongsTo(A& action, ptr<C>& value, const std::string& name, int size)
 {
-	belongsTo(action, value, name, None, size) ;
+	belongsTo(action, value, name, fk::None, size) ;
 }
 
 template<class Action, class C>
 void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, int size)
 {
-	belongsTo(action, value, "", None, size) ;
+	belongsTo(action, value, "", fk::None, size) ;
 
 }
 

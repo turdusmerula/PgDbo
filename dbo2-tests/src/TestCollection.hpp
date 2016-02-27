@@ -10,6 +10,8 @@
 
 extern std::string connection ;
 
+class jCollectionTable ;
+
 // ----------------------------------------------------------------------------
 class jSimpleTable
 {
@@ -37,6 +39,8 @@ public:
 	};
 	TypeEnum enum_value ;
 
+	dbo2::ptr<jCollectionTable> parent_value ;
+
 	template<class Action>
 	void persist(Action& a)
 	{
@@ -55,10 +59,26 @@ public:
 		dbo2::field(a, vector_value, "vector_value") ;
 		dbo2::field(a, optional_value, "optional_value") ;
 		dbo2::field(a, enum_value, "enum_value") ;
+
+		dbo2::belongsTo(a, parent_value, "coll") ;
 	}
 } ;
 // ----------------------------------------------------------------------------
 
+
+class jCollectionTable
+{
+public:
+	std::string value ;
+	dbo2::collection<jSimpleTable> coll ;
+
+	template<class Action>
+	void persist(Action& a)
+	{
+		dbo2::field(a, value, "value") ;
+		dbo2::hasMany(a, coll, dbo2::ManyToOne, "coll") ;
+	}
+} ;
 
 // The fixture for testing class Database.
 class TestCollection : public ::testing::Test
@@ -68,6 +88,7 @@ public:
 	{
 		db.connect(connection) ;
 		db.mapClass<jSimpleTable>("jSimpleTable") ;
+		db.mapClass<jCollectionTable>("jCollectionTable") ;
 		db.createTables() ;
 		db.showQueries(true) ;
 		db.showBindings(true) ;
@@ -99,7 +120,7 @@ dbo2::connection TestCollection::db ;
 TEST_F(TestCollection, TestBulkInsert) {
 	dbo2::collection<jSimpleTable> c ;
 
-	for(int i=0 ; i<10 ; i++)
+	for(int i=0 ; i<100 ; i++)
 	{
 		dbo2::ptr<jSimpleTable> p=dbo2::make_ptr<jSimpleTable>() ;
 
@@ -117,11 +138,21 @@ TEST_F(TestCollection, TestBulkInsert) {
 		p->time_duration_value = boost::posix_time::second_clock::local_time().time_of_day() ;
 		for(int j=0 ; j<=255 ; j++)
 			p->vector_value.push_back(j) ;
-		// p->optional_value left null
+		if(i%2==0)
+			p->optional_value = i ;
 		p->enum_value = jSimpleTable::Enum2 ;
 
 		c.push_back(p) ;
 	}
 
 	ASSERT_NO_THROW_V( db.insert(c) ) ;
+	ASSERT_TRUE( c.size()==0 ) ;
+	ASSERT_TRUE( c.empty() ) ;
+}
+
+TEST_F(TestCollection, TestRecursiveInsert) {
+	dbo2::ptr<jCollectionTable> c=dbo2::make_ptr<jCollectionTable>() ;
+	c->value = "TestFind" ;
+
+
 }

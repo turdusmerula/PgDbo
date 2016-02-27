@@ -6,6 +6,7 @@
 #include <memory>
 #include <set>
 
+#include <dbo2/action/ActionOption.h>
 #include <dbo2/mapping/JoinId.h>
 #include <dbo2/traits/SqlPostgresTypes.hpp>
 #include <dbo2/traits/dbo_traits.hpp>
@@ -107,13 +108,13 @@ public:
 	 * Persists an object inside database and attribute it an id
 	 */
 	template<class C>
-	ptr<C>& insert(ptr<C>& ptr) ;
+	ptr<C>& insert(ptr<C>& ptr, ActionOption opt=opt::None) ;
 
 	/**
 	 * bulk insert content of collection
 	 */
 	template<class C>
-	collection<C>& insert(collection<C>& coll) ;
+	collection<C>& insert(collection<C>& coll, ActionOption opt=opt::None) ;
 
 	/**
 	 * Persists a modified object inside database

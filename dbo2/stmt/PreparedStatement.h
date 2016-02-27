@@ -145,7 +145,6 @@ protected:
 	size_t getNumberPlaceHolders(const std::string& sql) ;
 	size_t getPlaceHolders(const std::string& sql, std::map<std::string, std::string>& placeholders) ;
 	std::string getBoundPlaceholders() ;
-	std::string getResultRow(int row) ;
 
 	static void pg_result_deleter(pg_result* result) ;
 } ;

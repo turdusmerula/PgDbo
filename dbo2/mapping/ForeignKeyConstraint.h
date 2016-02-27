@@ -20,12 +20,14 @@ private:
 	int value_;
 } ;
 
+
 /*! \brief Combines two constraints.
  *
  * \ingroup dbo
  */
 ForeignKeyConstraint operator|(ForeignKeyConstraint lhs, ForeignKeyConstraint rhs) ;
 
+namespace fk {
 /*! \brief A constraint that prevents a \c null ptr.
  *
  * A database constraint which prevents that a ptr references no object
@@ -92,6 +94,8 @@ const ForeignKeyConstraint OnDeleteCascade(FKOnDeleteCascade) ;
  * \ingroup dbo
  */
 const ForeignKeyConstraint OnDeleteSetNull(FKOnDeleteSetNull) ;
+
+}
 
 }
 

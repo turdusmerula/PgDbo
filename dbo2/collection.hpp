@@ -37,6 +37,7 @@ public:
 
     void push_back(const ptr<C>& ptr) ;
 
+    void clear() ;
 
 	/*! \brief Returns an iterator to the begin of the %collection.
 	 *
@@ -49,6 +50,9 @@ public:
 	 * \sa begin()
 	 */
 	iterator end() ;
+
+	size_t size() ;
+	bool empty() ;
 
 protected:
     using Ptr = typename ptr<C>::Ptr ;
