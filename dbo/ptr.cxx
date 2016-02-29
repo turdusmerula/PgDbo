@@ -38,6 +38,15 @@ ptr<C>::ptr(const ptr<C>& other)
 }
 
 template<class C>
+ptr<C>::ptr(const ref<C>& other)
+{
+	ptr_ = new Ptr ;
+	ptr_->ref_ = 1 ;
+	ptr_->id_ = other.id() ;
+	tableName_ = nullptr ;
+}
+
+template<class C>
 template<class D>
 ptr<C>::ptr(const ptr<D>& other)
 		: ptr_(other.ptr_)

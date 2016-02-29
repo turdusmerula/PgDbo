@@ -23,8 +23,7 @@ collection<C>::collection(const collection<C>& other)
 template <class C>
 collection<C>::~collection()
 {
-	for(auto& ptr : ptrs_)
-		free(ptr) ;
+	clear() ;
 }
 
 template <class C>

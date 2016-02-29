@@ -2,12 +2,13 @@ namespace dbo {
 namespace action {
 
 template<class C>
-Insert<C>::Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
+Insert<C>::Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, ActionOption opt)
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),
 		state_(PreparingStatement),
-		id_(traits::dbo_traits<C>::invalidId())
+		id_(traits::dbo_traits<C>::invalidId()),
+		opt_(opt)
 {
 }
 
@@ -74,6 +75,13 @@ void Insert<C>::visit()
 			// inserted ok, set the cached id
 			ptr_.id(id_) ;
 		}
+
+		if(opt_==opt::Recursive)
+		{
+			state_ = Recursing ;
+			ptr->persist(*this) ;
+		}
+
 	}
 }
 
@@ -86,6 +94,8 @@ void Insert<C>::act(const mapping::FieldRef<V>& field)
 	case PreparingStatement:
 	case Inserting:
 		traits::sql_value_traits<V>::bind(field.value(), stmt_, -1) ;
+		break ;
+	case Recursing:
 		break ;
 	case ReadingId:
 		traits::sql_value_traits<V>::read(field.value(), stmt_, -1) ;
@@ -117,6 +127,8 @@ void Insert<C>::actId(V& value, const std::string& name, int size)
 		// add id fields to statement
 		field(*this, value, name) ;
 		break ;
+	case Recursing:
+		break ;
 	case ReadingId:
 
 		break ;
@@ -137,7 +149,7 @@ void Insert<C>::actPtr(const mapping::PtrRef<D>& field)
 	using IdType = typename traits::dbo_traits<D>::IdType ;
 
 	// this action is C type, we need D, so we create a special one for this type
-	Insert<D> action(field.value(), conn().template getMapping<D>(), stmt_) ;
+	Insert<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
 	action.state_ = static_cast<typename Insert<D>::State>(state_) ;
 
 	switch(state_)
@@ -156,6 +168,48 @@ void Insert<C>::actPtr(const mapping::PtrRef<D>& field)
 
 		// add id fields to statement
 		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+
+		break ;
+	case Recursing:
+		if(opt_==opt::Recursive) // && field.value().orphan()==true)
+			conn().insert(field.value(), opt_) ;
+		break ;
+	case ReadingId:
+		break ;
+	}
+}
+
+template<class C>
+template<class D>
+void Insert<C>::actRef(const mapping::RefRef<D>& field)
+{
+	using IdType = typename traits::dbo_traits<D>::IdType ;
+
+	// this action is C type, we need D, so we create a special one for this type
+	Insert<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
+	action.state_ = static_cast<typename Insert<D>::State>(state_) ;
+
+	switch(state_)
+	{
+	case PreparingStatement:
+		// add id fields to statement
+		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		break ;
+	case Inserting:
+		if(field.value().id()==traits::dbo_traits<D>::invalidId())
+		{
+			std::stringstream ss ;
+			ss << "Insert failed for '" << mapping_->tableName << "' invalid id '" << field.value().id() << "'" ;
+			throw Exception(ss.str()) ;
+		}
+
+		// add id fields to statement
+		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+
+		break ;
+	case Recursing:
+		if(opt_==opt::Recursive) // && field.value().orphan()==true)
+			conn().insert(field.value(), opt_) ;
 		break ;
 	case ReadingId:
 		break ;
@@ -167,6 +221,27 @@ template<class D>
 void Insert<C>::actCollection(const mapping::CollectionRef<D>& field)
 {
 	std::cout << "--- " << field.joinName() << std::endl ;
+
+	switch(state_)
+	{
+	case PreparingStatement:
+		break ;
+	case Inserting:
+		break ;
+	case Recursing:
+		if(opt_==opt::Recursive)
+		{
+			for(auto ptr : field.value())
+			{
+//				if(ptr.orphan()==true)
+					conn().insert(ptr, opt_) ;
+			}
+		}
+		break ;
+	case ReadingId:
+		break ;
+	}
+
 }
 
 }}

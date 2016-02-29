@@ -8,6 +8,8 @@
 
 namespace dbo {
 
+
+
 /*! \brief Maps a natural primary key (id) field.
  *
  * A natural primary key field is optional. If you define one and its
@@ -28,6 +30,7 @@ namespace dbo {
  */
 template<class Action, typename V>
 void id(Action& action, V& value, const std::string& name="id", int size=-1) ;
+
 
 
 /*! \brief Maps a database object field.
@@ -71,6 +74,7 @@ template<class Action, typename V>
 void field(Action& action, V& value, const std::string& name, int size=-1) ;
 
 
+
 /*! \brief Maps the "One"-side (foreign key) of a ManyToOne or OneToOne relation.
  *
  * This function binds the pointer field \p value to the database
@@ -96,10 +100,25 @@ void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, 
 
 
 template<class Action, class C>
+void belongsTo(Action& action, ref<C>& value, const std::string& name=std::string(), int size=-1) ;
+
+template<class Action, class C>
+void belongsTo(Action& action, ref<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size=-1) ;
+
+template<class Action, class C>
+void belongsTo(Action& action, ref<C>& value, ForeignKeyConstraint constraints, int size=-1) ;
+
+
+
+
+
+template<class Action, class C>
 void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& name=std::string()) ;
 
 template<class Action, class C>
 void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& name, const std::string& joinId, ForeignKeyConstraint constraints=(fk::NotNull|fk::OnDeleteCascade)) ;
+
+
 
 }
 

@@ -5,6 +5,7 @@
 
 #include <dbo/connection.h>
 #include <dbo/ptr.hpp>
+#include <dbo/ref.hpp>
 #include <dbo/collection.hpp>
 #include <dbo/relation.hpp>
 #include <dbo/query.hpp>
@@ -20,6 +21,7 @@
 #include <dbo/mapping/CollectionRef.hpp>
 #include <dbo/mapping/FieldRef.hpp>
 #include <dbo/mapping/PtrRef.hpp>
+#include <dbo/mapping/RefRef.hpp>
 
 #include <dbo/action/InitSchema.hpp>
 #include <dbo/action/Delete.hpp>
@@ -35,6 +37,7 @@
 
 #include <dbo/connection.cxx>
 #include <dbo/ptr.cxx>
+#include <dbo/ref.cxx>
 #include <dbo/collection.cxx>
 #include <dbo/relation.cxx>
 #include <dbo/query.cxx>
@@ -49,6 +52,7 @@
 
 #include <dbo/mapping/FieldRef.cxx>
 #include <dbo/mapping/PtrRef.cxx>
+#include <dbo/mapping/RefRef.cxx>
 #include <dbo/mapping/Mapping.cxx>
 
 #endif

@@ -16,7 +16,7 @@ class Insert
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
+	Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, ActionOption opt) ;
 
 	void visit() ;
 
@@ -26,6 +26,7 @@ public:
 	template<class D> void actId(ptr<D>& value, const std::string& name, int size, int fkConstraints) ;
 
 	template <class D> void actPtr(const mapping::PtrRef<D>& field) ;
+	template <class D> void actRef(const mapping::RefRef<D>& field) ;
 
 	template<class D> void actCollection(const mapping::CollectionRef<D>& field) ;
 
@@ -34,10 +35,12 @@ private:
 	ptr<C> ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::PreparedStatement& stmt_ ;
+	ActionOption opt_ ;
 
 	enum State {
 		PreparingStatement=0,
 		Inserting,
+		Recursing,
 		ReadingId
 	} ;
 	State state_ ;

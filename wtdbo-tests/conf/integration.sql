@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS wtdbotest;
-DROP USER IF EXISTS wtdbotest;
+DROP DATABASE IF EXISTS dbotest;
+DROP USER IF EXISTS dbotest;
 
-CREATE USER wtdbotest WITH PASSWORD 'wtdbotest';
-CREATE DATABASE wtdbotest;
-GRANT ALL PRIVILEGES ON DATABASE wtdbotest to wtdbotest;
+CREATE USER dbotest WITH PASSWORD 'dbotest';
+CREATE DATABASE dbotest;
+GRANT ALL PRIVILEGES ON DATABASE dbotest to dbotest;

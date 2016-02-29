@@ -52,7 +52,22 @@ ptr<C>& connection::insert(ptr<C>& obj, ActionOption opt)
 
 	obj.tableName(tableName<C>().c_str()) ;
 
-	action::Insert<C> action(obj, mapping, stmt) ;
+	action::Insert<C> action(obj, mapping, stmt, opt) ;
+	action.visit() ;
+
+	return obj ;
+}
+
+template<class C>
+ptr<C> connection::insert(ref<C>& obj, ActionOption opt)
+{
+	ptr<C> ptr(obj) ;
+	auto mapping=getMapping<C>() ;
+	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
+
+	ptr.tableName(tableName<C>().c_str()) ;
+
+	action::Insert<C> action(ptr, mapping, stmt, opt) ;
 	action.visit() ;
 
 	return obj ;

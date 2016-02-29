@@ -56,8 +56,9 @@ public:
 
 protected:
     using Ptr = typename ptr<C>::Ptr ;
+    using PtrList = std::vector<Ptr*> ;
 
-    std::deque<Ptr*> ptrs_ ;
+    PtrList ptrs_ ;
 
     // this is the table name corresponding to C type, it is needed for serialisation
 	char* tableName_ ;
@@ -116,7 +117,7 @@ private:
 	struct Itr
 	{
 		collection<C>& coll_ ;
-		typename std::deque<Ptr*>::iterator iptr_ ;
+		typename PtrList::iterator iptr_ ;
 		Itr(collection<C>& coll) ;
 	} ;
 

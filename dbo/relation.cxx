@@ -32,8 +32,30 @@ template<class Action, class C>
 void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, int size)
 {
 	belongsTo(action, value, "", fk::None, size) ;
-
 }
+
+
+template<class Action, class C>
+void belongsTo(Action& action, ref<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size)
+{
+	if(name.empty())
+		action.actRef(mapping::RefRef<C>(value, action.conn().template tableName<C>(), size, constraints.value())) ;
+	else
+		action.actRef(mapping::RefRef<C>(value, name, size, constraints.value())) ;
+}
+
+template<class A, class C>
+void belongsTo(A& action, ref<C>& value, const std::string& name, int size)
+{
+	belongsTo(action, value, name, fk::None, size) ;
+}
+
+template<class Action, class C>
+void belongsTo(Action& action, ref<C>& value, ForeignKeyConstraint constraints, int size)
+{
+	belongsTo(action, value, "", fk::None, size) ;
+}
+
 
 template<class Action, class C>
 void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& joinName)

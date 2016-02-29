@@ -2,15 +2,18 @@
 #include <gtest_extend.h>
 
 #include <iostream>
+#include <chrono>
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <thread>
 
 #include <dbo/dbo.hpp>
 
 extern std::string connection ;
 
 class jCollectionTable ;
+class jSimpleTable2 ;
 
 // ----------------------------------------------------------------------------
 class jSimpleTable
@@ -39,7 +42,9 @@ public:
 	};
 	TypeEnum enum_value ;
 
-	dbo::ptr<jCollectionTable> parent_value ;
+	// Always use ref with hasMany to avoid memory leaks
+	dbo::ref<jCollectionTable> parent_value ;
+//	dbo::ptr<jSimpleTable2> parent_value2 ;
 
 	template<class Action>
 	void persist(Action& a)
@@ -61,11 +66,26 @@ public:
 		dbo::field(a, enum_value, "enum_value") ;
 
 		dbo::belongsTo(a, parent_value, "coll") ;
+//		dbo::belongsTo(a, parent_value2) ;
 	}
 } ;
 // ----------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------
+class jSimpleTable2
+{
+public:
+	std::string value ;
 
+	template<class Action>
+	void persist(Action& a)
+	{
+		dbo::field(a, value, "value") ;
+	}
+} ;
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
 class jCollectionTable
 {
 public:
@@ -88,6 +108,7 @@ public:
 	{
 		db.connect(connection) ;
 		db.mapClass<jSimpleTable>("jSimpleTable") ;
+		db.mapClass<jSimpleTable2>("jSimpleTable2") ;
 		db.mapClass<jCollectionTable>("jCollectionTable") ;
 		db.createTables() ;
 		db.showQueries(true) ;
@@ -150,9 +171,58 @@ TEST_F(TestCollection, TestBulkInsert) {
 	ASSERT_TRUE( c.empty() ) ;
 }
 
-TEST_F(TestCollection, TestRecursiveInsert) {
+TEST_F(TestCollection, DISABLED_TestRecursiveInsert) {
 	dbo::ptr<jCollectionTable> c=dbo::make_ptr<jCollectionTable>() ;
-	c->value = "TestFind" ;
+	c->value = "TestRecursiveInsert" ;
 
+	for(int i=0 ; i<10 ; i++)
+	{
+		dbo::ptr<jSimpleTable> p=dbo::make_ptr<jSimpleTable>() ;
+//		p->int_value = i ;
+//		p->string_value = "TestRecursiveInsert" ;
+		p->parent_value = c ;
+//
+//		p->parent_value2 = dbo::make_ptr<jSimpleTable2>() ;
+//		p->parent_value2->value = "TestRecursiveInsert" ;
+//
+		c->coll.push_back(p) ;
+	}
 
+	db.insert(c, dbo::opt::Recursive) ;
+	std::cout << " ------- " << std::endl ;
+}
+
+TEST_F(TestCollection, TestThreadPtr) {
+	dbo::ptr<jCollectionTable> c=dbo::make_ptr<jCollectionTable>() ;
+
+	typedef std::chrono::duration<double, std::ratio<1>> DurationSeconds ;
+
+	auto th_alloc=[&](){
+		auto start = std::chrono::high_resolution_clock::now() ;
+
+		while(DurationSeconds(std::chrono::high_resolution_clock::now()-start).count()<5)
+		{
+			c = dbo::make_ptr<jCollectionTable>() ;
+		}
+	} ;
+
+	auto th_share=[&](){
+		auto start = std::chrono::high_resolution_clock::now() ;
+
+		while(DurationSeconds(std::chrono::high_resolution_clock::now()-start).count()<5)
+		{
+			{
+				dbo::ptr<jCollectionTable> d=c ;
+			}
+		}
+	} ;
+
+	std::thread th1(th_alloc) ;
+
+	std::vector<std::shared_ptr<std::thread>> ths ;
+	for(int i=0 ; i<10 ; i++)
+		ths.push_back(std::make_shared<std::thread>(th_share)) ;
+	th1.join() ;
+	for(auto& th : ths)
+		th->join() ;
 }

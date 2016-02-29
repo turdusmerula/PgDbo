@@ -65,6 +65,12 @@ void BulkInsert<C>::actPtr(const mapping::PtrRef<D>& field)
 
 template<class C>
 template<class D>
+void BulkInsert<C>::actRef(const mapping::RefRef<D>& field)
+{
+}
+
+template<class C>
+template<class D>
 void BulkInsert<C>::actCollection(const mapping::CollectionRef<D>& field)
 {
 }

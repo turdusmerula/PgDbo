@@ -1,9 +1,10 @@
 #ifndef _DBO_PTR_HPP_
 #define _DBO_PTR_HPP_
 
-//#include <dbo/traits/dbo_traits.hpp>
+#include <mutex>
 
 namespace dbo {
+template <class T> class ref ;
 
 namespace action {
 template <class T> class Delete ;
@@ -23,6 +24,7 @@ class ptr_base
 
 } ;
 
+// TODO: make ptr counter increment/decrement atomic
 template<class C>
 class ptr : public ptr_base
 {
@@ -33,6 +35,10 @@ public:
 
 	ptr() ;
 	ptr(C* obj) ;
+
+	/*! \brief build from a reference id
+	 */
+	ptr(const ref<C>& other) ;
 
 	/*! \brief Copy constructor.
 	 */

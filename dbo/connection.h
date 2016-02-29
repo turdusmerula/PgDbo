@@ -21,6 +21,7 @@ typedef struct pg_conn PGconn;
 namespace dbo {
 template <class T> class collection ;
 template <class T> class ptr ;
+template <class T> class ref ;
 class query ;
 
 namespace action {
@@ -36,6 +37,7 @@ class MappingInfo ;
 template <class T> class Mapping ;
 class FieldInfo ;
 template<class C> class PtrRef ;
+template<class C> class RefRef ;
 }
 
 namespace stmt {
@@ -111,10 +113,17 @@ public:
 	ptr<C>& insert(ptr<C>& ptr, ActionOption opt=opt::None) ;
 
 	/**
+	 * Persists an object inside database and attribute it an id
+	 */
+	template<class C>
+	ptr<C> insert(ref<C>& ptr, ActionOption opt=opt::None) ;
+
+	/**
 	 * bulk insert content of collection
 	 */
 	template<class C>
 	collection<C>& insert(collection<C>& coll, ActionOption opt=opt::None) ;
+
 
 	/**
 	 * Persists a modified object inside database
@@ -231,6 +240,7 @@ protected:
 	template <class T> friend class action::Update ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
+	template<class C> friend class mapping::RefRef ;
 	friend class stmt::PreparedStatement ;
 	friend class stmt::BulkStatement ;
 	friend class query ;

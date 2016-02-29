@@ -16,6 +16,8 @@
 #include "TestRequest.hpp"
 #include "TestQuery.hpp"
 #include "TestHasManyTable.hpp"
+#include "Tutorial1.hpp"
+#include "Tutorial2.hpp"
 
 wtdbo::backend::Postgres* db=nullptr ;
 std::unique_ptr<wtdbo::FixedSqlConnectionPool> pool ;

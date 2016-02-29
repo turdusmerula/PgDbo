@@ -68,6 +68,30 @@ void InitSchema::actPtr(const mapping::PtrRef<C>& field)
 }
 
 template<class C>
+void InitSchema::actRef(const mapping::RefRef<C>& field)
+{
+	std::shared_ptr<mapping::Mapping<C>> mapping=conn_.getMapping<C>() ;
+
+	bool setName = foreignKeyName_.empty() ;
+
+	if(setName)
+	{
+		foreignKeyName_ = field.name() ;
+		foreignKeyTable_ = mapping->tableName ;
+		fkConstraints_ = field.fkConstraints() ;
+	}
+
+	field.visit(*this, conn_);
+
+	if(setName)
+	{
+		foreignKeyName_.clear();
+		foreignKeyTable_.clear();
+		fkConstraints_ = 0 ;
+	}
+}
+
+template<class C>
 void InitSchema::actCollection(const mapping::CollectionRef<C>& field)
 {
 	std::string joinTableName=conn_.tableName<C>() ;
