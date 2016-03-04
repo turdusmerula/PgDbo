@@ -19,6 +19,9 @@ void Insert<C>::visit()
 
 	if(stmt_.prepared()==false)
 	{
+		action::SqlInsert<C> action(mapping_, stmt_) ;
+		action.visit() ;
+
 		// init prepared statement, use a dummy object to init the statement
 		state_ = PreparingStatement ;
 		C dummy ;
@@ -41,43 +44,53 @@ void Insert<C>::visit()
 	}
 	else
 	{
-		state_ = Inserting ;
-		stmt_.reset() ;
-		ptr->persist(*this) ;
-
-		try {
-			stmt_.execute() ;
-		} catch(std::exception& e) {
-			std::stringstream ss ;
-			ss << "Insert failed for '" << mapping_->tableName << "': " << e.what() ;
-			throw Exception(ss.str()) ;
-		}
-
-		state_ = ReadingId ;
-		if(stmt_.hasReturning())
+		if(ptr_.orphan())
 		{
-			// inserted ok, insert result should now contain the generated id
-			if(stmt_.nextRow()==false)
-			{
+			state_ = Inserting ;
+			stmt_.reset() ;
+			ptr->persist(*this) ;
+
+			try {
+				stmt_.execute() ;
+			} catch(std::exception& e) {
 				std::stringstream ss ;
-				ss << "Insert error for '" << mapping_->tableName << "': no returning id" ;
+				ss << "Insert failed for '" << mapping_->tableName << "': " << e.what() ;
 				throw Exception(ss.str()) ;
 			}
 
-			// read id
-			if(mapping_->surrogateIdFieldName!=boost::none)
-				field(*this, const_cast<IdType&>(ptr_.id()), mapping_->surrogateIdFieldName.get()) ;
+			state_ = ReadingId ;
+			if(stmt_.hasReturning())
+			{
+				// inserted ok, insert result should now contain the generated id
+				if(stmt_.nextRow()==false)
+				{
+					std::stringstream ss ;
+					ss << "Insert error for '" << mapping_->tableName << "': no returning id" ;
+					throw Exception(ss.str()) ;
+				}
+
+				// read id
+				if(mapping_->surrogateIdFieldName!=boost::none)
+					field(*this, const_cast<IdType&>(ptr_.id()), mapping_->surrogateIdFieldName.get()) ;
+				else
+					field(*this, const_cast<IdType&>(ptr_.id()), mapping_->naturalIdFieldName, mapping_->naturalIdFieldSize) ;
+
+				// indicate object is loaded
+				ptr_.load() ;
+			}
 			else
-				field(*this, const_cast<IdType&>(ptr_.id()), mapping_->naturalIdFieldName, mapping_->naturalIdFieldSize) ;
-		}
-		else
-		{
-			// inserted ok, set the cached id
-			ptr_.id(id_) ;
+			{
+				// inserted ok, set the cached id
+				ptr_.id(id_) ;
+
+				// indicate object is loaded
+				ptr_.load() ;
+			}
 		}
 
 		if(opt_==opt::Recursive)
 		{
+			std::cout << "-------------recurse" << std::endl ;
 			state_ = Recursing ;
 			ptr->persist(*this) ;
 		}
@@ -135,18 +148,15 @@ void Insert<C>::actId(V& value, const std::string& name, int size)
 	}
 }
 
-//template<class C>
-//template<class D>
-//void Insert<C>::actId(ptr<D>& value, const std::string& name, int size, int fkConstraints)
-//{
-//
-//}
-
 template<class C>
 template<class D>
 void Insert<C>::actPtr(const mapping::PtrRef<D>& field)
 {
 	using IdType = typename traits::dbo_traits<D>::IdType ;
+
+	// in case of a hasOne relation nothing to do
+	if(field.nameIsJoin()==true)
+		return ;
 
 	// this action is C type, we need D, so we create a special one for this type
 	Insert<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
@@ -181,12 +191,20 @@ void Insert<C>::actPtr(const mapping::PtrRef<D>& field)
 
 template<class C>
 template<class D>
-void Insert<C>::actRef(const mapping::RefRef<D>& field)
+void Insert<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 {
 	using IdType = typename traits::dbo_traits<D>::IdType ;
 
+	// in case of a hasOne relation nothing to do
+	if(field.nameIsJoin()==true)
+		return ;
+
+	dbo::ptr<D> ptr ;
+	if(field.value().expired()==false)
+		ptr = field.value().lock() ;
+
 	// this action is C type, we need D, so we create a special one for this type
-	Insert<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
+	Insert<D> action(ptr, conn().template getMapping<D>(), stmt_, opt_) ;
 	action.state_ = static_cast<typename Insert<D>::State>(state_) ;
 
 	switch(state_)
@@ -208,8 +226,7 @@ void Insert<C>::actRef(const mapping::RefRef<D>& field)
 
 		break ;
 	case Recursing:
-		if(opt_==opt::Recursive) // && field.value().orphan()==true)
-			conn().insert(field.value(), opt_) ;
+		// weak ptr are endpoints, we do not recurse inside
 		break ;
 	case ReadingId:
 		break ;
@@ -232,10 +249,7 @@ void Insert<C>::actCollection(const mapping::CollectionRef<D>& field)
 		if(opt_==opt::Recursive)
 		{
 			for(auto ptr : field.value())
-			{
-//				if(ptr.orphan()==true)
-					conn().insert(ptr, opt_) ;
-			}
+				conn().insert(ptr, opt_) ;
 		}
 		break ;
 	case ReadingId:

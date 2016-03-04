@@ -7,6 +7,7 @@
 
 namespace dbo {
 template <class C> class ptr ;
+class connection ;
 
 template <class C>
 class collection
@@ -23,7 +24,7 @@ public:
 
     /*! \brief Copy constructor.
      */
-    collection(const collection<C>& other) ;
+    collection(const collection& other) ;
 
     /*! \brief Destructor.
      */
@@ -32,7 +33,7 @@ public:
 
     /*! \brief Assignment operator.
      */
-    collection<C>& operator=(const collection<C>& other) ;
+    collection& operator=(const collection& other) ;
 
 
     void push_back(const ptr<C>& ptr) ;
@@ -55,8 +56,7 @@ public:
 	bool empty() ;
 
 protected:
-    using Ptr = typename ptr<C>::Ptr ;
-    using PtrList = std::vector<Ptr*> ;
+    using PtrList = std::vector<ptr<C>> ;
 
     PtrList ptrs_ ;
 
@@ -65,8 +65,10 @@ protected:
 
 	static IdType invalidId_ ;
 
-	void free(Ptr*& ptr) ;
-	void take(Ptr*& ptr) ;
+	void tableName(const char* tableName) ;
+
+	friend class connection ;
+
 } ;
 
 
@@ -118,18 +120,19 @@ private:
 	{
 		collection<C>& coll_ ;
 		typename PtrList::iterator iptr_ ;
+
 		Itr(collection<C>& coll) ;
 	} ;
 
 	std::shared_ptr<Itr> itr_ ;
 
 	bool end() const ;
-
+//
 	iterator();
 	iterator(collection<C>& collection) ;
 
-	void takeImpl();
-	void releaseImpl();
+//	void takeImpl();
+//	void releaseImpl();
 
 	friend class collection<C> ;
 //	friend class const_iterator;

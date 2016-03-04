@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <chrono>
+#include <thread>
+
 #include <dbo/dbo.hpp>
 
 extern std::string connection ;
@@ -67,7 +70,7 @@ public:
 	static void SetUpTestCase()
 	{
 		db.connect(connection) ;
-		db.mapClass<aSimpleTable>("asimple") ;
+		db.mapClass<aSimpleTable>("aSimpleTable") ;
 		db.createTables() ;
 		db.showQueries(true) ;
 		db.showBindings(true) ;
@@ -100,25 +103,11 @@ dbo::connection TestSimpleTable::db ;
 TEST_F(TestSimpleTable, TestSql) {
 	dbo::connection db ;
 
-	db.mapClass<aSimpleTable>("simple") ;
+	db.mapClass<aSimpleTable>("aSimpleTable") ;
 
 	std::cout << db.tableCreationSql() << std::endl ;
 	db.debug() ;
 }
-
-TEST_F(TestSimpleTable, TestPtr) {
-	dbo::ptr<aSimpleTable> p ;
-	dbo::ptr<aSimpleTable> q ;
-
-	ASSERT_FALSE(p) ;
-
-	p = dbo::make_ptr<aSimpleTable>() ;
-	ASSERT_TRUE((bool)p) ;
-
-	q = p ;
-	ASSERT_TRUE((bool)q) ;
-}
-
 
 TEST_F(TestSimpleTable, TestInsertNull) {
 	dbo::ptr<aSimpleTable> p ;
@@ -179,7 +168,9 @@ TEST_F(TestSimpleTable, TestLoad) {
 	// p->optional_value left null
 	p->enum_value = aSimpleTable::Enum2 ;
 
+	ASSERT_FALSE( p.loaded() ) ;
 	ASSERT_NO_THROW_V( db.insert(p) ) ;
+	ASSERT_TRUE( p.loaded() ) ;
 
 	dbo::ptr<aSimpleTable> q=db.load<aSimpleTable>(p.id()) ;
 	ASSERT_TRUE( q->string_value=="toto" ) ;
@@ -197,7 +188,8 @@ TEST_F(TestSimpleTable, TestLoad) {
 	ASSERT_TRUE( q->vector_value==std::vector<unsigned char>({0, 1, 2, 3, 4, 'a', 'b', 'c'}) ) ;
 	ASSERT_TRUE( q->optional_value.is_initialized()==false ) ;
 	ASSERT_TRUE( q->enum_value==aSimpleTable::Enum2 ) ;
-
+	std::cout << "--------- LOADED " << q.loaded() << std::endl ;
+	ASSERT_TRUE( q.loaded() ) ;
 }
 
 

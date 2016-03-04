@@ -3,186 +3,112 @@ namespace dbo {
 
 // init static invalidId_
 template<class C>
-typename ptr<C>::IdType ptr<C>::invalidId_=traits::dbo_traits<C>::invalidId() ;
+const typename ptr<C>::IdType ptr<C>::invalidId=traits::dbo_traits<C>::invalidId() ;
 
 template <class C>
-ptr<C>::ptr()
-	:	ptr_(nullptr)
+ptr<C>::ptr() noexcept
+	:	tableName_(nullptr)
 {
-
 }
 
 template <class C>
-ptr<C>::ptr(C* obj)
+ptr<C>::ptr(std::shared_ptr<Ptr> ptr)
+	:	ptr_(ptr),
+		tableName_(nullptr)
 {
-	ptr_ = new Ptr ;
-	ptr_->value_ = obj ;
-	ptr_->ref_ = 1 ;
-	ptr_->id_ = traits::dbo_traits<C>::invalidId() ;
-	tableName_ = nullptr ;
-}
-
-template <class C>
-ptr<C>::ptr(Ptr* ptr)
-{
-	ptr_ = ptr ;
-	tableName_ = nullptr ;
-	take() ;
 }
 
 template<class C>
 ptr<C>::ptr(const ptr<C>& other)
-		: ptr_(other.ptr_)
+	:	ptr_(other.ptr_),
+		tableName_(other.tableName_)
 {
-	take() ;
 }
 
-template<class C>
-ptr<C>::ptr(const ref<C>& other)
-{
-	ptr_ = new Ptr ;
-	ptr_->ref_ = 1 ;
-	ptr_->id_ = other.id() ;
-	tableName_ = nullptr ;
-}
-
-template<class C>
+template <class C>
 template<class D>
-ptr<C>::ptr(const ptr<D>& other)
-		: ptr_(other.ptr_)
+ptr<C>::ptr(const ptr<D>& other, typename boost::detail::sp_enable_if_convertible<D, C>::type)
+	:	ptr_(other.ptr_),
+		tableName_(other.tableName_)
 {
-	// Check if we can convert D* to C*
-	dynamic_cast<C*>(other.ptr_->value_) ;
-	take() ;
 }
+
+template<class C>
+ptr<C>::ptr(const weak_ptr<C>& other)
+	:	ptr_(other.ptr_),
+		tableName_(other.tableName_)
+{
+	if(ptr_==nullptr && other.cache_id_!=invalidId)
+		ptr_ = std::make_shared<Ptr>(C(), other.cache_id_) ;
+}
+
 
 template <class C>
 ptr<C>::~ptr()
 {
-	free() ;
 }
 
 template<class C>
-void ptr<C>::reset(C* _ptr)
+void ptr<C>::reset()
 {
-	free() ;
-	if(ptr_)
-	{
-		ptr_ = new Ptr ;
-		ptr_->value_ = _ptr ;
-		ptr_->ref_ = 1 ;
-		ptr_->id_ = traits::dbo_traits<C>::invalidId() ;
-		ptr_->tableName_ = nullptr ;
-	}
+	ptr().swap(*this) ;
 }
 
 template<class C>
-ptr<C>& ptr<C>::operator=(const ptr<C>& other)
-{
-	if(ptr_!=other.ptr_)
-	{
-		free() ;
-		ptr_ = other.ptr_ ;
-		take();
-	}
-
-	return *this;
-}
-
-template<class C>
-template<class D>
-ptr<C>& ptr<C>::operator=(const ptr<D>& other)
-{
-	// Check if we can convert D* to C*
-	dynamic_cast<C*>(other.value_) ;
-
-	if(ptr_!=other.ptr_)
-	{
-		free();
-		ptr_ = other.ptr_;
-		take() ;
-	}
-
-	return *this ;
-}
-
-template<class C>
-C* ptr<C>::operator->() const
-{
-	C* res=get() ;
-
-	if(res==nullptr)
-		throw Exception("dbo::ptr: null dereference") ;
-
-	return res ;
-}
-
-template<class C>
-C* ptr<C>::get() const
+C* ptr<C>::get() const noexcept
 {
 	if(ptr_)
-		return ptr_->value_ ;
-	else
-		return nullptr ;
+		return &(ptr_.get()->value_) ;
+	return nullptr ;
 }
 
 template<class C>
 C& ptr<C>::operator*() const
 {
-	if(ptr_)
-		return* ptr_->value_ ;
-	else
-		throw Exception("dbo::ptr: null dereference") ;
+    BOOST_ASSERT( ptr_ != nullptr ) ;
+	return ptr_->value_ ;
 }
 
 template<class C>
-bool ptr<C>::operator==(const ptr<MutC>& other) const
+C* ptr<C>::operator->() const
 {
-	return ptr_==other.obj_ ;
+    BOOST_ASSERT( ptr_ != nullptr ) ;
+	return &(ptr_->value_) ;
 }
 
 template<class C>
-bool ptr<C>::operator==(const ptr<const C>& other) const
+void ptr<C>::swap(ptr& other) noexcept
 {
-	return ptr_==other.obj_ ;
+	ptr_.swap(other.ptr_) ;
 }
 
 template<class C>
-bool ptr<C>::operator!=(const ptr<MutC>& other) const
+ptr<C>& ptr<C>::operator=(const ptr<C>& other)
 {
-	return !(*this==other) ;
+	ptr(other).swap(*this) ;
+
+	return *this;
 }
 
-template<class C>
-bool ptr<C>::operator!=(const ptr<const C>& other) const
+template <class C>
+template<class D>
+ptr<C>& ptr<C>::operator=(const ptr<D>& other)
 {
-	return !(*this==other) ;
-}
+	ptr(other).swap(*this) ;
 
-template<class C>
-bool ptr<C>::operator<(const ptr<MutC>& other) const
-{
-	return ptr_<other.ptr_ ;
-}
-
-template<class C>
-bool ptr<C>::operator<(const ptr<const C>& other) const
-{
-	return ptr_<other.ptr_ ;
+	return *this;
 }
 
 template<class C>
 ptr<C>::operator bool() const
 {
-	return ptr_!=nullptr ;
+	return (bool)ptr_ ;
 }
 
 template<class C>
 bool ptr<C>::loaded() const
 {
-	if(ptr_==nullptr)
-		return false ;
-	else if(ptr_->value_ && !(ptr_->id_==traits::dbo_traits<C>::invalidId()))
+	if(ptr_ && !(ptr_->id_==traits::dbo_traits<C>::invalidId()) && ptr_->loaded_)
 		return true ;
 	return false ;
 }
@@ -190,42 +116,18 @@ bool ptr<C>::loaded() const
 template<class C>
 bool ptr<C>::orphan() const
 {
-	if(ptr_==nullptr)
-		return false ;
-	else if(ptr_->value_ && ptr_->id_==traits::dbo_traits<C>::invalidId())
+	if(ptr_ && ptr_->id_==traits::dbo_traits<C>::invalidId())
 		return true ;
 	return false ;
 }
 
-template<class C>
-void ptr<C>::free()
-{
-	if(ptr_)
-	{
-		ptr_->ref_-- ;
-		if(ptr_->ref_==0)
-		{
-			delete ptr_->value_ ;
-			delete ptr_ ;
-			ptr_ = nullptr ;
-		}
-	}
-}
-
-template<class C>
-void ptr<C>::take()
-{
-	if(ptr_)
-		ptr_->ref_++ ;
-}
 
 template<class C>
 const typename ptr<C>::IdType& ptr<C>::id() const
 {
 	if(ptr_)
 		return ptr_->id_ ;
-	// return an invalid id without creating a temporrary
-	return invalidId_ ;
+	return invalidId ;
 }
 
 template<class C>
@@ -233,6 +135,34 @@ void ptr<C>::id(const ptr<C>::IdType& value)
 {
 	if(ptr_)
 		ptr_->id_ = value ;
+}
+
+template<class C>
+long ptr<C>::use_count() const noexcept
+{
+	return ptr_.use_count() ;
+}
+
+template<class C>
+void ptr<C>::modify()
+{
+	if(ptr_)
+		ptr_->modified_ = true ;
+}
+
+template<class C>
+bool ptr<C>::modified() const
+{
+	if(ptr_)
+		return ptr_->modified_ ;
+	return false ;
+}
+
+template<class C>
+void ptr<C>::load()
+{
+	if(ptr_)
+		ptr_->loaded_ = true ;
 }
 
 template<class C>

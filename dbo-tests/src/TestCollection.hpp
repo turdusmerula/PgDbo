@@ -2,18 +2,27 @@
 #include <gtest_extend.h>
 
 #include <iostream>
-#include <chrono>
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <thread>
 
 #include <dbo/dbo.hpp>
 
 extern std::string connection ;
 
+class jSimpleTable ;
 class jCollectionTable ;
 class jSimpleTable2 ;
+
+namespace dbo {
+namespace traits {
+template<>
+struct dbo_traits<jCollectionTable> : public dbo_default_traits
+{
+	// change default id name
+	static boost::optional<std::string> surrogateIdField() { return std::string("id2") ; }
+};
+}}
 
 // ----------------------------------------------------------------------------
 class jSimpleTable
@@ -42,9 +51,10 @@ public:
 	};
 	TypeEnum enum_value ;
 
-	// Always use ref with hasMany to avoid memory leaks
-	dbo::ref<jCollectionTable> parent_value ;
-//	dbo::ptr<jSimpleTable2> parent_value2 ;
+	// Always use ref with hasMany to avoid memory leaks as collection uses ptr on its core
+	dbo::weak_ptr<jCollectionTable> parent_value ;
+
+	dbo::ptr<jSimpleTable2> parent_value2 ;
 
 	template<class Action>
 	void persist(Action& a)
@@ -66,7 +76,7 @@ public:
 		dbo::field(a, enum_value, "enum_value") ;
 
 		dbo::belongsTo(a, parent_value, "coll") ;
-//		dbo::belongsTo(a, parent_value2) ;
+		dbo::hasOne(a, parent_value2, "parent") ;
 	}
 } ;
 // ----------------------------------------------------------------------------
@@ -76,11 +86,13 @@ class jSimpleTable2
 {
 public:
 	std::string value ;
+	dbo::weak_ptr<jSimpleTable> parent ;
 
 	template<class Action>
 	void persist(Action& a)
 	{
 		dbo::field(a, value, "value") ;
+		dbo::belongsTo(a, parent, "parent") ;
 	}
 } ;
 // ----------------------------------------------------------------------------
@@ -137,11 +149,22 @@ public:
 } ;
 dbo::connection TestCollection::db ;
 
+TEST_F(TestCollection, TestSql) {
+	dbo::connection db ;
 
-TEST_F(TestCollection, TestBulkInsert) {
+	db.mapClass<jSimpleTable>("jSimpleTable") ;
+	db.mapClass<jSimpleTable2>("jSimpleTable2") ;
+	db.mapClass<jCollectionTable>("jCollectionTable") ;
+
+	std::cout << db.tableCreationSql() << std::endl ;
+	db.debug() ;
+}
+
+
+TEST_F(TestCollection, DISABLED_TestBulkInsert) {
 	dbo::collection<jSimpleTable> c ;
 
-	for(int i=0 ; i<100 ; i++)
+	for(int i=0 ; i<1000 ; i++)
 	{
 		dbo::ptr<jSimpleTable> p=dbo::make_ptr<jSimpleTable>() ;
 
@@ -171,58 +194,48 @@ TEST_F(TestCollection, TestBulkInsert) {
 	ASSERT_TRUE( c.empty() ) ;
 }
 
-TEST_F(TestCollection, DISABLED_TestRecursiveInsert) {
+TEST_F(TestCollection, TestInsert) {
+	dbo::ptr<jCollectionTable> c=dbo::make_ptr<jCollectionTable>() ;
+	c->value = "TestInsert" ;
+
+	dbo::ptr<jSimpleTable2> d=dbo::make_ptr<jSimpleTable2>() ;
+	d->value = "TestInsert" ;
+
+	dbo::ptr<jSimpleTable> p=dbo::make_ptr<jSimpleTable>() ;
+	p->string_value = "TestInsert" ;
+	p->parent_value = c ;
+	p->parent_value2 = d ;
+
+	ASSERT_TRUE( p->parent_value.id()==dbo::ptr<jSimpleTable>::invalidId ) ;
+
+	ASSERT_NO_THROW_V( db.insert(c) ) ;
+//	ASSERT_NO_THROW_V( db.insert(d) ) ;
+
+	ASSERT_TRUE( p->parent_value.id()==c.id() ) ;
+//	ASSERT_TRUE( p->parent_value2.id()==d.id() ) ;
+
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+
+}
+
+TEST_F(TestCollection, TestRecursiveInsert) {
 	dbo::ptr<jCollectionTable> c=dbo::make_ptr<jCollectionTable>() ;
 	c->value = "TestRecursiveInsert" ;
 
 	for(int i=0 ; i<10 ; i++)
 	{
 		dbo::ptr<jSimpleTable> p=dbo::make_ptr<jSimpleTable>() ;
-//		p->int_value = i ;
-//		p->string_value = "TestRecursiveInsert" ;
+		p->int_value = i ;
+		p->string_value = "TestRecursiveInsert" ;
 		p->parent_value = c ;
-//
-//		p->parent_value2 = dbo::make_ptr<jSimpleTable2>() ;
-//		p->parent_value2->value = "TestRecursiveInsert" ;
-//
+
+		p->parent_value2 = dbo::make_ptr<jSimpleTable2>() ;
+		p->parent_value2->value = "TestRecursiveInsert" ;
+
 		c->coll.push_back(p) ;
 	}
 
 	db.insert(c, dbo::opt::Recursive) ;
-	std::cout << " ------- " << std::endl ;
 }
 
-TEST_F(TestCollection, TestThreadPtr) {
-	dbo::ptr<jCollectionTable> c=dbo::make_ptr<jCollectionTable>() ;
-
-	typedef std::chrono::duration<double, std::ratio<1>> DurationSeconds ;
-
-	auto th_alloc=[&](){
-		auto start = std::chrono::high_resolution_clock::now() ;
-
-		while(DurationSeconds(std::chrono::high_resolution_clock::now()-start).count()<5)
-		{
-			c = dbo::make_ptr<jCollectionTable>() ;
-		}
-	} ;
-
-	auto th_share=[&](){
-		auto start = std::chrono::high_resolution_clock::now() ;
-
-		while(DurationSeconds(std::chrono::high_resolution_clock::now()-start).count()<5)
-		{
-			{
-				dbo::ptr<jCollectionTable> d=c ;
-			}
-		}
-	} ;
-
-	std::thread th1(th_alloc) ;
-
-	std::vector<std::shared_ptr<std::thread>> ths ;
-	for(int i=0 ; i<10 ; i++)
-		ths.push_back(std::make_shared<std::thread>(th_share)) ;
-	th1.join() ;
-	for(auto& th : ths)
-		th->join() ;
-}

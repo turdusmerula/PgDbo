@@ -45,6 +45,13 @@ std::string MappingInfo::primaryKeys() const
 	}
 }
 
+std::string MappingInfo::idName()
+{
+	if(surrogateIdFieldName!=boost::none)
+		return surrogateIdFieldName.get() ;
+	return naturalIdFieldName ;
+}
+
 std::string MappingInfo::debug(int tab)
 {
 	std::stringstream ss ;

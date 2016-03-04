@@ -55,24 +55,28 @@ template<class C>
 template<typename V>
 void BulkInsert<C>::actId(V& value, const std::string& name, int size)
 {
+	//TODO
 }
 
 template<class C>
 template<class D>
 void BulkInsert<C>::actPtr(const mapping::PtrRef<D>& field)
 {
+	//TODO
 }
 
 template<class C>
 template<class D>
-void BulkInsert<C>::actRef(const mapping::RefRef<D>& field)
+void BulkInsert<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 {
+	//TODO
 }
 
 template<class C>
 template<class D>
 void BulkInsert<C>::actCollection(const mapping::CollectionRef<D>& field)
 {
+	//TODO
 }
 
 }}

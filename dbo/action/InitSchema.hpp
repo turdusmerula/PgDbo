@@ -14,7 +14,7 @@ class MappingInfo ;
 template <class T> class CollectionRef ;
 template <class T> class FieldRef ;
 template <class T> class PtrRef ;
-template <class T> class RefRef ;
+template <class T> class WeakRef ;
 }
 
 namespace action {
@@ -29,8 +29,10 @@ public:
 
 	template<typename V> void act(const mapping::FieldRef<V>& field) ;
 	template<typename V> void actId(V& value, const std::string& name, int size) ;
+
 	template<class C> void actPtr(const mapping::PtrRef<C>& field) ;
-	template<class C> void actRef(const mapping::RefRef<C>& field) ;
+	template<class C> void actWeakPtr(const mapping::WeakRef<C>& field) ;
+
 	void actMapping(std::shared_ptr<mapping::MappingInfo> mapping) ;
 	template<class C> void actCollection(const mapping::CollectionRef<C>& field) ;
 

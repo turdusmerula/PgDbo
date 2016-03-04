@@ -16,6 +16,7 @@
 #include <dbo-tests/src/TestStatement.hpp>
 #include <dbo-tests/src/TestHasManyTable.hpp>
 #include <dbo-tests/src/TestCollection.hpp>
+#include <dbo-tests/src/TestPtr.hpp>
 
 std::string connection ;
 dbo::connection db ;

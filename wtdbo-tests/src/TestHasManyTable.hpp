@@ -10,29 +10,6 @@ extern wtdbo::backend::Postgres* db ;
 
 class hComplexIdTable ;
 
-// ----------------------------------------------------------------------------
-class hSimpleTable
-{
-public:
-	std::string name ;
-	std::string value ;
-	wtdbo::collection<wtdbo::ptr<hComplexIdTable>> list1 ;
-	wtdbo::collection<wtdbo::ptr<hComplexIdTable>> list2 ;
-	wtdbo::collection<wtdbo::ptr<hComplexIdTable>> list3 ;
-
-	template<class Action>
-	void persist(Action& a)
-	{
-		wtdbo::field(a, name, "name") ;
-		wtdbo::field(a, value, "value") ;
-		wtdbo::hasMany(a, list1, wtdbo::ManyToOne, "list1") ;
-		wtdbo::hasMany(a, list2, wtdbo::ManyToMany, "hSimpleTable_list2") ;
-		wtdbo::hasMany(a, list3, wtdbo::ManyToMany, "hSimpleTable_list3") ;
-	}
-};
-// ----------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------
 struct hComplexId
 {
 	std::string name ;
@@ -48,6 +25,47 @@ struct hComplexId
 		return name==other.name && age==other.age ;
 	}
 } ;
+
+namespace wtdbo {
+template<>
+struct dbo_traits<hComplexIdTable> : public dbo_default_traits
+{
+	// define custom id type
+	typedef hComplexId IdType ;
+
+	static IdType invalidId() { return hComplexId() ; }
+
+	// deactivate default id
+	static const char* surrogateIdField() { return 0 ; }
+};
+}
+
+// ----------------------------------------------------------------------------
+
+class hSimpleTable
+{
+public:
+	std::string name ;
+	std::string value ;
+	wtdbo::collection<wtdbo::ptr<hComplexIdTable>> list1 ;
+	wtdbo::collection<wtdbo::ptr<hComplexIdTable>> list2 ;
+	wtdbo::collection<wtdbo::ptr<hComplexIdTable>> list3 ;
+	wtdbo::weak_ptr<hComplexIdTable> one ;
+
+	template<class Action>
+	void persist(Action& a)
+	{
+		wtdbo::field(a, name, "name") ;
+		wtdbo::field(a, value, "value") ;
+		wtdbo::hasMany(a, list1, wtdbo::ManyToOne, "list1") ;
+		wtdbo::hasMany(a, list2, wtdbo::ManyToMany, "hSimpleTable_list2") ;
+		wtdbo::hasMany(a, list3, wtdbo::ManyToMany, "hSimpleTable_list3") ;
+		wtdbo::hasOne(a, one, "hSimpleTable_one") ;
+	}
+};
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
 
 // explains how to store a Id in database
 template <class Action>
@@ -68,6 +86,7 @@ class hComplexIdTable
 public:
 	hComplexId composite_id ;
 	wtdbo::ptr<hSimpleTable> simple_owner ;
+	wtdbo::ptr<hSimpleTable> one_owner ;
 
 	std::string value ;
 
@@ -77,23 +96,10 @@ public:
 		wtdbo::id(a, composite_id) ;
 		wtdbo::belongsTo(a, simple_owner, "list1") ;
 		wtdbo::field(a, value, "value") ;
+		wtdbo::belongsTo(a, one_owner, "hSimpleTable_one") ;
 	}
 } ;
 
-namespace wtdbo {
-template<>
-struct dbo_traits<hComplexIdTable> : public dbo_default_traits
-{
-	// define custom id type
-	typedef hComplexId IdType ;
-
-	static IdType invalidId() { return hComplexId() ; }
-
-	// deactivate default id
-	static const char* surrogateIdField() { return 0 ; }
-};
-
-}
 // ----------------------------------------------------------------------------
 
 // The fixture for testing class Database.

@@ -5,7 +5,7 @@
 
 #include <dbo/connection.h>
 #include <dbo/ptr.hpp>
-#include <dbo/ref.hpp>
+#include <dbo/weak_ptr.hpp>
 #include <dbo/collection.hpp>
 #include <dbo/relation.hpp>
 #include <dbo/query.hpp>
@@ -21,7 +21,7 @@
 #include <dbo/mapping/CollectionRef.hpp>
 #include <dbo/mapping/FieldRef.hpp>
 #include <dbo/mapping/PtrRef.hpp>
-#include <dbo/mapping/RefRef.hpp>
+#include <dbo/mapping/WeakRef.hpp>
 
 #include <dbo/action/InitSchema.hpp>
 #include <dbo/action/Delete.hpp>
@@ -30,6 +30,7 @@
 #include <dbo/action/Update.hpp>
 #include <dbo/action/SelectById.hpp>
 #include <dbo/action/LoadDb.hpp>
+#include <dbo/action/SqlInsert.hpp>
 
 #include <dbo/traits/dbo_traits.hpp>
 
@@ -37,7 +38,7 @@
 
 #include <dbo/connection.cxx>
 #include <dbo/ptr.cxx>
-#include <dbo/ref.cxx>
+#include <dbo/weak_ptr.cxx>
 #include <dbo/collection.cxx>
 #include <dbo/relation.cxx>
 #include <dbo/query.cxx>
@@ -49,10 +50,11 @@
 #include <dbo/action/Update.cxx>
 #include <dbo/action/SelectById.cxx>
 #include <dbo/action/LoadDb.cxx>
+#include <dbo/action/SqlInsert.cxx>
 
 #include <dbo/mapping/FieldRef.cxx>
 #include <dbo/mapping/PtrRef.cxx>
-#include <dbo/mapping/RefRef.cxx>
+#include <dbo/mapping/WeakRef.cxx>
 #include <dbo/mapping/Mapping.cxx>
 
 #endif

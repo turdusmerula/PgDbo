@@ -8,6 +8,7 @@
 
 #include <dbo/action/ActionOption.h>
 #include <dbo/mapping/JoinId.h>
+#include <dbo/mapping/MappingInfo.h>
 #include <dbo/traits/SqlPostgresTypes.hpp>
 #include <dbo/traits/dbo_traits.hpp>
 #include <dbo/transaction.h>
@@ -21,7 +22,7 @@ typedef struct pg_conn PGconn;
 namespace dbo {
 template <class T> class collection ;
 template <class T> class ptr ;
-template <class T> class ref ;
+template <class T> class weak_ptr ;
 class query ;
 
 namespace action {
@@ -29,15 +30,15 @@ template <class T> class Delete ;
 template <class T> class Insert ;
 template <class T> class SelectById ;
 template <class T> class Update ;
+template <class T> class SqlInsert ;
 class InitSchema ;
 }
 
 namespace mapping {
-class MappingInfo ;
 template <class T> class Mapping ;
 class FieldInfo ;
 template<class C> class PtrRef ;
-template<class C> class RefRef ;
+template<class C> class WeakRef ;
 }
 
 namespace stmt {
@@ -116,7 +117,7 @@ public:
 	 * Persists an object inside database and attribute it an id
 	 */
 	template<class C>
-	ptr<C> insert(ref<C>& ptr, ActionOption opt=opt::None) ;
+	ptr<C> insert(weak_ptr<C>& ptr, ActionOption opt=opt::None) ;
 
 	/**
 	 * bulk insert content of collection
@@ -187,7 +188,7 @@ protected:
 	bool showResults_ ;
 
 	// RTTI class info
-	typedef const std::type_info * const_typeinfo_ptr ;
+	typedef const std::type_info* const_typeinfo_ptr ;
 	struct typecomp
 	{
 		bool operator()(const const_typeinfo_ptr& lhs, const const_typeinfo_ptr& rhs) const
@@ -201,9 +202,13 @@ protected:
 	using TableRegistry = std::unordered_map<std::string, MappingInfoPtr> ;
 	using Types = traits::SqlPostgresTypes ;
 
+	using StatementList = std::vector<std::shared_ptr<stmt::Statement>> ;
+	using TypeStatementList = std::map<const_typeinfo_ptr, StatementList, typecomp> ;
+
 	bool schemaInitialized_ ;
 	ClassRegistry classRegistry_ ;
 	TableRegistry tableRegistry_ ;
+	TypeStatementList statements_ ;
 
 	dbo::transaction transaction_ ;	// current living transaction
 
@@ -234,13 +239,17 @@ protected:
 	template<class C> std::shared_ptr<mapping::Mapping<C>> getMapping() ;
 	MappingInfoPtr getMapping(const std::string& tableName) const ;
 
+	template <class C, class Statement=stmt::Statement>
+	Statement& getStatement(mapping::MappingInfo::StatementType type) ;
+
 	template <class T> friend class action::Delete ;
 	template <class T> friend class action::Insert ;
 	template <class T> friend class action::SelectById ;
 	template <class T> friend class action::Update ;
+	template <class T> friend class action::SqlInsert ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
-	template<class C> friend class mapping::RefRef ;
+	template<class C> friend class mapping::WeakRef ;
 	friend class stmt::PreparedStatement ;
 	friend class stmt::BulkStatement ;
 	friend class query ;

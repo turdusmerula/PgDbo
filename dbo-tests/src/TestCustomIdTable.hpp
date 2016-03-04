@@ -69,6 +69,7 @@ struct dbo_traits<bCustomIdTable> : public dbo_default_traits
 		return "" ;
 	}
 
+	static boost::optional<std::string> surrogateIdField() { return std::string("custom_id_name") ; }
 };
 }}
 // ----------------------------------------------------------------------------

@@ -46,50 +46,75 @@ void InitSchema::actId(V& value, const std::string& name, int size)
 template<class C>
 void InitSchema::actPtr(const mapping::PtrRef<C>& field)
 {
-	std::shared_ptr<mapping::Mapping<C>> mapping=conn_.getMapping<C>() ;
-
-	bool setName = foreignKeyName_.empty() ;
-
-	if(setName)
+	if(field.nameIsJoin()==true)
 	{
-		foreignKeyName_ = field.name() ;
-		foreignKeyTable_ = mapping->tableName ;
-		fkConstraints_ = field.fkConstraints() ;
+		std::string joinTableName=conn_.tableName<C>() ;
+		std::string joinName = field.name() ;
+		if(joinName.empty())
+			joinName = mapping_.tableName;
+
+		mapping_.sets.push_back(mapping::SetInfo(joinTableName, OneToOne, joinName, std::string(), 0)) ;
 	}
-
-	field.visit(*this, conn_);
-
-	if(setName)
+	else
 	{
-		foreignKeyName_.clear();
-		foreignKeyTable_.clear();
-		fkConstraints_ = 0 ;
+		std::shared_ptr<mapping::Mapping<C>> mapping=conn_.getMapping<C>() ;
+
+		bool setName = foreignKeyName_.empty() ;
+
+		if(setName)
+		{
+			foreignKeyName_ = field.name() ;
+			foreignKeyTable_ = mapping->tableName ;
+			fkConstraints_ = field.fkConstraints() ;
+		}
+
+		field.visit(*this, conn_);
+
+		if(setName)
+		{
+			foreignKeyName_.clear();
+			foreignKeyTable_.clear();
+			fkConstraints_ = 0 ;
+		}
 	}
 }
 
 template<class C>
-void InitSchema::actRef(const mapping::RefRef<C>& field)
+void InitSchema::actWeakPtr(const mapping::WeakRef<C>& field)
 {
-	std::shared_ptr<mapping::Mapping<C>> mapping=conn_.getMapping<C>() ;
-
-	bool setName = foreignKeyName_.empty() ;
-
-	if(setName)
+	if(field.nameIsJoin()==true)
 	{
-		foreignKeyName_ = field.name() ;
-		foreignKeyTable_ = mapping->tableName ;
-		fkConstraints_ = field.fkConstraints() ;
+		std::string joinTableName=conn_.tableName<C>() ;
+		std::string joinName = field.name() ;
+		if(joinName.empty())
+			joinName = mapping_.tableName;
+
+		mapping_.sets.push_back(mapping::SetInfo(joinTableName, OneToOne, joinName, std::string(), 0)) ;
 	}
-
-	field.visit(*this, conn_);
-
-	if(setName)
+	else
 	{
-		foreignKeyName_.clear();
-		foreignKeyTable_.clear();
-		fkConstraints_ = 0 ;
+		std::shared_ptr<mapping::Mapping<C>> mapping=conn_.getMapping<C>() ;
+
+		bool setName = foreignKeyName_.empty() ;
+
+		if(setName)
+		{
+			foreignKeyName_ = field.name() ;
+			foreignKeyTable_ = mapping->tableName ;
+			fkConstraints_ = field.fkConstraints() ;
+		}
+
+		field.visit(*this, conn_);
+
+		if(setName)
+		{
+			foreignKeyName_.clear();
+			foreignKeyTable_.clear();
+			fkConstraints_ = 0 ;
+		}
 	}
 }
+
 
 template<class C>
 void InitSchema::actCollection(const mapping::CollectionRef<C>& field)

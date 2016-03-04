@@ -6,7 +6,18 @@ PtrRef<C>::PtrRef(ptr<C>& value, const std::string& name, int size, int fkConstr
 	: 	value_(value),
 		name_(name),
 		size_(size),
-		fkConstraints_(fkConstraints)
+		fkConstraints_(fkConstraints),
+		nameIsJoin_(false)
+{
+}
+
+template<class C>
+PtrRef<C>::PtrRef(ptr<C>& value, const std::string& joinname)
+	: 	value_(value),
+		name_(joinname),
+		size_(-1),
+		fkConstraints_(0),
+		nameIsJoin_(true)
 {
 }
 
@@ -22,11 +33,6 @@ void PtrRef<C>::visit(A& action, connection& conn) const
 {
 	typename traits::dbo_traits<C>::IdType id ;
 
-//	if(action.setsValue())
-//		id = traits::dbo_traits<C>::invalidId() ;
-//	else
-//		id = key_.id() ;
-
 	std::string idFieldName = "stub" ;
 	int size = size_ ;
 
@@ -39,8 +45,6 @@ void PtrRef<C>::visit(A& action, connection& conn) const
 		idFieldName = mapping->surrogateIdFieldName.get() ;
 
 	field(action, id, name_+"_"+idFieldName, size) ;
-
-//	LoadLazyHelper<C, A>::loadLazy(value_, id, session) ;
 }
 
 }}

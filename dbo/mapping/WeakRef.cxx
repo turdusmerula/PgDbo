@@ -2,23 +2,34 @@ namespace dbo {
 namespace mapping {
 
 template<class C>
-RefRef<C>::RefRef(ref<C>& value, const std::string& name, int size, int fkConstraints)
+WeakRef<C>::WeakRef(weak_ptr<C>& value, const std::string& name, int size, int fkConstraints)
 	: 	value_(value),
 		name_(name),
 		size_(size),
-		fkConstraints_(fkConstraints)
+		fkConstraints_(fkConstraints),
+		nameIsJoin_(false)
 {
 }
 
 template<class C>
-const std::type_info* RefRef<C>::type() const
+WeakRef<C>::WeakRef(weak_ptr<C>& value, const std::string& joinname)
+	: 	value_(value),
+		name_(joinname),
+		size_(-1),
+		fkConstraints_(0),
+		nameIsJoin_(true)
+{
+}
+
+template<class C>
+const std::type_info* WeakRef<C>::type() const
 {
 	return &typeid(typename traits::dbo_traits<C>::IdType) ;
 }
 
 template<class C>
 template<class A>
-void RefRef<C>::visit(A& action, connection& conn) const
+void WeakRef<C>::visit(A& action, connection& conn) const
 {
 	typename traits::dbo_traits<C>::IdType id ;
 

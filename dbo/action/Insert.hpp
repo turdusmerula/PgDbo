@@ -26,7 +26,7 @@ public:
 	template<class D> void actId(ptr<D>& value, const std::string& name, int size, int fkConstraints) ;
 
 	template <class D> void actPtr(const mapping::PtrRef<D>& field) ;
-	template <class D> void actRef(const mapping::RefRef<D>& field) ;
+	template <class D> void actWeakPtr(const mapping::WeakRef<D>& field) ;
 
 	template<class D> void actCollection(const mapping::CollectionRef<D>& field) ;
 

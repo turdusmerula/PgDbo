@@ -515,6 +515,12 @@ void connection::prepareSelectedByIdStatements(MappingInfoPtr mapping)
 
 	sql << " from \"" << table << "\" where " << mapping->idCondition ;
 
+	for(auto& set : mapping->sets)
+	{
+		if(set.type_==OneToOne)
+			sql << " left join " << set.tableName_ << " as " << set.joinName_ << " ON " << " TODO " ;
+	}
+
 	mapping->statements.insert({mapping::MappingInfo::SqlSelectById, stmt::PreparedStatement(*this, sql.str())}) ;
 }
 
@@ -573,6 +579,7 @@ void connection::prepareCollectionsStatements(MappingInfoPtr mapping)
 
 		switch(info.type_)
 		{
+		case OneToOne:
 		case ManyToOne:
 			// where joinfield_id(s) = ?
 

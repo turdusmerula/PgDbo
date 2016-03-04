@@ -10,6 +10,7 @@ namespace dbo {
  */
 enum RelationType
 {
+	OneToOne,  //!< One-to-One relationship
 	ManyToOne,  //!< Many-to-One relationship
 	ManyToMany  //!< Many-to-Many relationship
 };
@@ -48,6 +49,9 @@ struct SetInfo
 
 		switch(type_)
 		{
+		case OneToOne:
+			ss << stab1 << "type: " << "OneToOne" << std::endl ;
+			break ;
 		case ManyToOne:
 			ss << stab1 << "type: " << "ManyToOne" << std::endl ;
 			break ;

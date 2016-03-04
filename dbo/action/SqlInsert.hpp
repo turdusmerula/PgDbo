@@ -1,7 +1,5 @@
-#ifndef _DBO_ACTION_BULKINSERT_HPP_
-#define _DBO_ACTION_BULKINSERT_HPP_
-
-#include <sstream>
+#ifndef _DBO_ACTION_SQLINSERT_HPP_
+#define _DBO_ACTION_SQLINSERT_HPP_
 
 namespace dbo {
 namespace mapping {
@@ -12,13 +10,23 @@ template <class T> class PtrRef ;
 
 namespace action {
 
+struct SqlInsertData {
+	int params_ ;
+
+	std::stringstream sql_ ;
+
+	SqlInsertData()
+		:	params_(0)
+	{}
+} ;
+
 template<class C>
-class BulkInsert
+class SqlInsert
 {
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	BulkInsert(collection<C>& coll, mapping::Mapping<C>& mapping, connection& conn) ;
+	SqlInsert(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
 
 	void visit() ;
 
@@ -32,22 +40,18 @@ public:
 
 	template<class D> void actCollection(const mapping::CollectionRef<D>& field) ;
 
-	connection& conn() { return conn_ ; } ;
+	connection& conn() { return stmt_.conn() ; } ;
 private:
-	collection<C>& coll_ ;
-	mapping::Mapping<C>& mapping_ ;
-	dbo::connection& conn_ ;
-	stmt::BulkStatement stmt_ ;
 
-	std::vector<std::string> columns_ ;
+	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
+	stmt::PreparedStatement& stmt_ ;
 
-	enum State {
-		PreparingHeader=0,
-		PreparingData
-	} ;
-	State state_ ;
+	std::shared_ptr<SqlInsertData> data_ ;
 
-	template <class D> friend class BulkInsert ;
+
+	SqlInsert(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, std::shared_ptr<SqlInsertData> data) ;
+
+	template <class D> friend class SqlInsert ;
 };
 
 }}

@@ -100,13 +100,13 @@ void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, 
 
 
 template<class Action, class C>
-void belongsTo(Action& action, ref<C>& value, const std::string& name=std::string(), int size=-1) ;
+void belongsTo(Action& action, weak_ptr<C>& value, const std::string& name=std::string(), int size=-1) ;
 
 template<class Action, class C>
-void belongsTo(Action& action, ref<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size=-1) ;
+void belongsTo(Action& action, weak_ptr<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size=-1) ;
 
 template<class Action, class C>
-void belongsTo(Action& action, ref<C>& value, ForeignKeyConstraint constraints, int size=-1) ;
+void belongsTo(Action& action, weak_ptr<C>& value, ForeignKeyConstraint constraints, int size=-1) ;
 
 
 
@@ -119,6 +119,11 @@ template<class Action, class C>
 void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& name, const std::string& joinId, ForeignKeyConstraint constraints=(fk::NotNull|fk::OnDeleteCascade)) ;
 
 
+template<class Action, class C>
+void hasOne(Action& action, weak_ptr<C>& value, const std::string& name = std::string());
+
+template<class Action, class C>
+void hasOne(Action& action, ptr<C>& value, const std::string& name = std::string());
 
 }
 

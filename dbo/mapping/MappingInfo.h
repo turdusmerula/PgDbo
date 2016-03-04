@@ -25,10 +25,11 @@ public:
 	enum StatementType
 	{
 		SqlInsert=0,
-		SqlUpdate=1,
-		SqlDelete=2,
-		SqlSelectById=3,
-		FirstSqlSelectSet=4
+		SqlUpdate,
+		SqlDelete,
+		SqlSelectById,
+		FirstSqlSelectSet,
+		StatementTypeCount
 	} ;
 
 	bool initialized_ ;
@@ -48,6 +49,8 @@ public:
 
 	virtual void init(connection& conn) ;
 	std::string primaryKeys() const ;
+
+	std::string idName() ;
 
 	std::string debug(int tab) ;
 } ;

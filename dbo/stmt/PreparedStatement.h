@@ -24,7 +24,7 @@ public:
 	/**
 	 * Build a statement, the name of the statement will be created from the hash of the sql query
 	 */
-	PreparedStatement(connection& conn, std::string sql) ;
+	PreparedStatement(connection& conn, std::string sql="") ;
 
 	/**
 	 * Build a statement. If the given name is empty then the statement is treated as an anonymous

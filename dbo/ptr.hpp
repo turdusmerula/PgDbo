@@ -2,9 +2,10 @@
 #define _DBO_PTR_HPP_
 
 #include <mutex>
+#include <atomic>
 
 namespace dbo {
-template <class T> class ref ;
+template <class T> class weak_ptr ;
 
 namespace action {
 template <class T> class Delete ;
@@ -28,27 +29,29 @@ class ptr_base
 template<class C>
 class ptr : public ptr_base
 {
-private:
-	using MutC = typename boost::remove_const<C>::type ;
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	ptr() ;
-	ptr(C* obj) ;
-
-	/*! \brief build from a reference id
-	 */
-	ptr(const ref<C>& other) ;
+	ptr() noexcept ;
 
 	/*! \brief Copy constructor.
 	 */
-	ptr(const ptr<C>& other) ;
+	template<class D>
+	ptr(ptr<D> const& other, typename boost::detail::sp_enable_if_convertible<D, C>::type=boost::detail::sp_empty()) ;
+
+	ptr(const ptr& other) ;
+
+	ptr(const weak_ptr<C>& other) ;
+
+	~ptr() ;
+
+
+	/*! \brief Assignment operator.
+	 */
+	ptr& operator=(const ptr& other) ;
 
 	template<class D>
-	ptr(const ptr<D>& other) ;
-
-	virtual ~ptr() ;
-
+	ptr<C>& operator=(const ptr<D>& other) ;
 
 	/*! \brief Resets the pointer.
 	 *
@@ -57,70 +60,24 @@ public:
 	 * p = ptr<C>(obj);
 	 * \endcode
 	 */
-	void reset(C* obj=nullptr) ;
+	void reset() ;
 
-	/*! \brief Assignment operator.
-	 */
-	ptr<C>& operator=(const ptr<C>& other) ;
-
-	template<class D>
-	ptr<C>& operator=(const ptr<D>& other) ;
-
-	/*! \brief Dereference operator.
-	 *
-	 * Note that this operator returns a const copy of the referenced
-	 * object. Use modify() to get a non-const reference.
-	 *
-	 * Since this may lazy-load the underlying database object, you
-	 * should have an active transaction.
-	 */
-	C* operator->() const ;
 
 	/*! \brief Returns the pointer.
-	 *
-	 * Note that returns a const pointer. Use modify() to get a non-const
-	 * pointer.
-	 *
-	 * Since this may lazy-load the underlying database object, you
-	 * should have an active transaction.
-	 *
-	 * \sa modify()
 	 */
-	C* get() const ;
+	C* get() const noexcept ;
 
-	/*! \brief Dereference operator.
-	 *
-	 * Note that this operator returns a const copy of the referenced
-	 * object. Use modify() to get a non-const reference.
-	 *
-	 * Since this may lazy-load the underlying database object, you
-	 * should have an active transaction.
+    /*! \brief Dereference operator.
 	 */
 	C& operator*() const ;
 
-	/*! \brief Comparison operator.
-	 *
-	 * Two pointers are equal if and only if they reference the same
-	 * database object.
+	/*! \brief Dereference operator.
 	 */
-	bool operator==(const ptr<MutC>& other) const ;
-	bool operator==(const ptr<const C>& other) const ;
+	C* operator->() const ;
 
-	/*! \brief Comparison operator.
-	 *
-	 * Two pointers are equal if and only if they reference the same
-	 * database object.
-	 */
-	bool operator!=(const ptr<MutC>& other) const ;
-	bool operator!=(const ptr<const C>& other) const ;
 
-	/*! \brief Comparison operator.
-	 *
-	 * This operator is implemented to be able to store pointers in
-	 * std::set or std::map containers.
-	 */
-	bool operator<(const ptr<MutC>& other) const ;
-	bool operator<(const ptr<const C>& other) const ;
+    void swap(ptr& other) noexcept ;
+
 
 	/*! \brief Checks for null.
 	 *
@@ -131,6 +88,7 @@ public:
 	/**
 	 * An object is considered as loaded if it has a content and a valid id
 	 */
+    void load() ;
 	bool loaded() const ;
 
 	/**
@@ -138,30 +96,47 @@ public:
 	 */
 	bool orphan() const ;
 
-	const IdType& id() const ;
+    void modify() ;
+    bool modified() const ;
+
+    const IdType& id() const ;
+
+    long use_count() const noexcept ;
+
+	static const IdType invalidId ;
 protected:
 	struct Ptr
 	{
-		C* value_ ;
-		size_t ref_ ;
+		C value_ ;
 		IdType id_ ;
+
+		bool modified_ ;
+		bool loaded_ ;
+
+		Ptr(C&& value=C(), const typename traits::dbo_traits<C>::IdType& id=traits::dbo_traits<C>::invalidId())
+			:	value_(std::move(value)),
+				id_(id),
+				modified_(false),
+				loaded_(false)
+		{}
 	} ;
+
+	std::shared_ptr<Ptr> ptr_ ;
 
 	// this is the table name corresponding to C type, it is needed for serialisation
 	char* tableName_ ;
 
-	static IdType invalidId_ ;
 
-	Ptr* ptr_ ;
 
-	ptr(Ptr* ptr) ;
-
-	void free() ;
-	void take() ;
+	/**
+	 * Provided for make_ptr, takes the ownership of ptr
+	 */
+	ptr(std::shared_ptr<Ptr> ptr) ;
 
 	void id(const IdType& value) ;
 
 	void tableName(const char* tableName) ;
+
 
 	friend class connection ;
 	template <class T> friend class action::Delete ;
@@ -169,9 +144,11 @@ protected:
 	template <class T> friend class action::Update ;
 	template <class T> friend class action::SelectById ;
 	friend class query ;
-
-	friend std::ostream& operator<< <>(std::ostream& o, const ptr<C>& _ptr) ;
 	template <class D> friend class collection ;
+	template <class D> friend class weak_ptr ;
+
+	template<typename _Tp, typename... _Args> friend inline ptr<_Tp> make_ptr(_Args&&... __args) ;
+	friend std::ostream& operator<< <>(std::ostream& o, const ptr<C>& _ptr) ;
 } ;
 
 
@@ -179,8 +156,86 @@ template<typename _Tp, typename... _Args>
 inline ptr<_Tp> make_ptr(_Args&&... __args)
 {
     typedef typename std::remove_const<_Tp>::type _Tp_nc ;
-    return ptr<_Tp>(new _Tp_nc(std::forward<_Args>(__args)...)) ;
+    return ptr<_Tp>(
+    	std::make_shared<typename ptr<_Tp>::Ptr>(_Tp(_Tp_nc(std::forward<_Args>(__args)...)))
+	);
 }
+
+
+template<typename _Tp1, typename _Tp2>
+inline bool operator==(const ptr<_Tp1>& __a, const ptr<_Tp2>& __b) noexcept
+{ return __a.get() == __b.get(); }
+
+template<typename _Tp>
+inline bool operator==(const ptr<_Tp>& __a, std::nullptr_t) noexcept
+{ return !__a; }
+
+template<typename _Tp>
+inline bool operator==(std::nullptr_t, const ptr<_Tp>& __a) noexcept
+{ return !__a; }
+
+template<typename _Tp1, typename _Tp2>
+inline bool operator!=(const ptr<_Tp1>& __a, const ptr<_Tp2>& __b) noexcept
+{ return __a.get() != __b.get(); }
+
+template<typename _Tp>
+inline bool operator!=(const ptr<_Tp>& __a, std::nullptr_t) noexcept
+{ return (bool)__a; }
+
+template<typename _Tp>
+inline bool operator!=(std::nullptr_t, const ptr<_Tp>& __a) noexcept
+{ return (bool)__a; }
+
+template<typename _Tp1, typename _Tp2>
+inline bool operator<(const ptr<_Tp1>& __a, const ptr<_Tp2>& __b) noexcept
+{
+	typedef typename std::common_type<_Tp1*, _Tp2*>::type _CT;
+    return std::less<_CT>()(__a.get(), __b.get());
+}
+
+template<typename _Tp>
+inline bool operator<(const ptr<_Tp>& __a, std::nullptr_t) noexcept
+{ return std::less<_Tp*>()(__a.get(), nullptr); }
+
+template<typename _Tp>
+inline bool operator<(std::nullptr_t, const ptr<_Tp>& __a) noexcept
+{ return std::less<_Tp*>()(nullptr, __a.get()); }
+
+template<typename _Tp1, typename _Tp2>
+inline bool operator<=(const ptr<_Tp1>& __a, const ptr<_Tp2>& __b) noexcept
+{ return !(__b < __a); }
+
+template<typename _Tp>
+inline bool operator<=(const ptr<_Tp>& __a, std::nullptr_t) noexcept
+{ return !(nullptr < __a); }
+
+template<typename _Tp>
+inline bool operator<=(std::nullptr_t, const ptr<_Tp>& __a) noexcept
+{ return !(__a < nullptr); }
+
+template<typename _Tp1, typename _Tp2>
+inline bool operator>(const ptr<_Tp1>& __a, const ptr<_Tp2>& __b) noexcept
+{ return (__b < __a); }
+
+template<typename _Tp>
+inline bool operator>(const ptr<_Tp>& __a, std::nullptr_t) noexcept
+{ return std::less<_Tp*>()(nullptr, __a.get()); }
+
+template<typename _Tp>
+inline bool operator>(std::nullptr_t, const ptr<_Tp>& __a) noexcept
+{ return std::less<_Tp*>()(__a.get(), nullptr); }
+
+template<typename _Tp1, typename _Tp2>
+inline bool operator>=(const ptr<_Tp1>& __a, const ptr<_Tp2>& __b) noexcept
+{ return !(__a < __b); }
+
+template<typename _Tp>
+inline bool operator>=(const ptr<_Tp>& __a, std::nullptr_t) noexcept
+{ return !(__a < nullptr); }
+
+template<typename _Tp>
+inline bool operator>=(std::nullptr_t, const ptr<_Tp>& __a) noexcept
+{ return !(nullptr < __a); }
 
 }
 

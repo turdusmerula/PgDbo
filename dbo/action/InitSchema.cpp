@@ -21,7 +21,7 @@ void InitSchema::actMapping(std::shared_ptr<mapping::MappingInfo> mapping)
 
 std::string InitSchema::createJoinName(RelationType type, const std::string& c1, const std::string& c2)
 {
-	if(type==ManyToOne)
+	if(type==ManyToOne || type==OneToOne)
 		return c1 ;
 	else
 	{

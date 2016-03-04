@@ -44,14 +44,45 @@ std::shared_ptr<mapping::Mapping<C>> connection::getMapping()
 		throw Exception(std::string("Class ")+typeid(C).name()+" was not mapped.") ;
 }
 
+template <class C, class Statement>
+Statement& connection::getStatement(mapping::MappingInfo::StatementType type)
+{
+	const_typeinfo_ptr id=&typeid(C) ;
+	std::shared_ptr<Statement> res ;
+
+	auto istmts=statements_.find(id) ;
+	if(istmts==statements_.end())
+		statements_[id] = {} ;
+
+	if(statements_[id].size()<mapping::MappingInfo::StatementTypeCount)
+	{
+		for(int i=0 ; i<mapping::MappingInfo::StatementTypeCount ; i++)
+			statements_[id].push_back(std::shared_ptr<stmt::Statement>()) ;
+	}
+
+	if(statements_[id][type]==nullptr)
+		statements_[id][type] = std::make_shared<Statement>(*this) ;
+	res = std::dynamic_pointer_cast<Statement>(statements_[id][type]) ;
+
+	BOOST_ASSERT( statements_[id][type]==res ) ;
+	return *(res.get()) ;
+}
+
 template<class C>
 ptr<C>& connection::insert(ptr<C>& obj, ActionOption opt)
 {
 	auto mapping=getMapping<C>() ;
-	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
+	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
+	//auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
 
 	obj.tableName(tableName<C>().c_str()) ;
 
+	{
+		stmt::PreparedStatement stmt(*this) ;
+		action::SqlInsert<C> action(mapping, stmt) ;
+		action.visit() ;
+		std::cout << "+++ " << stmt.sql() << std::endl ;
+	}
 	action::Insert<C> action(obj, mapping, stmt, opt) ;
 	action.visit() ;
 
@@ -59,7 +90,7 @@ ptr<C>& connection::insert(ptr<C>& obj, ActionOption opt)
 }
 
 template<class C>
-ptr<C> connection::insert(ref<C>& obj, ActionOption opt)
+ptr<C> connection::insert(weak_ptr<C>& obj, ActionOption opt)
 {
 	ptr<C> ptr(obj) ;
 	auto mapping=getMapping<C>() ;
@@ -77,8 +108,8 @@ template<class C>
 collection<C>& connection::insert(collection<C>& coll, ActionOption opt)
 {
 	auto& mapping=*getMapping<C>() ;
-//	obj.tableName(tableName<C>().c_str()) ;
-//
+	coll.tableName(tableName<C>().c_str()) ;
+
 	action::BulkInsert<C> action(coll, mapping, *this) ;
 	action.visit() ;
 

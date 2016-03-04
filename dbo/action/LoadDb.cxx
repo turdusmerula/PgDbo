@@ -19,6 +19,10 @@ void LoadDb<C>::visit()
 		field(*this, const_cast<IdType&>(ptr_.id()), mapping_->naturalIdFieldName, mapping_->naturalIdFieldSize) ;
 
 	ptr_->persist(*this) ;
+
+	// indicate object is loaded
+	ptr_.load() ;
+
 }
 
 template<class C>

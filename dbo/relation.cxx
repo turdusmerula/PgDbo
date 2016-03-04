@@ -36,22 +36,22 @@ void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, 
 
 
 template<class Action, class C>
-void belongsTo(Action& action, ref<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size)
+void belongsTo(Action& action, weak_ptr<C>& value, const std::string& name, ForeignKeyConstraint constraints, int size)
 {
 	if(name.empty())
-		action.actRef(mapping::RefRef<C>(value, action.conn().template tableName<C>(), size, constraints.value())) ;
+		action.actWeakPtr(mapping::WeakRef<C>(value, action.conn().template tableName<C>(), size, constraints.value())) ;
 	else
-		action.actRef(mapping::RefRef<C>(value, name, size, constraints.value())) ;
+		action.actWeakPtr(mapping::WeakRef<C>(value, name, size, constraints.value())) ;
 }
 
 template<class A, class C>
-void belongsTo(A& action, ref<C>& value, const std::string& name, int size)
+void belongsTo(A& action, weak_ptr<C>& value, const std::string& name, int size)
 {
 	belongsTo(action, value, name, fk::None, size) ;
 }
 
 template<class Action, class C>
-void belongsTo(Action& action, ref<C>& value, ForeignKeyConstraint constraints, int size)
+void belongsTo(Action& action, weak_ptr<C>& value, ForeignKeyConstraint constraints, int size)
 {
 	belongsTo(action, value, "", fk::None, size) ;
 }
@@ -70,6 +70,18 @@ void hasMany(Action& action, collection<C>& value, RelationType type, const std:
 		throw Exception("hasMany() with named joinId only for a ManyToMany relation");
 
 	action.actCollection(mapping::CollectionRef<C>(value, type, joinName, joinId, constraint.value())) ;
+}
+
+template<class A, class C>
+void hasOne(A& action, weak_ptr<C>& value, const std::string& joinName)
+{
+	action.actWeakPtr(mapping::WeakRef<C>(value, joinName)) ;
+}
+
+template<class A, class C>
+void hasOne(A& action, ptr<C>& value, const std::string& joinName)
+{
+	action.actPtr(mapping::PtrRef<C>(value, joinName)) ;
 }
 
 }

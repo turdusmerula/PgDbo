@@ -85,6 +85,9 @@ void SelectById<C>::visit()
 
 		// all was right, set id
 		ptr_.id(id_) ;
+
+		// indicate object is now loaded
+		ptr_.load() ;
 	}
 }
 
