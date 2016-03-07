@@ -120,10 +120,10 @@ void hasMany(Action& action, collection<C>& value, RelationType type, const std:
 
 
 template<class Action, class C>
-void hasOne(Action& action, weak_ptr<C>& value, const std::string& name = std::string());
+void hasOne(Action& action, weak_ptr<C>& value, const std::string& name=std::string(), ForeignKeyConstraint constraints=(fk::NotNull|fk::OnDeleteCascade));
 
 template<class Action, class C>
-void hasOne(Action& action, ptr<C>& value, const std::string& name = std::string());
+void hasOne(Action& action, ptr<C>& value, const std::string& name=std::string(), ForeignKeyConstraint constraints=(fk::NotNull|fk::OnDeleteCascade));
 
 }
 

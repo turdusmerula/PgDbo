@@ -20,31 +20,6 @@ struct pg_conn;
 typedef struct pg_conn PGconn;
 
 namespace dbo {
-template <class T> class collection ;
-template <class T> class ptr ;
-template <class T> class weak_ptr ;
-class query ;
-
-namespace action {
-template <class T> class Delete ;
-template <class T> class Insert ;
-template <class T> class SelectById ;
-template <class T> class Update ;
-template <class T> class SqlInsert ;
-class InitSchema ;
-}
-
-namespace mapping {
-template <class T> class Mapping ;
-class FieldInfo ;
-template<class C> class PtrRef ;
-template<class C> class WeakRef ;
-}
-
-namespace stmt {
-class BulkStatement ;
-class PreparedStatement ;
-}
 
 class connection
 {
@@ -243,10 +218,11 @@ protected:
 	Statement& getStatement(mapping::MappingInfo::StatementType type) ;
 
 	template <class T> friend class action::Delete ;
-	template <class T> friend class action::Insert ;
+	template <class T, class P> friend class action::Insert ;
 	template <class T> friend class action::SelectById ;
 	template <class T> friend class action::Update ;
 	template <class T> friend class action::SqlInsert ;
+	template <class T, class U> friend class action::SqlInsertRelation ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
 	template<class C> friend class mapping::WeakRef ;

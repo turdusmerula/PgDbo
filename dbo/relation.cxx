@@ -73,15 +73,16 @@ void hasMany(Action& action, collection<C>& value, RelationType type, const std:
 }
 
 template<class A, class C>
-void hasOne(A& action, weak_ptr<C>& value, const std::string& joinName)
+void hasOne(A& action, weak_ptr<C>& value, const std::string& joinName, ForeignKeyConstraint constraints)
 {
-	action.actWeakPtr(mapping::WeakRef<C>(value, joinName)) ;
+	action.actWeakPtr(mapping::WeakRef<C>(value, joinName, constraints.value())) ;
 }
 
+// TODO add constraints
 template<class A, class C>
-void hasOne(A& action, ptr<C>& value, const std::string& joinName)
+void hasOne(A& action, ptr<C>& value, const std::string& joinName, ForeignKeyConstraint constraints)
 {
-	action.actPtr(mapping::PtrRef<C>(value, joinName)) ;
+	action.actPtr(mapping::PtrRef<C>(value, joinName, constraints.value())) ;
 }
 
 }

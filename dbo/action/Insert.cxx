@@ -1,8 +1,9 @@
 namespace dbo {
 namespace action {
 
-template<class C>
-Insert<C>::Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, ActionOption opt)
+
+template<class C, class P>
+Insert<C, P>::Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, ActionOption opt)
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),
@@ -12,8 +13,20 @@ Insert<C>::Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt
 {
 }
 
-template<class C>
-void Insert<C>::visit()
+template<class C, class P>
+Insert<C, P>::Insert(ptr<C> child, const mapping::PtrRef<P>& parent, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, ActionOption opt)
+	: 	ptr_(child),
+		parent_(parent),
+		mapping_(mapping),
+		stmt_(stmt),
+		state_(PreparingStatement),
+		id_(traits::dbo_traits<C>::invalidId()),
+		opt_(opt)
+{
+}
+
+template<class C, class P>
+void Insert<C, P>::visit()
 {
 	auto ptr=const_cast<C*>(ptr_.get()) ;
 
@@ -22,9 +35,9 @@ void Insert<C>::visit()
 		action::SqlInsert<C> action(mapping_, stmt_) ;
 		action.visit() ;
 
-		// init prepared statement, use a dummy object to init the statement
+        // init prepared statement, use a dummy object to init the statement
 		state_ = PreparingStatement ;
-		C dummy ;
+		static C dummy ;
 		dummy.persist(*this) ;
 
 		try {
@@ -90,7 +103,6 @@ void Insert<C>::visit()
 
 		if(opt_==opt::Recursive)
 		{
-			std::cout << "-------------recurse" << std::endl ;
 			state_ = Recursing ;
 			ptr->persist(*this) ;
 		}
@@ -98,9 +110,9 @@ void Insert<C>::visit()
 	}
 }
 
-template<class C>
+template<class C, class P>
 template<typename V>
-void Insert<C>::act(const mapping::FieldRef<V>& field)
+void Insert<C, P>::act(const mapping::FieldRef<V>& field)
 {
 	switch(state_)
 	{
@@ -116,9 +128,9 @@ void Insert<C>::act(const mapping::FieldRef<V>& field)
 	}
 }
 
-template<class C>
+template<class C, class P>
 template<typename V>
-void Insert<C>::actId(V& value, const std::string& name, int size)
+void Insert<C, P>::actId(V& value, const std::string& name, int size)
 {
 	switch(state_)
 	{
@@ -127,10 +139,18 @@ void Insert<C>::actId(V& value, const std::string& name, int size)
 		field(*this, value, name) ;
 		break ;
 	case Inserting:
+		if(opt_==opt::Recursive)
+		{
+			// in case of a composite id, recurse id values to resolve parents
+			state_ = Recursing ;
+			field(*this, value, name) ;
+			state_ = Inserting ;
+		}
+
 		if(value==traits::dbo_traits<C>::invalidId())
 		{
 			std::stringstream ss ;
-			ss << "Insert failed for '" << mapping_->tableName << "' invalid id '" << ptr_.id() << "'" ;
+			ss << "Insert failed for '" << mapping_->tableName << "' invalid id " << name << "='" << ptr_.id() << "'" ;
 			throw Exception(ss.str()) ;
 		}
 
@@ -148,97 +168,163 @@ void Insert<C>::actId(V& value, const std::string& name, int size)
 	}
 }
 
-template<class C>
+template<class C, class P>
 template<class D>
-void Insert<C>::actPtr(const mapping::PtrRef<D>& field)
+void Insert<C, P>::actPtr(const mapping::PtrRef<D>& field)
 {
 	using IdType = typename traits::dbo_traits<D>::IdType ;
 
-	// in case of a hasOne relation nothing to do
+	// automatic set parent if it exists
+	if(parent_.value()!=nullptr && field.name()==parent_.name())
+		set_ptr(field.value(), parent_.value()) ;
+
 	if(field.nameIsJoin()==true)
-		return ;
-
-	// this action is C type, we need D, so we create a special one for this type
-	Insert<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
-	action.state_ = static_cast<typename Insert<D>::State>(state_) ;
-
-	switch(state_)
 	{
-	case PreparingStatement:
-		// add id fields to statement
-		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
-		break ;
-	case Inserting:
-		if(field.value().id()==traits::dbo_traits<D>::invalidId())
+		// nameIsJoin indicates thet this object does not really exists but needs a join from another table
+		// as we are in an insert it does nothing, the following code is only here to follow the pointer in case of a recursion mode
+		switch(state_)
 		{
-			std::stringstream ss ;
-			ss << "Insert failed for '" << mapping_->tableName << "' invalid id '" << field.value().id() << "'" ;
-			throw Exception(ss.str()) ;
+		case PreparingStatement:
+			// in case of a OneToOne relation the data is on the belongsTo side, there is nothing to insert here
+			break ;
+		case Inserting:
+			if((field.fkConstraints()&FKNotNull) && field.value()==nullptr)
+			{
+				std::stringstream ss ;
+				ss << "Insert failed for '" << mapping_->tableName << "': FKNotNull constraint failed for '" << field.name() << "'" ;
+				throw Exception(ss.str()) ;
+			}
+			break ;
+		case Recursing:
+			if(opt_==opt::Recursive)
+			{
+				auto mapping=conn().template getMapping<D>() ;
+				auto& stmt=conn().template getStatement<D, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
+
+				// insert by giving ptr_ as a parent
+				action::Insert<D, C> action(field.value(), mapping::PtrRef<C>(ptr_, field.name(), field.fkConstraints()), mapping, stmt, opt_) ;
+				action.visit() ;
+			}
+			break ;
+		case ReadingId:
+			break ;
 		}
+	}
+	else
+	{
+		// this action is C type, we need D, so we create a special one for this type
+		Insert<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
+		action.state_ = static_cast<typename Insert<D>::State>(state_) ;
 
-		// add id fields to statement
-		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		switch(state_)
+		{
+		case PreparingStatement:
+			// add id fields to statement
+			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+			break ;
+		case Inserting:
+			if(field.value().id()==traits::dbo_traits<D>::invalidId())
+			{
+				std::stringstream ss ;
+				ss << "Insert failed for '" << mapping_->tableName << "' invalid id " << field.name() << "='" << field.value().id() << "'" ;
+				throw Exception(ss.str()) ;
+			}
 
-		break ;
-	case Recursing:
-		if(opt_==opt::Recursive) // && field.value().orphan()==true)
-			conn().insert(field.value(), opt_) ;
-		break ;
-	case ReadingId:
-		break ;
+			// add id fields to statement
+			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+
+			break ;
+		case Recursing:
+			if(opt_==opt::Recursive)
+			{
+				auto mapping=conn().template getMapping<D>() ;
+				auto& stmt=conn().template getStatement<D, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
+
+				// insert by giving ptr_ as a parent
+				action::Insert<D, C> action(field.value(), mapping::PtrRef<C>(ptr_, field.name(), field.fkConstraints()), mapping, stmt, opt_) ;
+				action.visit() ;
+			}
+			break ;
+		case ReadingId:
+			break ;
+		}
 	}
 }
 
-template<class C>
+template<class C, class P>
 template<class D>
-void Insert<C>::actWeakPtr(const mapping::WeakRef<D>& field)
+void Insert<C, P>::actWeakPtr(const mapping::WeakRef<D>& field)
 {
 	using IdType = typename traits::dbo_traits<D>::IdType ;
 
-	// in case of a hasOne relation nothing to do
+	// automatic set parent if it exists
+	if(parent_.value()!=nullptr && field.name()==parent_.name())
+		set_ptr(field.value(), parent_.value()) ;
+
+	// in case of a OneToOne relation nothing to do
 	if(field.nameIsJoin()==true)
-		return ;
-
-	dbo::ptr<D> ptr ;
-	if(field.value().expired()==false)
-		ptr = field.value().lock() ;
-
-	// this action is C type, we need D, so we create a special one for this type
-	Insert<D> action(ptr, conn().template getMapping<D>(), stmt_, opt_) ;
-	action.state_ = static_cast<typename Insert<D>::State>(state_) ;
-
-	switch(state_)
 	{
-	case PreparingStatement:
-		// add id fields to statement
-		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
-		break ;
-	case Inserting:
-		if(field.value().id()==traits::dbo_traits<D>::invalidId())
+		switch(state_)
 		{
-			std::stringstream ss ;
-			ss << "Insert failed for '" << mapping_->tableName << "' invalid id '" << field.value().id() << "'" ;
-			throw Exception(ss.str()) ;
+		case PreparingStatement:
+			// in case of a OneToOne relation the data is on the belongsTo side
+			break ;
+		case Inserting:
+			if((field.fkConstraints()&FKNotNull) && ( field.value().expired() || field.value().lock().orphan()))
+			{
+				std::stringstream ss ;
+				ss << "Insert failed for '" << mapping_->tableName << "': FKNotNull constraint failed for '" << field.name() << "'" ;
+				throw Exception(ss.str()) ;
+			}
+			break ;
+		case Recursing:
+			// weak ptr are endpoints, we do not recurse inside
+			break ;
+		case ReadingId:
+			break ;
 		}
+	}
+	else
+	{
+		dbo::ptr<D> ptr ;
+		if(field.value().expired()==false)
+			ptr = field.value().lock() ;
 
-		// add id fields to statement
-		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		// this action is C type, we need D, so we create a special one for this type
+		Insert<D> action(ptr, conn().template getMapping<D>(), stmt_, opt_) ;
+		action.state_ = static_cast<typename Insert<D>::State>(state_) ;
 
-		break ;
-	case Recursing:
-		// weak ptr are endpoints, we do not recurse inside
-		break ;
-	case ReadingId:
-		break ;
+		switch(state_)
+		{
+		case PreparingStatement:
+			// add id fields to statement
+			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+			break ;
+		case Inserting:
+			if(field.value().id()==traits::dbo_traits<D>::invalidId())
+			{
+				std::stringstream ss ;
+				ss << "Insert failed for '" << mapping_->tableName << "' invalid id " << field.name() << "='" << field.value().id() << "'" ;
+				throw Exception(ss.str()) ;
+			}
+
+			// add id fields to statement
+			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+
+			break ;
+		case Recursing:
+			// weak ptr are endpoints, we do not recurse inside
+			break ;
+		case ReadingId:
+			break ;
+		}
 	}
 }
 
-template<class C>
+template<class C, class P>
 template<class D>
-void Insert<C>::actCollection(const mapping::CollectionRef<D>& field)
+void Insert<C, P>::actCollection(const mapping::CollectionRef<D>& field)
 {
-	std::cout << "--- " << field.joinName() << std::endl ;
-
 	switch(state_)
 	{
 	case PreparingStatement:
@@ -248,8 +334,25 @@ void Insert<C>::actCollection(const mapping::CollectionRef<D>& field)
 	case Recursing:
 		if(opt_==opt::Recursive)
 		{
+			auto mapping=conn().template getMapping<D>() ;
+			auto& stmt=conn().template getStatement<D, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
+
 			for(auto ptr : field.value())
-				conn().insert(ptr, opt_) ;
+			{
+				action::Insert<D, C> action(ptr, mapping::PtrRef<C>(ptr_, field.joinName(), field.fkConstraints()), mapping, stmt, opt_) ;
+				action.visit() ;
+
+				if(field.type()==ManyToMany)
+				{
+					// insert into join table
+					auto& stmt=conn().template getStatement<std::pair<D, P>, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
+
+					SqlInsertRelation<D, C> action(field, mapping, mapping_, stmt) ;
+					action.visit() ;
+
+					std::cout << "ManyToMany relation " << field.joinName() << "  " << ptr_.id() << "+" << ptr.id() << std::endl ;
+				}
+			}
 		}
 		break ;
 	case ReadingId:

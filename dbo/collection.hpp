@@ -6,8 +6,6 @@
 //#include <dbo/traits/dbo_traits.hpp>
 
 namespace dbo {
-template <class C> class ptr ;
-class connection ;
 
 template <class C>
 class collection
@@ -127,12 +125,9 @@ private:
 	std::shared_ptr<Itr> itr_ ;
 
 	bool end() const ;
-//
+
 	iterator();
 	iterator(collection<C>& collection) ;
-
-//	void takeImpl();
-//	void releaseImpl();
 
 	friend class collection<C> ;
 //	friend class const_iterator;

@@ -1,3 +1,4 @@
+#include <dbo/dbo_types.h>
 #include "dbo/stmt/BulkStatement.h"
 
 #include "dbo/connection.h"

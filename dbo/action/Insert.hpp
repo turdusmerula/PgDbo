@@ -2,21 +2,18 @@
 #define _DBO_ACTION_INSERT_HPP_
 
 namespace dbo {
-namespace mapping {
-template <class T> class Mapping ;
-template <class T> class FieldRef ;
-template <class T> class PtrRef ;
-}
 
 namespace action {
 
-template<class C>
+template<class C, class P=C>
 class Insert
 {
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
 	Insert(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, ActionOption opt) ;
+
+	Insert(ptr<C> child, const mapping::PtrRef<P>& parent, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, ActionOption opt) ;
 
 	void visit() ;
 
@@ -33,6 +30,7 @@ public:
 	connection& conn() { return stmt_.conn() ; } ;
 private:
 	ptr<C> ptr_ ;
+	mapping::PtrRef<P> parent_ ;	// in case of a relation, the object owner
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::PreparedStatement& stmt_ ;
 	ActionOption opt_ ;
@@ -48,7 +46,32 @@ private:
 	// id is stored during build and is given to object only if insert succeeded
 	IdType id_ ;
 
-	template <class D> friend class Insert ;
+	// helper functions that only affect pointer if they are the same type
+	template <class T, class U>
+	typename std::enable_if<std::is_same<T, U>::value, bool>::type
+	set_ptr(dbo::ptr<T>& left, dbo::ptr<U>& right)
+	{
+		left = right ;
+		return true ;
+	} ;
+
+	template <class T, class U>
+	typename std::enable_if<!std::is_same<T, U>::value, bool>::type
+	set_ptr(dbo::ptr<T>& left, dbo::ptr<U>& right) { return false ; } ;
+
+	template <class T, class U>
+	typename std::enable_if<std::is_same<T, U>::value, bool>::type
+	set_ptr(dbo::weak_ptr<T>& left, dbo::ptr<U>& right)
+	{
+		left = right ;
+		return true ;
+	} ;
+
+	template <class T, class U>
+	typename std::enable_if<!std::is_same<T, U>::value, bool>::type
+	set_ptr(dbo::weak_ptr<T>& left, dbo::ptr<U>& right) { return false ; } ;
+
+	template <class T, class U> friend class Insert ;
 };
 
 }}

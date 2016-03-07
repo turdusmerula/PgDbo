@@ -77,12 +77,6 @@ ptr<C>& connection::insert(ptr<C>& obj, ActionOption opt)
 
 	obj.tableName(tableName<C>().c_str()) ;
 
-	{
-		stmt::PreparedStatement stmt(*this) ;
-		action::SqlInsert<C> action(mapping, stmt) ;
-		action.visit() ;
-		std::cout << "+++ " << stmt.sql() << std::endl ;
-	}
 	action::Insert<C> action(obj, mapping, stmt, opt) ;
 	action.visit() ;
 

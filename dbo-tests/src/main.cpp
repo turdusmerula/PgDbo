@@ -14,9 +14,11 @@
 #include <dbo-tests/src/TestIdConstraints.hpp>
 #include <dbo-tests/src/TestQuery.hpp>
 #include <dbo-tests/src/TestStatement.hpp>
-#include <dbo-tests/src/TestHasManyTable.hpp>
 #include <dbo-tests/src/TestCollection.hpp>
 #include <dbo-tests/src/TestPtr.hpp>
+#include <dbo-tests/src/TestOneToOneTable.hpp>
+#include <dbo-tests/src/TestManyToOneTable.hpp>
+#include <dbo-tests/src/TestManyToManyTable.hpp>
 
 std::string connection ;
 dbo::connection db ;

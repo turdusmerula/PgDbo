@@ -7,26 +7,6 @@ SqlInsert<C>::SqlInsert(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Prep
 		stmt_(stmt)
 {
 	data_ = std::make_shared<SqlInsertData>() ;
-	std::stringstream& ss=data_->sql_ ;
-
-	ss << "insert into \"" << mapping->tableName << "\" (" ;
-
-	C dummy ;
-	dummy.persist(*this) ;
-
-	ss << ") values (" ;
-	for(int i=0 ; i<data_->params_ ; i++)
-	{
-		if(i>0)
-			ss << ", " ;
-		ss << "?" ;
-	}
-	ss << ")" ;
-
-	if(mapping->surrogateIdFieldName!=boost::none)
-		ss << traits::SqlPostgresTypes::autoincrementInsertSuffix(mapping->surrogateIdFieldName.get()) ;
-
-	stmt_.sql(ss.str()) ;
 }
 
 template<class C>
@@ -39,6 +19,26 @@ SqlInsert<C>::SqlInsert(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::Prep
 template<class C>
 void SqlInsert<C>::visit()
 {
+	std::stringstream& ss=data_->sql_ ;
+
+	ss << "insert into \"" << mapping_->tableName << "\" (" ;
+
+	static C dummy ;
+	dummy.persist(*this) ;
+
+	ss << ") values (" ;
+	for(int i=0 ; i<data_->params_ ; i++)
+	{
+		if(i>0)
+			ss << ", " ;
+		ss << "?" ;
+	}
+	ss << ")" ;
+
+	if(mapping_->surrogateIdFieldName!=boost::none)
+		ss << traits::SqlPostgresTypes::autoincrementInsertSuffix(mapping_->surrogateIdFieldName.get()) ;
+
+	stmt_.sql(ss.str()) ;
 }
 
 template<class C>

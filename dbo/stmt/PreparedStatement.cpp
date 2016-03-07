@@ -1,3 +1,4 @@
+#include <dbo/dbo_types.h>
 #include "dbo/stmt/PreparedStatement.h"
 
 #include "dbo/connection.h"

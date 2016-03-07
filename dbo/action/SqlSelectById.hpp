@@ -1,26 +1,32 @@
-#ifndef _DBO_ACTION_SQLINSERT_HPP_
-#define _DBO_ACTION_SQLINSERT_HPP_
+#ifndef _DBO_ACTION_SQLSELECTBYID_HPP_
+#define _DBO_ACTION_SQLSELECTBYID_HPP_
 
 namespace dbo {
+namespace mapping {
+template <class T> class Mapping ;
+template <class T> class FieldRef ;
+}
 
 namespace action {
 
-struct SqlInsertData {
+struct SqlSelectByIdData {
 	int params_ ;
-	std::stringstream sql_ ;
 
-	SqlInsertData()
+	std::stringstream sql_ ;
+	std::vector<std::string> join ;
+
+	SqlSelectByIdData()
 		:	params_(0)
 	{}
 } ;
 
 template<class C>
-class SqlInsert
+class SqlSelectById
 {
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	SqlInsert(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
+	SqlSelectById(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
 
 	void visit() ;
 
@@ -32,8 +38,6 @@ public:
 	template <class D> void actPtr(const mapping::PtrRef<D>& field) ;
 	template <class D> void actWeakPtr(const mapping::WeakRef<D>& field) ;
 
-	template<class D> void actCollection(const mapping::CollectionRef<D>& field) ;
-
 	connection& conn() { return stmt_.conn() ; } ;
 private:
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
@@ -41,9 +45,9 @@ private:
 
 	std::shared_ptr<SqlInsertData> data_ ;
 
-	SqlInsert(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, std::shared_ptr<SqlInsertData> data) ;
+	SqlSelectById(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, std::shared_ptr<SqlInsertData> data) ;
 
-	template <class D> friend class SqlInsert ;
+	template <class D> friend class SqlSelectById ;
 };
 
 }}

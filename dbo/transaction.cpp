@@ -1,3 +1,4 @@
+#include <dbo/dbo_types.h>
 #include <dbo/transaction.h>
 #include <dbo/connection.h>
 

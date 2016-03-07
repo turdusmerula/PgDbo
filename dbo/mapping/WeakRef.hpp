@@ -12,7 +12,7 @@ class WeakRef
 {
 public:
 	WeakRef(weak_ptr<C>& value, const std::string& name, int size, int fkConstraints) ;
-	WeakRef(weak_ptr<C>& value, const std::string& joinname) ;
+	WeakRef(weak_ptr<C>& value, const std::string& joinname, int fkConstraints) ;
 
 	const std::type_info* type() const ;
 

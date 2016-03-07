@@ -52,9 +52,10 @@ public:
 	TypeEnum enum_value ;
 
 	// Always use ref with hasMany to avoid memory leaks as collection uses ptr on its core
-	dbo::weak_ptr<jCollectionTable> parent_value ;
+	// TODO: should ask a test on this
+	dbo::weak_ptr<jCollectionTable> parent_coll ;
 
-	dbo::ptr<jSimpleTable2> parent_value2 ;
+	dbo::ptr<jSimpleTable2> parent_value ;
 
 	template<class Action>
 	void persist(Action& a)
@@ -75,8 +76,8 @@ public:
 		dbo::field(a, optional_value, "optional_value") ;
 		dbo::field(a, enum_value, "enum_value") ;
 
-		dbo::belongsTo(a, parent_value, "coll") ;
-		dbo::hasOne(a, parent_value2, "parent") ;
+		dbo::belongsTo(a, parent_coll, "coll") ;
+		dbo::hasOne(a, parent_value, "parent") ;
 	}
 } ;
 // ----------------------------------------------------------------------------
@@ -103,6 +104,7 @@ class jCollectionTable
 public:
 	std::string value ;
 	dbo::collection<jSimpleTable> coll ;
+	dbo::collection<jSimpleTable2> many ;
 
 	template<class Action>
 	void persist(Action& a)
@@ -111,6 +113,9 @@ public:
 		dbo::hasMany(a, coll, dbo::ManyToOne, "coll") ;
 	}
 } ;
+// ----------------------------------------------------------------------------
+
+// jCollectionTable -> jSimpleTable -> jSimpleTable2
 
 // The fixture for testing class Database.
 class TestCollection : public ::testing::Test
@@ -195,47 +200,45 @@ TEST_F(TestCollection, DISABLED_TestBulkInsert) {
 }
 
 TEST_F(TestCollection, TestInsert) {
-	dbo::ptr<jCollectionTable> c=dbo::make_ptr<jCollectionTable>() ;
-	c->value = "TestInsert" ;
+	dbo::ptr<jCollectionTable> coll=dbo::make_ptr<jCollectionTable>() ;
+	coll->value = "TestInsert" ;
 
 	dbo::ptr<jSimpleTable2> d=dbo::make_ptr<jSimpleTable2>() ;
 	d->value = "TestInsert" ;
 
 	dbo::ptr<jSimpleTable> p=dbo::make_ptr<jSimpleTable>() ;
 	p->string_value = "TestInsert" ;
-	p->parent_value = c ;
-	p->parent_value2 = d ;
+	p->parent_coll = coll ;
+	p->parent_value = d ;
+	p->parent_value->parent = p ;
 
 	ASSERT_TRUE( p->parent_value.id()==dbo::ptr<jSimpleTable>::invalidId ) ;
 
-	ASSERT_NO_THROW_V( db.insert(c) ) ;
-//	ASSERT_NO_THROW_V( db.insert(d) ) ;
-
-	ASSERT_TRUE( p->parent_value.id()==c.id() ) ;
-//	ASSERT_TRUE( p->parent_value2.id()==d.id() ) ;
-
+	ASSERT_NO_THROW_V( db.insert(coll) ) ;
 	ASSERT_NO_THROW_V( db.insert(p) ) ;
-
-
+	ASSERT_NO_THROW_V( db.insert(d) ) ;
 }
 
 TEST_F(TestCollection, TestRecursiveInsert) {
-	dbo::ptr<jCollectionTable> c=dbo::make_ptr<jCollectionTable>() ;
-	c->value = "TestRecursiveInsert" ;
+	dbo::ptr<jCollectionTable> coll=dbo::make_ptr<jCollectionTable>() ;
+	coll->value = "TestRecursiveInsert" ;
 
 	for(int i=0 ; i<10 ; i++)
 	{
 		dbo::ptr<jSimpleTable> p=dbo::make_ptr<jSimpleTable>() ;
 		p->int_value = i ;
 		p->string_value = "TestRecursiveInsert" ;
-		p->parent_value = c ;
 
-		p->parent_value2 = dbo::make_ptr<jSimpleTable2>() ;
-		p->parent_value2->value = "TestRecursiveInsert" ;
+		// when using recursive mode the relation is automatically set between owner and child
+		//p->parent_coll = coll ;
 
-		c->coll.push_back(p) ;
+		p->parent_value = dbo::make_ptr<jSimpleTable2>() ;
+		p->parent_value->value = "TestRecursiveInsert" ;
+		p->parent_value->parent = p ;
+
+		coll->coll.push_back(p) ;
 	}
 
-	db.insert(c, dbo::opt::Recursive) ;
+	db.insert(coll, dbo::opt::Recursive) ;
 }
 

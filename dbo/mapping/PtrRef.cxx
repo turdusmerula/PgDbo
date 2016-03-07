@@ -2,6 +2,18 @@ namespace dbo {
 namespace mapping {
 
 template<class C>
+ptr<C> PtrRef<C>::void_ptr_ ;
+
+template<class C>
+PtrRef<C>::PtrRef()
+	: 	value_(void_ptr_),
+		size_(0),
+		fkConstraints_(0),
+		nameIsJoin_(false)
+{
+}
+
+template<class C>
 PtrRef<C>::PtrRef(ptr<C>& value, const std::string& name, int size, int fkConstraints)
 	: 	value_(value),
 		name_(name),
@@ -12,11 +24,11 @@ PtrRef<C>::PtrRef(ptr<C>& value, const std::string& name, int size, int fkConstr
 }
 
 template<class C>
-PtrRef<C>::PtrRef(ptr<C>& value, const std::string& joinname)
+PtrRef<C>::PtrRef(ptr<C>& value, const std::string& joinname, int fkConstraints)
 	: 	value_(value),
 		name_(joinname),
 		size_(-1),
-		fkConstraints_(0),
+		fkConstraints_(fkConstraints),
 		nameIsJoin_(true)
 {
 }

@@ -12,11 +12,11 @@ WeakRef<C>::WeakRef(weak_ptr<C>& value, const std::string& name, int size, int f
 }
 
 template<class C>
-WeakRef<C>::WeakRef(weak_ptr<C>& value, const std::string& joinname)
+WeakRef<C>::WeakRef(weak_ptr<C>& value, const std::string& joinname, int fkConstraints)
 	: 	value_(value),
 		name_(joinname),
 		size_(-1),
-		fkConstraints_(0),
+		fkConstraints_(fkConstraints),
 		nameIsJoin_(true)
 {
 }

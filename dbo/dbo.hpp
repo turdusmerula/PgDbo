@@ -3,6 +3,8 @@
 
 #include <csignal>
 
+#include <dbo/dbo_types.h>
+
 #include <dbo/connection.h>
 #include <dbo/ptr.hpp>
 #include <dbo/weak_ptr.hpp>
@@ -31,10 +33,11 @@
 #include <dbo/action/SelectById.hpp>
 #include <dbo/action/LoadDb.hpp>
 #include <dbo/action/SqlInsert.hpp>
+#include <dbo/action/SqlInsertRelation.hpp>
 
 #include <dbo/traits/dbo_traits.hpp>
 
-
+#include <dbo/debug.h>
 
 #include <dbo/connection.cxx>
 #include <dbo/ptr.cxx>
@@ -51,6 +54,7 @@
 #include <dbo/action/SelectById.cxx>
 #include <dbo/action/LoadDb.cxx>
 #include <dbo/action/SqlInsert.cxx>
+#include <dbo/action/SqlInsertRelation.cxx>
 
 #include <dbo/mapping/FieldRef.cxx>
 #include <dbo/mapping/PtrRef.cxx>

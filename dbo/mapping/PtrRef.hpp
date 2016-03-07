@@ -11,8 +11,9 @@ template<class C>
 class PtrRef
 {
 public:
+	PtrRef() ;
 	PtrRef(ptr<C>& value, const std::string& name, int size, int fkConstraints) ;
-	PtrRef(ptr<C>& value, const std::string& joinname) ;
+	PtrRef(ptr<C>& value, const std::string& joinname, int fkConstraints) ;
 
 
 	const std::type_info* type() const ;
@@ -33,6 +34,10 @@ private:
 	int fkConstraints_ ;
 
 	bool nameIsJoin_ ;
+
+	// allow to have a default constructor
+	// this is a nasty hack but keeping value_ as a references improves perfs
+	static ptr<C> void_ptr_ ;
 } ;
 
 }}
