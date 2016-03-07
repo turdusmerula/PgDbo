@@ -13,6 +13,7 @@ namespace dbo {
 		template <class T> class Update ;
 		template <class T> class SelectById ;
 		template <class T> class SqlInsert ;
+		template <class T, class U> class InsertRelation ;
 		template <class T, class U> class SqlInsertRelation ;
 		class InitSchema ;
 	}

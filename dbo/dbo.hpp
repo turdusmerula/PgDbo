@@ -29,6 +29,7 @@
 #include <dbo/action/Delete.hpp>
 #include <dbo/action/BulkInsert.hpp>
 #include <dbo/action/Insert.hpp>
+#include <dbo/action/InsertRelation.hpp>
 #include <dbo/action/Update.hpp>
 #include <dbo/action/SelectById.hpp>
 #include <dbo/action/LoadDb.hpp>
@@ -50,6 +51,7 @@
 #include <dbo/action/Delete.cxx>
 #include <dbo/action/BulkInsert.cxx>
 #include <dbo/action/Insert.cxx>
+#include <dbo/action/InsertRelation.cxx>
 #include <dbo/action/Update.cxx>
 #include <dbo/action/SelectById.cxx>
 #include <dbo/action/LoadDb.cxx>

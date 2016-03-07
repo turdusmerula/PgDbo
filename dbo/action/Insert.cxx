@@ -150,7 +150,7 @@ void Insert<C, P>::actId(V& value, const std::string& name, int size)
 		if(value==traits::dbo_traits<C>::invalidId())
 		{
 			std::stringstream ss ;
-			ss << "Insert failed for '" << mapping_->tableName << "' invalid id " << name << "='" << ptr_.id() << "'" ;
+			ss << "Insert failed for '" << mapping_->tableName << "', invalid id " << name << "='" << ptr_.id() << "'" ;
 			throw Exception(ss.str()) ;
 		}
 
@@ -347,7 +347,9 @@ void Insert<C, P>::actCollection(const mapping::CollectionRef<D>& field)
 					// insert into join table
 					auto& stmt=conn().template getStatement<std::pair<D, P>, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
 
-					SqlInsertRelation<D, C> action(field, mapping, mapping_, stmt) ;
+//					SqlInsertRelation<D, C> action(field, mapping, mapping_, stmt) ;
+//					action.visit() ;
+					InsertRelation<D, C> action(ptr, ptr_, field, mapping, mapping_, stmt) ;
 					action.visit() ;
 
 					std::cout << "ManyToMany relation " << field.joinName() << "  " << ptr_.id() << "+" << ptr.id() << std::endl ;
