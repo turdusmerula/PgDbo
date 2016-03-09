@@ -3,7 +3,13 @@ namespace action {
 
 template<class C>
 SelectById<C>::SelectById(ptr<C> ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
-	: 	SelectById(ptr, traits::dbo_traits<C>::invalidId(), mapping, stmt)
+	: 	SelectById(ptr, ptr.id(), mapping, stmt)
+{
+}
+
+template<class C>
+SelectById<C>::SelectById(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
+	: 	SelectById(ptr<C>(), traits::dbo_traits<C>::invalidId(), mapping, stmt)
 {
 }
 
@@ -24,10 +30,16 @@ void SelectById<C>::visit()
 
 	if(stmt_.prepared()==false)
 	{
+		stmt_.reset() ;
+
+		action::SqlSelectById<C> action(mapping_, stmt_) ;
+		action.visit() ;
+
 		state_ = PreparingStatement ;
 
 		// init prepared statement, where clause is an id
-		field(*this, const_cast<IdType&>(ptr_.id()), "") ;
+		static IdType dummy ;
+		field(*this, dummy, "") ;
 
 		try {
 			stmt_.prepare() ;
@@ -122,17 +134,58 @@ void SelectById<C>::actPtr(const mapping::PtrRef<D>& field)
 	using IdType = typename traits::dbo_traits<D>::IdType ;
 
 	// this action is C type, we need D, so we create a special one for this type
-	SelectById<D> action(field.value(), conn().template getMapping<D>(), stmt_) ;
-	action.state_ = static_cast<typename SelectById<D>::State>(state_) ;
+	SelectById<D> action(conn().template getMapping<D>(), stmt_) ;
+	action.state_ = state_ ;
 
-	// load the id
-	// objects are not loaded, only the id to be able to operate a lazy loading next
-	id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+	switch(state_)
+	{
+	case PreparingStatement:
+	case Selecting:
+		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		break ;
+	case ReadingResult:
+		// create an empty object
+		field.value() = make_ptr<D>() ;
 
-//	IdType& loadid=const_cast<IdType&>(field.value().id()) ;
-//	LoadId<D> action2(loadid, conn().template getMapping<D>(), stmt_) ;
-//	id(action2, loadid, field.name()) ;
-//	std::cout << "id: " << loadid << std::endl ;
+		// load the id
+		// objects are not loaded, only the id to be able to operate a lazy loading next
+		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		break ;
+	}
+}
+
+template<class C>
+template <class D>
+void SelectById<C>::actWeakPtr(const mapping::WeakRef<D>& field)
+{
+	using IdType = typename traits::dbo_traits<D>::IdType ;
+
+	// this action is C type, we need D, so we create a special one for this type
+	SelectById<D> action(conn().template getMapping<D>(), stmt_) ;
+	action.state_ = state_ ;
+
+	switch(state_)
+	{
+	case PreparingStatement:
+	case Selecting:
+		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		break ;
+	case ReadingResult:
+		// create an empty object
+		field.value() = make_ptr<D>() ;
+
+		// load the id
+		// objects are not loaded, only the id to be able to operate a lazy loading next
+		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		break ;
+	}
+}
+
+template<class C>
+template<class D>
+void SelectById<C>::actCollection(const mapping::CollectionRef<D>& field)
+{
+
 }
 
 }}

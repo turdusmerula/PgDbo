@@ -7,13 +7,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <dbo/dbo.hpp>
-
 class mComplexIdTable ;
 class mSimpleTable ;
 class mSimpleTable2 ;
 class mCompositeParentTable ;
 class mCompositeIdTable ;
+
+extern std::string connection ;
 
 // ----------------------------------------------------------------------------
 struct mComplexId

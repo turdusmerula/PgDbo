@@ -2,12 +2,14 @@
 #define _DBO_ACTION_SELECTBYID_HPP_
 
 namespace dbo {
-namespace mapping {
-template <class T> class Mapping ;
-template <class T> class FieldRef ;
-}
 
 namespace action {
+
+enum SelectByIdState {
+	PreparingStatement,
+	Selecting,
+	ReadingResult
+} ;
 
 template<class C>
 class SelectById
@@ -26,6 +28,9 @@ public:
 	template<class D> void actId(ptr<D>& value, const std::string& name, int size, int fkConstraints) ;
 
 	template <class D> void actPtr(const mapping::PtrRef<D>& field) ;
+	template <class D> void actWeakPtr(const mapping::WeakRef<D>& field) ;
+
+	template<class D> void actCollection(const mapping::CollectionRef<D>& field) ;
 
 	connection& conn() { return stmt_.conn() ; } ;
 private:
@@ -36,12 +41,9 @@ private:
 	// id to be loaded
 	IdType id_ ;
 
-	enum State {
-		PreparingStatement,
-		Selecting,
-		ReadingResult
-	} ;
-	State state_ ;
+	SelectByIdState state_ ;
+
+	SelectById(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
 
 	template <class D> friend class SelectById ;
 };

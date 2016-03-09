@@ -59,4 +59,19 @@ void PtrRef<C>::visit(A& action, connection& conn) const
 	field(action, id, name_+"_"+idFieldName, size) ;
 }
 
+template<class C>
+void PtrRef<C>::debug(int tab) const
+{
+	std::stringstream ss ;
+	std::string stab(tab, ' ') ;
+	std::string stab1(tab+1, ' ') ;
+
+	std::cout << stab << "<PtrRef>" << std::endl ;
+	std::cout << stab1 << "value_:" << value_.get() << std::endl ;
+	std::cout << stab1 << "name_:" << name_ << std::endl ;
+	std::cout << stab1 << "size_:" << size_ << std::endl ;
+	std::cout << stab1 << "fkConstraints_:" << fkConstraints_ << std::endl ;
+	std::cout << stab1 << "nameIsJoin_:" << (nameIsJoin_?"true":"false") << std::endl ;
+}
+
 }}

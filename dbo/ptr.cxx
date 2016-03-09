@@ -38,7 +38,7 @@ ptr<C>::ptr(const weak_ptr<C>& other)
 	:	ptr_(other.ptr_),
 		tableName_(other.tableName_)
 {
-	if(ptr_==nullptr && other.cache_id_!=invalidId)
+	if(ptr_==nullptr && !(other.cache_id_==invalidId))
 		ptr_ = std::make_shared<Ptr>(C(), other.cache_id_) ;
 }
 
@@ -108,7 +108,7 @@ ptr<C>::operator bool() const
 template<class C>
 bool ptr<C>::loaded() const
 {
-	if(ptr_ && !(ptr_->id_==traits::dbo_traits<C>::invalidId()) && ptr_->loaded_)
+	if(ptr_ && ptr_->loaded_ && !(ptr_->id_==traits::dbo_traits<C>::invalidId()) )
 		return true ;
 	return false ;
 }
@@ -174,10 +174,14 @@ void ptr<C>::tableName(const char* tableName)
 template<class C>
 std::ostream& operator<<(std::ostream& o, const dbo::ptr<C>& _ptr)
 {
-	if(_ptr.ptr_ && _ptr.tableName_)
-		return o << "[" << _ptr.tableName_ << ": " << _ptr.id() << "]" ;
+	if(_ptr.ptr_)
+		return o << "[" << _ptr.id() << "]" ;
 	else
 		return o << "[null]" ;
+//	if(_ptr.ptr_ && _ptr.tableName_)
+//		return o << "[" << _ptr.tableName_ << ": " << _ptr.id() << "]" ;
+//	else
+//		return o << "[null]" ;
 }
 
 }

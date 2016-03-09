@@ -35,6 +35,7 @@
 #include <dbo/action/LoadDb.hpp>
 #include <dbo/action/SqlInsert.hpp>
 #include <dbo/action/SqlInsertRelation.hpp>
+#include <dbo/action/SqlSelectById.hpp>
 
 #include <dbo/traits/dbo_traits.hpp>
 
@@ -57,6 +58,7 @@
 #include <dbo/action/LoadDb.cxx>
 #include <dbo/action/SqlInsert.cxx>
 #include <dbo/action/SqlInsertRelation.cxx>
+#include <dbo/action/SqlSelectById.cxx>
 
 #include <dbo/mapping/FieldRef.cxx>
 #include <dbo/mapping/PtrRef.cxx>

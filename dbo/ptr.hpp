@@ -3,6 +3,7 @@
 
 #include <mutex>
 #include <atomic>
+#include <boost/shared_ptr.hpp>
 
 namespace dbo {
 

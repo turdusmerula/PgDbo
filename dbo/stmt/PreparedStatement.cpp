@@ -203,7 +203,7 @@ void PreparedStatement::prepare()
 	if(err!=PGRES_COMMAND_OK && err!=PGRES_TUPLES_OK)
 	{
 		std::stringstream ss ;
-		ss << "PreparedStatement '" << name_ << "' preparation failed: " << PQerrorMessage(conn_->conn_) << " needed" ;
+		ss << "PreparedStatement '" << name_ << "' preparation failed: " << PQerrorMessage(conn_->conn_) ;
 		ss << " -> " << sql_ ;
 		throw Exception(ss.str()) ;
 	}

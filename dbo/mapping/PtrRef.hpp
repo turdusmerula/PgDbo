@@ -27,6 +27,7 @@ public:
 
 	bool nameIsJoin() const { return nameIsJoin_ ; }
 
+	void debug(int tab=0) const ;
 private:
 	ptr<C>& value_ ;
 	std::string name_ ;

@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <dbo/dbo.hpp>
-
 extern std::string connection ;
 
 // ----------------------------------------------------------------------------

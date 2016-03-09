@@ -224,6 +224,7 @@ protected:
 	template <class T> friend class action::Update ;
 	template <class T> friend class action::SqlInsert ;
 	template <class T, class U> friend class action::SqlInsertRelation ;
+	template <class T> friend class action::SqlSelectById ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
 	template<class C> friend class mapping::WeakRef ;

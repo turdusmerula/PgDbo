@@ -7,8 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <dbo/dbo.hpp>
-
 class hComplexIdTable ;
 class hSimpleTable ;
 class hSimpleTable2 ;

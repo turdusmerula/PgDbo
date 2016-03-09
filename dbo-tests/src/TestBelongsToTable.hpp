@@ -1,11 +1,10 @@
 #include <gtest/gtest.h>
+#include <gtest_extend.h>
 
 #include <iostream>
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include <dbo/dbo.hpp>
 
 extern std::string connection ;
 
@@ -110,7 +109,7 @@ public:
 		db.connect(connection) ;
 		db.mapClass<dComplexIdTable>("dComplexIdTable") ;
 		db.mapClass<dSimpleTable>("dSimpleTable") ;
-		db.mapClass<dBelongsToTable>("dBelongsToSimpleTable1") ;
+		db.mapClass<dBelongsToTable>("dBelongsToTable") ;
 		db.createTables() ;
 		db.showQueries(true) ;
 		db.showBindings(true) ;
@@ -146,7 +145,7 @@ TEST_F(TestBelongsToTable, TestSql) {
 
 	db.mapClass<dComplexIdTable>("dComplexIdTable") ;
 	db.mapClass<dSimpleTable>("dSimpleTable") ;
-	db.mapClass<dBelongsToTable>("dBelongsToSimpleTable1") ;
+	db.mapClass<dBelongsToTable>("dBelongsToTable") ;
 
 	std::cout << db.tableCreationSql() << std::endl ;
 	db.debug() ;
@@ -239,6 +238,7 @@ TEST_F(TestBelongsToTable, TestUpdateNull) {
 	dbo::ptr<dBelongsToTable> q ;
 	ASSERT_NO_THROW_V( q=db.load<dBelongsToTable>(p.id()) ) ;
 
+	ASSERT_FALSE( q==nullptr ) ;
 	q->owner_complex = dbo::make_ptr<dComplexIdTable>() ;	// set null pointer
 	ASSERT_THROW_V( db.update(q), std::exception ) ;
 }

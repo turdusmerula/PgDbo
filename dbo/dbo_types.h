@@ -6,6 +6,7 @@ namespace dbo {
 	template <class T> class weak_ptr ;
 	template <class T> class collection ;
 	class query ;
+	class connection ;
 
 	namespace action {
 		template <class T> class Delete ;
@@ -15,6 +16,7 @@ namespace dbo {
 		template <class T> class SqlInsert ;
 		template <class T, class U> class InsertRelation ;
 		template <class T, class U> class SqlInsertRelation ;
+		template <class T> class SqlSelectById ;
 		class InitSchema ;
 	}
 
@@ -23,8 +25,9 @@ namespace dbo {
 		template <class T> class FieldRef ;
 		template <class T> class PtrRef ;
 		class FieldInfo ;
-		template<class T> class PtrRef ;
-		template<class T> class WeakRef ;
+		template <class T> class PtrRef ;
+		template <class T> class WeakRef ;
+		template <class T> class CollectionRef ;
 	}
 
 	namespace stmt {
@@ -32,6 +35,9 @@ namespace dbo {
 		class PreparedStatement ;
 	}
 
+	namespace traits {
+		template <class T> class dbo_traits ;
+	}
 //	template<class C> std::ostream& operator<<(std::ostream& o, const ptr<C>& _ptr) ;
 }
 

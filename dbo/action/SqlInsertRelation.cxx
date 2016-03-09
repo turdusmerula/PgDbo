@@ -45,7 +45,6 @@ void SqlInsertRelation<C, D>::visit()
 	}
 	ss << ")" ;
 
-	std::cout << "++++ " << ss.str() << std::endl ;
 	stmt_.sql(ss.str()) ;
 }
 
