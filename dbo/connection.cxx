@@ -100,7 +100,7 @@ ptr<C> connection::insert(weak_ptr<C>& obj, ActionOption opt)
 }
 
 template<class C>
-collection<C>& connection::insert(collection<C>& coll, ActionOption opt)
+collection<C>& connection::bulk_insert(collection<C>& coll)
 {
 	auto& mapping=*getMapping<C>() ;
 	coll.tableName(tableName<C>().c_str()) ;
@@ -112,12 +112,13 @@ collection<C>& connection::insert(collection<C>& coll, ActionOption opt)
 }
 
 template<class C>
-ptr<C> connection::update(ptr<C>& obj)
+ptr<C> connection::update(ptr<C>& obj, ActionOption opt)
 {
 	auto mapping=getMapping<C>() ;
-	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlUpdate)->second ;
+	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlUpdate) ;
+//	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlUpdate)->second ;
 
-	action::Update<C> action(obj, mapping, stmt) ;
+	action::Update<C> action(obj, mapping, stmt, opt) ;
 	action.visit() ;
 
 	return obj ;

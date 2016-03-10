@@ -213,6 +213,8 @@ void PreparedStatement::prepare()
 
 void PreparedStatement::reset()
 {
+	if(prepared_==false)
+		oids_.clear() ;
 	values_.clear() ;
 	svalues_.clear() ;
 	lengths_.clear() ;

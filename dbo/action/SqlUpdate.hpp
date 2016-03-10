@@ -1,21 +1,33 @@
-#ifndef _DBO_ACTION_UPDATE_HPP_
-#define _DBO_ACTION_UPDATE_HPP_
+#ifndef _DBO_ACTION_SQLUPDATE_HPP_
+#define _DBO_ACTION_SQLUPDATE_HPP_
 
 namespace dbo {
-namespace mapping {
-template <class T> class Mapping ;
-template <class T> class FieldRef ;
-}
 
 namespace action {
 
+enum SqlUpdateState {
+	PreparingValues=0,
+	PreparingId,
+} ;
+
+struct SqlUpdateData {
+	int params_ ;
+	int idparams_ ;
+	std::stringstream sql_ ;
+
+	SqlUpdateData()
+		:	params_(0),
+			idparams_(0)
+	{}
+} ;
+
 template<class C>
-class Update
+class SqlUpdate
 {
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	Update(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, ActionOption opt) ;
+	SqlUpdate(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
 
 	void visit() ;
 
@@ -31,21 +43,16 @@ public:
 
 	connection& conn() { return stmt_.conn() ; } ;
 private:
-	ptr<C>& ptr_ ;
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::PreparedStatement& stmt_ ;
-	ActionOption opt_ ;
 
-	IdType id_ ;	// new id_ positionned during update
+	std::shared_ptr<SqlUpdateData> data_ ;
 
-	enum State {
-		PreparingStatement,
-		Updating,
-		Recursing
-	} ;
-	State state_ ;
+	SqlUpdateState state_ ;
 
-	template <class D> friend class Update ;
+	SqlUpdate(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, std::shared_ptr<SqlUpdateData> data) ;
+
+	template <class D> friend class SqlUpdate ;
 };
 
 }}

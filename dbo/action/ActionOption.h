@@ -6,6 +6,7 @@ namespace dbo {
 const int OptNone=0x00 ;
 const int OptRecursive=0x01 ;
 const int OptReload=(0x01<<1) ;
+const int OptForceUpdate=(0x01<<2) ;
 
 class ActionOption
 {
@@ -30,6 +31,7 @@ namespace opt {
 const ActionOption None(OptNone) ;
 const ActionOption Recursive(OptRecursive) ;
 const ActionOption Reload(OptReload) ;
+const ActionOption ForceUpdate(OptForceUpdate) ;
 
 }
 

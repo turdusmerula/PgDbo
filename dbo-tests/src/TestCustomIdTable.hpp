@@ -194,6 +194,8 @@ TEST_F(TestCustomIdTable, TestUpdate) {
 
 	dbo::ptr<bNaturalIdTable> q=db.load<bNaturalIdTable>(p.id()) ;
 	ASSERT_TRUE( q->value=="1") ;
+
+	q.modify() ;
 	q->value = "2" ;
 
 	ASSERT_NO_THROW_V( db.update(q) ) ;

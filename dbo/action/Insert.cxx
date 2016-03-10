@@ -180,7 +180,7 @@ void Insert<C, P>::actPtr(const mapping::PtrRef<D>& field)
 
 	if(field.nameIsJoin()==true)
 	{
-		// nameIsJoin indicates thet this object does not really exists but needs a join from another table
+		// nameIsJoin indicates that this object does not really exists but needs a join from another table
 		// as we are in an insert it does nothing, the following code is only here to follow the pointer in case of a recursion mode
 		switch(state_)
 		{

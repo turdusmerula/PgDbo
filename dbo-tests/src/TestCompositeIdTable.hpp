@@ -216,25 +216,81 @@ TEST_F(TestCompositeIdTable, TestUpdateNonExistingId) {
 
 TEST_F(TestCompositeIdTable, TestUpdate) {
 	dbo::ptr<eSimpleTable> simple=dbo::make_ptr<eSimpleTable>() ;
+	simple->value = "TestUpdate" ;
 	ASSERT_NO_THROW_V( db.insert(simple) ) ;
 
 	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
-	p->composite_id.name = "update" ;
+	p->composite_id.name = "TestUpdate" ;
 	p->composite_id.simple_ptr = simple ;
 	p->value = "4" ;
 
 	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
 	dbo::ptr<eCompositeIdTable> q=db.load<eCompositeIdTable>(p.id()) ;
+	ASSERT_TRUE( q.loaded() ) ;
 	ASSERT_TRUE( q->value=="4") ;
-	q->value = "8" ;
+	ASSERT_TRUE( q.id()==p.id() ) ;
+	ASSERT_FALSE( q.id()==q.invalidId ) ;
+	ASSERT_TRUE(q.invalidId==dbo::traits::dbo_traits<eCompositeIdTable>::invalidId() ) ;
+	ASSERT_FALSE( q->composite_id==dbo::traits::dbo_traits<eCompositeIdTable>::invalidId() ) ;
+	ASSERT_FALSE( q->composite_id.simple_ptr.id()==dbo::traits::dbo_traits<eSimpleTable>::invalidId() ) ;
 
+	dbo::ptr<eSimpleTable> newsimple=dbo::make_ptr<eSimpleTable>() ;
+	ASSERT_NO_THROW_V( db.insert(newsimple) ) ;
+
+	q.modify() ;
+	q->value = "8" ;
+	q->composite_id.simple_ptr = newsimple ;
 	ASSERT_NO_THROW_V( db.update(q) ) ;
 
-	dbo::ptr<eCompositeIdTable> r=db.load<eCompositeIdTable>(p.id()) ;
+	dbo::ptr<eCompositeIdTable> r ;
+	ASSERT_THROW_V( r = db.load<eCompositeIdTable>(p.id()), std::exception ) ;
+	ASSERT_NO_THROW_V( r = db.load<eCompositeIdTable>(q.id()) ) ;
 	ASSERT_TRUE( r->value=="8" ) ;
+	ASSERT_FALSE( r.id().simple_ptr.id()==simple.id() ) ;
+	ASSERT_TRUE( r.id().simple_ptr.id()==newsimple.id() ) ;
 }
 
+TEST_F(TestCompositeIdTable, TestRecursiveUpdate) {
+	dbo::ptr<eSimpleTable> simple=dbo::make_ptr<eSimpleTable>() ;
+	simple->value = "TestRecursiveUpdate" ;
+
+	dbo::ptr<eCompositeIdTable> p=dbo::make_ptr<eCompositeIdTable>() ;
+	p->composite_id.name = "TestUpdate" ;
+	p->composite_id.simple_ptr = simple ;
+	p->value = "4" ;
+
+	ASSERT_NO_THROW_V( db.insert(p, dbo::opt::Recursive) ) ;
+
+	dbo::ptr<eCompositeIdTable> q=db.load<eCompositeIdTable>(p.id()) ;
+	ASSERT_TRUE( q.loaded() ) ;
+	ASSERT_TRUE( q->value=="4") ;
+	ASSERT_TRUE( q.id()==p.id() ) ;
+	ASSERT_FALSE( q.id()==q.invalidId ) ;
+	ASSERT_TRUE( q.invalidId==dbo::traits::dbo_traits<eCompositeIdTable>::invalidId() ) ;
+	ASSERT_FALSE( q->composite_id.simple_ptr.loaded() ) ;
+	ASSERT_FALSE( q->composite_id==dbo::traits::dbo_traits<eCompositeIdTable>::invalidId() ) ;
+	ASSERT_FALSE( q->composite_id.simple_ptr.id()==dbo::traits::dbo_traits<eSimpleTable>::invalidId() ) ;
+
+	ASSERT_NO_THROW_V( db.load(q->composite_id.simple_ptr) ) ;
+	ASSERT_TRUE( q->composite_id.simple_ptr.loaded() ) ;
+
+	q.modify() ;
+	q->value = "8" ;
+	q->composite_id.simple_ptr.modify() ;
+	q->composite_id.simple_ptr->value = "TestRecursiveUpdate new" ;
+	ASSERT_NO_THROW_V( db.update(q, dbo::opt::Recursive) ) ;
+std::cout << "#### " << q.id() << std::endl ;
+
+	dbo::ptr<eCompositeIdTable> r ;
+	ASSERT_NO_THROW_V( r = db.load<eCompositeIdTable>(q.id()) ) ;
+std::cout << "#### " << r.id() << std::endl ;
+	ASSERT_NO_THROW_V( db.load(q->composite_id.simple_ptr) ) ;
+	ASSERT_TRUE( r->value=="8" ) ;
+std::cout << "#### " << r.id().simple_ptr->value << std::endl ;
+	ASSERT_FALSE( r.id().simple_ptr->value=="TestRecursiveUpdate" ) ;
+	ASSERT_TRUE( r.id().simple_ptr->value=="TestRecursiveUpdate new" ) ;
+}
 
 TEST_F(TestCompositeIdTable, TestRemoveNull) {
 	dbo::ptr<eCompositeIdTable> p ;

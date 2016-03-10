@@ -12,7 +12,6 @@
 #include <dbo-tests/src/TestCustomIdTable.hpp>
 #include <dbo-tests/src/TestComplexIdTable.hpp>
 #include <dbo-tests/src/TestBelongsToTable.hpp>
-#include <dbo-tests/src/TestCompositeIdTable.hpp>
 #include <dbo-tests/src/TestIdConstraints.hpp>
 #include <dbo-tests/src/TestQuery.hpp>
 #include <dbo-tests/src/TestStatement.hpp>
@@ -21,6 +20,7 @@
 #include <dbo-tests/src/TestManyToOneTable.hpp>
 #include <dbo-tests/src/TestManyToManyTable.hpp>
 #include <dbo-tests/src/TestOneToOneTable.hpp>
+#include <dbo-tests/src/TestCompositeIdTable.hpp>
 
 std::string connection ;
 dbo::connection db ;

@@ -239,6 +239,7 @@ TEST_F(TestBelongsToTable, TestUpdateNull) {
 	ASSERT_NO_THROW_V( q=db.load<dBelongsToTable>(p.id()) ) ;
 
 	ASSERT_FALSE( q==nullptr ) ;
+	q.modify() ;
 	q->owner_complex = dbo::make_ptr<dComplexIdTable>() ;	// set null pointer
 	ASSERT_THROW_V( db.update(q), std::exception ) ;
 }
@@ -270,6 +271,7 @@ TEST_F(TestBelongsToTable, TestUpdate) {
 	owner_simple->value = "me" ;
 	ASSERT_NO_THROW_V( db.insert(owner_simple2) ) ;
 
+	q.modify() ;
 	q->value = "yeah" ;
 	q->owner_simple = owner_simple2 ;
 	ASSERT_NO_THROW_V( db.update(q) ) ;

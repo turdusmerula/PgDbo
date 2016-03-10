@@ -144,10 +144,10 @@ long ptr<C>::use_count() const noexcept
 }
 
 template<class C>
-void ptr<C>::modify()
+void ptr<C>::modify(bool value)
 {
 	if(ptr_)
-		ptr_->modified_ = true ;
+		ptr_->modified_ = value ;
 }
 
 template<class C>

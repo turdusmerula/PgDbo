@@ -98,14 +98,14 @@ public:
 	 * bulk insert content of collection
 	 */
 	template<class C>
-	collection<C>& insert(collection<C>& coll, ActionOption opt=opt::None) ;
+	collection<C>& bulk_insert(collection<C>& coll) ;
 
 
 	/**
 	 * Persists a modified object inside database
 	 */
 	template<class C>
-	ptr<C> update(ptr<C>& ptr) ;
+	ptr<C> update(ptr<C>& ptr, ActionOption opt=opt::None) ;
 
 
 	// TODO: implement load lazy and load recursive (?)
@@ -225,6 +225,7 @@ protected:
 	template <class T> friend class action::SqlInsert ;
 	template <class T, class U> friend class action::SqlInsertRelation ;
 	template <class T> friend class action::SqlSelectById ;
+	template <class T> friend class action::SqlUpdate ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
 	template<class C> friend class mapping::WeakRef ;

@@ -85,7 +85,7 @@ public:
 	 */
 	bool orphan() const ;
 
-    void modify() ;
+    void modify(bool value=true) ;
     bool modified() const ;
 
     const IdType& id() const ;

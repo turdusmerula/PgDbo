@@ -192,7 +192,7 @@ TEST_F(TestCollection, DISABLED_TestBulkInsert) {
 		c.push_back(p) ;
 	}
 
-	ASSERT_NO_THROW_V( db.insert(c) ) ;
+	ASSERT_NO_THROW_V( db.bulk_insert(c) ) ;
 	ASSERT_TRUE( c.size()==0 ) ;
 	ASSERT_TRUE( c.empty() ) ;
 }

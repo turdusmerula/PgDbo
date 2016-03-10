@@ -11,28 +11,21 @@ FieldRef<V>::FieldRef(V& value, const std::string& name, int size)
 {
 }
 
-template<typename V>
-const std::string& FieldRef<V>::name() const
+template <typename V>
+std::string FieldRef<V>::debug(int tab) const
 {
-	return name_ ;
-}
+	std::stringstream ss ;
+	std::string stab(tab, ' ') ;
+	std::string stab1(tab+1, ' ') ;
 
-template<typename V>
-int FieldRef<V>::size() const
-{
-	return size_ ;
-}
+	ss << stab << "<FieldRef>" << std::endl ;
+	ss << stab1 << "name: " << name_ << std::endl ;
+	ss << stab1 << "size: " << size_ << std::endl ;
+	ss << stab1 << "sqlType: " << sqlType() << std::endl ;
+	ss << stab1 << "type: " << type() << std::endl ;
+//	ss << stab1 << "value: " << value_ << std::endl ;
 
-template<typename V>
-std::string FieldRef<V>::sqlType() const
-{
-	return traits::sql_value_traits<V>::type(size_) ;
-}
-
-template<typename V>
-const std::type_info *FieldRef<V>::type() const
-{
-	return &typeid(V) ;
+	return ss.str() ;
 }
 
 }}

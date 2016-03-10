@@ -191,6 +191,8 @@ TEST_F(TestComplexIdTable, TestUpdate) {
 
 	dbo::ptr<cComplexIdTable> q=db.load<cComplexIdTable>(p.id()) ;
 	ASSERT_TRUE( q->value=="4") ;
+
+	q.modify() ;
 	q->value = "8" ;
 
 	ASSERT_NO_THROW_V( db.update(q) ) ;

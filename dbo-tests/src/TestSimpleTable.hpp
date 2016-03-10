@@ -229,6 +229,7 @@ TEST_F(TestSimpleTable, TestUpdate) {
 
 	dbo::ptr<aSimpleTable> q=db.load<aSimpleTable>(p.id()) ;
 
+	q.modify() ;
 	q->string_value = "tata" ;
 	q->longlong_value = 100 ;
 	q->optional_value = 25 ;

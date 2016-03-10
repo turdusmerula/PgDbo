@@ -10,22 +10,15 @@ class FieldRef
 public:
 	FieldRef(V& value, const std::string& name, int size) ;
 
-	const std::string& name() const ;
-	int size() const ;
+	const std::string& name() const { return name_ ; }
+	int size() const { return size_ ; }
+	std::string sqlType() const { return traits::sql_value_traits<V>::type(size_) ; }
+	const std::type_info *type() const { return &typeid(V) ; }
 
-	std::string sqlType() const ;
-	const std::type_info *type() const ;
+	V& value() const { return value_ ; }
+	void setValue(const V& value) const { value_ = value ; }
 
-	V& value() const
-	{
-		return value_;
-	}
-
-	void setValue(const V& value) const
-	{
-		value_ = value;
-	}
-
+	std::string debug(int tab=0) const ;
 private:
 	V& value_ ;
 	std::string name_ ;
