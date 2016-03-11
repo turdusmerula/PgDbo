@@ -309,3 +309,24 @@ TEST_F(TestManyToOneTable, TestInsertSimple2Collection) {
 
 	ASSERT_NO_THROW_V( db.insert(simple, dbo::opt::Recursive)) ;
 }
+
+TEST_F(TestManyToOneTable, TestUpdate) {
+	ASSERT_FALSE( true ) ;
+}
+
+TEST_F(TestManyToOneTable, TestUpdateRecusrsive) {
+	ASSERT_FALSE( true ) ;
+}
+
+TEST_F(TestManyToOneTable, TestDelete) {
+	ASSERT_FALSE( true ) ;
+}
+
+TEST_F(TestManyToOneTable, TestDeleteRecursive) {
+	ASSERT_FALSE( true ) ;
+}
+
+TEST_F(TestManyToOneTable, TestQuery) {
+	ASSERT_FALSE( true ) ;
+}
+

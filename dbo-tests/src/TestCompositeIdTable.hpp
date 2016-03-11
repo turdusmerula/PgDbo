@@ -237,12 +237,11 @@ TEST_F(TestCompositeIdTable, TestUpdate) {
 
 	dbo::ptr<eSimpleTable> newsimple=dbo::make_ptr<eSimpleTable>() ;
 	ASSERT_NO_THROW_V( db.insert(newsimple) ) ;
-std::cout << "++++ " << newsimple.id() << std::endl ;
 
 	q.modify() ;
 	q->value = "8" ;
 	q->composite_id.simple_ptr = newsimple ;
-std::cout << "++++ " << q->composite_id.simple_ptr << std::endl ;
+
 	ASSERT_NO_THROW_V( db.update(q) ) ;
 
 	dbo::ptr<eCompositeIdTable> r ;

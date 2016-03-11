@@ -17,10 +17,10 @@
 #include <dbo-tests/src/TestStatement.hpp>
 #include <dbo-tests/src/TestCollection.hpp>
 #include <dbo-tests/src/TestPtr.hpp>
-#include <dbo-tests/src/TestManyToOneTable.hpp>
 #include <dbo-tests/src/TestManyToManyTable.hpp>
 #include <dbo-tests/src/TestOneToOneTable.hpp>
 #include <dbo-tests/src/TestCompositeIdTable.hpp>
+#include <dbo-tests/src/TestManyToOneTable.hpp>
 
 std::string connection ;
 dbo::connection db ;

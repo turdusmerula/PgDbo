@@ -314,3 +314,24 @@ TEST_F(TestManyToManyTable, TestInsert2ManytoMany) {
 
 	ASSERT_NO_THROW_V( db.insert(simple, dbo::opt::Recursive)) ;
 }
+
+TEST_F(TestManyToManyTable, TestUpdate) {
+	ASSERT_FALSE( true ) ;
+}
+
+TEST_F(TestManyToManyTable, TestUpdateRecusrsive) {
+	ASSERT_FALSE( true ) ;
+}
+
+TEST_F(TestManyToManyTable, TestDelete) {
+	ASSERT_FALSE( true ) ;
+}
+
+TEST_F(TestManyToManyTable, TestDeleteRecursive) {
+	ASSERT_FALSE( true ) ;
+}
+
+TEST_F(TestManyToManyTable, TestQuery) {
+	ASSERT_FALSE( true ) ;
+}
+

@@ -73,7 +73,6 @@ ptr<C>& connection::insert(ptr<C>& obj, ActionOption opt)
 {
 	auto mapping=getMapping<C>() ;
 	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
-	//auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
 
 	obj.tableName(tableName<C>().c_str()) ;
 
@@ -89,7 +88,6 @@ ptr<C> connection::insert(weak_ptr<C>& obj, ActionOption opt)
 	ptr<C> ptr(obj) ;
 	auto mapping=getMapping<C>() ;
 	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
-//	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlInsert)->second ;
 
 	ptr.tableName(tableName<C>().c_str()) ;
 
@@ -116,7 +114,6 @@ ptr<C> connection::update(ptr<C>& obj, ActionOption opt)
 {
 	auto mapping=getMapping<C>() ;
 	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlUpdate) ;
-//	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlUpdate)->second ;
 
 	action::Update<C> action(obj, mapping, stmt, opt) ;
 	action.visit() ;
@@ -129,7 +126,6 @@ ptr<C> connection::load(ptr<C>& obj)
 {
 	auto mapping=getMapping<C>() ;
 	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlSelectById) ;
-//	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlSelectById)->second ;
 
 	action::SelectById<C> action(obj, mapping, stmt) ;
 	action.visit() ;
@@ -142,7 +138,6 @@ ptr<C> connection::load(const typename traits::dbo_traits<C>::IdType& id)
 {
 	auto mapping=getMapping<C>() ;
 	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlSelectById) ;
-//	auto& stmt=mapping->statements.find(mapping::MappingInfo::SqlSelectById)->second ;
 
 	ptr<C> obj=make_ptr<C>() ;
 	obj.tableName(tableName<C>().c_str()) ;
@@ -161,8 +156,6 @@ void connection::remove(ptr<C>& obj)
 
 	action::Delete<C> action(obj, mapping, stmt) ;
 	action.visit() ;
-//
-//	return obj ;
 }
 
 template<class C>
