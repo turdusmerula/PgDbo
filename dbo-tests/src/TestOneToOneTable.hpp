@@ -359,6 +359,45 @@ TEST_F(TestOneToOneTable, TestInsertFkNotNull) {
 	ASSERT_THROW_V( db.insert(p), std::exception ) ;
 }
 
+TEST_F(TestOneToOneTable, TestInsertDoubleInsert) {
+	dbo::ptr<lSimpleTable2> simple=dbo::make_ptr<lSimpleTable2>() ;
+	simple->value = "TestRecursiveInsert" ;
+	// With recursive mode there's no need to set parent, relation is made automatically
+	//simple->parent = p ;
+
+	dbo::ptr<lComplexIdTable> complex=dbo::make_ptr<lComplexIdTable>() ;
+	complex->value = "TestInsertDoubleInsert" ;
+	complex->complex_id.age = 2 ;
+	complex->complex_id.name = "TestInsertDoubleInsert" ;
+
+	dbo::ptr<lCompositeIdTable> composite=dbo::make_ptr<lCompositeIdTable>() ;
+	composite->value = "TestInsertDoubleInsert" ;
+	composite->composite_id.name = "TestInsertDoubleInsert" ;
+	dbo::ptr<lCompositeParentTable> composite_parent=dbo::make_ptr<lCompositeParentTable>() ;
+	composite_parent->value = "TestInsertDoubleInsert" ;
+	composite_parent->complex_id.age = 10 ;
+	composite_parent->complex_id.name = "TestInsertDoubleInsert" ;
+	composite->composite_id.parent = composite_parent ;
+
+	dbo::ptr<lSimpleTable> p=dbo::make_ptr<lSimpleTable>() ;
+	p->complex_id.age = 100 ;
+	p->complex_id.name = "TestInsertDoubleInsert" ;
+	p->value = "TestInsertDoubleInsert" ;
+	p->simple = simple ;
+	p->complex = complex ;
+	p->composite = composite ;
+
+	ASSERT_NO_THROW_V( db.insert(p, dbo::opt::Recursive) ) ;
+
+	dbo::ptr<lComplexIdTable> newcomplex=dbo::make_ptr<lComplexIdTable>() ;
+	newcomplex->complex_parent = p ;
+	newcomplex->value = "TestInsertDoubleInsert new" ;
+	newcomplex->complex_id.age = 2 ;
+	newcomplex->complex_id.name = "TestInsertDoubleInsert new" ;
+	// TODO: should fail, add a constraint to ensure unicity
+	ASSERT_THROW_V( db.insert(newcomplex, dbo::opt::Recursive), std::exception ) ;
+}
+
 TEST_F(TestOneToOneTable, TestRecursiveInsert) {
 	dbo::ptr<lSimpleTable2> simple=dbo::make_ptr<lSimpleTable2>() ;
 	simple->value = "TestRecursiveInsert" ;
@@ -445,3 +484,42 @@ TEST_F(TestOneToOneTable, TestSelect) {
 	ASSERT_TRUE( dbo::ptr<lSimpleTable>::invalidId==dbo::traits::dbo_traits<lSimpleTable>::invalidId() ) ;
 	ASSERT_TRUE( dbo::ptr<lCompositeIdTable>::invalidId==dbo::traits::dbo_traits<lCompositeIdTable>::invalidId() ) ;
 }
+
+TEST_F(TestOneToOneTable, TestUpdateNull) {
+	// TODO
+	dbo::ptr<lSimpleTable2> simple=dbo::make_ptr<lSimpleTable2>() ;
+	simple->value = "TestUpdate" ;
+
+	dbo::ptr<lComplexIdTable> complex=dbo::make_ptr<lComplexIdTable>() ;
+	complex->value = "TestUpdate" ;
+	complex->complex_id.age = 2 ;
+	complex->complex_id.name = "TestUpdate" ;
+
+	dbo::ptr<lCompositeIdTable> composite=dbo::make_ptr<lCompositeIdTable>() ;
+	composite->value = "TestUpdate" ;
+	composite->composite_id.name = "TestUpdate" ;
+	dbo::ptr<lCompositeParentTable> composite_parent=dbo::make_ptr<lCompositeParentTable>() ;
+	composite_parent->value = "TestUpdate" ;
+	composite_parent->complex_id.age = 10 ;
+	composite_parent->complex_id.name = "TestUpdate" ;
+	composite->composite_id.parent = composite_parent ;
+
+	dbo::ptr<lSimpleTable> p=dbo::make_ptr<lSimpleTable>() ;
+	p->complex_id.age = 100 ;
+	p->complex_id.name = "TestUpdate" ;
+	p->value = "TestUpdate" ;
+	p->simple = simple ;
+	p->complex = complex ;
+	p->composite = composite ;
+
+	ASSERT_NO_THROW_V( db.insert(p, dbo::opt::Recursive) ) ;
+
+	dbo::ptr<lSimpleTable> q ;
+	ASSERT_NO_THROW_V( q = db.load<lSimpleTable>(p.id()) ) ;
+	ASSERT_TRUE( q.loaded() ) ;
+
+	q.modify() ;
+	q->complex.reset() ;
+	ASSERT_THROW_V( db.update(q), std::exception ) ;
+}
+

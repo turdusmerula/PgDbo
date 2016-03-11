@@ -60,18 +60,20 @@ void PtrRef<C>::visit(A& action, connection& conn) const
 }
 
 template<class C>
-void PtrRef<C>::debug(int tab) const
+std::string PtrRef<C>::debug(int tab) const
 {
 	std::stringstream ss ;
-	std::string stab(tab, ' ') ;
-	std::string stab1(tab+1, ' ') ;
+	std::string stab(tab*2, ' ') ;
+	std::string stab1((tab+1)*2, ' ') ;
 
-	std::cout << stab << "<PtrRef>" << std::endl ;
-	std::cout << stab1 << "value_:" << value_.get() << std::endl ;
-	std::cout << stab1 << "name_:" << name_ << std::endl ;
-	std::cout << stab1 << "size_:" << size_ << std::endl ;
-	std::cout << stab1 << "fkConstraints_:" << fkConstraints_ << std::endl ;
-	std::cout << stab1 << "nameIsJoin_:" << (nameIsJoin_?"true":"false") << std::endl ;
+	ss << stab << "<PtrRef>" << std::endl ;
+	ss << stab1 << "value_: " << value_.get() << std::endl ;
+	ss << stab1 << "name_: " << name_ << std::endl ;
+	ss << stab1 << "size_: " << size_ << std::endl ;
+	ss << stab1 << "fkConstraints_: " << fkConstraints_ << std::endl ;
+	ss << stab1 << "nameIsJoin_: " << (nameIsJoin_?"true":"false") << std::endl ;
+
+	return ss.str() ;
 }
 
 }}

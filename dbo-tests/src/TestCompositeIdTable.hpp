@@ -237,10 +237,12 @@ TEST_F(TestCompositeIdTable, TestUpdate) {
 
 	dbo::ptr<eSimpleTable> newsimple=dbo::make_ptr<eSimpleTable>() ;
 	ASSERT_NO_THROW_V( db.insert(newsimple) ) ;
+std::cout << "++++ " << newsimple.id() << std::endl ;
 
 	q.modify() ;
 	q->value = "8" ;
 	q->composite_id.simple_ptr = newsimple ;
+std::cout << "++++ " << q->composite_id.simple_ptr << std::endl ;
 	ASSERT_NO_THROW_V( db.update(q) ) ;
 
 	dbo::ptr<eCompositeIdTable> r ;
@@ -280,14 +282,11 @@ TEST_F(TestCompositeIdTable, TestRecursiveUpdate) {
 	q->composite_id.simple_ptr.modify() ;
 	q->composite_id.simple_ptr->value = "TestRecursiveUpdate new" ;
 	ASSERT_NO_THROW_V( db.update(q, dbo::opt::Recursive) ) ;
-std::cout << "#### " << q.id() << std::endl ;
 
 	dbo::ptr<eCompositeIdTable> r ;
 	ASSERT_NO_THROW_V( r = db.load<eCompositeIdTable>(q.id()) ) ;
-std::cout << "#### " << r.id() << std::endl ;
 	ASSERT_NO_THROW_V( db.load(q->composite_id.simple_ptr) ) ;
 	ASSERT_TRUE( r->value=="8" ) ;
-std::cout << "#### " << r.id().simple_ptr->value << std::endl ;
 	ASSERT_FALSE( r.id().simple_ptr->value=="TestRecursiveUpdate" ) ;
 	ASSERT_TRUE( r.id().simple_ptr->value=="TestRecursiveUpdate new" ) ;
 }

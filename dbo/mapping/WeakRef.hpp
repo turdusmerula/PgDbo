@@ -24,6 +24,7 @@ public:
 	typename traits::dbo_traits<C>::IdType id() const { return value_.id() ; }
 	bool nameIsJoin() const { return nameIsJoin_ ; }
 
+	std::string debug(int tab=0) const ;
 private:
 	weak_ptr<C>& value_ ;
 	std::string name_ ;

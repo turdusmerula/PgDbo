@@ -41,14 +41,12 @@ void Update<C>::visit()
 		}
 	}
 
-
 	if(ptr_.id()==traits::dbo_traits<C>::invalidId())
 	{
 		std::stringstream ss ;
 		ss << "Update failed for '" << mapping_->tableName << "': invalid id '" << ptr_.id() << "'" ;
 		throw Exception(ss.str()) ;
 	}
-
 	if(ptr_ && ptr_.loaded())
 	{
 		if(ptr_.modified() || opt_==opt::ForceUpdate)
@@ -134,6 +132,7 @@ void Update<C>::actPtr(const mapping::PtrRef<D>& field)
 {
 	using IdType = typename traits::dbo_traits<D>::IdType ;
 
+	std::cout << "---- " << state_ << "  " << field.value().id() << std::endl ;
 	// this action is C type, we need D, so we create a special one for this type
 	Update<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
 	action.state_ = static_cast<typename Update<D>::State>(state_) ;
@@ -141,13 +140,28 @@ void Update<C>::actPtr(const mapping::PtrRef<D>& field)
 	switch(state_)
 	{
 	case PreparingStatement:
+		if(field.nameIsJoin()==false)
+		{
+			// set the id
+			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		}
+		break ;
 	case Updating:
-		// load the id
-		// objects are not loaded, only the id to be able to operate a lazy loading next
-		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		if(field.value()==nullptr && (field.fkConstraints() & FKNotNull))
+		{
+			std::stringstream ss ;
+			ss << "Update failed for '" << mapping_->tableName << "': FKNotNull constraint failed for '" << field.name() << "'" ;
+			throw Exception(ss.str()) ;
+		}
+
+		if(field.nameIsJoin()==false)
+		{
+			// set the id
+			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		}
 		break ;
 	case Recursing:
-		if(opt_==opt::Recursive)
+		if(opt_==opt::Recursive && field.value().loaded())
 		{
 			auto mapping=conn().template getMapping<D>() ;
 			auto& stmt=conn().template getStatement<D, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlUpdate) ;
@@ -165,18 +179,27 @@ template <class D>
 void Update<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 {
 	using IdType = typename traits::dbo_traits<D>::IdType ;
+std::cout << "**** " << state_ << "  " << field.value().id() << std::endl ;
+	dbo::ptr<D> ptr ;
+	ptr.id(field.value().id()) ;
+	if(field.value().expired()==false)
+		ptr = field.value().lock() ;
+std::cout << "**** " << state_ << "  " << ptr.id() << std::endl ;
 
 	// this action is C type, we need D, so we create a special one for this type
-	Update<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
+	Update<D> action(ptr, conn().template getMapping<D>(), stmt_, opt_) ;
 	action.state_ = static_cast<typename Update<D>::State>(state_) ;
 
 	switch(state_)
 	{
 	case PreparingStatement:
 	case Updating:
-		// load the id
-		// objects are not loaded, only the id to be able to operate a lazy loading next
-		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		if(field.nameIsJoin()==false)
+		{
+			// load the id
+			// objects are not loaded, only the id to be able to operate a lazy loading next
+			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+		}
 	case Recursing:
 		// weak ptr are endpoints, we do not recurse inside
 		break ;

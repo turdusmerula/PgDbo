@@ -25,6 +25,7 @@
 #include <dbo/mapping/PtrRef.hpp>
 #include <dbo/mapping/WeakRef.hpp>
 
+#include <dbo/action/Debug.hpp>
 #include <dbo/action/InitSchema.hpp>
 #include <dbo/action/Delete.hpp>
 #include <dbo/action/BulkInsert.hpp>
@@ -49,6 +50,7 @@
 #include <dbo/relation.cxx>
 #include <dbo/query.cxx>
 
+#include <dbo/action/Debug.cxx>
 #include <dbo/action/InitSchema.cxx>
 #include <dbo/action/Delete.cxx>
 #include <dbo/action/BulkInsert.cxx>

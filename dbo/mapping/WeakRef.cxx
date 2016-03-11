@@ -47,4 +47,24 @@ void WeakRef<C>::visit(A& action, connection& conn) const
 	field(action, id, name_+"_"+idFieldName, size) ;
 }
 
+template<class C>
+std::string WeakRef<C>::debug(int tab) const
+{
+	std::stringstream ss ;
+	std::string stab(tab*2, ' ') ;
+	std::string stab1((tab+1)*2, ' ') ;
+
+	ss << stab << "<WeakRef>" << std::endl ;
+	if(value_.expired()==false)
+		ss << stab1 << "value_: " << value_.lock().get() << std::endl ;
+	else
+		ss << stab1 << "value_: expired" << std::endl ;
+	ss << stab1 << "name_: " << name_ << std::endl ;
+	ss << stab1 << "size_: " << size_ << std::endl ;
+	ss << stab1 << "fkConstraints_: " << fkConstraints_ << std::endl ;
+	ss << stab1 << "nameIsJoin_: " << (nameIsJoin_?"true":"false") << std::endl ;
+
+	return ss.str() ;
+}
+
 }}

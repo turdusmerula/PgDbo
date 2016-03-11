@@ -287,6 +287,7 @@ void Insert<C, P>::actWeakPtr(const mapping::WeakRef<D>& field)
 	else
 	{
 		dbo::ptr<D> ptr ;
+		ptr.id(field.value().id()) ;
 		if(field.value().expired()==false)
 			ptr = field.value().lock() ;
 
