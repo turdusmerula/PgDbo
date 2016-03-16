@@ -17,7 +17,7 @@
 #include <dbo/stmt/PreparedStatement.h>
 
 #include <dbo/traits/dbo_traits.hpp>
-#include <dbo/traits/StdSqlTraits.h>
+#include <dbo/traits/std_sql_traits.hpp>
 
 #include <dbo/mapping/Mapping.hpp>
 #include <dbo/mapping/CollectionRef.hpp>

@@ -20,23 +20,24 @@ FILE(GLOB sources
     *.cpp
     action/*.cpp
     mapping/*.cpp
+    ogr/*.cpp
     stmt/*.cpp
     traits/*.cpp
     )
-    
+
 FILE(GLOB headers 
     src/*.h
     )
 
-add_library(${PROJECT_NAME} SHARED ${sources})
+add_library(dbo-lib SHARED ${sources})
 
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(dbo-lib 
     pthread
 
     ${Boost_LIBRARIES} 
 
     ${Postgres_LIBRARIES}
-
+    
     gdal
 
     dl

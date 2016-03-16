@@ -18,8 +18,12 @@ public:
 
 	query& operator=(const query& other) ;
 
-//	query<Result>& where(const std::string& condition) ;
+
+//	template <class C>
+//	query& select() ;
 //
+//	query& where(const std::string& condition) ;
+
 //	query<Result>& orderBy(const std::string& fieldName) ;
 //	query<Result>& groupBy(const std::string& fields) ;
 //	query<Result>& having(const std::string& fields) ;
@@ -56,8 +60,9 @@ public:
 protected:
 	connection* conn_ ;
 	stmt::PreparedStatement stmt_ ;
-	std::string sql_ ;
 	bool prepared_ ;
+
+	std::string sql_ ;
 
 	bool hasrow_ ;
 } ;

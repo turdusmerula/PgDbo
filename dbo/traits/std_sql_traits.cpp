@@ -6,8 +6,8 @@
 
 
 #include <dbo/traits/sql_value_traits.hpp>
-#include <dbo/traits/StdSqlTraits.h>
-#include <dbo/traits/SqlPostgresTypes.hpp>
+#include <dbo/traits/std_sql_traits.hpp>
+#include <dbo/traits/sql_postgres_types.hpp>
 
 #include <dbo/stmt/Statement.h>
 

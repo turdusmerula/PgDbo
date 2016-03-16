@@ -21,10 +21,10 @@ function usage()
     echo "    -jx                number of parallel process to use for build" 
     echo "    --tests=pattern    list of tests to be run, see google test documentation" 
     echo "    --release          build with release informations (by default build is made with debug informations)" 
-    echo "    --clang:           build with clang instead of gcc" 
+    echo "    --clang            build with clang instead of gcc" 
     echo "    --profiler=name    build using a profiling tool from list (ftrace, LeakSanitizer, AddressSanitizer, valgrind, callgrind)" 
-    echo "    --ddd:             run tests through ddd debugger"
-    echo "    --verbose:         enable verbose mode" 
+    echo "    --ddd              run tests through ddd debugger"
+    echo "    --verbose          enable verbose mode" 
     echo
     echo "help: output command help and quit" 
     exit 0

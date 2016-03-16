@@ -3,6 +3,9 @@
 
 #include <boost/optional.hpp>
 
+namespace dbo {
+namespace traits {
+
 /*! \class dbo_default_traits Dbo/Dbo Dbo/Dbo
  *  \brief Default traits for a class mapped with %%Dbo.
  *
@@ -105,5 +108,7 @@ struct dbo_default_traits
 		return std::string("id") ;
 	}
 } ;
+
+}}
 
 #endif

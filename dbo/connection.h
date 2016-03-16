@@ -9,7 +9,7 @@
 #include <dbo/action/ActionOption.h>
 #include <dbo/mapping/JoinId.h>
 #include <dbo/mapping/MappingInfo.h>
-#include <dbo/traits/SqlPostgresTypes.hpp>
+#include <dbo/traits/sql_postgres_types.hpp>
 #include <dbo/traits/dbo_traits.hpp>
 #include <dbo/transaction.h>
 #include <dbo/query.hpp>

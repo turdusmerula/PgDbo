@@ -10,7 +10,7 @@
 #include <dbo/stmt/PreparedStatement.h>
 
 #include <dbo/traits/sql_value_traits.hpp>
-#include <dbo/traits/StdSqlTraits.h>
+#include <dbo/traits/std_sql_traits.hpp>
 
 #include <postgresql/libpq-fe.h>
 
@@ -22,7 +22,8 @@ connection::connection()
 		transaction_(*this),
 		conn_(nullptr),
 		showQueries_(false),
-		showBindings_(false)
+		showBindings_(false),
+		showResults_(false)
 {
 
 }

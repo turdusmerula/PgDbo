@@ -1,5 +1,5 @@
 #include <dbo/query.hpp>
-#include <dbo/traits/StdSqlTraits.h>
+#include <dbo/traits/std_sql_traits.hpp>
 
 using namespace dbo ;
 

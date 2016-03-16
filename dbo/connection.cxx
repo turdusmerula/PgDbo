@@ -161,6 +161,7 @@ void connection::remove(ptr<C>& obj)
 template<class C>
 query connection::find(const std::string& condition)
 {
+	//TODO: replace * by field names
 	if(condition.empty())
 		return dbo::query(*this, "select * from \""+tableName<C>()+"\"") ;
 	else

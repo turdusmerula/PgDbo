@@ -1,9 +1,10 @@
 #ifndef _DBO_COLLECTION_HPP_
 #define _DBO_COLLECTION_HPP_
 
-#include <deque>
+#include <memory>
+#include <vector>
 
-//#include <dbo/traits/dbo_traits.hpp>
+#include <dbo/traits/dbo_traits.hpp>
 
 namespace dbo {
 
