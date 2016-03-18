@@ -64,6 +64,13 @@ query& query::execute()
 	return *this ;
 }
 
+query& query::reset()
+{
+	stmt_.reset() ;
+
+	return *this ;
+}
+
 bool query::nextRow()
 {
 	hasrow_ = stmt_.nextRow() ;

@@ -55,4 +55,25 @@ void LoadDb<C>::actPtr(const mapping::PtrRef<D>& field)
 	id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
 }
 
+template<class C>
+template <class D>
+void LoadDb<C>::actWeakPtr(const mapping::WeakRef<D>& field)
+{
+	using IdType = typename traits::dbo_traits<D>::IdType ;
+
+	// this action is C type, we need D, so we create a special one for this type
+	LoadDb<D> action(field.value(), conn().template getMapping<D>(), stmt_) ;
+
+	// load the id
+	// objects are not loaded, only the id to be able to operate a lazy loading next
+	id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
+}
+
+template<class C>
+template<class D>
+void LoadDb<C>::actCollection(const mapping::CollectionRef<D>& field)
+{
+
+}
+
 }}

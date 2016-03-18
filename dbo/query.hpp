@@ -46,6 +46,11 @@ public:
 
 	query& execute() ;
 
+	/**
+	 * Reset bindings
+	 */
+	query& reset() ;
+
 	template <class C>
 	query& read(ptr<C>& ptr) ;
 
@@ -57,6 +62,8 @@ public:
 	const std::string& sql() { return sql_ ; }
 
 	bool hasrow() const { return hasrow_ ; }
+
+	bool prepared() { return stmt_.prepared() ; }
 protected:
 	connection* conn_ ;
 	stmt::PreparedStatement stmt_ ;

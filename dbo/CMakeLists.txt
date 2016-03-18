@@ -29,9 +29,9 @@ FILE(GLOB headers
     src/*.h
     )
 
-add_library(dbo-lib SHARED ${sources})
+add_library(${PROJECT_NAME} SHARED ${sources})
 
-target_link_libraries(dbo-lib 
+target_link_libraries(${PROJECT_NAME} 
     pthread
 
     ${Boost_LIBRARIES} 

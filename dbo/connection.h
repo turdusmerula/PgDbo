@@ -135,12 +135,6 @@ public:
 	query find(const std::string& condition="") ;
 
 	/**
-	 * Create a select query from collection mapping
-	 */
-	template<class C>
-	query find(const collection<C>& collection, const std::string& condition="") ;
-
-	/**
 	 * Create query from sql request
 	 */
 	dbo::query query(const std::string& sql) ;

@@ -168,10 +168,4 @@ query connection::find(const std::string& condition)
 		return dbo::query(*this, "select * from \""+tableName<C>()+"\" where "+condition) ;
 }
 
-template<class C>
-query connection::find(const collection<C>& collection, const std::string& condition)
-{
-
-}
-
 }
