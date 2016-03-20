@@ -381,7 +381,7 @@ else
 fi 
 
 # configure ccache
-if [ ! $tgt_eclipse ] && [[ "_$(which ccache)" != "_" ]]
+if [ $tgt_eclipse -eq 0 ] && [[ "_$(which ccache)" != "_" ]]
 then
 	echo "ccache enabled"
 	CCACHE="ccache "

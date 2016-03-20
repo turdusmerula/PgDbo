@@ -1,10 +1,8 @@
-#include <dbo/dbo_types.h>
-#include <dbo/stmt/PreparedStatement.h>
-#include <dbo/action/SqlSelectById.hpp>
+#include <dbo/mapping/IdPrefixStack.h>
 
-using namespace dbo::action ;
+using namespace dbo::mapping ;
 
-std::string SqlSelectByIdData::id_prefix()
+std::string IdPrefixStack::id_prefix()
 {
 	std::string res ;
 

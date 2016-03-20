@@ -1,19 +1,25 @@
-#ifndef _DBO_ACTION_LOADDB_HPP_
-#define _DBO_ACTION_LOADDB_HPP_
+#ifndef _DBO_ACTION_LOADID_HPP_
+#define _DBO_ACTION_LOADID_HPP_
 
 namespace dbo {
 namespace action {
+
+enum class LoadIdState {
+	PreparingStatement,
+	ReadingResult
+} ;
+
 
 /**
  * Load an object from statement current state
  */
 template<class C>
-class LoadDb
+class LoadId
 {
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	LoadDb(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, bool loadId=true) ;
+	LoadId(IdType& id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
 
 	void visit() ;
 
@@ -31,10 +37,11 @@ public:
 private:
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::PreparedStatement& stmt_ ;
-	ptr<C>& ptr_ ;
-	bool loadId_ ;
+	IdType& id_ ;
 
-	template <class D> friend class LoadDb ;
+	LoadIdState state_ ;
+
+	template <class D> friend class LoadId ;
 };
 
 }}

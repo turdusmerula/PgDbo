@@ -91,7 +91,7 @@ public:
 	/**
 	 * Indicate if an insert has a returning
 	 */
-	bool hasReturning() { return hasReturning_ ; }
+	bool hasReturning() const { return hasReturning_ ; }
 
 	const std::string sql() const { return rawsql_ ; }
 	void sql(const std::string& sql) ;
@@ -105,7 +105,7 @@ public:
 	 */
 	void name(const std::string& name) ;
 
-	bool hashName() { return hashname_ ; }
+	bool hashName() const { return hashname_ ; }
 	void hashName(bool value) ;
 
 	bool prepared() const { return prepared_ ; }

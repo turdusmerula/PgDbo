@@ -7,6 +7,8 @@
 #include <vector>
 #include <boost/lexical_cast.hpp>
 
+#include <dbo/mapping/IdPrefixStack.h>
+
 namespace dbo {
 
 namespace action {
@@ -35,7 +37,7 @@ struct SqlSelectByIdData {
 	} ;
 	std::vector<Join> joins_ ;
 
-	std::vector<std::string> id_prefix_satck_ ;	// composite ids prefix is built from the parents names
+	mapping::IdPrefixStack id_prefix_satck_ ;	// composite ids prefix is built from the parents names
 
 	SqlSelectByIdData()
 		:	params_(0),
@@ -47,9 +49,6 @@ struct SqlSelectByIdData {
 	void as_letter_push() { as_letter_.push("t"+boost::lexical_cast<std::string>(as_num_++)) ; }
 	void as_letter_pop() { as_letter_.pop() ; } ;
 
-	std::string id_prefix() ;
-	void id_prefix_push(std::string id) { id_prefix_satck_.push_back(id) ; }
-	void id_prefix_pop() { id_prefix_satck_.pop_back() ; }
 } ;
 
 template<class C>

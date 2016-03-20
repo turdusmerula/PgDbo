@@ -111,7 +111,6 @@ void belongsTo(Action& action, weak_ptr<C>& value, ForeignKeyConstraint constrai
 
 
 
-
 template<class Action, class C>
 void hasMany(Action& action, collection<C>& value, RelationType type, const std::string& name=std::string()) ;
 

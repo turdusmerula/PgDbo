@@ -5,17 +5,9 @@
 #include <memory>
 
 #include <dbo/mapping/SetInfo.h>
+#include <dbo/dbo_types.h>
 
 namespace dbo {
-class connection ;
-
-namespace mapping {
-class MappingInfo ;
-template <class T> class CollectionRef ;
-template <class T> class FieldRef ;
-template <class T> class PtrRef ;
-template <class T> class WeakRef ;
-}
 
 namespace action {
 

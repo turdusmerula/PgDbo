@@ -77,6 +77,12 @@ C* ptr<C>::operator->() const
 }
 
 template<class C>
+lazy_ptr<C> ptr<C>::operator()(connection& conn) const
+{
+	return lazy_ptr<C>(*this, conn) ;
+}
+
+template<class C>
 void ptr<C>::swap(ptr& other) noexcept
 {
 	ptr_.swap(other.ptr_) ;

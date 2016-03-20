@@ -211,6 +211,8 @@ protected:
 	template <class C, class Statement=stmt::Statement>
 	Statement& getStatement(mapping::MappingInfo::StatementType type) ;
 
+	template <class T> friend class action::LoadId ;
+	template <class T> friend class action::LoadDb ;
 	template <class T> friend class action::Delete ;
 	template <class T, class P> friend class action::Insert ;
 	template <class T, class U> friend class action::InsertRelation ;
@@ -219,10 +221,12 @@ protected:
 	template <class T> friend class action::SqlInsert ;
 	template <class T, class U> friend class action::SqlInsertRelation ;
 	template <class T> friend class action::SqlSelectById ;
+	template <class T, class U> friend class action::SqlSelectCollection ;
 	template <class T> friend class action::SqlUpdate ;
 	friend class action::InitSchema ;
 	template<class C> friend class mapping::PtrRef ;
 	template<class C> friend class mapping::WeakRef ;
+	template<class C> friend class lazy_ptr ;
 	friend class stmt::PreparedStatement ;
 	friend class stmt::BulkStatement ;
 	friend class query ;

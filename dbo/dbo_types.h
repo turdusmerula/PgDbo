@@ -9,6 +9,8 @@ namespace dbo {
 	class connection ;
 
 	namespace action {
+		template <class T> class LoadDb ;
+		template <class T> class LoadId ;
 		template <class T> class Delete ;
 		template <class T, class U> class Insert ;
 		template <class T> class Update ;
@@ -17,11 +19,13 @@ namespace dbo {
 		template <class T, class U> class InsertRelation ;
 		template <class T, class U> class SqlInsertRelation ;
 		template <class T> class SqlSelectById ;
+		template <class T, class U> class SqlSelectCollection ;
 		template <class T> class SqlUpdate ;
 		class InitSchema ;
 	}
 
 	namespace mapping {
+		class MappingInfo ;
 		template <class T> class Mapping ;
 		template <class T> class FieldRef ;
 		template <class T> class PtrRef ;

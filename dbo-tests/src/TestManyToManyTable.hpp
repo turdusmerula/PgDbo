@@ -315,6 +315,61 @@ TEST_F(TestManyToManyTable, TestInsert2ManytoMany) {
 	ASSERT_NO_THROW_V( db.insert(simple, dbo::opt::Recursive)) ;
 }
 
+TEST_F(TestManyToManyTable, TestSelectCollection1ManytoMany) {
+	dbo::ptr<mSimpleTable> simple=dbo::make_ptr<mSimpleTable>() ;
+	simple->name = "toto" ;
+	simple->value = "TestSelectCollection1ManytoMany" ;
+
+	for(int i=0 ; i<10 ; i++)
+	{
+		dbo::ptr<mComplexIdTable> complex=dbo::make_ptr<mComplexIdTable>() ;
+		complex->composite_id.age = i ;
+		complex->composite_id.name = "TestSelectCollection1ManytoMany" ;
+
+		simple->list_complex.push_back(complex) ;
+	}
+
+	ASSERT_NO_THROW_V( db.insert(simple, dbo::opt::Recursive)) ;
+
+	dbo::ptr<mSimpleTable> simple2 ;
+	ASSERT_NO_THROW_V( simple2 = db.load<mSimpleTable>(simple.id())) ;
+
+	ASSERT_NO_THROW_V( simple2(db).load(simple2->list_complex) ) ;
+	ASSERT_TRUE( simple2->list_complex.size()==10 ) ;
+	for(auto ptr : simple2->list_complex)
+		std::cout << "id: " << ptr.id() << std::endl ;
+}
+
+TEST_F(TestManyToManyTable, TestSelectCollection2ManytoMany) {
+	dbo::ptr<mSimpleTable2> simple=dbo::make_ptr<mSimpleTable2>() ;
+	simple->name = "toto" ;
+	simple->value = "TestSelectCollection2ManytoMany" ;
+
+	for(int i=0 ; i<10 ; i++)
+	{
+		dbo::ptr<mCompositeParentTable> parent=dbo::make_ptr<mCompositeParentTable>() ;
+		parent->value = "TestSelectCollection2ManytoMany" ;
+		parent->complex_id.age = i ;
+		parent->complex_id.name = "TestSelectCollection2ManytoMany" ;
+
+		dbo::ptr<mCompositeIdTable> composite=dbo::make_ptr<mCompositeIdTable>() ;
+		composite->composite_id.parent = parent ;
+		composite->composite_id.name = "TestSelectCollection2ManytoMany" ;
+
+		simple->list_composite.push_back(composite) ;
+	}
+
+	ASSERT_NO_THROW_V( db.insert(simple, dbo::opt::Recursive)) ;
+
+	dbo::ptr<mSimpleTable2> simple2 ;
+	ASSERT_NO_THROW_V( simple2 = db.load<mSimpleTable2>(simple.id())) ;
+
+	ASSERT_NO_THROW_V( simple2(db).load(simple2->list_composite) ) ;
+	ASSERT_TRUE( simple2->list_composite.size()==10 ) ;
+	for(auto ptr : simple2->list_composite)
+		std::cout << "id: " << ptr.id() << std::endl ;
+}
+
 TEST_F(TestManyToManyTable, TestUpdate) {
 	ASSERT_FALSE( true ) ;
 }

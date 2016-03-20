@@ -82,7 +82,6 @@ protected:
 	template <class D> friend class collection ;
 
 	friend std::ostream& operator<< <>(std::ostream& o, const ptr<C>& _ptr) ;
-	template <class D> friend class collection ;
 	template <class D> friend class ptr ;
 } ;
 

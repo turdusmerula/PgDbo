@@ -2,21 +2,25 @@ namespace dbo {
 namespace action {
 
 template<class C>
-LoadDb<C>::LoadDb(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
+LoadDb<C>::LoadDb(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, bool loadId)
 	: 	mapping_(mapping),
 		stmt_(stmt),
-		ptr_(ptr)
+		ptr_(ptr),
+		loadId_(loadId)
 {
 }
 
 template<class C>
 void LoadDb<C>::visit()
 {
-	// read id
-	if(mapping_->surrogateIdFieldName!=boost::none)
-		field(*this, const_cast<IdType&>(ptr_.id()), mapping_->surrogateIdFieldName.get()) ;
-	else
-		field(*this, const_cast<IdType&>(ptr_.id()), mapping_->naturalIdFieldName, mapping_->naturalIdFieldSize) ;
+	if(loadId_)
+	{
+		// read id
+		if(mapping_->surrogateIdFieldName!=boost::none)
+			field(*this, const_cast<IdType&>(ptr_.id()), mapping_->surrogateIdFieldName.get()) ;
+		else
+			field(*this, const_cast<IdType&>(ptr_.id()), mapping_->naturalIdFieldName, mapping_->naturalIdFieldSize) ;
+	}
 
 	ptr_->persist(*this) ;
 

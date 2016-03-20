@@ -7,6 +7,7 @@
 
 namespace dbo {
 
+template <class C> class lazy_ptr ;
 template<class C> std::ostream& operator<<(std::ostream& o, const ptr<C>& _ptr) ;
 
 class ptr_base
@@ -64,6 +65,7 @@ public:
 	 */
 	C* operator->() const ;
 
+	lazy_ptr<C> operator()(connection& conn) const ;
 
     void swap(ptr& other) noexcept ;
 
@@ -73,6 +75,7 @@ public:
 	 * Returns true if the pointer is pointing to a non-null object.
 	 */
 	explicit operator bool() const ;
+
 
 	/**
 	 * An object is considered as loaded if it has a content and a valid id

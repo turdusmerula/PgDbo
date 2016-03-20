@@ -116,7 +116,7 @@ void SqlSelectById<C>::actPtr(const mapping::PtrRef<D>& field)
 	using IdType=typename traits::dbo_traits<D>::IdType;
 	auto mapping=conn().template getMapping<D>() ;
 
-	std::string id_prefix=data_->id_prefix() ;
+	std::string id_prefix=data_->id_prefix_satck_.id_prefix() ;
 
 	if(field.nameIsJoin())
 	{
@@ -126,13 +126,13 @@ void SqlSelectById<C>::actPtr(const mapping::PtrRef<D>& field)
 	else
 	{
 		// set id prefix for composite ids
-		data_->id_prefix_push(field.name()) ;
+		data_->id_prefix_satck_.id_prefix_push(field.name()) ;
 	}
 
 	// this action is C type, we need D, so we create a special one for this type
 	SqlSelectById<D> action(mapping, stmt_, data_) ;
 	action.state_ = state_ ;
-	id(action, const_cast<IdType&>(field.value().id()), data_->id_prefix()+mapping->idName()) ;
+	id(action, const_cast<IdType&>(field.value().id()), data_->id_prefix_satck_.id_prefix()+mapping->idName()) ;
 
 	if(field.nameIsJoin())
 	{
@@ -150,7 +150,7 @@ void SqlSelectById<C>::actPtr(const mapping::PtrRef<D>& field)
 		data_->as_letter_pop() ;
 	}
 	else
-		data_->id_prefix_pop() ;
+		data_->id_prefix_satck_.id_prefix_pop() ;
 }
 
 template<class C>
@@ -160,7 +160,7 @@ void SqlSelectById<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 	using IdType=typename traits::dbo_traits<D>::IdType;
 	auto mapping=conn().template getMapping<D>() ;
 
-	std::string id_prefix=data_->id_prefix() ;
+	std::string id_prefix=data_->id_prefix_satck_.id_prefix() ;
 
 	if(field.nameIsJoin())
 	{
@@ -170,13 +170,13 @@ void SqlSelectById<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 	else
 	{
 		// set id prefix for composite ids
-		data_->id_prefix_push(field.name()) ;
+		data_->id_prefix_satck_.id_prefix_push(field.name()) ;
 	}
 
 	// this action is C type, we need D, so we create a special one for this type
 	SqlSelectById<D> action(mapping, stmt_, data_) ;
 	action.state_ = state_ ;
-	id(action, const_cast<IdType&>(field.value().id()), data_->id_prefix()+mapping->idName()) ;
+	id(action, const_cast<IdType&>(field.value().id()), data_->id_prefix_satck_.id_prefix()+mapping->idName()) ;
 
 	if(field.nameIsJoin())
 	{
@@ -194,7 +194,7 @@ void SqlSelectById<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 		data_->as_letter_pop() ;
 	}
 	else
-		data_->id_prefix_pop() ;
+		data_->id_prefix_satck_.id_prefix_pop() ;
 }
 
 template<class C>
