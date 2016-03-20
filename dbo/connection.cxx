@@ -74,8 +74,6 @@ ptr<C>& connection::insert(ptr<C>& obj, ActionOption opt)
 	auto mapping=getMapping<C>() ;
 	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
 
-	obj.tableName(tableName<C>().c_str()) ;
-
 	action::Insert<C> action(obj, mapping, stmt, opt) ;
 	action.visit() ;
 
@@ -101,7 +99,6 @@ template<class C>
 collection<C>& connection::bulk_insert(collection<C>& coll)
 {
 	auto& mapping=*getMapping<C>() ;
-	coll.tableName(tableName<C>().c_str()) ;
 
 	action::BulkInsert<C> action(coll, mapping, *this) ;
 	action.visit() ;
@@ -140,7 +137,6 @@ ptr<C> connection::load(const typename traits::dbo_traits<C>::IdType& id)
 	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlSelectById) ;
 
 	ptr<C> obj=make_ptr<C>() ;
-	obj.tableName(tableName<C>().c_str()) ;
 
 	action::SelectById<C> action(obj, id, mapping, stmt) ;
 	action.visit() ;
@@ -161,11 +157,16 @@ void connection::remove(ptr<C>& obj)
 template<class C>
 query connection::find(const std::string& condition)
 {
-	//TODO: replace * by field names
-	if(condition.empty())
-		return dbo::query(*this, "select * from \""+tableName<C>()+"\"") ;
-	else
-		return dbo::query(*this, "select * from \""+tableName<C>()+"\" where "+condition) ;
+	auto mapping=getMapping<C>() ;
+	dbo::query query(*this) ;
+
+	action::SqlSelect<C> action(mapping, query.stmt(), false) ;
+	action.visit() ;
+
+	if(condition.empty()==false)
+		query.sql(query.sql()+" where "+condition) ;
+
+	return query ;
 }
 
 }

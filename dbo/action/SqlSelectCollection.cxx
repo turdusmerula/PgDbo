@@ -25,7 +25,6 @@ void SqlSelectCollection<C, D>::visit()
 		throw Exception(ss.str()) ;
 	}
 
-	std::cout << "---- " << data_->sql_.str() << std::endl ;
 	stmt_.sql(data_->sql_.str()) ;
 }
 

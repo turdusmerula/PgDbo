@@ -132,7 +132,6 @@ void Update<C>::actPtr(const mapping::PtrRef<D>& field)
 {
 	using IdType = typename traits::dbo_traits<D>::IdType ;
 
-	std::cout << "---- " << state_ << "  " << field.value().id() << std::endl ;
 	// this action is C type, we need D, so we create a special one for this type
 	Update<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
 	action.state_ = static_cast<typename Update<D>::State>(state_) ;
@@ -179,12 +178,11 @@ template <class D>
 void Update<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 {
 	using IdType = typename traits::dbo_traits<D>::IdType ;
-std::cout << "**** " << state_ << "  " << field.value().id() << std::endl ;
+
 	dbo::ptr<D> ptr ;
 	ptr.id(field.value().id()) ;
 	if(field.value().expired()==false)
 		ptr = field.value().lock() ;
-std::cout << "**** " << state_ << "  " << ptr.id() << std::endl ;
 
 	// this action is C type, we need D, so we create a special one for this type
 	Update<D> action(ptr, conn().template getMapping<D>(), stmt_, opt_) ;

@@ -8,31 +8,42 @@ namespace action {
 
 
 template<class C>
-SqlSelectById<C>::SqlSelectById(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
-	:	mapping_(mapping),
-		stmt_(stmt)
-{
-	data_ = std::make_shared<SqlSelectByIdData>() ;
-}
-
-template<class C>
-SqlSelectById<C>::SqlSelectById(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, std::shared_ptr<SqlSelectByIdData> data)
+SqlSelect<C>::SqlSelect(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, bool whereIdClause)
 	:	mapping_(mapping),
 		stmt_(stmt),
-		data_(data)
+		state_(SelectColumns)
+{
+	data_ = std::make_shared<SqlSelectData>() ;
+	data_->whereIdClause_ = whereIdClause ;
+}
+
+template<class C>
+SqlSelect<C>::SqlSelect(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, std::shared_ptr<SqlSelectData> data)
+	:	mapping_(mapping),
+		stmt_(stmt),
+		data_(data),
+		state_(SelectColumns)
 {
 }
 
 template<class C>
-void SqlSelectById<C>::visit()
+void SqlSelect<C>::visit()
 {
 	std::stringstream& ss=data_->sql_ ;
 
 	ss << "select " ;
 
-	// iterate through fields
 	state_ = SelectColumns ;
 	data_->as_letter_push() ;
+
+	if(data_->whereIdClause_==false && mapping_->naturalIdFieldName.empty()==true)
+	{
+		// add id
+		static IdType dummyid ;
+		actId(dummyid, mapping_->idName(), -1) ;
+	}
+
+	// iterate through fields
 	static C dummy ;
 	dummy.persist(*this) ;
 
@@ -64,9 +75,12 @@ void SqlSelectById<C>::visit()
 		}
 	}
 
-	ss  << " where " ;
-	state_ = IdCondition ;
-	actId(dummyid, mapping_->idName(), -1) ;
+	if(data_->whereIdClause_)
+	{
+		ss  << " where " ;
+		state_ = IdCondition ;
+		actId(dummyid, mapping_->idName(), -1) ;
+	}
 
 	stmt_.sql(ss.str()) ;
 
@@ -75,7 +89,7 @@ void SqlSelectById<C>::visit()
 
 template<class C>
 template<typename V>
-void SqlSelectById<C>::act(const mapping::FieldRef<V>& field)
+void SqlSelect<C>::act(const mapping::FieldRef<V>& field)
 {
 	std::stringstream& ss=data_->sql_ ;
 
@@ -104,14 +118,14 @@ void SqlSelectById<C>::act(const mapping::FieldRef<V>& field)
 
 template<class C>
 template<typename V>
-void SqlSelectById<C>::actId(V& value, const std::string& name, int size)
+void SqlSelect<C>::actId(V& value, const std::string& name, int size)
 {
 	field(*this, value, name) ;
 }
 
 template<class C>
 template<class D>
-void SqlSelectById<C>::actPtr(const mapping::PtrRef<D>& field)
+void SqlSelect<C>::actPtr(const mapping::PtrRef<D>& field)
 {
 	using IdType=typename traits::dbo_traits<D>::IdType;
 	auto mapping=conn().template getMapping<D>() ;
@@ -130,20 +144,20 @@ void SqlSelectById<C>::actPtr(const mapping::PtrRef<D>& field)
 	}
 
 	// this action is C type, we need D, so we create a special one for this type
-	SqlSelectById<D> action(mapping, stmt_, data_) ;
+	SqlSelect<D> action(mapping, stmt_, data_) ;
 	action.state_ = state_ ;
 	id(action, const_cast<IdType&>(field.value().id()), data_->id_prefix_satck_.id_prefix()+mapping->idName()) ;
 
 	if(field.nameIsJoin())
 	{
-		SqlSelectByIdData::Join join ;
+		SqlSelectData::Join join ;
 		join.tableName_ = mapping->tableName ;
 		join.as_ = data_->as_letter() ;
 
 		data_->joins_.push_back(join) ;
 
 		static typename traits::dbo_traits<C>::IdType dummyid ;
-		SqlSelectById<C> action2(mapping_, stmt_, data_) ;
+		SqlSelect<C> action2(mapping_, stmt_, data_) ;
 		action2.state_ = IdJoinCondition ;
 		id(action2, dummyid, field.name()+"_"+mapping->idName()) ;
 
@@ -155,7 +169,7 @@ void SqlSelectById<C>::actPtr(const mapping::PtrRef<D>& field)
 
 template<class C>
 template<class D>
-void SqlSelectById<C>::actWeakPtr(const mapping::WeakRef<D>& field)
+void SqlSelect<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 {
 	using IdType=typename traits::dbo_traits<D>::IdType;
 	auto mapping=conn().template getMapping<D>() ;
@@ -174,20 +188,20 @@ void SqlSelectById<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 	}
 
 	// this action is C type, we need D, so we create a special one for this type
-	SqlSelectById<D> action(mapping, stmt_, data_) ;
+	SqlSelect<D> action(mapping, stmt_, data_) ;
 	action.state_ = state_ ;
 	id(action, const_cast<IdType&>(field.value().id()), data_->id_prefix_satck_.id_prefix()+mapping->idName()) ;
 
 	if(field.nameIsJoin())
 	{
-		SqlSelectByIdData::Join join ;
+		SqlSelectData::Join join ;
 		join.tableName_ = mapping->tableName ;
 		join.as_ = data_->as_letter() ;
 
 		data_->joins_.push_back(join) ;
 
 		static typename traits::dbo_traits<C>::IdType dummyid ;
-		SqlSelectById<C> action2(mapping_, stmt_, data_) ;
+		SqlSelect<C> action2(mapping_, stmt_, data_) ;
 		action2.state_ = IdJoinCondition ;
 		id(action2, dummyid, field.name()+"_"+mapping->idName()) ;
 
@@ -199,7 +213,7 @@ void SqlSelectById<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 
 template<class C>
 template<class E>
-void SqlSelectById<C>::actCollection(const mapping::CollectionRef<E>& field)
+void SqlSelect<C>::actCollection(const mapping::CollectionRef<E>& field)
 {
 
 }

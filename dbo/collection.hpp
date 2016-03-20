@@ -59,12 +59,7 @@ protected:
 
     PtrList ptrs_ ;
 
-    // this is the table name corresponding to C type, it is needed for serialisation
-	char* tableName_ ;
-
 	static IdType invalidId_ ;
-
-	void tableName(const char* tableName) ;
 
 	friend class connection ;
 

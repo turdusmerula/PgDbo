@@ -19,7 +19,7 @@ SelectById<C>::SelectById(ptr<C> ptr, IdType id, std::shared_ptr<mapping::Mappin
 		mapping_(mapping),
 		stmt_(stmt),
 		id_(id),
-		state_(PreparingStatement)
+		state_(SelectByIdState::PreparingStatement)
 {
 }
 
@@ -32,10 +32,10 @@ void SelectById<C>::visit()
 	{
 		stmt_.reset() ;
 
-		action::SqlSelectById<C> action(mapping_, stmt_) ;
+		action::SqlSelect<C> action(mapping_, stmt_, true) ;
 		action.visit() ;
 
-		state_ = PreparingStatement ;
+		state_ = SelectByIdState::PreparingStatement ;
 
 		// init prepared statement, where clause is an id
 		static IdType dummy ;
@@ -58,7 +58,7 @@ void SelectById<C>::visit()
 		throw Exception(ss.str()) ;
 	}
 
-	state_ = Selecting ;
+	state_ = SelectByIdState::Selecting ;
 	if(ptr_)
 	{
 		stmt_.reset() ;
@@ -77,7 +77,7 @@ void SelectById<C>::visit()
 			throw Exception(ss.str()) ;
 		}
 
-		state_ = ReadingResult ;
+		state_ = SelectByIdState::ReadingResult ;
 
 		if(stmt_.nextRow())
 			ptr->persist(*this) ;
@@ -109,11 +109,11 @@ void SelectById<C>::act(const mapping::FieldRef<V>& field)
 {
 	switch(state_)
 	{
-	case PreparingStatement:
-	case Selecting:
+	case SelectByIdState::PreparingStatement:
+	case SelectByIdState::Selecting:
 		traits::sql_value_traits<V>::bind(field.value(), stmt_, -1) ;
 		break ;
-	case ReadingResult:
+	case SelectByIdState::ReadingResult:
 		traits::sql_value_traits<V>::read(field.value(), stmt_, -1) ;
 		break ;
 	}
@@ -139,11 +139,11 @@ void SelectById<C>::actPtr(const mapping::PtrRef<D>& field)
 
 	switch(state_)
 	{
-	case PreparingStatement:
-	case Selecting:
+	case SelectByIdState::PreparingStatement:
+	case SelectByIdState::Selecting:
 		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
 		break ;
-	case ReadingResult:
+	case SelectByIdState::ReadingResult:
 		// create an empty object
 		field.value() = make_ptr<D>() ;
 
@@ -166,11 +166,11 @@ void SelectById<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 
 	switch(state_)
 	{
-	case PreparingStatement:
-	case Selecting:
+	case SelectByIdState::PreparingStatement:
+	case SelectByIdState::Selecting:
 		id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
 		break ;
-	case ReadingResult:
+	case SelectByIdState::ReadingResult:
 		// create an empty object
 		field.value() = make_ptr<D>() ;
 

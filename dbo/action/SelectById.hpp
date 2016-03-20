@@ -5,7 +5,7 @@ namespace dbo {
 
 namespace action {
 
-enum SelectByIdState {
+enum class SelectByIdState {
 	PreparingStatement,
 	Selecting,
 	ReadingResult

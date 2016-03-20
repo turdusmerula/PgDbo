@@ -115,19 +115,12 @@ protected:
 
 	std::shared_ptr<Ptr> ptr_ ;
 
-	// this is the table name corresponding to C type, it is needed for serialisation
-	char* tableName_ ;
-
-
-
 	/**
 	 * Provided for make_ptr, takes the ownership of ptr
 	 */
 	ptr(std::shared_ptr<Ptr> ptr) ;
 
 	void id(const IdType& value) ;
-
-	void tableName(const char* tableName) ;
 
 
 	friend class connection ;

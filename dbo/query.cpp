@@ -1,11 +1,11 @@
 #include <dbo/query.hpp>
 #include <dbo/traits/std_sql_traits.hpp>
+#include <dbo/Exception.h>
 
 using namespace dbo ;
 
 query::query(connection& conn, const std::string& sql)
 	:	conn_(&conn),
-		sql_(sql),
 		stmt_(conn, sql),
 		prepared_(false),
 		hasrow_(false)
@@ -30,7 +30,6 @@ query& query::operator=(const query& other)
 {
 	conn_ = other.conn_ ;
 	stmt_ = other.stmt_ ;
-	sql_ = other.sql_ ;
 	prepared_ = other.prepared_ ;
 	hasrow_ = other.hasrow_ ;
 
@@ -40,7 +39,6 @@ query& query::operator=(const query& other)
 query& query::prepare()
 {
 	stmt_.hashName(true) ;
-	stmt_.sql(sql_) ;
 	stmt_.prepare() ;
 	prepared_ = true ;
 
@@ -53,7 +51,6 @@ query& query::execute()
 	{
 		// prepare as an anonymous statement
 		stmt_.name("") ;
-		stmt_.sql(sql_) ;
 		stmt_.prepare() ;
 	}
 
@@ -75,4 +72,12 @@ bool query::nextRow()
 {
 	hasrow_ = stmt_.nextRow() ;
 	return hasrow_ ;
+}
+
+void query::sql(const std::string& value)
+{
+//	if(prepared_==true)
+//		throw Exception("Query statement already preapred") ;
+//
+	stmt_.sql(value) ;
 }

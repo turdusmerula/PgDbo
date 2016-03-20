@@ -59,17 +59,18 @@ public:
 
 	bool nextRow() ;
 
-	const std::string& sql() { return sql_ ; }
+	const std::string& sql() const { return stmt_.sql() ; }
+	void sql(const std::string& sql) ;
 
 	bool hasrow() const { return hasrow_ ; }
 
-	bool prepared() { return stmt_.prepared() ; }
+	bool prepared() const { return stmt_.prepared() ; }
+
+	stmt::PreparedStatement& stmt() { return stmt_ ; } ;
 protected:
 	connection* conn_ ;
 	stmt::PreparedStatement stmt_ ;
 	bool prepared_ ;
-
-	std::string sql_ ;
 
 	bool hasrow_ ;
 } ;

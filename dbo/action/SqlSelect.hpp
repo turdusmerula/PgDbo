@@ -13,14 +13,15 @@ namespace dbo {
 
 namespace action {
 
-enum SqlSelectByIdState {
+enum SqlSelectState {
 	SelectColumns,
 	IdJoinCondition,
 	IdJoinNames,
 	IdCondition
 } ;
 
-struct SqlSelectByIdData {
+struct SqlSelectData {
+	bool whereIdClause_ ;
 	int params_ ;
 	int ids_ ;
 
@@ -39,7 +40,7 @@ struct SqlSelectByIdData {
 
 	mapping::IdPrefixStack id_prefix_satck_ ;	// composite ids prefix is built from the parents names
 
-	SqlSelectByIdData()
+	SqlSelectData()
 		:	params_(0),
 			as_num_(1),
 			ids_(0)
@@ -52,12 +53,12 @@ struct SqlSelectByIdData {
 } ;
 
 template<class C>
-class SqlSelectById
+class SqlSelect
 {
 public:
 	using IdType = typename traits::dbo_traits<C>::IdType ;
 
-	SqlSelectById(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt) ;
+	SqlSelect(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, bool whereIdClause) ;
 
 	void visit() ;
 
@@ -76,13 +77,13 @@ private:
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;
 	stmt::PreparedStatement& stmt_ ;
 
-	std::shared_ptr<SqlSelectByIdData> data_ ;
+	std::shared_ptr<SqlSelectData> data_ ;
 
-	SqlSelectByIdState state_ ;
+	SqlSelectState state_ ;
 
-	SqlSelectById(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, std::shared_ptr<SqlSelectByIdData> data) ;
+	SqlSelect(std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt, std::shared_ptr<SqlSelectData> data) ;
 
-	template <class D> friend class SqlSelectById ;
+	template <class D> friend class SqlSelect ;
 };
 
 }}

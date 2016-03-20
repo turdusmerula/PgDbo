@@ -64,13 +64,8 @@ protected:
 
 	std::weak_ptr<typename ptr<C>::Ptr> ptr_ ;
 
-	// this is the table name corresponding to C type, it is needed for serialization
-	char* tableName_ ;
-
 
 	void id(const IdType& value) ;
-
-	void tableName(const char* tableName) ;
 
 
 	friend class connection ;

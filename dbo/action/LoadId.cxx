@@ -5,7 +5,8 @@ template<class C>
 LoadId<C>::LoadId(IdType& id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt::PreparedStatement& stmt)
 	: 	mapping_(mapping),
 		stmt_(stmt),
-		id_(id)
+		id_(id),
+		state_(LoadIdState::PreparingStatement)
 {
 }
 

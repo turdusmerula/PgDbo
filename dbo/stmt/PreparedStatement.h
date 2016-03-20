@@ -93,7 +93,7 @@ public:
 	 */
 	bool hasReturning() const { return hasReturning_ ; }
 
-	const std::string sql() const { return rawsql_ ; }
+	const std::string& sql() const { return rawsql_ ; }
 	void sql(const std::string& sql) ;
 
 	const std::string name() const { return name_ ; }

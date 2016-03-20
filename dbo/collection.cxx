@@ -6,15 +6,13 @@ typename collection<C>::IdType collection<C>::invalidId_=traits::dbo_traits<C>::
 
 template <class C>
 collection<C>::collection()
-	:	tableName_(nullptr)
 {
 
 }
 
 template <class C>
 collection<C>::collection(const collection<C>& other)
-	:	ptrs_(other.ptrs_),
-		tableName_(nullptr)
+	:	ptrs_(other.ptrs_)
 {
 }
 
@@ -65,12 +63,6 @@ template <class C>
 bool collection<C>::empty()
 {
 	return ptrs_.empty() ;
-}
-
-template<class C>
-void collection<C>::tableName(const char* tableName)
-{
-	tableName_ = const_cast<char*>(tableName) ;
 }
 
 

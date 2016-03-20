@@ -7,36 +7,31 @@ const typename ptr<C>::IdType ptr<C>::invalidId=traits::dbo_traits<C>::invalidId
 
 template <class C>
 ptr<C>::ptr() noexcept
-	:	tableName_(nullptr)
 {
 }
 
 template <class C>
 ptr<C>::ptr(std::shared_ptr<Ptr> ptr)
-	:	ptr_(ptr),
-		tableName_(nullptr)
+	:	ptr_(ptr)
 {
 }
 
 template<class C>
 ptr<C>::ptr(const ptr<C>& other)
-	:	ptr_(other.ptr_),
-		tableName_(other.tableName_)
+	:	ptr_(other.ptr_)
 {
 }
 
 template <class C>
 template<class D>
 ptr<C>::ptr(const ptr<D>& other, typename boost::detail::sp_enable_if_convertible<D, C>::type)
-	:	ptr_(other.ptr_),
-		tableName_(other.tableName_)
+	:	ptr_(other.ptr_)
 {
 }
 
 template<class C>
 ptr<C>::ptr(const weak_ptr<C>& other)
-	:	ptr_(other.ptr_),
-		tableName_(other.tableName_)
+	:	ptr_(other.ptr_)
 {
 	if(ptr_==nullptr && !(other.cache_id_==invalidId))
 		ptr_ = std::make_shared<Ptr>(C(), other.cache_id_) ;
@@ -172,22 +167,12 @@ void ptr<C>::load()
 }
 
 template<class C>
-void ptr<C>::tableName(const char* tableName)
-{
-	tableName_ = const_cast<char*>(tableName) ;
-}
-
-template<class C>
 std::ostream& operator<<(std::ostream& o, const dbo::ptr<C>& _ptr)
 {
 	if(_ptr.ptr_)
 		return o << "[" << _ptr.id() << "]" ;
 	else
 		return o << "[null]" ;
-//	if(_ptr.ptr_ && _ptr.tableName_)
-//		return o << "[" << _ptr.tableName_ << ": " << _ptr.id() << "]" ;
-//	else
-//		return o << "[null]" ;
 }
 
 }

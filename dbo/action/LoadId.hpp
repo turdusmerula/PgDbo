@@ -11,7 +11,7 @@ enum class LoadIdState {
 
 
 /**
- * Load an object from statement current state
+ * Load an object id from statement current state
  */
 template<class C>
 class LoadId

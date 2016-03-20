@@ -2,15 +2,13 @@ namespace dbo {
 
 template <class C>
 weak_ptr<C>::weak_ptr() noexcept
-	:	tableName_(nullptr),
-		cache_id_(traits::dbo_traits<C>::invalidId())
+	:	cache_id_(traits::dbo_traits<C>::invalidId())
 {
 }
 
 template <class C>
 weak_ptr<C>::weak_ptr(const weak_ptr<C>& other)
 	:	ptr_(other.ptr_),
-		tableName_(other.tableName_),
 		cache_id_(other.cache_id_)
 {
 }
@@ -19,7 +17,6 @@ template <class C>
 template<class D>
 weak_ptr<C>::weak_ptr(weak_ptr<D> const& other, typename boost::detail::sp_enable_if_convertible<D, C>::type)
 	:	ptr_(other.ptr_),
-		tableName_(other.tableName_),
 		cache_id_(other.cache_id_)
 {
 }
@@ -27,8 +24,7 @@ weak_ptr<C>::weak_ptr(weak_ptr<D> const& other, typename boost::detail::sp_enabl
 template <class C>
 template<class D>
 weak_ptr<C>::weak_ptr(ptr<D> const& other, typename boost::detail::sp_enable_if_convertible<D, C>::type)
-	:	ptr_(other.ptr_),
-		tableName_(other.tableName_)
+	:	ptr_(other.ptr_)
 {
 	if(ptr_.expired())
 		cache_id_ = traits::dbo_traits<C>::invalidId() ;
@@ -38,8 +34,7 @@ weak_ptr<C>::weak_ptr(ptr<D> const& other, typename boost::detail::sp_enable_if_
 
 template <class C>
 weak_ptr<C>::weak_ptr(const ptr<C>& other)
-	:	ptr_(other.ptr_),
-		tableName_(other.tableName_)
+	:	ptr_(other.ptr_)
 {
 	if(ptr_.expired())
 		cache_id_ = traits::dbo_traits<C>::invalidId() ;
@@ -118,12 +113,6 @@ template<class C>
 ptr<C> weak_ptr<C>::lock()
 {
 	return ptr<C>(*this) ;
-}
-
-template<class C>
-void weak_ptr<C>::tableName(const char* tableName)
-{
-	tableName_ = const_cast<char*>(tableName) ;
 }
 
 template<class C>

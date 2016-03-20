@@ -65,7 +65,7 @@ query& query::read(ptr<C>& ptr)
 	{
 		std::stringstream ss ;
 		ss << "Query error: no data to fetch" ;
-		ss << " -> " << sql_ ;
+		ss << " -> " << stmt_.sql() ;
 		throw Exception(ss.str()) ;
 	}
 
@@ -85,7 +85,7 @@ query& query::read(T& value)
 	{
 		std::stringstream ss ;
 		ss << "Query error: no data to fetch" ;
-		ss << " -> " << sql_ ;
+		ss << " -> " << stmt_.sql() ;
 		throw Exception(ss.str()) ;
 	}
 

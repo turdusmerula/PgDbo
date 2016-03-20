@@ -38,7 +38,7 @@
 #include <dbo/action/LoadId.hpp>
 #include <dbo/action/SqlInsert.hpp>
 #include <dbo/action/SqlInsertRelation.hpp>
-#include <dbo/action/SqlSelectById.hpp>
+#include <dbo/action/SqlSelect.hpp>
 #include <dbo/action/SqlSelectCollection.hpp>
 #include <dbo/action/SqlUpdate.hpp>
 
@@ -66,7 +66,7 @@
 #include <dbo/action/LoadId.cxx>
 #include <dbo/action/SqlInsert.cxx>
 #include <dbo/action/SqlInsertRelation.cxx>
-#include <dbo/action/SqlSelectById.cxx>
+#include <dbo/action/SqlSelect.cxx>
 #include <dbo/action/SqlSelectCollection.cxx>
 #include <dbo/action/SqlUpdate.cxx>
 
