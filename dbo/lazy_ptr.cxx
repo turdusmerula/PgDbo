@@ -26,26 +26,37 @@ collection<D>& lazy_ptr<C>::load(collection<D>& coll)
 
 	auto& stmt=conn_.getStatement<std::pair<ptr<C>, collection<D>>, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlSelectById) ;
 
-	action::SqlSelectCollection<C, D> action(ptr_, coll, mappingC, mappingD, stmt) ;
-	action.visit() ;
-
-	stmt.reset() ;
-	action::LoadId<C> actionId(const_cast<IdTypeC&>(ptr_.id()), mappingC, stmt) ;
-	actionId.visit() ;
-
 	if(stmt.prepared()==false)
 	{
-		// prepare statement
-		stmt.prepare() ;
+		action::SqlSelectCollection<C, D> action(ptr_, coll, mappingC, mappingD, stmt) ;
+		action.visit() ;
+
+		action::LoadId<C> actionId(const_cast<IdTypeC&>(ptr_.id()), mappingC, stmt) ;
+		actionId.preparing() ;
+		actionId.visit() ;
+	}
+	else
+	{
+		stmt.reset() ;
+		action::LoadId<C> actionId(const_cast<IdTypeC&>(ptr_.id()), mappingC, stmt) ;
+		actionId.preparing() ;
+		actionId.visit() ;
 	}
 
+	std::cout << "+++++++++ " << stmt.sql() << std::endl ;
+	// prepare statement
+	if(stmt.prepared()==false)
+		stmt.prepare() ;
+
 	// load collection
+	coll.clear();
 	stmt.execute() ;
 	while(stmt.nextRow())
 	{
 		dbo::ptr<D> ptr=dbo::make_ptr<D>() ;
 
 		action::LoadId<D> actionId(const_cast<IdTypeD&>(ptr.id()), mappingD, stmt) ;
+		actionId.reading() ;
 		actionId.visit() ;
 
 		// TODO: load content here, it will requiere to add a join to the select

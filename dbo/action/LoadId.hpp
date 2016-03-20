@@ -33,6 +33,9 @@ public:
 
 	template<class D> void actCollection(const mapping::CollectionRef<D>& field) ;
 
+	void preparing() { state_ = LoadIdState::PreparingStatement ; }
+	void reading() { state_ = LoadIdState::ReadingResult ; }
+
 	connection& conn() { return stmt_.conn() ; } ;
 private:
 	std::shared_ptr<mapping::Mapping<C>> mapping_ ;

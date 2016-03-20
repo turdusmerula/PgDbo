@@ -13,11 +13,6 @@ LoadId<C>::LoadId(IdType& id, std::shared_ptr<mapping::Mapping<C>> mapping, stmt
 template<class C>
 void LoadId<C>::visit()
 {
-	if(stmt_.prepared()==false)
-		state_ = LoadIdState::PreparingStatement ;
-	else
-		state_ = LoadIdState::ReadingResult ;
-
 	// read id
 	id(*this, id_, mapping_->idName()) ;
 }

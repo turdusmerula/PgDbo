@@ -124,7 +124,7 @@ ptr<C> connection::load(ptr<C>& obj)
 	auto mapping=getMapping<C>() ;
 	auto& stmt=getStatement<C, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlSelectById) ;
 
-	action::SelectById<C> action(obj, mapping, stmt) ;
+	action::SelectById<C> action(obj, obj.id(), mapping, stmt) ;
 	action.visit() ;
 
 	return obj ;

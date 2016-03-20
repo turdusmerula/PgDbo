@@ -83,7 +83,7 @@ void SqlSelectCollection<C, D>::actPtr(const mapping::PtrRef<E>& field)
 
 	id(*this, const_cast<IdType&>(field.value().id()), data_->id_prefix_satck_.id_prefix()+mapping->idName()) ;
 
-	if(field.nameIsJoin())
+	if(field.nameIsJoin()==false)
 		data_->id_prefix_satck_.id_prefix_pop() ;
 }
 
@@ -102,7 +102,7 @@ void SqlSelectCollection<C, D>::actWeakPtr(const mapping::WeakRef<E>& field)
 
 	id(*this, const_cast<IdType&>(field.value().id()), data_->id_prefix_satck_.id_prefix()+mapping->idName()) ;
 
-	if(field.nameIsJoin())
+	if(field.nameIsJoin()==false)
 		data_->id_prefix_satck_.id_prefix_pop() ;
 }
 
