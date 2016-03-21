@@ -18,11 +18,12 @@ public:
 
 	/*! \brief Dereference operator.
 	 */
-	C* operator->() const ;
+	C* operator->() ;
 
 	template<class D>
 	collection<D>& load(collection<D>& coll) ;
 
+	ptr<C>& load() ;
 protected:
 	connection& conn_ ;
 	ptr<C> ptr_ ;

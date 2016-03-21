@@ -9,10 +9,12 @@ lazy_ptr<C>::lazy_ptr(ptr<C> ptr, connection& conn)
 }
 
 template<class C>
-C* lazy_ptr<C>::operator->() const
+C* lazy_ptr<C>::operator->()
 {
     BOOST_ASSERT( ptr_ != nullptr ) ;
-	return &(ptr_->value_) ;
+    if(ptr_.loaded()==false)
+    	conn_.load<C>(ptr_) ;
+	return ptr_.get() ;
 }
 
 template<class C>
@@ -43,7 +45,6 @@ collection<D>& lazy_ptr<C>::load(collection<D>& coll)
 		actionId.visit() ;
 	}
 
-	std::cout << "+++++++++ " << stmt.sql() << std::endl ;
 	// prepare statement
 	if(stmt.prepared()==false)
 		stmt.prepare() ;
@@ -65,6 +66,14 @@ collection<D>& lazy_ptr<C>::load(collection<D>& coll)
 	}
 
 	return coll ;
+}
+
+template<class C>
+ptr<C>& lazy_ptr<C>::load()
+{
+    if(ptr_.loaded()==false)
+    	conn_.load<C>(ptr_) ;
+    return ptr_ ;
 }
 
 }
