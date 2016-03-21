@@ -7,31 +7,36 @@ const typename ptr<C>::IdType ptr<C>::invalidId=traits::dbo_traits<C>::invalidId
 
 template <class C>
 ptr<C>::ptr() noexcept
+	:	cache_id_(traits::dbo_traits<C>::invalidId())
 {
 }
 
 template <class C>
 ptr<C>::ptr(std::shared_ptr<Ptr> ptr)
-	:	ptr_(ptr)
+	:	ptr_(ptr),
+		cache_id_(ptr_->id_)
 {
 }
 
 template<class C>
 ptr<C>::ptr(const ptr<C>& other)
-	:	ptr_(other.ptr_)
+	:	ptr_(other.ptr_),
+		cache_id_(other.cache_id_)
 {
 }
 
 template <class C>
 template<class D>
 ptr<C>::ptr(const ptr<D>& other, typename boost::detail::sp_enable_if_convertible<D, C>::type)
-	:	ptr_(other.ptr_)
+	:	ptr_(other.ptr_),
+		cache_id_(other.cache_id_)
 {
 }
 
 template<class C>
 ptr<C>::ptr(const weak_ptr<C>& other)
-	:	ptr_(other.ptr_)
+	:	ptr_(other.ptr_),
+		cache_id_(other.cache_id_)
 {
 	if(ptr_==nullptr && !(other.cache_id_==invalidId))
 		ptr_ = std::make_shared<Ptr>(C(), other.cache_id_) ;
@@ -74,7 +79,7 @@ C* ptr<C>::operator->() const
 template<class C>
 lazy_ptr<C> ptr<C>::operator()(connection& conn) const
 {
-	return lazy_ptr<C>(*this, conn) ;
+	return lazy_ptr<C>(const_cast<ptr<C>&>(*this), conn) ;
 }
 
 template<class C>
@@ -128,12 +133,13 @@ const typename ptr<C>::IdType& ptr<C>::id() const
 {
 	if(ptr_)
 		return ptr_->id_ ;
-	return invalidId ;
+	return cache_id_ ;
 }
 
 template<class C>
 void ptr<C>::id(const ptr<C>::IdType& value)
 {
+	cache_id_ = value ;
 	if(ptr_)
 		ptr_->id_ = value ;
 }

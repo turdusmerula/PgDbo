@@ -6,8 +6,12 @@
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 
+#define protected public
+#define private public
+
 #include <dbo/dbo.hpp>
 
+#include <dbo-tests/src/TestPtr.hpp>
 #include <dbo-tests/src/TestSimpleTable.hpp>
 #include <dbo-tests/src/TestCustomIdTable.hpp>
 #include <dbo-tests/src/TestComplexIdTable.hpp>
@@ -16,7 +20,6 @@
 #include <dbo-tests/src/TestQuery.hpp>
 #include <dbo-tests/src/TestStatement.hpp>
 #include <dbo-tests/src/TestCollection.hpp>
-#include <dbo-tests/src/TestPtr.hpp>
 #include <dbo-tests/src/TestOneToOneTable.hpp>
 #include <dbo-tests/src/TestCompositeIdTable.hpp>
 #include <dbo-tests/src/TestManyToOneTable.hpp>

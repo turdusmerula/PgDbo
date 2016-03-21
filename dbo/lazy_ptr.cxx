@@ -1,7 +1,7 @@
 namespace dbo {
 
 template<class C>
-lazy_ptr<C>::lazy_ptr(ptr<C> ptr, connection& conn)
+lazy_ptr<C>::lazy_ptr(ptr<C>& ptr, connection& conn)
 	:	conn_(conn),
 		ptr_(ptr)
 {
@@ -11,8 +11,20 @@ lazy_ptr<C>::lazy_ptr(ptr<C> ptr, connection& conn)
 template<class C>
 C* lazy_ptr<C>::operator->()
 {
-    BOOST_ASSERT( ptr_ != nullptr ) ;
-    if(ptr_.loaded()==false)
+	if(ptr_.id()==ptr_.invalidId)
+	{
+		auto mappingC=conn_.getMapping<C>() ;
+		std::stringstream ss ;
+		ss << "Lazy load failed for '" << mappingC->tableName << "': invalid id" ;
+		throw Exception(ss.str()) ;
+	}
+	if(ptr_==nullptr)
+	{
+		typename traits::dbo_traits<C>::IdType id=ptr_.id() ;
+		ptr_ = make_ptr<C>() ;	// make_ptr overvrites the cached id
+		ptr_.id(id) ;
+	}
+	if(ptr_.loaded()==false)
     	conn_.load<C>(ptr_) ;
 	return ptr_.get() ;
 }
@@ -54,7 +66,8 @@ collection<D>& lazy_ptr<C>::load(collection<D>& coll)
 	stmt.execute() ;
 	while(stmt.nextRow())
 	{
-		dbo::ptr<D> ptr=dbo::make_ptr<D>() ;
+//		dbo::ptr<D> ptr=dbo::make_ptr<D>() ;
+		dbo::ptr<D> ptr ;
 
 		action::LoadId<D> actionId(const_cast<IdTypeD&>(ptr.id()), mappingD, stmt) ;
 		actionId.reading() ;
@@ -71,7 +84,20 @@ collection<D>& lazy_ptr<C>::load(collection<D>& coll)
 template<class C>
 ptr<C>& lazy_ptr<C>::load()
 {
-    if(ptr_.loaded()==false)
+	if(ptr_.id()==ptr_.invalidId)
+	{
+		auto mappingC=conn_.getMapping<C>() ;
+		std::stringstream ss ;
+		ss << "Lazy load failed for '" << mappingC->tableName << "': invalid id" ;
+		throw Exception(ss.str()) ;
+	}
+	if(ptr_==nullptr)
+	{
+		typename traits::dbo_traits<C>::IdType id=ptr_.id() ;
+		ptr_ = make_ptr<C>() ; // make_ptr overvrites the cached id
+		ptr_.id(id) ;
+	}
+	if(ptr_.loaded()==false)
     	conn_.load<C>(ptr_) ;
     return ptr_ ;
 }

@@ -14,7 +14,7 @@ template<class C>
 class lazy_ptr : public ptr_base
 {
 public:
-	lazy_ptr(ptr<C> ptr, connection& conn) ;
+	lazy_ptr(ptr<C>& ptr, connection& conn) ;
 
 	/*! \brief Dereference operator.
 	 */
@@ -26,7 +26,7 @@ public:
 	ptr<C>& load() ;
 protected:
 	connection& conn_ ;
-	ptr<C> ptr_ ;
+	ptr<C>& ptr_ ;
 } ;
 
 }

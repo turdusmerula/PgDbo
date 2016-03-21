@@ -80,25 +80,16 @@ dbo::connection TestPtr::db ;
 
 TEST_F(TestPtr, TestPtr) {
 	dbo::ptr<kSimpleTable> p ;
-	dbo::ptr<kSimpleTable> q ;
-	dbo::ptr<kSimpleTable> r ;
 
-	ASSERT_FALSE( p ) ;
-	ASSERT_FALSE( q ) ;
-	ASSERT_FALSE( r ) ;
-
-	ASSERT_TRUE( p==nullptr ) ;
+	p.id(100) ;
+	ASSERT_TRUE( p.id()==100 ) ;
 
 	p = dbo::make_ptr<kSimpleTable>() ;
-	ASSERT_TRUE( (bool)p ) ;
-	ASSERT_FALSE( (bool)q ) ;
-	ASSERT_FALSE( (bool)r ) ;
+	ASSERT_FALSE( p==nullptr ) ;
+	ASSERT_FALSE( p.id()==100 ) ;
+}
 
-	q = p ;
-	ASSERT_TRUE( (bool)p ) ;
-	ASSERT_TRUE( (bool)q ) ;
-	ASSERT_TRUE( p==q ) ;
-	ASSERT_FALSE( p==r ) ;
+TEST_F(TestPtr, TestPtrId) {
 
 }
 

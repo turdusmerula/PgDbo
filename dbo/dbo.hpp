@@ -5,45 +5,6 @@
 
 #include <dbo/dbo_types.h>
 
-#include <dbo/connection.h>
-#include <dbo/ptr.hpp>
-#include <dbo/weak_ptr.hpp>
-#include <dbo/lazy_ptr.hpp>
-#include <dbo/collection.hpp>
-#include <dbo/relation.hpp>
-#include <dbo/query.hpp>
-#include <dbo/Exception.h>
-
-#include <dbo/stmt/BulkStatement.h>
-#include <dbo/stmt/PreparedStatement.h>
-
-#include <dbo/traits/dbo_traits.hpp>
-#include <dbo/traits/std_sql_traits.hpp>
-
-#include <dbo/mapping/Mapping.hpp>
-#include <dbo/mapping/CollectionRef.hpp>
-#include <dbo/mapping/FieldRef.hpp>
-#include <dbo/mapping/PtrRef.hpp>
-#include <dbo/mapping/WeakRef.hpp>
-
-#include <dbo/action/Debug.hpp>
-#include <dbo/action/InitSchema.hpp>
-#include <dbo/action/Delete.hpp>
-#include <dbo/action/BulkInsert.hpp>
-#include <dbo/action/Insert.hpp>
-#include <dbo/action/InsertRelation.hpp>
-#include <dbo/action/Update.hpp>
-#include <dbo/action/SelectById.hpp>
-#include <dbo/action/LoadDb.hpp>
-#include <dbo/action/LoadId.hpp>
-#include <dbo/action/SqlInsert.hpp>
-#include <dbo/action/SqlInsertRelation.hpp>
-#include <dbo/action/SqlSelect.hpp>
-#include <dbo/action/SqlSelectCollection.hpp>
-#include <dbo/action/SqlUpdate.hpp>
-
-#include <dbo/traits/dbo_traits.hpp>
-
 #include <dbo/debug.h>
 
 #include <dbo/connection.cxx>

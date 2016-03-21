@@ -114,6 +114,7 @@ protected:
 	} ;
 
 	std::shared_ptr<Ptr> ptr_ ;
+	mutable IdType cache_id_ ;	// this id exists to allow the object to have an id even if not observing a ptr
 
 	/**
 	 * Provided for make_ptr, takes the ownership of ptr
@@ -131,6 +132,7 @@ protected:
 	friend class query ;
 	template <class D> friend class collection ;
 	template <class D> friend class weak_ptr ;
+	template <class D> friend class lazy_ptr ;
 
 	template<typename _Tp, typename... _Args> friend inline ptr<_Tp> make_ptr(_Args&&... __args) ;
 	friend std::ostream& operator<< <>(std::ostream& o, const ptr<C>& _ptr) ;
@@ -141,9 +143,9 @@ template<typename _Tp, typename... _Args>
 inline ptr<_Tp> make_ptr(_Args&&... __args)
 {
     typedef typename std::remove_const<_Tp>::type _Tp_nc ;
-    return ptr<_Tp>(
-    	std::make_shared<typename ptr<_Tp>::Ptr>(_Tp(_Tp_nc(std::forward<_Args>(__args)...)))
-	);
+    return //ptr<_Tp>(
+    	std::make_shared<typename ptr<_Tp>::Ptr>(_Tp(_Tp_nc(std::forward<_Args>(__args)...))) ;
+	//);
 }
 
 
