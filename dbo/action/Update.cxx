@@ -146,7 +146,7 @@ void Update<C>::actPtr(const mapping::PtrRef<D>& field)
 		}
 		break ;
 	case Updating:
-		if(field.value()==nullptr && (field.fkConstraints() & FKNotNull))
+		if(field.value().id()==field.value().invalidId && (field.fkConstraints() & FKNotNull))
 		{
 			std::stringstream ss ;
 			ss << "Update failed for '" << mapping_->tableName << "': FKNotNull constraint failed for '" << field.name() << "'" ;
