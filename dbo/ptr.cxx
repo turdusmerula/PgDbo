@@ -96,6 +96,14 @@ ptr<C>& ptr<C>::operator=(const ptr<C>& other)
 	return *this;
 }
 
+template<class C>
+ptr<C>& ptr<C>::operator=(std::nullptr_t)
+{
+	reset() ;
+
+	return *this;
+}
+
 template <class C>
 template<class D>
 ptr<C>& ptr<C>::operator=(const ptr<D>& other)

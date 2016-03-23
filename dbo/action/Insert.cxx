@@ -147,12 +147,12 @@ void Insert<C, P>::actId(V& value, const std::string& name, int size)
 			state_ = Inserting ;
 		}
 
-		if(value==traits::dbo_traits<C>::invalidId())
-		{
-			std::stringstream ss ;
-			ss << "Insert failed for '" << mapping_->tableName << "', invalid id " << name << "='" << ptr_.id() << "'" ;
-			throw Exception(ss.str()) ;
-		}
+//		if(value==traits::dbo_traits<C>::invalidId())
+//		{
+//			std::stringstream ss ;
+//			ss << "Insert failed for '" << mapping_->tableName << "', invalid id " << name << "='" << ptr_.id() << "'" ;
+//			throw Exception(ss.str()) ;
+//		}
 
 		// in case of a statement with a natural id we see the id here, put it in cache
 		id_ = value ;
@@ -223,7 +223,7 @@ void Insert<C, P>::actPtr(const mapping::PtrRef<D>& field)
 			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
 			break ;
 		case Inserting:
-			if(field.value().id()==traits::dbo_traits<D>::invalidId())
+			if((field.fkConstraints()&FKNotNull) && field.value().id()==traits::dbo_traits<D>::invalidId())
 			{
 				std::stringstream ss ;
 				ss << "Insert failed for '" << mapping_->tableName << "' invalid id " << field.name() << "='" << field.value().id() << "'" ;
@@ -302,7 +302,7 @@ void Insert<C, P>::actWeakPtr(const mapping::WeakRef<D>& field)
 			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
 			break ;
 		case Inserting:
-			if(field.value().id()==traits::dbo_traits<D>::invalidId())
+			if((field.fkConstraints()&FKNotNull) && field.value().id()==traits::dbo_traits<D>::invalidId())
 			{
 				std::stringstream ss ;
 				ss << "Insert failed for '" << mapping_->tableName << "' invalid id " << field.name() << "='" << field.value().id() << "'" ;

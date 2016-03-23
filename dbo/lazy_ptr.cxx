@@ -102,4 +102,23 @@ ptr<C>& lazy_ptr<C>::load()
     return ptr_ ;
 }
 
+template<class C>
+bool lazy_ptr<C>::loaded() const
+{
+	return ptr_.loaded() ;
+}
+
+template<class C>
+void lazy_ptr<C>::modify(bool value)
+{
+	load() ;
+	ptr_.modify(value) ;
+}
+
+template<class C>
+bool lazy_ptr<C>::modified() const
+{
+	return ptr_.modified() ;
+}
+
 }

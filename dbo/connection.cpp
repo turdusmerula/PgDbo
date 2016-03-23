@@ -293,7 +293,7 @@ void connection::createRelations(MappingInfoPtr mapping, std::set<std::string>& 
 	{
 		const mapping::FieldInfo& field = mapping->fields[i] ;
 
-		if(field.isForeignKey())
+		if(field.isForeignKey() && (field.fkConstraints()&FKNotNull))
 		{
 			std::stringstream sql ;
 

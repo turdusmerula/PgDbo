@@ -150,7 +150,6 @@ void SqlSelectCollection<C, D>::actCollection(const mapping::CollectionRef<E>& f
 	}
 
 	data_->collExist_ = true ;
-	std::cout << &coll_ << " -- " << &field.value() << std::endl ;
 }
 
 template<class C, class D>

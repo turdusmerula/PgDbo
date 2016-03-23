@@ -24,6 +24,12 @@ public:
 	collection<D>& load(collection<D>& coll) ;
 
 	ptr<C>& load() ;
+
+	bool loaded() const ;
+
+	void modify(bool value=true) ;
+    bool modified() const ;
+
 protected:
 	connection& conn_ ;
 	ptr<C>& ptr_ ;

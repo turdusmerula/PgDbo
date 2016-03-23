@@ -39,6 +39,7 @@ public:
 	/*! \brief Assignment operator.
 	 */
 	ptr& operator=(const ptr& other) ;
+	ptr& operator=(std::nullptr_t) ;
 
 	template<class D>
 	ptr<C>& operator=(const ptr<D>& other) ;
@@ -126,6 +127,7 @@ protected:
 
 	friend class connection ;
 	template <class T> friend class action::Delete ;
+	template <class T> friend class action::LoadDb ;
 	template <class T, class U> friend class action::Insert ;
 	template <class T> friend class action::Update ;
 	template <class T> friend class action::SelectById ;
@@ -147,7 +149,6 @@ inline ptr<_Tp> make_ptr(_Args&&... __args)
     	std::make_shared<typename ptr<_Tp>::Ptr>(_Tp(_Tp_nc(std::forward<_Args>(__args)...))) ;
 	//);
 }
-
 
 template<typename _Tp1, typename _Tp2>
 inline bool operator==(const ptr<_Tp1>& __a, const ptr<_Tp2>& __b) noexcept
