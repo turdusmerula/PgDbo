@@ -27,8 +27,7 @@ void LoadId<C>::act(const mapping::FieldRef<V>& field)
 		traits::sql_value_traits<V>::bind(field.value(), stmt_, -1) ;
 		break ;
 	case LoadIdState::ReadingResult:
-		if(traits::sql_value_traits<V>::read(field.value(), stmt_, -1)==false)
-			throw Exception("Load error: read out of bounds") ;
+		traits::sql_value_traits<V>::read(field.value(), stmt_, -1) ;
 		break ;
 	}
 }

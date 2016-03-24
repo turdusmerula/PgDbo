@@ -236,7 +236,7 @@ public:
 	void persist(Action& a)
 	{
 		dbo::field(a, value, "value") ;
-		dbo::belongsTo(a, simple_parent, "simple") ;
+		dbo::belongsTo(a, simple_parent, "simple", dbo::fk::NotNull) ;
 	}
 } ;
 // ----------------------------------------------------------------------------

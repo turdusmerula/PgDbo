@@ -93,6 +93,13 @@ void Insert<C, P>::visit()
 			}
 			else
 			{
+				if(id_==traits::dbo_traits<C>::invalidId())
+				{
+					std::stringstream ss ;
+					ss << "Insert failed for '" << mapping_->tableName << "', invalid id " << mapping_->idName() << "='" << ptr_.id() << "'" ;
+					throw Exception(ss.str()) ;
+				}
+
 				// inserted ok, set the cached id
 				ptr_.id(id_) ;
 
@@ -147,13 +154,6 @@ void Insert<C, P>::actId(V& value, const std::string& name, int size)
 			state_ = Inserting ;
 		}
 
-//		if(value==traits::dbo_traits<C>::invalidId())
-//		{
-//			std::stringstream ss ;
-//			ss << "Insert failed for '" << mapping_->tableName << "', invalid id " << name << "='" << ptr_.id() << "'" ;
-//			throw Exception(ss.str()) ;
-//		}
-
 		// in case of a statement with a natural id we see the id here, put it in cache
 		id_ = value ;
 
@@ -196,7 +196,7 @@ void Insert<C, P>::actPtr(const mapping::PtrRef<D>& field)
 			}
 			break ;
 		case Recursing:
-			if(opt_==opt::Recursive)
+			if(opt_==opt::Recursive && field.value()!=nullptr)
 			{
 				auto mapping=conn().template getMapping<D>() ;
 				auto& stmt=conn().template getStatement<D, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
@@ -235,7 +235,7 @@ void Insert<C, P>::actPtr(const mapping::PtrRef<D>& field)
 
 			break ;
 		case Recursing:
-			if(opt_==opt::Recursive)
+			if(opt_==opt::Recursive && field.value()!=nullptr)
 			{
 				auto mapping=conn().template getMapping<D>() ;
 				auto& stmt=conn().template getStatement<D, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;

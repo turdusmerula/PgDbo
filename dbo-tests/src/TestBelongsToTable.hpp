@@ -93,8 +93,8 @@ public:
 	void persist(Action& a)
 	{
 		dbo::field(a, value, "value") ;
-	    dbo::belongsTo(a, owner_simple) ;
-	    dbo::belongsTo(a, owner_complex) ;
+	    dbo::belongsTo(a, owner_simple, dbo::fk::NotNull) ;
+	    dbo::belongsTo(a, owner_complex, dbo::fk::NotNull) ;
 	}
 } ;
 // ----------------------------------------------------------------------------

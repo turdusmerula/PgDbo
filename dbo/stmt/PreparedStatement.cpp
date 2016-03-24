@@ -127,6 +127,13 @@ void PreparedStatement::bind(const std::vector<unsigned char>& value)
 
 bool PreparedStatement::read(char*& value)
 {
+	// TODO: check out of boud
+//	{
+//		std::stringstream ss ;
+//		ss << "Load failed for '" << mapping_->tableName << "', read out of bounds for '" << field.name() << "'" ;
+//		throw Exception(ss.str()) ;
+//	}
+
 	if(PQgetisnull(result_.get(), row_, column_))
 	{
 		column_++ ;

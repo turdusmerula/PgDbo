@@ -5,6 +5,7 @@ namespace dbo {
 
 const int FKNone=0x00 ;
 const int FKNotNull=0x01 ;
+const int FKNullable=0x00;
 const int FKOnUpdateCascade=0x02 ;
 const int FKOnUpdateSetNull=0x04 ;
 const int FKOnDeleteCascade=0x08 ;
@@ -45,6 +46,15 @@ const ForeignKeyConstraint None(FKNone) ;
  * \ingroup dbo
  */
 const ForeignKeyConstraint NotNull(FKNotNull) ;
+
+/*! \brief A constraint that authorize a \c null ptr.
+ *
+ * A database constraint which authorize a ptr to references no object
+ * and has a value of \c null.
+ *
+ * \ingroup dbo
+ */
+const ForeignKeyConstraint Nullable(FKNullable) ;
 
 /*! \brief A constraint that cascades updates.
  *

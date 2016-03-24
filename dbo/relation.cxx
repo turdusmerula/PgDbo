@@ -31,7 +31,7 @@ void belongsTo(A& action, ptr<C>& value, const std::string& name, int size)
 template<class Action, class C>
 void belongsTo(Action& action, ptr<C>& value, ForeignKeyConstraint constraints, int size)
 {
-	belongsTo(action, value, "", fk::None, size) ;
+	belongsTo(action, value, "", constraints, size) ;
 }
 
 
