@@ -17,7 +17,10 @@ namespace dbo {
 		template <class T> class SelectById ;
 		template <class T> class SqlInsert ;
 		template <class T, class U> class InsertRelation ;
+		template <class T, class U> class InsertCollection ;
 		template <class T, class U> class SqlInsertRelation ;
+		template <class T, class U> class UpdateRelation ;
+		template <class T, class U> class SqlUpdateRelation ;
 		template <class T> class SqlSelect ;
 		template <class T, class U> class SqlSelectCollection ;
 		template <class T> class SqlUpdate ;
@@ -72,8 +75,11 @@ namespace dbo {
 #include <dbo/action/Delete.hpp>
 #include <dbo/action/BulkInsert.hpp>
 #include <dbo/action/Insert.hpp>
+#include <dbo/action/InsertCollection.hpp>
 #include <dbo/action/InsertRelation.hpp>
 #include <dbo/action/Update.hpp>
+#include <dbo/action/UpdateRelation.hpp>
+#include <dbo/action/SqlUpdateRelation.hpp>
 #include <dbo/action/SelectById.hpp>
 #include <dbo/action/LoadDb.hpp>
 #include <dbo/action/LoadId.hpp>

@@ -21,7 +21,10 @@
 #include <dbo/action/BulkInsert.cxx>
 #include <dbo/action/Insert.cxx>
 #include <dbo/action/InsertRelation.cxx>
+#include <dbo/action/InsertCollection.cxx>
 #include <dbo/action/Update.cxx>
+#include <dbo/action/UpdateRelation.cxx>
+#include <dbo/action/SqlUpdateRelation.cxx>
 #include <dbo/action/SelectById.cxx>
 #include <dbo/action/LoadDb.cxx>
 #include <dbo/action/LoadId.cxx>

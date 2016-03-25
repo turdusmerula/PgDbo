@@ -2,12 +2,14 @@
 #define _DBO_ACTION_UPDATE_HPP_
 
 namespace dbo {
-namespace mapping {
-template <class T> class Mapping ;
-template <class T> class FieldRef ;
-}
 
 namespace action {
+
+enum class UpdateState {
+	PreparingStatement,
+	Updating,
+	Recursing
+} ;
 
 template<class C>
 class Update
@@ -38,12 +40,7 @@ private:
 
 	IdType id_ ;	// new id_ positionned during update
 
-	enum State {
-		PreparingStatement,
-		Updating,
-		Recursing
-	} ;
-	State state_ ;
+	UpdateState state_ ;
 
 	template <class D> friend class Update ;
 };

@@ -29,6 +29,9 @@ C* lazy_ptr<C>::operator->()
 	return ptr_.get() ;
 }
 
+/*
+ * TODO: this way of loading a collection member is not straightforward, should find a better syntax
+ */
 template<class C>
 template<class D>
 collection<D>& lazy_ptr<C>::load(collection<D>& coll)
@@ -100,6 +103,23 @@ ptr<C>& lazy_ptr<C>::load()
 	if(ptr_.loaded()==false)
     	conn_.load<C>(ptr_) ;
     return ptr_ ;
+}
+
+template<class C>
+template<class D>
+collection<D>& lazy_ptr<C>::insert(collection<D>& coll)
+{
+	auto mappingC=conn_.getMapping<C>() ;
+	auto mappingD=conn_.getMapping<D>() ;
+	using IdTypeC = typename traits::dbo_traits<C>::IdType ;
+	using IdTypeD = typename traits::dbo_traits<D>::IdType ;
+
+	auto& stmt=conn_.getStatement<std::pair<ptr<C>, collection<D>>, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlInsert) ;
+
+	action::InsertCollection<C, D> action(ptr_, coll, mappingC, mappingD, stmt) ;
+	action.visit() ;
+
+	return coll ;
 }
 
 template<class C>

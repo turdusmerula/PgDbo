@@ -44,6 +44,9 @@ public:
 	 */
 	query& prepare() ;
 
+	/**
+	 * Execute the query
+	 */
 	query& execute() ;
 
 	/**

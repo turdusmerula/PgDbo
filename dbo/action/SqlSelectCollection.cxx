@@ -21,7 +21,7 @@ void SqlSelectCollection<C, D>::visit()
 	if(data_->collExist_==false)
 	{
 		std::stringstream ss ;
-		ss << "The specified collection to table " << mappingD_->tableName << " from table " << mappingC_->tableName <<  " at address " << &coll_ << " does not belong to object " << ptr_.get()  ;
+		ss << "Load failed: The specified collection to table " << mappingD_->tableName << " from table " << mappingC_->tableName <<  " at address " << &coll_ << " does not belong to object " << ptr_.get()  ;
 		throw Exception(ss.str()) ;
 	}
 

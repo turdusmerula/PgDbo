@@ -1,6 +1,8 @@
 #ifndef _DBO_ACTION_SQLUPDATERELATION_HPP_
 #define _DBO_ACTION_SQLUPDATERELATION_HPP_
 
+// TODO: implement update for relation
+
 namespace dbo {
 
 namespace action {

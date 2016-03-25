@@ -23,6 +23,9 @@ public:
 	template<class D>
 	collection<D>& load(collection<D>& coll) ;
 
+	template<class D>
+	collection<D>& insert(collection<D>& coll) ;
+
 	ptr<C>& load() ;
 
 	bool loaded() const ;

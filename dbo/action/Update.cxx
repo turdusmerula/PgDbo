@@ -6,7 +6,7 @@ Update<C>::Update(ptr<C>& ptr, std::shared_ptr<mapping::Mapping<C>> mapping, stm
 	: 	ptr_(ptr),
 		mapping_(mapping),
 		stmt_(stmt),
-		state_(PreparingStatement),
+		state_(UpdateState::PreparingStatement),
 		opt_(opt)
 {
 }
@@ -23,7 +23,7 @@ void Update<C>::visit()
 		action::SqlUpdate<C> action(mapping_, stmt_) ;
 		action.visit() ;
 
-		state_ = PreparingStatement ;
+		state_ = UpdateState::PreparingStatement ;
 
 		// init prepared statement, use a dummy object to init the statement
 		C dummy ;
@@ -51,7 +51,7 @@ void Update<C>::visit()
 	{
 		if(ptr_.modified() || opt_==opt::ForceUpdate)
 		{
-			state_ = Updating ;
+			state_ = UpdateState::Updating ;
 
 			stmt_.reset() ;
 
@@ -81,7 +81,7 @@ void Update<C>::visit()
 
 		if(opt_==opt::Recursive)
 		{
-			state_ = Recursing ;
+			state_ = UpdateState::Recursing ;
 			ptr->persist(*this) ;
 		}
 	}
@@ -99,11 +99,11 @@ void Update<C>::act(const mapping::FieldRef<V>& field)
 {
 	switch(state_)
 	{
-	case PreparingStatement:
-	case Updating:
+	case UpdateState::PreparingStatement:
+	case UpdateState::Updating:
 		traits::sql_value_traits<V>::bind(field.value(), stmt_, -1) ;
 		break ;
-	case Recursing:
+	case UpdateState::Recursing:
 		break ;
 	} ;
 }
@@ -114,13 +114,13 @@ void Update<C>::actId(V& value, const std::string& name, int size)
 {
 	switch(state_)
 	{
-	case PreparingStatement:
-	case Updating:
+	case UpdateState::PreparingStatement:
+	case UpdateState::Updating:
 		// add id fields to statement
 		field(*this, value, name) ;
 		id_ = value ;
 		break ;
-	case Recursing:
+	case UpdateState::Recursing:
 		field(*this, value, name) ;
 		break ;
 	} ;
@@ -134,18 +134,18 @@ void Update<C>::actPtr(const mapping::PtrRef<D>& field)
 
 	// this action is C type, we need D, so we create a special one for this type
 	Update<D> action(field.value(), conn().template getMapping<D>(), stmt_, opt_) ;
-	action.state_ = static_cast<typename Update<D>::State>(state_) ;
+	action.state_ = state_ ;
 
 	switch(state_)
 	{
-	case PreparingStatement:
+	case UpdateState::PreparingStatement:
 		if(field.nameIsJoin()==false)
 		{
 			// set the id
 			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
 		}
 		break ;
-	case Updating:
+	case UpdateState::Updating:
 		if(field.value().id()==field.value().invalidId && (field.fkConstraints() & FKNotNull))
 		{
 			std::stringstream ss ;
@@ -158,14 +158,15 @@ void Update<C>::actPtr(const mapping::PtrRef<D>& field)
 			// set the id
 			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
 		}
+
 		break ;
-	case Recursing:
+	case UpdateState::Recursing:
 		if(opt_==opt::Recursive && field.value().loaded())
 		{
 			auto mapping=conn().template getMapping<D>() ;
 			auto& stmt=conn().template getStatement<D, stmt::PreparedStatement>(mapping::MappingInfo::StatementType::SqlUpdate) ;
 
-			// insert by giving ptr_ as a parent
+			// update by giving ptr_ as a parent
 			action::Update<D> action(field.value(), mapping, stmt, opt_) ;
 			action.visit() ;
 		}
@@ -186,19 +187,20 @@ void Update<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 
 	// this action is C type, we need D, so we create a special one for this type
 	Update<D> action(ptr, conn().template getMapping<D>(), stmt_, opt_) ;
-	action.state_ = static_cast<typename Update<D>::State>(state_) ;
+	action.state_ = state_ ;
 
 	switch(state_)
 	{
-	case PreparingStatement:
-	case Updating:
+	case UpdateState::PreparingStatement:
+	case UpdateState::Updating:
 		if(field.nameIsJoin()==false)
 		{
 			// load the id
 			// objects are not loaded, only the id to be able to operate a lazy loading next
 			id(action, const_cast<IdType&>(field.value().id()), field.name()) ;
 		}
-	case Recursing:
+		break ;
+	case UpdateState::Recursing:
 		// weak ptr are endpoints, we do not recurse inside
 		break ;
 	} ;

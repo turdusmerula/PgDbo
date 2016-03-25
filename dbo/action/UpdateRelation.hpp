@@ -1,15 +1,15 @@
-#ifndef _DBO_ACTION_INSERTRELATION_HPP_
-#define _DBO_ACTION_INSERTRELATION_HPP_
+#ifndef _DBO_ACTION_UPDATERELATION_HPP_
+#define _DBO_ACTION_UPDATERELATION_HPP_
 
 namespace dbo {
 
 namespace action {
 
 template<class C, class D>
-class InsertRelation
+class UpdateRelation
 {
 public:
-	InsertRelation(ptr<C>& ptr1, ptr<D>& ptr2,
+	UpdateRelation(ptr<C>& ptr1, ptr<D>& ptr2,
 			const mapping::CollectionRef<C>& field,
 			std::shared_ptr<mapping::Mapping<C>> mapping1, std::shared_ptr<mapping::Mapping<D>> mapping2,
 			stmt::PreparedStatement& stmt) ;
@@ -35,7 +35,7 @@ private:
 	ptr<D>& ptr2_ ;
 	stmt::PreparedStatement& stmt_ ;
 
-	template <class V, class W> friend class InsertRelation ;
+	template <class V, class W> friend class UpdateRelation ;
 };
 
 }}

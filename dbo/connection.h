@@ -216,6 +216,7 @@ protected:
 	template <class T> friend class action::Delete ;
 	template <class T, class P> friend class action::Insert ;
 	template <class T, class U> friend class action::InsertRelation ;
+	template <class T, class U> friend class action::InsertCollection ;
 	template <class T> friend class action::SelectById ;
 	template <class T> friend class action::Update ;
 	template <class T> friend class action::SqlInsert ;

@@ -200,18 +200,33 @@ function clean_exit()
 
 function tgt_build()
 {
-    echo "## Build target"
-
+    if [ "$(which ninja)_" != "_" ]
+    then
+    	echo "## Build target with ninja"
+	else
+    	echo "## Build target with make"
+	fi
+	
     # configure build
     if [ ! -f Build/CMakeLists.txt ]
     then
         mkdir -p Build || clean_exit
-        eval "cmake -BBuild -H. $cmake_opts" || clean_exit
+        if [ "$(which ninja)_" != "_" ]
+        then
+        	eval "cmake -G "Ninja" -BBuild -H. $cmake_opts" || clean_exit
+        else
+        	eval "cmake -BBuild -H. $cmake_opts" || clean_exit        
+        fi
     fi
     
     # build now
     cd Build
-    make $make_opts || clean_exit
+    if [ "$(which ninja)_" != "_" ]
+    then
+    	ninja || clean_exit
+    else	
+    	make $make_opts || clean_exit
+    fi
     cd -      
 }
 
