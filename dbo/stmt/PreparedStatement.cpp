@@ -127,12 +127,13 @@ void PreparedStatement::bind(const std::vector<unsigned char>& value)
 
 bool PreparedStatement::read(char*& value)
 {
-	// TODO: check out of boud
-//	{
-//		std::stringstream ss ;
-//		ss << "Load failed for '" << mapping_->tableName << "', read out of bounds for '" << field.name() << "'" ;
-//		throw Exception(ss.str()) ;
-//	}
+	if(column_>=resultColumns_)
+	{
+		std::stringstream ss ;
+		ss << "PreparedStatement '" << name_ << "' error: read out of bounds, asked field " << column_ << ", existing " << resultColumns_ << " fields" ;
+		ss << " -> " << sql_ ;
+		throw Exception(ss.str()) ;
+	}
 
 	if(PQgetisnull(result_.get(), row_, column_))
 	{
@@ -148,6 +149,14 @@ bool PreparedStatement::read(char*& value)
 
 bool PreparedStatement::read(std::vector<unsigned char>& value)
 {
+	if(column_>=resultColumns_)
+	{
+		std::stringstream ss ;
+		ss << "PreparedStatement '" << name_ << "' error: read out of bounds, asked field " << column_ << ", existing " << resultColumns_ << " fields" ;
+		ss << " -> " << sql_ ;
+		throw Exception(ss.str()) ;
+	}
+
 	if(PQgetisnull(result_.get(), row_, column_))
 	{
 		column_++ ;
@@ -264,8 +273,10 @@ void PreparedStatement::execute()
 			affectedRows_ = 0 ;
 	}
 	else if(res==PGRES_TUPLES_OK)
+	{
 		affectedRows_ = PQntuples(result_.get()) ;
-
+		resultColumns_ = PQnfields(result_.get()) ;
+	}
 	if(conn_->showResults())
 	{
 		if(res!=PGRES_COMMAND_OK && res!=PGRES_TUPLES_OK)

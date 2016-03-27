@@ -14,6 +14,8 @@
 
 #include <postgresql/libpq-fe.h>
 
+#include <boost/optional/optional_io.hpp>
+
 using namespace dbo ;
 
 

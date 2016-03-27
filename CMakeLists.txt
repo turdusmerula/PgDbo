@@ -10,6 +10,7 @@ set(RESOURCES_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Build/resources)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 include(cmake/version.cmake)
+include(config.cmake)
 
 # read version
 get_software_version()

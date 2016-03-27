@@ -47,6 +47,7 @@ struct SqlSelectData {
 	{}
 
 	std::string as_letter() { return as_letter_.top() ; }
+	void as_letter_push(const std::string& name) { as_letter_.push("\""+name+"\"") ; }
 	void as_letter_push() { as_letter_.push("t"+boost::lexical_cast<std::string>(as_num_++)) ; }
 	void as_letter_pop() { as_letter_.pop() ; } ;
 

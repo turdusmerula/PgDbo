@@ -132,6 +132,7 @@ protected:
 	int row_ ;
 	int column_ ;
 	size_t affectedRows_ ;
+	int resultColumns_ ;
 	bool hasReturning_ ;
 
 	std::vector<unsigned int> oids_ ;

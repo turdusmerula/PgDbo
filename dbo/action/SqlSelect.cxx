@@ -34,7 +34,7 @@ void SqlSelect<C>::visit()
 	ss << "select " ;
 
 	state_ = SelectColumns ;
-	data_->as_letter_push() ;
+	data_->as_letter_push(mapping_->tableName) ;
 
 	if(data_->whereIdClause_==false && mapping_->naturalIdFieldName.empty()==true)
 	{
@@ -135,7 +135,7 @@ void SqlSelect<C>::actPtr(const mapping::PtrRef<D>& field)
 	if(field.nameIsJoin())
 	{
 		// set new join alias
-		data_->as_letter_push() ;
+		data_->as_letter_push(mapping->tableName+"_"+field.name()) ;
 	}
 	else
 	{
@@ -179,7 +179,7 @@ void SqlSelect<C>::actWeakPtr(const mapping::WeakRef<D>& field)
 	if(field.nameIsJoin())
 	{
 		// set new join alias
-		data_->as_letter_push() ;
+		data_->as_letter_push(mapping->tableName+"_"+field.name()) ;
 	}
 	else
 	{
