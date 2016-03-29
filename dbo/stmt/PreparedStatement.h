@@ -86,7 +86,16 @@ public:
 	 */
 	void execute() ;
 
+	/**
+	 * Move to the next available row
+	 * @return false if no available row
+	 */
 	bool nextRow() ;
+
+	/**
+	 * Return number of fetched row in case of a select
+	 */
+	size_t numRow() const ;
 
 	/**
 	 * Indicate if an insert has a returning

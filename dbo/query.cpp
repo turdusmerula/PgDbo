@@ -81,3 +81,8 @@ void query::sql(const std::string& value)
 //
 	stmt_.sql(value) ;
 }
+
+size_t query::numRow() const
+{
+	return stmt_.numRow() ;
+}

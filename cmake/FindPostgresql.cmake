@@ -5,7 +5,7 @@
 # Taking into account:
 # - POSTGRES_PREFIX
 
-SET(Postgres_LIBRARIES pq pqxx)
+SET(Postgres_LIBRARIES pq)
 
 FIND_LIBRARY(POSTGRES_LIB
   NAMES

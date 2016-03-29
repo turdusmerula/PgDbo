@@ -62,6 +62,8 @@ public:
 
 	bool nextRow() ;
 
+	size_t numRow() const ;
+
 	const std::string& sql() const { return stmt_.sql() ; }
 	void sql(const std::string& sql) ;
 

@@ -459,4 +459,8 @@ void PreparedStatement::pg_result_deleter(pg_result* result)
 	result = nullptr ;
 }
 
+size_t PreparedStatement::numRow() const
+{
+	return affectedRows_ ;
+}
 

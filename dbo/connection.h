@@ -14,8 +14,6 @@
 #include <dbo/transaction.h>
 #include <dbo/query.hpp>
 
-#include <pqxx/pqxx>
-
 struct pg_conn;
 typedef struct pg_conn PGconn;
 
