@@ -203,6 +203,10 @@ void PreparedStatement::prepare()
 	{
 		name_ = boost::lexical_cast<std::string>(std::hash<std::string>{}(sql_)) ;
 
+		// Add a savepoint because PQdescribePrepared breaks transactions when it fails
+		std::string savepoint="savepoint_"+name_ ;
+		auto resultsp=std::shared_ptr<pg_result>(PQexec(conn_->conn_, ("SAVEPOINT "+savepoint).c_str()), pg_result_deleter) ;
+
 		// In case name is a hash it is ok to reuse a previous statement as we know it will be the same
 		auto result=std::shared_ptr<pg_result>(PQdescribePrepared(conn_->conn_, name_.c_str()), pg_result_deleter) ;
 		auto err=PQresultStatus(result.get()) ;
@@ -212,6 +216,9 @@ void PreparedStatement::prepare()
 			prepared_ = true ;
 			return ;
 		}
+
+		// cancel savepoint
+		auto resultrb=std::shared_ptr<pg_result>(PQexec(conn_->conn_, ("ROLLBACK TO "+savepoint).c_str()), pg_result_deleter) ;
 	}
 
 	auto result=std::shared_ptr<pg_result>(PQprepare(conn_->conn_, name_.c_str(), sql_.c_str(), oids_.size(), (Oid *)oids_.data()), pg_result_deleter) ;

@@ -24,6 +24,7 @@
 #include <dbo-tests/src/TestCompositeIdTable.hpp>
 #include <dbo-tests/src/TestManyToOneTable.hpp>
 #include <dbo-tests/src/TestManyToManyTable.hpp>
+#include <dbo-tests/src/TestTransaction.hpp>
 
 std::string connection ;
 dbo::connection db ;
