@@ -88,7 +88,7 @@ public:
 
 	/*! \brief Dereference operator.
 	 */
-	ptr<C> *operator->() ;
+	ptr<C>* operator->() ;
 
 	/*! \brief Comparison operator.
 	 *

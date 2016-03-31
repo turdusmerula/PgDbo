@@ -308,6 +308,17 @@ void PreparedStatement::execute()
 	}
 }
 
+bool PreparedStatement::firstRow()
+{
+	if(PQntuples(result_.get())>0)
+	{
+		row_ = 0 ;
+		column_ = 0 ;
+		return true ;
+	}
+	return false ;
+}
+
 bool PreparedStatement::nextRow()
 {
 	if(row_+1<PQntuples(result_.get()))

@@ -60,8 +60,21 @@ public:
 	template <class T>
 	query& read(T& value) ;
 
+	/**
+	 * Move to first available row
+	 * @return false if no available row
+	 */
+	bool firstRow() ;
+
+	/**
+	 * Move to the next available row
+	 * @return false if no available row
+	 */
 	bool nextRow() ;
 
+	/**
+	 * Return number of fetched row in case of a select
+	 */
 	size_t numRow() const ;
 
 	const std::string& sql() const { return stmt_.sql() ; }

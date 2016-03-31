@@ -87,6 +87,12 @@ public:
 	void execute() ;
 
 	/**
+	 * Move to first available row
+	 * @return false if no available row
+	 */
+	bool firstRow() ;
+
+	/**
 	 * Move to the next available row
 	 * @return false if no available row
 	 */

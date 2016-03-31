@@ -68,6 +68,12 @@ query& query::reset()
 	return *this ;
 }
 
+bool query::firstRow()
+{
+	hasrow_ = stmt_.firstRow() ;
+	return hasrow_ ;
+}
+
 bool query::nextRow()
 {
 	hasrow_ = stmt_.nextRow() ;
