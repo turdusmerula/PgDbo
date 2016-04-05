@@ -71,7 +71,8 @@ query& query::read(ptr<C>& ptr)
 
 	auto mapping=conn_->getMapping<C>() ;
 
-	ptr = dbo::make_ptr<C>() ;
+	if(ptr==nullptr)
+		ptr = dbo::make_ptr<C>() ;
 	action::LoadDb<C> action(ptr, mapping, stmt_) ;
 	action.visit() ;
 
