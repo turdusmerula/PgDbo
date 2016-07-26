@@ -5,6 +5,7 @@
 #include <dbo/mapping/SetInfo.h>
 
 #include <map>
+#include <vector>
 
 #include <boost/optional.hpp>
 
