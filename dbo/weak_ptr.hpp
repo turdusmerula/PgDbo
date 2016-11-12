@@ -56,6 +56,7 @@ public:
 	ptr<C> lock() ;
 
 	const IdType& id() const ;
+	void id(const IdType& value) ;
 
 	bool expired() const noexcept ;
 
@@ -63,9 +64,6 @@ protected:
 	mutable IdType cache_id_ ;	// this id exists to allow the object to have an id even if not observing a ptr
 
 	std::weak_ptr<typename ptr<C>::Ptr> ptr_ ;
-
-
-	void id(const IdType& value) ;
 
 
 	friend class connection ;

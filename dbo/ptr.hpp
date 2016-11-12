@@ -93,6 +93,7 @@ public:
     bool modified() const ;
 
     const IdType& id() const ;
+	void id(const IdType& value) ;
 
     long use_count() const noexcept ;
 
@@ -122,7 +123,6 @@ protected:
 	 */
 	ptr(std::shared_ptr<Ptr> ptr) ;
 
-	void id(const IdType& value) ;
 
 
 	friend class connection ;

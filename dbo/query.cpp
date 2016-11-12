@@ -13,14 +13,6 @@ query::query(connection& conn, const std::string& sql)
 
 }
 
-//query::query(const query& other)
-//	:	conn_(other.conn_),
-//		sql_(other.sql_),
-//		stmt_(other.conn_, other.sql_),
-//		prepared_(false)
-//{
-//}
-
 query::~query()
 {
 
@@ -82,9 +74,6 @@ bool query::nextRow()
 
 void query::sql(const std::string& value)
 {
-//	if(prepared_==true)
-//		throw Exception("Query statement already preapred") ;
-//
 	stmt_.sql(value) ;
 }
 
