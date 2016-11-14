@@ -9,6 +9,8 @@ template <class T> class ptr ;
 class query
 {
 public:
+	class iterator ;
+	class row ;
 
 	query(connection& conn, const std::string& sql="") ;
 
@@ -60,6 +62,9 @@ public:
 	template <class T>
 	query& read(T& value) ;
 
+	iterator begin()  ;
+	iterator end() ;
+
 	/**
 	 * Move to first available row
 	 * @return false if no available row
@@ -92,6 +97,80 @@ protected:
 
 	bool hasrow_ ;
 } ;
+
+class query::row
+{
+public:
+	row(const row& row) ;
+
+	template <class C>
+	row& read(ptr<C>& ptr) ;
+
+	template <class T>
+	row& read(T& value) ;
+
+	friend query::iterator ;
+protected:
+	query* query_ ;
+
+	row(query* query) ;
+	row() ;
+} ;
+
+class query::iterator : public std::iterator<std::input_iterator_tag, query::row>
+{
+public:
+	/*! \brief Copy constructor.
+	 */
+	iterator(const iterator& other) ;
+
+	/*! \brief Destructor.
+	 */
+	~iterator() ;
+
+	/*! \brief Assignment operator.
+	 */
+	iterator& operator=(const iterator& other) ;
+
+	/*! \brief Dereference operator.
+	 */
+	row& operator*() ;
+
+	/*! \brief Dereference operator.
+	 */
+	row* operator->() ;
+
+	/*! \brief Comparison operator.
+	 *
+	 * Returns true if two iterators point to the same value in the
+	 * same %collection, or point both to the end of a collection.
+	 */
+	bool operator==(const iterator& other) const ;
+
+	/*! \brief Comparison operator.
+	 */
+	bool operator!=(const iterator& other) const ;
+
+	/*! \brief Pre increment operator.
+	 */
+	iterator& operator++() ;
+
+	/*! \brief Post increment operator.
+	 */
+	iterator operator++(int) ;
+
+	friend query ;
+private:
+	query* query_ ;
+	query::row row_ ;
+
+	bool end() const ;
+
+	iterator() ;
+	iterator(query* query) ;
+
+	friend class row ;
+};
 
 }
 

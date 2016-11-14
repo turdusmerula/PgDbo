@@ -103,4 +103,28 @@ query& query::bind(const C& value)
 	return *this ;
 }
 
+
+
+template <class C>
+query::row& query::row::read(ptr<C>& ptr)
+{
+	if(query_==nullptr)
+		throw Exception("Load error: read on empty row") ;
+
+	query_->read<C>(ptr) ;
+
+	return *this ;
+}
+
+template <class T>
+query::row& query::row::read(T& value)
+{
+	if(query_==nullptr)
+		throw Exception("Load error: read on empty row") ;
+
+	query_->read<T>(value) ;
+
+	return *this ;
+}
+
 }

@@ -81,3 +81,102 @@ size_t query::numRow() const
 {
 	return stmt_.numRow() ;
 }
+
+query::iterator query::begin()
+{
+	return query::iterator(this) ;
+}
+
+query::iterator query::end()
+{
+	return query::iterator() ;
+}
+
+
+// ----------------------------------------------------------------------------
+query::row::row()
+	:	query_(nullptr)
+{
+}
+
+query::row::row(const query::row& row)
+	:	query_(row.query_)
+{
+}
+
+query::row::row(query* query)
+	:	query_(query)
+{
+}
+
+
+// ----------------------------------------------------------------------------
+query::iterator::iterator()
+	:	query_(nullptr)
+{
+}
+
+query::iterator::iterator(query* query)
+	:	query_(query),
+		row_(query_)
+{
+	// move to first row
+	query_->firstRow() ;
+}
+
+query::iterator::iterator(const iterator& other)
+	:	query_(other.query_),
+		row_(other.row_)
+{
+}
+
+query::iterator::~iterator()
+{
+}
+
+query::iterator& query::iterator::operator=(const query::iterator& other)
+{
+	query_ = other.query_ ;
+	row_ = other.row_ ;
+	return *this ;
+}
+
+query::row& query::iterator::operator*()
+{
+	return row_ ;
+}
+
+query::row* query::iterator::operator->()
+{
+	return &row_ ;
+}
+
+bool query::iterator::operator==(const query::iterator& other) const
+{
+	return query_==other.query_ || end()==other.end() ;
+}
+
+bool query::iterator::operator!=(const query::iterator& other) const
+{
+	return !operator==(other) ;
+}
+
+query::iterator& query::iterator::operator++()
+{
+	if(query_)
+		query_->nextRow() ;
+	return *this ;
+}
+
+query::iterator query::iterator::operator++(int inc)
+{
+	if(query_)
+		for(int i=0 ; i<inc ; i++)
+			query_->nextRow() ;
+	return *this ;
+}
+
+bool query::iterator::end() const
+{
+	return query_==nullptr || query_->hasrow()==false ;
+}

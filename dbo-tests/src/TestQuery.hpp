@@ -95,6 +95,29 @@ TEST_F(TestQuery, TestFind) {
 	ASSERT_TRUE( i==10 ) ;
 }
 
+TEST_F(TestQuery, TestFindIterator) {
+	for(int i=0 ; i<10 ; i++)
+	{
+		dbo::ptr<gSimpleTable> p=dbo::make_ptr<gSimpleTable>() ;
+		p->value1 = "TestFindIterator" ;
+		p->value2 = i ;
+		ASSERT_NO_THROW_V( db.insert(p) ) ;
+	}
+
+	dbo::query q(db) ;
+	ASSERT_NO_THROW_V( q = db.find<gSimpleTable>("value1='TestFindIterator'").execute() ) ;
+
+	int i=0 ;
+	for(auto& row : q)
+	{
+		i++ ;
+		dbo::ptr<gSimpleTable> r ;
+		ASSERT_NO_THROW_V( row.read(r) ) ;
+		ASSERT_TRUE( r->value1=="TestFindIterator" ) ;
+	}
+	ASSERT_TRUE( i==10 ) ;
+}
+
 TEST_F(TestQuery, TestFindBind) {
 	dbo::ptr<gSimpleTable> p=dbo::make_ptr<gSimpleTable>() ;
 	p->value1 = "TestFindBind" ;
