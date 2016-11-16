@@ -50,7 +50,8 @@ weak_ptr<C>::~weak_ptr()
 template <class C>
 weak_ptr<C>& weak_ptr<C>::operator=(const weak_ptr<C>& other)
 {
-	weak_ptr(other).swap(*this) ;
+	cache_id_ = other.cache_id_ ;
+	ptr_ = other.ptr_ ;
 
 	return *this;
 }
@@ -59,7 +60,8 @@ template<class C>
 template<class D>
 weak_ptr<C>& weak_ptr<C>::operator=(const weak_ptr<D>& other)
 {
-	weak_ptr(other).swap(*this) ;
+	cache_id_ = other.cache_id_ ;
+	ptr_ = other.ptr_ ;
 
 	return *this;
 }
@@ -67,7 +69,8 @@ weak_ptr<C>& weak_ptr<C>::operator=(const weak_ptr<D>& other)
 template <class C>
 weak_ptr<C>& weak_ptr<C>::operator=(const ptr<C>& other)
 {
-	weak_ptr(other).swap(*this) ;
+	cache_id_ = other.cache_id_ ;
+	ptr_ = other.ptr_ ;
 
 	return *this;
 }
@@ -76,7 +79,8 @@ template<class C>
 template<class D>
 weak_ptr<C>& weak_ptr<C>::operator=(const ptr<D>& other)
 {
-	weak_ptr(other).swap(*this) ;
+	cache_id_ = other.cache_id_ ;
+	ptr_ = other.ptr_ ;
 
 	return *this;
 }
@@ -84,6 +88,7 @@ weak_ptr<C>& weak_ptr<C>::operator=(const ptr<D>& other)
 template<class C>
 void weak_ptr<C>::swap(weak_ptr& other) noexcept
 {
+	cache_id_ = other.cache_id_ ;
 	ptr_.swap(other.ptr_) ;
 }
 

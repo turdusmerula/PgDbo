@@ -51,7 +51,8 @@ ptr<C>::~ptr()
 template<class C>
 void ptr<C>::reset()
 {
-	ptr().swap(*this) ;
+	cache_id_ = invalidId ;
+	ptr_.reset() ;
 }
 
 template<class C>
@@ -85,13 +86,15 @@ lazy_ptr<C> ptr<C>::operator()(connection& conn) const
 template<class C>
 void ptr<C>::swap(ptr& other) noexcept
 {
+	cache_id_ = other.cache_id_ ;
 	ptr_.swap(other.ptr_) ;
 }
 
 template<class C>
 ptr<C>& ptr<C>::operator=(const ptr<C>& other)
 {
-	ptr(other).swap(*this) ;
+	cache_id_ = other.cache_id_ ;
+	ptr_ = other.ptr_ ;
 
 	return *this;
 }
@@ -108,7 +111,8 @@ template <class C>
 template<class D>
 ptr<C>& ptr<C>::operator=(const ptr<D>& other)
 {
-	ptr(other).swap(*this) ;
+	cache_id_ = other.cache_id_ ;
+	ptr_ = other.ptr_ ;
 
 	return *this;
 }
