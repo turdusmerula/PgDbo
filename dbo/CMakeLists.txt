@@ -2,7 +2,6 @@ project(dbo-lib)
 
 find_package(Boost 1.53 COMPONENTS filesystem regex system date_time thread REQUIRED)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR})
 FIND_PACKAGE(Postgresql REQUIRED)
 add_definitions(-DMULTI_THREADED)
 
@@ -29,9 +28,9 @@ FILE(GLOB headers
     src/*.h
     )
 
-add_library(${PROJECT_NAME} SHARED ${sources})
+add_library(dbo SHARED ${sources})
 
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(dbo
     pthread
 
     ${Boost_LIBRARIES} 
@@ -42,3 +41,6 @@ target_link_libraries(${PROJECT_NAME}
 
     dl
     )
+
+install(DIRECTORY . DESTINATION include/dbo FILES_MATCHING PATTERN "*.hpp" PATTERN "*.cxx" PATTERN "*.h")
+install(TARGETS dbo EXPORT DESTINATION lib)
