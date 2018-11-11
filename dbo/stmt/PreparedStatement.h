@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 #include <map>
 #include <memory>
 
@@ -152,7 +153,7 @@ protected:
 
 	std::vector<unsigned int> oids_ ;
 
-	std::vector<std::string> svalues_ ;	// RAII version of values
+	std::list<std::string> svalues_ ;	// RAII version of values
 	std::vector<const char*> values_ ;
 	std::vector<int> lengths_ ;
 	std::vector<int> formats_ ;

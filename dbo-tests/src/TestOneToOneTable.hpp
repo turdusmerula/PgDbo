@@ -391,9 +391,9 @@ TEST_F(TestOneToOneTable, TestInsertDoubleInsert) {
 
 	dbo::ptr<lComplexIdTable> newcomplex=dbo::make_ptr<lComplexIdTable>() ;
 	newcomplex->complex_parent = p ;
-	newcomplex->value = "TestInsertDoubleInsert new" ;
+	newcomplex->value = "TestInsertDoubleInsert" ;
 	newcomplex->complex_id.age = 2 ;
-	newcomplex->complex_id.name = "TestInsertDoubleInsert new" ;
+	newcomplex->complex_id.name = "TestInsertDoubleInsert" ;
 	// TODO: should fail, add a constraint to ensure unicity
 	ASSERT_THROW_V( db.insert(newcomplex, dbo::opt::Recursive), std::exception ) ;
 }

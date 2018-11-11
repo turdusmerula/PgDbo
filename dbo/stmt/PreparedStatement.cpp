@@ -221,7 +221,8 @@ void PreparedStatement::prepare()
 		auto resultrb=std::shared_ptr<pg_result>(PQexec(conn_->conn_, ("ROLLBACK TO "+savepoint).c_str()), pg_result_deleter) ;
 	}
 
-	auto result=std::shared_ptr<pg_result>(PQprepare(conn_->conn_, name_.c_str(), sql_.c_str(), oids_.size(), (Oid *)oids_.data()), pg_result_deleter) ;
+//	auto result=std::shared_ptr<pg_result>(PQprepare(conn_->conn_, name_.c_str(), sql_.c_str(), oids_.size(), (Oid *)oids_.data()), pg_result_deleter) ;
+	auto result=std::shared_ptr<pg_result>(PQprepare(conn_->conn_, name_.c_str(), sql_.c_str(), oids_.size(), NULL), pg_result_deleter) ;
 	auto err=PQresultStatus(result.get()) ;
 	if(err!=PGRES_COMMAND_OK && err!=PGRES_TUPLES_OK)
 	{
@@ -269,6 +270,7 @@ void PreparedStatement::execute()
 
 	// put result in a shared_ptr with a custom deleter to clear it
 	result_ = std::shared_ptr<pg_result>(PQexecPrepared(conn_->conn_, name_.c_str(), oids_.size(), values_.data(), lengths_.data(), formats_.data(), 0), pg_result_deleter) ;
+//	result_ = std::shared_ptr<pg_result>(PQexecPrepared(conn_->conn_, name_.c_str(), oids_.size(), values_.data(), NULL, NULL, 0), pg_result_deleter) ;
 	auto res=PQresultStatus(result_.get()) ;
 
 	if(res==PGRES_COMMAND_OK)
@@ -304,6 +306,7 @@ void PreparedStatement::execute()
 		std::stringstream ss ;
 		ss << "PreparedStatement '" << name_ << "' execution failed: " << PQerrorMessage(conn_->conn_) ;
 		ss << " -> " << sql_ ;
+		ss << " -> (" << getBoundPlaceholders() << ")" ;
 		throw Exception(ss.str()) ;
 	}
 }
@@ -426,22 +429,21 @@ std::string PreparedStatement::getBoundPlaceholders()
 {
 	std::stringstream ss ;
 
-	for(int i=0 ; i<oids_.size() ; i++)
+	int i=0 ;
+	for(auto value : svalues_)
 	{
 		if(i>0)
 			ss << ", " ;
 		ss << "$" << i+1 << "=" ;
-		if(i<svalues_.size())
-		{
-			if(oids_[i]==OIDBytea)
-				ss << "blob " << lengths_[i] << " bytes" ;
-			else if(values_[i])
-				ss << "'" << svalues_[i] << "'" ;
-			else
-				ss << "null" ;
-		}
+
+		if(oids_[i]==OIDBytea)
+			ss << "blob " << lengths_[i] << " bytes" ;
+		else if(values_[i])
+			ss << "'" << value << "'" ;
 		else
-			ss << "####" ;
+			ss << "null" ;
+
+		i++ ;
 	}
 
 	return ss.str() ;
@@ -467,8 +469,9 @@ void PreparedStatement::name(const std::string& name)
 
 void PreparedStatement::hashName(bool value)
 {
-	hashname_ = true ;
-	name_ = "" ;
+	hashname_ = value ;
+	if(hashname_)
+		name_ = "" ;
 }
 
 void PreparedStatement::pg_result_deleter(pg_result* result)

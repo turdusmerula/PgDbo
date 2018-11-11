@@ -4,8 +4,13 @@ xpl_path=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 root_path=$(echo ${xpl_path} | sed "s#\(.*\)/dbo-tests/.*#\1#g")
 cd $xpl_path
 
+# pg_hba.conf for tests
+#local   all             all                                     trust
+#host    all             all             127.0.0.1/32            trust
+#host    all             all             ::1/128                 trust
+
 conf_path=${xpl_path}/../conf
-bin_path=${root_path}/Build/bin
+bin_path=${root_path}/Build/dbo-tests
 bin_name=dbo-tests
 
 help=false
@@ -52,8 +57,10 @@ if [ $help == false ]
 then
 	# create integration database
 	echo " --> Create integration database"
-	sudo -iu postgres psql -f ${conf_path}/integration.sql
-	sudo -iu postgres psql bournioutests -f ${conf_path}/postgis.sql
+	#sudo -iu postgres psql -f ${conf_path}/integration.sql
+	#sudo -iu postgres psql dbotest -f ${conf_path}/postgis.sql
+	psql --username=postgres -f ${conf_path}/integration.sql
+	psql --username=postgres dbotest -f ${conf_path}/postgis.sql
 fi
 
 echo "args: $filtargs" 
@@ -72,7 +79,8 @@ elif [ $lsan ]
 then
 	echo "[ Run tests with LeakSanitizer ]"
 	export LSAN_OPTIONS="detect_leaks=1 symbolize=1 fast_unwind_on_malloc=0 external_symbolizer_path=/usr/bin/llvm-symbolizer-3.6" 
-	( ${bin_path}/${bin_name} $filtargs 2>&1 ) | /opt/asan_symbolize.py 
+	( ${bin_path}/${bin_name} $filtargs 2>&1 ) | /opt/asan_symbolize.py
+
 elif [ $gcov ]
 then
 	echo "[ Run tests with gcov ]"

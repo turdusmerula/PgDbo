@@ -66,6 +66,7 @@ query& query::read(ptr<C>& ptr)
 		std::stringstream ss ;
 		ss << "Query error: no data to fetch" ;
 		ss << " -> " << stmt_.sql() ;
+		ss << " -> (" << stmt_.getBoundPlaceholders() << ")" ;
 		throw Exception(ss.str()) ;
 	}
 
@@ -87,6 +88,7 @@ query& query::read(T& value)
 		std::stringstream ss ;
 		ss << "Query error: no data to fetch" ;
 		ss << " -> " << stmt_.sql() ;
+		ss << " -> (" << stmt_.getBoundPlaceholders() << ")" ;
 		throw Exception(ss.str()) ;
 	}
 

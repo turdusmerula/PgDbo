@@ -41,7 +41,7 @@ query& query::execute()
 {
 	if(prepared_==false)
 	{
-		// prepare as an anonymous statement
+		// prepare as an anonymous statement, it won't be stored permanently
 		stmt_.name("") ;
 		stmt_.prepare() ;
 	}

@@ -23,6 +23,19 @@ public:
 	}
 } ;
 // ----------------------------------------------------------------------------
+class gSimpleTable2
+{
+public:
+	std::string value1 ;
+	std::string value2 ;
+
+	template<class Action>
+	void persist(Action& a)
+	{
+		dbo::field(a, value1, "value1") ;
+		dbo::field(a, value2, "value2") ;
+	}
+} ;
 
 
 // The fixture for testing class Database.
@@ -33,9 +46,11 @@ public:
 	{
 		db.connect(connection) ;
 		db.mapClass<gSimpleTable>("gSimpleTable") ;
+		db.mapClass<gSimpleTable2>("gSimpleTable2") ;
 		db.createTables() ;
 		db.showQueries(true) ;
 		db.showBindings(true) ;
+		db.showResults(true) ;
 	}
 
 	static void TearDownTestCase()
@@ -118,19 +133,80 @@ TEST_F(TestQuery, TestFindIterator) {
 	ASSERT_TRUE( i==10 ) ;
 }
 
+TEST_F(TestQuery, TestFindBind2) {
+	dbo::ptr<gSimpleTable2> p=dbo::make_ptr<gSimpleTable2>() ;
+	p->value1 = "TestFindBind2" ;
+	p->value2 = "20" ;
+	ASSERT_NO_THROW_V( db.insert(p) ) ;
+
+	{
+		dbo::query q(db) ;
+		ASSERT_NO_THROW_V( q = db.find<gSimpleTable2>("value1='TestFindBind2' and value2='20'").execute() ) ;
+		ASSERT_TRUE( q.numRow()>0 ) ;
+	}
+
+	{
+		dbo::query q(db) ;
+		ASSERT_NO_THROW_V( q = db.find<gSimpleTable2>("value1=?").bind("TestFindBind2").execute() ) ;
+		ASSERT_TRUE( q.numRow()>0 ) ;
+	}
+	
+	{
+		dbo::query q(db) ;
+		ASSERT_NO_THROW_V( q = db.find<gSimpleTable2>("value2=?").bind(20).execute() ) ;
+		ASSERT_TRUE( q.numRow()>0 ) ;
+		dbo::ptr<gSimpleTable2> r ;
+		ASSERT_NO_THROW_V( q.read(r) ) ;
+		ASSERT_TRUE( r->value1=="TestFindBind2" ) ;
+		ASSERT_TRUE( r->value2=="20" ) ;
+	}
+
+	{
+		dbo::query q(db) ;
+		ASSERT_NO_THROW_V( q = db.find<gSimpleTable2>("value1=? and value2=?").bind("TestFindBind2").bind("20").execute() ) ;
+		//ASSERT_TRUE( q.numRow()>0 ) ;
+	
+		dbo::ptr<gSimpleTable2> r ;
+		ASSERT_NO_THROW_V( q.read(r) ) ;
+		ASSERT_TRUE( r->value1=="TestFindBind2" ) ;
+		ASSERT_TRUE( r->value2=="20" ) ;
+	}
+}
+
 TEST_F(TestQuery, TestFindBind) {
 	dbo::ptr<gSimpleTable> p=dbo::make_ptr<gSimpleTable>() ;
 	p->value1 = "TestFindBind" ;
 	p->value2 = 10 ;
 	ASSERT_NO_THROW_V( db.insert(p) ) ;
 
-	dbo::query q(db) ;
-	ASSERT_NO_THROW_V( q = db.find<gSimpleTable>("value1=? and value2=?").bind("TestFindBind").bind(10).execute() ) ;
+	{
+		dbo::query q(db) ;
+		ASSERT_NO_THROW_V( q = db.find<gSimpleTable>("value1='TestFindBind' and value2='10'").execute() ) ;
+		ASSERT_TRUE( q.numRow()>0 ) ;
+	}
 
-	dbo::ptr<gSimpleTable> r ;
-	ASSERT_NO_THROW_V( q.read(r) ) ;
-	ASSERT_TRUE( r->value1=="TestFindBind" ) ;
-	ASSERT_TRUE( r->value2==10 ) ;
+	{
+		dbo::query q(db) ;
+		ASSERT_NO_THROW_V( q = db.find<gSimpleTable>("value1=?").bind("TestFindBind").execute() ) ;
+		ASSERT_TRUE( q.numRow()>0 ) ;
+	}
+	
+	{
+		dbo::query q(db) ;
+		ASSERT_NO_THROW_V( q = db.find<gSimpleTable>("value2=?").bind("10").execute() ) ;
+		ASSERT_TRUE( q.numRow()>0 ) ;
+	}
+
+	{
+		dbo::query q(db) ;
+		ASSERT_NO_THROW_V( q = db.find<gSimpleTable>("value1=? and value2=?").bind("TestFindBind").bind(10).execute() ) ;
+		//ASSERT_TRUE( q.numRow()>0 ) ;
+	
+		dbo::ptr<gSimpleTable> r ;
+		ASSERT_NO_THROW_V( q.read(r) ) ;
+		ASSERT_TRUE( r->value1=="TestFindBind" ) ;
+		ASSERT_TRUE( r->value2==10 ) ;
+	}
 }
 
 TEST_F(TestQuery, TestQuery) {

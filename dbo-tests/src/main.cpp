@@ -86,6 +86,7 @@ int main(int argc, char* argv[])
 	db.connect(connection) ;
 	db.showQueries(true) ;
 	db.showBindings(true) ;
+	db.showResults(true) ;
 
 	::testing::InitGoogleTest(&argc, argv) ;
 	return RUN_ALL_TESTS() ;
